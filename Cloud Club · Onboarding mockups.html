@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Cloud Club · Onboarding mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8fafb;--surface:#ffffff;--card-border:#e0e5e9;--card-shadow:0 24px 64px rgba(65,82,96,.07);
+  --ink:#262b2f;--body:#495259;--muted:#68727a;--faint:#646a6f;--line:#dfe4e8;--line-2:#d3dade;
+  --track:#e7edf1;--slate:#547691;--slate-d:#3e566a;--slate-tint:#eef3f6;--slate-text:#567188;
+  --danger:#b4462f;--ok:#3f9e83;--r-card:15px;--r-btn:10px;--r-inp:6px;--r-tile:12px;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans","DM Sans Variable",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme:dark){body{background:var(--bg);color:var(--ink)}}
+button{font-family:inherit}
+h1,h2,h3{font-family:"Manrope","Manrope Variable",sans-serif}
+.serif-i{font-family:"Manrope",sans-serif;font-style:italic;font-weight:700}
+
+.wm{display:inline-flex;align-items:center;gap:9px;font-family:"Manrope",sans-serif;font-weight:800;font-size:19px;color:var(--ink);letter-spacing:-.4px}
+.wm .bars{display:inline-flex;gap:2.5px;transform:skewX(-12deg)}
+.wm .bars i{width:4px;height:19px;border-radius:1.5px;display:block}
+.wm .bars i:nth-child(1){background:#9db2c4}.wm .bars i:nth-child(2){background:#6f91aa}.wm .bars i:nth-child(3){background:var(--slate)}
+.wm .dot{color:var(--slate)}
+
+.chrome{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+
+/* ── landing ── */
+.landing-wrap{display:flex;min-height:calc(100vh - 64px)}
+.landing-wrap .side{flex:1;max-width:42%;padding:80px 56px;display:flex;flex-direction:column;justify-content:center}
+.landing-wrap .side h1{font-size:46px;line-height:1.14;font-weight:500;letter-spacing:-1.8px;margin:14px 0 20px}
+.landing-wrap .side p{font-size:15.5px;color:var(--muted);line-height:1.65;max-width:40ch;margin:0}
+.path-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.path-tile{display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:20px 18px 18px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;text-align:left;transition:all .15s;position:relative;height:100%}
+.path-tile:hover{border-color:var(--slate);background:#fbfcfd;transform:translateY(-1px);box-shadow:0 6px 20px -10px rgba(84,118,145,.22)}
+.path-tile.sel{border-color:var(--slate);background:var(--slate-tint);box-shadow:inset 0 0 0 1.5px var(--slate),0 6px 20px -10px rgba(84,118,145,.18)}
+.path-check{position:absolute;top:13px;right:13px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);background:var(--surface);display:grid;place-items:center;transition:all .15s}
+.path-check svg{opacity:0;transition:opacity .12s}
+.path-tile.sel .path-check{background:var(--slate);border-color:var(--slate)}
+.path-tile.sel .path-check svg{opacity:1}
+.path-ic{width:42px;height:42px;border-radius:12px;background:#eef2f4;color:var(--slate);display:grid;place-items:center;flex:none;margin-bottom:12px;transition:all .15s}
+.path-tile.sel .path-ic{background:var(--slate);color:#fff}
+.path-body{display:flex;flex-direction:column}
+.path-l{font-size:15px;font-weight:700;color:var(--ink);line-height:1.2;transition:color .15s}
+.path-tile.sel .path-l{color:var(--slate-text)}
+.path-s{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.landing-foot{margin-top:auto;padding-top:20px;display:flex;flex-direction:column;gap:10px}
+.chrome .right{display:flex;align-items:center;gap:18px}
+.switcher{display:flex;gap:3px;background:#eef2f4;padding:3px;border-radius:9px;border:1px solid var(--card-border)}
+.switcher button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:6px 12px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.switcher button:hover{color:var(--ink)}
+.switcher button[aria-pressed="true"]{background:var(--surface);color:var(--slate);box-shadow:0 1px 2px rgba(65,82,96,.12)}
+.backlink{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500}
+.backlink:hover{color:var(--ink)}
+.change-path-btn{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;letter-spacing:.1px;transition:all .14s}
+.change-path-btn:hover{color:var(--slate);border-color:var(--slate);background:var(--slate-tint)}
+
+.app{display:flex;min-height:calc(100vh - 64px)}
+.side{flex:1;max-width:42%;padding:64px 56px;display:flex;flex-direction:column;position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.side .eyebrow{margin-bottom:20px}
+.side h1{font-size:40px;line-height:1.19;font-weight:500;letter-spacing:-1.6px;color:var(--ink);margin:0 0 20px;max-width:12ch}
+.side p{font-size:15px;color:var(--muted);line-height:1.62;max-width:40ch;margin:0}
+
+/* live building card */
+.secwrap{margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
+.seceyebrow{font-family:"DM Sans",sans-serif;font-size:10px;font-weight:650;letter-spacing:1.6px;color:var(--faint);text-transform:uppercase;margin-bottom:9px}
+.secname{font-family:"Manrope",sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:18px}
+.secsteps{display:flex;flex-direction:column}
+.secstep{display:flex;align-items:center;gap:13px;padding:9px 0}
+.secstep .sc{width:25px;height:25px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11.5px;font-weight:650;border:1.5px solid var(--line-2);color:var(--muted);background:var(--surface);transition:all .18s}
+.secstep .st{font-size:14px;color:var(--muted);font-weight:500;transition:color .18s}
+.secstep.done .sc{background:var(--slate-tint);border-color:var(--slate-tint);color:var(--slate)}
+.secstep.done .st{color:var(--body)}
+.secstep.current .sc{background:var(--slate);border-color:var(--slate);color:#fff;animation:pop .3s ease}
+.secstep.current .st{color:var(--ink);font-weight:700}
+.side.soft .secstep.current .sc{animation:none}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+
+.eyebrow{font-family:"DM Sans",sans-serif;font-size:10px;font-weight:650;letter-spacing:1.7px;color:var(--faint);text-transform:uppercase}
+
+.cardwrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:34px 40px 100px}
+.card{width:100%;max-width:560px;min-height:min(78vh,620px);background:var(--surface);border:1px solid var(--card-border);border-radius:var(--r-card);box-shadow:var(--card-shadow);padding:26px 32px 22px;display:flex;flex-direction:column;position:relative}
+.stage{flex:1}
+.chead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
+.chead .kick{font-family:"DM Sans",sans-serif;font-size:10px;font-weight:650;letter-spacing:1.6px;color:var(--faint);text-transform:uppercase}
+.chead .step{font-size:12px;color:#9aa3a8;margin-top:3px}
+/* progress ring */
+.ring{width:44px;height:44px;flex:none;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--slate);font-family:"Manrope",sans-serif}
+
+.stage.anim{animation:enter .34s cubic-bezier(.4,0,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.qh{font-family:"Manrope",sans-serif;font-size:23px;font-weight:500;letter-spacing:-.6px;color:var(--ink);line-height:1.16;margin:0 0 6px}
+.qs{font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+.capcount{font-size:11.5px;font-weight:650;letter-spacing:.3px;color:var(--slate);margin:-8px 0 12px}
+
+/* option cards */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:var(--r-tile);background:var(--surface);cursor:pointer;transition:transform .1s,border-color .14s,background .14s,box-shadow .14s;text-align:left;width:100%;position:relative}
+.opt:hover{border-color:var(--slate);background:#fbfcfd;transform:translateY(-1px)}
+.opt .oic{width:36px;height:36px;border-radius:10px;background:var(--slate-tint);color:var(--slate);display:grid;place-items:center;flex:none}
+.opt .obody{flex:1;display:flex;flex-direction:column}
+.opt .ol{font-size:14.5px;font-weight:600;color:var(--ink)}
+.opt .os{font-size:12px;color:var(--muted);margin-top:1px;line-height:1.35}
+.opt .ock{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);flex:none;display:grid;place-items:center;transition:all .14s}
+.opt.multi .ock{border-radius:6px}
+.opt .ock svg{opacity:0}
+.opt.sel{border-color:var(--slate);background:var(--slate-tint);box-shadow:inset 0 0 0 1px var(--slate)}
+.opt.sel .ol{color:var(--slate-text)}
+.opt.sel .ock{background:var(--slate);border-color:var(--slate)}
+.opt.sel .ock svg{opacity:1}
+.opt.sel .oic{background:var(--slate);color:#fff}
+.opt.picked{animation:picked .38s ease}
+.opt.capped{opacity:.42;cursor:not-allowed}
+.opt.capped:hover{border-color:var(--line);background:var(--surface);transform:none}
+@keyframes capshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+.opt.capshake,.chip.capshake{animation:capshake .32s ease}
+@keyframes picked{0%{transform:scale(1)}40%{transform:scale(1.015)}100%{transform:scale(1)}}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:500;color:var(--body);cursor:pointer;transition:all .14s}
+.chip:hover{border-color:var(--slate)}
+.chip.sel{background:var(--slate);color:#fff;border-color:var(--slate)}
+.chip.sel .x{opacity:.75}.chip .x{font-size:14px;line-height:1}
+.chip.add{border-style:dashed;color:var(--slate);border-color:var(--slate)}
+.chip.capped{opacity:.42;cursor:not-allowed}
+.chip.capped:hover{border-color:var(--line)}
+.chipfield{display:flex;flex-direction:column}
+.chip-add-row{display:flex;gap:8px;margin-top:10px}
+.chip-add-row input{flex:1;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;color:var(--body);background:var(--surface);font-family:inherit}
+.chip-add-row input:focus{outline:none;border-color:var(--slate);box-shadow:0 0 0 3px rgba(84,118,145,.14)}
+.chip-add-btn{padding:9px 16px;border-radius:8px;border:1px solid var(--slate);background:var(--slate);color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.chip-add-btn:hover{background:#4d6d87}
+.chip-add-btn:disabled{opacity:.4;cursor:not-allowed;background:var(--slate)}
+
+/* fields */
+.field{margin-bottom:16px}
+.field>label{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-bottom:7px}
+.field .req{color:var(--slate);margin-left:2px}.field .opt2{color:#9aa3a8;font-weight:400;font-size:11.5px;margin-left:6px}
+.field-err input,.field-err select,.field-err textarea{border-color:var(--danger)!important;box-shadow:0 0 0 3px rgba(180,70,47,.12)!important}
+.field-err .chips .opt{border-color:var(--danger)!important}
+.err-msg{font-size:11.5px;color:var(--danger);font-weight:500;margin-top:5px;display:flex;align-items:center;gap:4px}
+.err-msg svg{flex:none}
+.form-err-banner{background:#fdf2f0;border:1px solid rgba(180,70,47,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--danger);font-weight:500;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.opts.has-err .opt:not(.sel){border-color:rgba(180,70,47,.35)}
+.hint{font-size:12px;color:var(--muted);margin:-2px 0 9px;line-height:1.45}
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=date],input[type=time],select,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:var(--r-inp);font-size:15px;color:var(--body);background:var(--surface);font-family:inherit;transition:border-color .15s,box-shadow .15s}
+textarea{resize:vertical;min-height:80px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--slate);box-shadow:0 0 0 3px rgba(84,118,145,.14)}
+input::placeholder{color:#aab3b8}
+.row{display:flex;gap:12px}.row>.field{flex:1}
+select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%2368727a' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+
+/* inner group / cards */
+.groupcard{border:1px solid var(--card-border);border-radius:12px;padding:15px 15px 4px;margin-bottom:11px;background:#fbfcfd}
+.groupcard>.gh{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:9px;font-family:"DM Sans",sans-serif}
+.groupcard>.gh .gicon{width:22px;height:22px;border-radius:6px;background:var(--slate-tint);display:grid;place-items:center;font-size:11px;color:var(--slate);font-weight:700}
+.pillset{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:11.5px;font-weight:500;padding:4px 9px;border-radius:6px;background:#f1f4f6;color:var(--body);border:1px solid var(--card-border)}
+.pill.tech{background:var(--slate-tint);border-color:#cfdde6;color:var(--slate-text)}
+.icard{border:1px solid var(--card-border);border-radius:12px;background:var(--surface);padding:16px 17px;margin-bottom:11px;box-shadow:0 8px 22px -18px rgba(65,82,96,.4)}
+.exp-hint{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:14px;padding:10px 13px;background:var(--slate-tint);border:1px solid #d3e0e8;border-radius:10px}
+.exp-card{}
+.exp-ok{border-color:rgba(84,118,145,.3);background:#f7fafc}
+.exp-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.exp-acts{display:flex;gap:4px;flex:none;margin-top:-3px}
+.icon-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--muted);transition:all .13s;flex:none}
+.icon-btn:hover{border-color:var(--slate);color:var(--slate);background:var(--slate-tint)}
+.icon-btn.warn:hover{border-color:var(--danger);color:var(--danger);background:#fdf2f0}
+.icon-btn.icon-confirmed{border-color:rgba(84,118,145,.3);color:var(--slate);background:var(--slate-tint)}
+.exp-badge{font-size:11.5px;font-weight:600;color:var(--slate);display:flex;align-items:center;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--card-border)}
+.exp-editing{border-color:var(--slate);box-shadow:0 0 0 2px rgba(84,118,145,.12),0 8px 22px -18px rgba(65,82,96,.4)}
+.exp-edit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
+.exp-edit-tag{font-size:11px;font-weight:650;letter-spacing:.6px;text-transform:uppercase;color:var(--slate);background:var(--slate-tint);padding:3px 9px;border-radius:6px}
+.exp-foot{display:flex;gap:10px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--card-border)}
+
+/* ── experience edit (inline) ── */.exp-card-wrap{position:relative}
+.exp-modal-overlay{position:fixed;inset:0;background:rgba(20,24,28,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px;overflow-y:auto}
+.exp-modal-overlay .exp-editing{max-width:560px;width:100%;max-height:85vh;overflow-y:auto;margin:auto}
+.exp-modal-overlay,.exp-modal-overlay .exp-editing{scrollbar-width:thin;scrollbar-color:transparent transparent}
+.exp-modal-overlay::-webkit-scrollbar,.exp-modal-overlay .exp-editing::-webkit-scrollbar{width:8px;background:transparent}
+.exp-modal-overlay::-webkit-scrollbar-thumb,.exp-modal-overlay .exp-editing::-webkit-scrollbar-thumb{background:transparent}
+.exp-modal-overlay:hover::-webkit-scrollbar-thumb,.exp-modal-overlay .exp-editing:hover::-webkit-scrollbar-thumb{background:rgba(20,24,28,.18);border-radius:4px}
+@media (prefers-reduced-motion:reduce){.exp-editing{animation:none}}
+.icard .ctitle{font-size:15px;font-weight:600;color:var(--ink)}
+.icard .csub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.metaline{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin:10px 0}
+.metaline b{color:var(--body);font-weight:600}
+.cactions{display:flex;gap:8px;border-top:1px solid var(--card-border);padding-top:12px;margin-top:10px}
+.segbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--body);cursor:pointer;display:flex;align-items:center;gap:6px}
+.segbtn.on{background:var(--slate);color:#fff;border-color:var(--slate)}
+.linkbtn{background:none;border:0;color:var(--slate);font-weight:600;font-size:13px;cursor:pointer;padding:2px}
+.callout{background:var(--slate-tint);border:1px solid #d3e0e8;border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--body);margin:2px 0 18px;display:flex;gap:10px;line-height:1.5}
+.callout .ci{color:var(--slate);flex:none;font-weight:800}
+.teamnote{font-size:12px;color:#9aa3a8;margin-top:6px;line-height:1.5}
+.addrow{display:flex;gap:10px;align-items:flex-end;margin-bottom:10px}.addrow .field{flex:1;margin-bottom:0}
+.ghostbtn{border:1px dashed var(--line-2);background:var(--surface);border-radius:var(--r-inp);padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--slate);cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+.ghostbtn:hover{border-color:var(--slate);background:#fbfcfd}
+.upload{border:1.5px dashed var(--line-2);border-radius:12px;padding:24px;text-align:center;background:#fbfcfd;cursor:pointer;transition:all .15s}
+.upload:hover{border-color:var(--slate);background:#f7fafb}
+.upload.filled{border-style:solid;border-color:var(--slate);background:var(--slate-tint);text-align:left;display:flex;align-items:center;gap:14px}
+.upload .up-ic{width:38px;height:38px;border-radius:10px;background:#eef2f4;display:grid;place-items:center;margin:0 auto 10px;color:var(--slate)}
+.upload.filled .up-ic{margin:0;background:var(--slate);color:#fff}
+.upload .up-t{font-weight:600;font-size:14.5px;color:var(--ink)}.upload .up-s{font-size:12.5px;color:var(--muted);margin-top:3px}
+
+/* done */
+.done-hero{text-align:center;padding:4px 0 18px}
+.done-badge{width:56px;height:56px;border-radius:50%;background:var(--slate);display:grid;place-items:center;margin:0 auto 14px;box-shadow:0 5px 0 0 var(--slate-d)}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 20px}
+.route{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--surface);cursor:pointer;transition:all .15s;text-align:left}
+.route:hover{border-color:var(--slate);background:#fbfcfd;transform:translateY(-1px)}
+.route.primary{border-color:var(--slate);background:var(--slate-tint)}
+.route .r-ic{width:30px;height:30px;border-radius:8px;background:#eef2f4;display:grid;place-items:center;margin-bottom:10px;font-size:15px;color:var(--slate)}
+.route.primary .r-ic{background:var(--slate);color:#fff}
+.route .r-t{font-weight:600;font-size:14px;color:var(--ink)}.route .r-d{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4}
+
+.redirect-wrap{text-align:center;padding:70px 20px 50px;display:flex;flex-direction:column;align-items:center}
+.redirect-t{font-size:15px;color:var(--muted);margin-top:18px;font-weight:500}
+.spinner{width:34px;height:34px;border-radius:50%;border:3px solid var(--track);border-top-color:var(--slate);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.redirect-landed{width:52px;height:52px;border-radius:50%;background:var(--slate);display:grid;place-items:center;box-shadow:0 5px 0 0 var(--slate-d)}
+.redirect-wrap .qh{text-align:center}.redirect-wrap .qs{text-align:center;margin-bottom:20px}
+@media (prefers-reduced-motion:reduce){.spinner{animation:none;border-top-color:var(--track)}}
+
+.cfoot{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid var(--card-border)}
+.hintfoot{font-size:12px;color:#9aa3a8}
+.btns{display:flex;gap:10px}
+.btn{padding:13px 22px;border-radius:var(--r-btn);font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:transform .08s,box-shadow .12s,background .15s;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--slate);color:#fff;box-shadow:0 5px 0 0 var(--slate-d),0 12px 26px 0 rgba(84,118,145,.125)}
+.btn.primary:hover{background:#4d6d87}
+.btn.primary:active{transform:translateY(3px);box-shadow:0 2px 0 0 var(--slate-d),0 6px 14px 0 rgba(84,118,145,.12)}
+.btn.ghost{background:var(--surface);border-color:var(--line-2);color:var(--body)}
+.btn.ghost:hover{border-color:var(--muted);color:var(--ink)}
+.btn .arw{width:14px;height:14px}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}.btn:disabled.primary{box-shadow:0 5px 0 0 #c3ccd2}
+
+@media (prefers-reduced-motion:reduce){.stage.anim,.opt.picked,.opt.capshake,.chip.capshake,.secstep .sc{animation:none}}
+@media (max-width:960px){
+  .app{flex-direction:column}.side{max-width:none;padding:34px 24px 4px;position:static;max-height:none;overflow:visible}.side h1{font-size:30px;max-width:none}
+  .side p{max-width:none}.secwrap{max-height:none}
+  .card{min-height:0}
+  .cardwrap{padding:18px 18px 120px}.chrome{padding:0 16px;height:56px}
+  .backlink{font-size:12px}
+  .opts.cols{grid-template-columns:1fr}.routes{grid-template-columns:1fr}
+  .landing-wrap{flex-direction:column}
+  .landing-wrap .side{max-width:none;padding:36px 22px 8px;justify-content:flex-start}
+  .landing-wrap .side h1{font-size:32px}
+  .path-tiles{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="chrome">
+  <span class="wm"><span class="bars"><i></i><i></i><i></i></span>Cloud&nbsp;Club<span class="dot">.</span></span>
+  <a class="backlink" href="#" onclick="return false">Back to Cloud Club</a>
+</div>
+
+<!-- LANDING: shown before flow starts -->
+<div class="landing-wrap" id="landingWrap">
+  <section class="side" id="landingSide">
+    <div class="eyebrow">Get started</div>
+    <h1>Create your<br><em class="serif-i">Cloud Club profile.</em></h1>
+    <p>Whether you're hiring or looking for your next project, it starts with a short profile. No payment, no commitment — just the details we need to make a great first match.</p>
+  </section>
+  <div class="cardwrap">
+    <div class="card">
+      <div class="clogo"><span class="wm" style="font-size:17px"><span class="bars"><i></i><i></i><i></i></span>Cloud&nbsp;Club<span class="dot">.</span></span></div>
+      <div class="eyebrow" style="margin-bottom:10px">Step 1 of 3 · Sign up</div>
+      <h2 style="font-size:26px;letter-spacing:-.7px;margin:0 0 6px">Great things start here.</h2>
+      <p class="sub" style="margin-bottom:20px">Create your profile in three steps. All fields are required.</p>
+      <div style="height:4px;background:var(--track);border-radius:3px;overflow:hidden;margin:0 0 24px"><div style="height:100%;width:33%;background:var(--slate);border-radius:3px"></div></div>
+      <div class="path-tiles">
+        <button class="path-tile" id="pathHiring" data-path="hiring">
+          <span class="path-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3L9.6 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="path-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></span>
+          <span class="path-body"><span class="path-l">I'm hiring</span><span class="path-s">Find the right expertise for my team or clients</span></span>
+        </button>
+        <button class="path-tile" id="pathCandidate" data-path="candidate">
+          <span class="path-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3L9.6 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="path-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0116 0"/></svg></span>
+          <span class="path-body"><span class="path-l">I'm a consultant</span><span class="path-s">Find meaningful projects that match my expertise</span></span>
+        </button>
+      </div>
+      <div class="landing-foot">
+        <button class="btn primary" id="landingContinue" style="width:100%;justify-content:center" disabled>Continue <svg class="arw" viewBox="0 0 16 16" fill="none"><path d="M3 8h9M9 4l4 4-4 4" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <p style="text-align:center;font-size:13px;color:var(--muted);margin:0">Already have an account? <a href="#" onclick="return false" style="color:var(--slate);font-weight:600">Log in</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="appWrap" style="display:none">
+  <section class="side" id="side"></section>
+  <div class="cardwrap">
+    <div class="card">
+      <div class="chead">
+        <div>
+          <div class="kick" id="kick"></div>
+          <div class="step" id="stepline"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <button class="change-path-btn" id="changePathBtn" onclick="showLanding()" title="Change your path">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Change path
+          </button>
+          <div class="ring" id="ring"></div>
+        </div>
+      </div>
+      <div class="stage" id="stage"></div>
+      <div class="cfoot">
+        <span class="hintfoot" id="hintfoot"></span>
+        <div class="btns">
+          <button class="btn ghost" id="backBtn">Back</button>
+          <button class="btn primary" id="nextBtn">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHECK=`<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3L9.6 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CHECK_S=`<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3L9.6 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ARW=`<svg class="arw" viewBox="0 0 16 16" fill="none"><path d="M3 8h9M9 4l4 4-4 4" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON={
+  building:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="10" height="18" rx="1"/><path d="M14 8h6v13H4M8 7h2M8 11h2M8 15h2"/></svg>`,
+  users:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0112 0M16 6a3 3 0 010 6M18 20a6 6 0 00-2-4.5"/></svg>`,
+  layers:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>`,
+  spark:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg>`,
+  target:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>`,
+  compass:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-4 0 2-6z"/></svg>`,
+  brief:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`,
+  clock:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+  globe:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>`,
+  doc:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg>`,
+};
+const state={flow:'candidate',idx:0,busy:false,ans:{}};
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const A=()=>(state.ans[state.flow]||={});
+const has=(a,k)=>{const v=a[k];return Array.isArray(v)?v.length>0:(v!==undefined&&v!=='');};
+
+/* form field helpers */
+const ERRS={};// {key: message} – populated by validate(), cleared on advance
+function errMsg(k){return ERRS[k]?`<div class="err-msg"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#b4462f" stroke-width="1.5"/><path d="M6 3.5v3M6 8v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS[k])}</div>`:''}
+function text(id,label,{type='text',ph='',req=false}={}){const v=A()[id]||'';
+  return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><input id="f_${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}">${errMsg(id)}</div>`;}
+function sel(id,label,opts,{req=false}={}){const v=A()[id]||'';
+  return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><select id="f_${id}" data-k="${id}"><option value="">Select…</option>${opts.map(o=>`<option ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>${errMsg(id)}</div>`;}
+
+/* option cards (single/multi) */
+function optionCards(id,opts,{multi=false,cols=false,auto=true,max=0}={}){
+  const cur=A()[id]||(multi?[]:'');
+  const sels=o=>multi?cur.includes(o.v??o):cur===(o.v??o);
+  const atMax=multi&&max&&cur.length>=max;
+  return `<div class="opts ${cols?'cols':''}">`+opts.map(o=>{const val=o.v??o,l=o.l??val,s=o.s?`<span class="os">${esc(o.s)}</span>`:'',ic=o.i?`<span class="oic">${ICON[o.i]||''}</span>`:'';
+    const isSel=sels(o),capped=atMax&&!isSel;
+    return `<button class="opt ${multi?'multi':''} ${isSel?'sel':''} ${capped?'capped':''}" data-opt="${id}" data-val="${esc(val)}" data-single="${!multi}" data-auto="${auto}" data-max="${max||''}">${ic}<span class="obody"><span class="ol">${esc(l)}</span>${s}</span><span class="ock">${CHECK}</span></button>`;}).join('')+`</div>`;
+}
+function chipBlock(id,opts,{max=0,custom=false}={}){const a=A();const cur=a[id]||[];
+  const atMax=max&&cur.length>=max;
+  const draft=custom?(a['draftadd_'+id]||'').trim():'';
+  const q=draft.toLowerCase();
+  const visible=(custom&&q)?opts.filter(o=>cur.includes(o)||o.toLowerCase().includes(q)):opts;
+  const chips=`<div class="chips">`+visible.map(o=>{const isSel=cur.includes(o),capped=atMax&&!isSel;
+    return `<span class="chip ${isSel?'sel':''} ${capped?'capped':''}" data-chip="${id}" data-val="${esc(o)}" data-max="${max||''}">${esc(o)}${isSel?'<span class="x">×</span>':''}</span>`;}).join('')+`</div>`;
+  if(!custom)return `<div class="chipfield">${chips}</div>`;
+  const exact=opts.some(o=>o.toLowerCase()===q);
+  const noMatch=draft&&visible.length===0;
+  return `<div class="chipfield" data-cf="${id}">${chips}<div class="chip-add-row"><input type="text" data-k="draftadd_${id}" data-chipadd-input="${id}" placeholder="Search or add your own…" value="${esc(draft)}"><button class="chip-add-btn" data-chipadd="${id}" ${(!draft||exact)?'disabled':''}>Add</button></div>${noMatch?`<div class="hint chip-nomatch" style="margin:6px 0 0">No match — press Add to create “${esc(draft)}”.</div>`:''}</div>`;}
+function callout(t){return `<div class="callout"><span class="ci">i</span><span>${t}</span></div>`;}
+
+/* ---- shared data ---- */
+const TECH_AREAS=[{v:'crm',l:'CRM & Customer Platforms'},{v:'sales',l:'Sales & Revenue'},{v:'service',l:'Customer Service & Success'},{v:'mktg',l:'Marketing & Commerce'},{v:'finops',l:'Finance & Operations'},{v:'data',l:'Data, Analytics & AI'},{v:'it',l:'IT, Cloud & Engineering'},{v:'integ',l:'Integration & Automation'},{v:'hr',l:'HR & Talent'},{v:'other',l:'Other'},{v:'unsure',l:'I’m not sure'}];
+const TECH_FOLLOWUPS={crm:{q:'Which CRM platforms?',o:['Salesforce','HubSpot','Microsoft Dynamics 365','Zoho','Other','We don’t use a CRM']},sales:{q:'Sales / revenue tools?',o:['Salesforce','HubSpot','Gong','Outreach or Salesloft','Other','No dedicated platform']},service:{q:'Service / success tools?',o:['Salesforce','Zendesk','ServiceNow','HubSpot','Intercom','Other']},mktg:{q:'Marketing / commerce tools?',o:['Salesforce','HubSpot','Adobe','Shopify','Other']},finops:{q:'Finance / operations tools?',o:['SAP','Oracle','NetSuite','Microsoft Dynamics 365','Workday','Certinia','Other']},data:{q:'Data / analytics / AI tools?',o:['Snowflake','Databricks','Tableau','Power BI','AWS','Azure','Google Cloud','Other']},it:{q:'IT / cloud / engineering tools?',o:['AWS','Microsoft Azure','Google Cloud','ServiceNow','GitHub','Other']},integ:{q:'Integration / automation tools?',o:['MuleSoft','Boomi','Workato','Informatica','Power Platform','Custom APIs','Other']},hr:{q:'HR / talent tools?',o:['Workday','SAP SuccessFactors','Oracle HCM','ADP','UKG','Other']}};
+const TECH_LIST=['Salesforce','AWS','Microsoft Azure','Google Cloud (GCP)','Dynamics 365 & Power Platform','HubSpot','ServiceNow','Snowflake','Databricks','SAP','Oracle','NetSuite','MuleSoft'];
+const SF_PRODUCTS=['Sales Cloud','Service Cloud','Marketing Cloud','Experience Cloud','Data Cloud','Revenue Cloud / CPQ','Commerce Cloud','Other'];
+const AI_PLATFORMS=['OpenAI','Anthropic Claude','AWS Bedrock','Azure AI','Google Vertex AI','Other'];
+
+/* ============ CANDIDATE ============ */
+function buildCandidate(){const a=A();const S=[];
+  S.push({kind:'form',group:'Create Your Account',q:'Create your account.',sub:'Just the basics to get started.',
+    body:()=>`<div class="row">${text('first','First name',{req:true})}${text('last','Last name',{req:true})}</div>${text('email','Email',{type:'email',req:true,ph:'you@email.com'})}${text('password','Password',{type:'password',req:true,ph:'••••••••'})}`});
+  S.push({kind:'form',group:'Verify Your Email',q:'Verify your email.',sub:'Enter the 6-digit code we sent you.',body:()=>text('code','Verification code',{req:true,ph:'000000'})});
+  S.push({kind:'form',group:'Resume and Professional Profiles',q:'Add your resume.',sub:'So clients can see your background. You’ll add your experience details next.',
+    body:()=>{const up=a.resume?`<div class="upload filled" data-noop><span class="up-ic">${CHECK}</span><div><div class="up-t">Ramesh_Kumar_Resume.pdf</div><div class="up-s">Uploaded</div></div></div>`:`<div class="upload" data-upload><div class="up-ic">⤒</div><div class="up-t">Upload your resume</div><div class="up-s">PDF or Word</div></div>`;
+      const links=(a.profiles||[]);const rows=links.map(p=>`<span class="pill tech" style="margin-right:6px">${esc(p.type)}</span>`).join('');
+      return `<div class="field"><label>Resume<span class="req">*</span></label>${up}</div><div class="field"><label>Professional profiles</label><div class="hint">LinkedIn, GitHub, Trailblazer, Credly, portfolio…</div>${rows?`<div class="pillset" style="margin-bottom:10px">${rows}</div>`:''}<div class="addrow"><div class="field">${sel('ptype','',['LinkedIn','GitHub or GitLab','Salesforce Trailblazer','Credly','Portfolio','Other']).replace('<label></label>','')}</div><div class="field"><input type="text" data-k="purl" placeholder="Profile URL" value="${esc(a.purl||'')}"></div></div><button class="ghostbtn" data-addprofile>+ Add profile</button></div>`;},
+    pv:{k:'Resume',get:a=>a.resume?'Uploaded':''}});
+  S.push({kind:'form',group:'Review Your Profile',q:'A few basics.',sub:'This is how clients will first see you.',
+    body:()=>`${text('headline','Professional headline',{req:true,ph:'Salesforce Solution Architect'})}<div class="row">${text('city','City & region',{req:true,ph:'Austin, TX'})}${text('country','Country',{req:true,ph:'United States'})}</div>${sel('tz','Primary time zone',['US Eastern (ET)','US Central (CT)','US Mountain (MT)','US Pacific (PT)','GMT / UTC','Central European (CET)','India (IST)','Other'],{req:true})}`,
+    pv:{k:'Headline',get:a=>a.headline||''}});
+  S.push({kind:'expmanual',group:'Validate Your Experience',q:'Add your work experience.',sub:'Add each role, consulting engagement, or major project. You can add as many as you like.',
+    pv:{k:'Experience',get:a=>{const n=(a.experiences||[]).length;return n?n+' role'+(n>1?'s':'')+' added':'';}}});
+  S.push({kind:'multi',group:'Confirm Your Expertise Summary',q:'What are your primary role types?',sub:'Select up to three.',
+    opts:['Solution Architect','Technical Lead','Developer / Engineer','Functional Consultant','Business Analyst / PO','Administrator','Data or AI Specialist','Cloud / DevOps Engineer','QA Specialist','Delivery Manager'],cols:true,id:'roletypes',max:3,
+    pv:{k:'Role types',get:a=>(a.roletypes||[]).join(', ')}});
+  S.push({kind:'chips',group:'Confirm Your Expertise Summary',q:'Which platforms & products do you work with?',sub:'Select all that apply.',
+    opts:['Salesforce','Financial Services Cloud','Service Cloud','Sales Cloud','Data Cloud','CPQ','MuleSoft','AWS','Snowflake','Other'],id:'platforms',
+    pv:{k:'Platforms',get:a=>(a.platforms||[]).join(', ')}});
+  S.push({kind:'chips',group:'Confirm Your Expertise Summary',q:'What are your strongest skills?',sub:'Select up to ten.',
+    opts:['Solution Architecture','Data Modeling','Integration Design','Apex','LWC','API Integration','CPQ Config','Visualforce','Other'],id:'skills',max:10,
+    pv:{k:'Skills',get:a=>{const s=a.skills||[];return s.length?s.slice(0,3).join(', ')+(s.length>3?` +${s.length-3}`:''):'';}}});
+  S.push({kind:'form',group:'Confirm Your Expertise Summary',q:'Add your certifications.',sub:'Add any credentials you’d like to highlight.',
+    body:()=>{const creds=(a.credentials||[]);const rows=creds.map(c=>`<span class="pill tech" style="margin-right:6px">${esc(c.name)}${c.issuer?' · '+esc(c.issuer):''}</span>`).join('');
+      return `${rows?`<div class="pillset" style="margin-bottom:10px">${rows}</div>`:''}<div class="addrow"><div class="field"><input type="text" data-k="credname" placeholder="Credential name" value="${esc(a.credname||'')}"></div><div class="field"><input type="text" data-k="credissuer" placeholder="Issuer" value="${esc(a.credissuer||'')}"></div></div><button class="ghostbtn" data-addcred>+ Add credential</button>`;},
+    pv:{k:'Credentials',get:a=>(a.credentials||[]).map(c=>c.name).join(', ')}});
+  S.push({kind:'multi',group:'Opportunity Preferences and Availability',q:'What are you looking for through Cloud Club?',sub:'Select all that apply.',
+    opts:[{v:'Full-time contract work',i:'brief'},{v:'Part-time or side work',i:'clock'},{v:'Project advisory or fractional',i:'spark'},{v:'Permanent employment',i:'building'},{v:'Explore future opportunities',i:'compass'}],id:'looking',
+    pv:{k:'Looking for',get:a=>(a.looking||[]).join(', ')}});
+  S.push({kind:'single',group:'Opportunity Preferences and Availability',q:'Your current work situation?',
+    opts:['Full-time employee','Full-time contractor','Part-time contractor / freelancer','Working on multiple engagements','Between roles','Not currently working','Prefer not to say'],id:'situation',
+    pv:{k:'Situation',get:a=>a.situation||''}});
+  S.push({kind:'form',group:'Opportunity Preferences and Availability',q:'When could you start, and how much?',sub:'Numeric hours, not a broad preset range.',
+    body:()=>`${text('startdate','Earliest start date',{type:'date',req:true})}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs||'')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" value="${esc(a.maxhrs||'')}"></div></div>`,
+    pv:{k:'Availability',get:a=>a.minhrs&&a.maxhrs?`${a.minhrs}–${a.maxhrs} hrs/wk`:''}});
+  S.push({kind:'form',group:'Opportunity Preferences and Availability',q:'When are you normally available?',sub:'Recurring windows in your local time — mornings, evenings, or weekends are fine.',
+    body:()=>`<div class="row"><div class="field"><label>Days</label>${sel('days','',['Weekdays','Weekends','Every day','Custom by day']).replace('<label></label>','')}</div><div class="field"><label>Start</label><input type="time" data-k="stime" value="${esc(a.stime||'')}"></div><div class="field"><label>End</label><input type="time" data-k="etime" value="${esc(a.etime||'')}"></div></div>`});
+  S.push({kind:'form',group:'Opportunity Preferences and Availability',q:'Your baseline rate by role.',sub:'Rates can differ per role. You’ll confirm the final rate per opportunity.',
+    body:()=>{const roles=(a.roletypes&&a.roletypes.length?a.roletypes:['Solution Architect']).slice(0,2);
+      return roles.map(r=>`<div class="groupcard"><div class="gh"><span class="gicon">$</span>${esc(r)}</div><div class="row"><div class="field" style="margin-bottom:11px"><input type="number" data-k="min_${r}" placeholder="Min rate"></div><div class="field" style="margin-bottom:11px"><input type="number" data-k="des_${r}" placeholder="Desired rate"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px">${sel('cur_'+r,'',['USD','EUR','GBP','INR','CAD']).replace('<label></label>','')}</div></div></div>`).join('');}});
+  S.push({kind:'form',group:'Work Authorization and Engagement Method',q:'Where are you authorized to work?',sub:'Entity, payroll, tax, and banking come later — only if you’re selected.',
+    body:()=>text('authcountries','Authorized countries',{req:true,ph:'United States, Canada'}),pv:{k:'Authorized in',get:a=>a.authcountries||''}});
+  S.push({kind:'single',group:'Work Authorization and Engagement Method',q:'Will you need sponsorship?',opts:[{v:'No'},{v:'Yes'},{v:'Not sure'}],id:'sponsor',cols:true,pv:{k:'Sponsorship',get:a=>a.sponsor||''}});
+  S.push({kind:'multi',group:'Work Authorization and Engagement Method',q:'How can you engage for contract work?',sub:'Select all that apply.',
+    opts:['C2C through my own company','1099 independent contractor','Through an employer','Not sure'],id:'engage',cols:true,pv:{k:'Engagement',get:a=>(a.engage||[]).join(', ')}});
+  S.push({kind:'done',group:'Work Authorization and Engagement Method',q:'Your profile is ready.',sub:'Here’s where you can go next.',routes:[{ic:'⌕',t:'Browse opportunities',d:'Roles matched to your profile.',primary:true},{ic:'☰',t:'Review my profile',d:'See how clients view you.'},{ic:'✦',t:'Talk to Skai',d:'Ask our AI assistant anything.'},{ic:'✓',t:'Skills verification',d:'Boost your match ranking.'},{ic:'★',t:'Request a testimonial',d:'Add a reference.'}],candidate:true});
+  return S;
+}
+
+/* ============ HIRE (internal) ============ */
+function usecaseBody(){const a=A();
+  let h=optionCards('usecase',[
+    {v:'internal',l:'Our internal technology',s:'Hire experts for your own systems',i:'building'},
+    {v:'client',l:'Technology work for our clients',s:'Consulting, delivery, or staffing',i:'users'},
+    {v:'both',l:'Both internal and client work',i:'layers'},
+    {v:'else',l:'Something else',i:'compass'}],{auto:false});
+  if(a.usecase==='both')h+=`<div class="groupcard" style="margin-top:14px"><div class="gh"><span class="gicon">▸</span>Which would you like to start with?</div>${optionCards('bothstart',[{v:'internal',l:'Our internal technology'},{v:'client',l:'Technology work for our clients'}],{auto:false})}</div>`;
+  if(a.usecase==='else')h+=`<div class="field" style="margin-top:14px"><label>Tell us briefly how you’d like to use Cloud Club<span class="req">*</span></label><textarea data-k="elsetext" placeholder="A sentence or two is plenty">${esc(a.elsetext||'')}</textarea></div>`;
+  return h;}
+function useCaseScreen(){return {kind:'usecase',group:'How Will You Use Cloud Club',q:'What are you primarily looking for help with?',sub:'This sets up the right experience. You can add the other later.',id:'usecase',
+  pv:{k:'Use case',get:a=>{const eff={internal:'Internal technology',client:'Client work'}[a.usecase==='both'?a.bothstart:a.usecase];return eff||(a.usecase==='else'?'Something else':'');}}};}
+function companyScreen(){return {kind:'form',group:'About Your Company',q:'About your company.',sub:'A few details to help us tailor your matches.',
+  body:()=>`${sel('ind2','Industry',['Professional Services','Technology','Financial Services','Healthcare','Manufacturing','Retail','Public Sector','Other'],{req:true})}${text('emp2','Employee count',{req:true,ph:'e.g. 250',type:'number'})}${text('complocation','Company location',{req:true,ph:'Boston, MA'})}${sel('comptz','Timezone',['US Eastern (ET)','US Central (CT)','US Mountain (MT)','US Pacific (PT)','GMT / UTC','Central European (CET)','India (IST)','Other'],{req:true})}${sel('heard','How did you hear about us?',['Google Search','Referral','LinkedIn','Event or Conference','Other'])}`,
+  pv:{k:'Industry',get:a=>a.ind2||''}};}
+function accountOrg(){return {kind:'form',group:'Create Your Account',q:'Create your account.',sub:'We’ll use these details to set up your company account.',
+  body:()=>`${text('company','Company name',{req:true,ph:'Acme Consulting'})}${text('website','Company website',{req:true,ph:'acme.com'})}<div class="row">${text('first','First name',{req:true})}${text('last','Last name',{req:true})}</div>${text('jobtitle','Job title',{req:true})}${text('workemail','Work email',{type:'email',req:true,ph:'you@acme.com'})}${text('password','Password',{type:'password',req:true,ph:'••••••••'})}`,pv:{k:'Company',get:a=>a.company||''}};}
+function verifyScreen(){return {kind:'form',group:'Verify Your Email',q:'Verify your email.',sub:'Enter the 6-digit code we sent you.',body:()=>text('code','Verification code',{req:true,ph:'000000'})};}
+function effectiveUseCase(){const a=A();
+  if(a.usecase==='both')return a.bothstart||'internal';
+  if(a.usecase==='client')return 'client';
+  if(a.usecase==='internal')return 'internal';
+  if(a.usecase==='else')return 'internal';
+  return 'internal';
+}
+function buildOrgSteps(){const a=A();const S=[accountOrg(),verifyScreen(),useCaseScreen()];
+  if(effectiveUseCase()==='client')S.push(...clientBranchSteps(a));else S.push(...hireBranchSteps(a));
+  return S;}
+function hireBranchSteps(a){const S=[];
+  S.push(companyScreen());
+  S.push({kind:'single',group:'What Brings You to Cloud Club',q:'What are you primarily looking to do?',id:'goal',
+    opts:[{v:'Find an individual expert',i:'target'},{v:'Build or add to a project team',i:'users'},{v:'Get help delivering a project',i:'brief'},{v:'Find ongoing technology support',i:'clock'},{v:'Assess or plan our technology',i:'compass'},{v:'Explore for future needs',i:'spark'},{v:'I’m not sure yet'}],
+    pv:{k:'Goal',get:a=>a.goal||''}});
+  S.push({kind:'single',group:'What Brings You to Cloud Club',q:'Where are you today?',id:'stage',
+    opts:['Active need, ready to start','Have a need, evaluating options','Defining the need / building a plan','Budgeting for future work','Just exploring','I’m not sure yet'],
+    pv:{k:'Stage',get:a=>a.stage||''}});
+  S.push({kind:'multi',group:'Your Technology',q:'Which technology areas are relevant?',sub:'We’ll only ask about each one you pick — one quick question per area.',opts:TECH_AREAS,cols:true,id:'techareas',
+    pv:{k:'Tech areas',get:a=>{const t=(a.techareas||[]).map(v=>{const f=TECH_AREAS.find(x=>x.v===v);return f?f.l.split(' ')[0]:v;});return t.slice(0,3).join(', ')+(t.length>3?` +${t.length-3}`:'');}}});
+  const activeAreas=(a.techareas||[]).filter(x=>TECH_FOLLOWUPS[x]);
+  activeAreas.forEach(x=>{const f=TECH_FOLLOWUPS[x];const label=TECH_AREAS.find(t=>t.v===x).l;
+    S.push({kind:'chips',group:'Your Technology',q:f.q,sub:label,opts:f.o,id:'fu_'+x,
+      pv:{k:label,get:a=>(a['fu_'+x]||[]).join(', ')}});});
+  if(activeAreas.some(x=>(a['fu_'+x]||[]).includes('Salesforce')))
+    S.push({kind:'chips',group:'Your Technology',q:'Which Salesforce products do you use?',opts:SF_PRODUCTS,id:'sfproducts',pv:{k:'Salesforce products',get:a=>(a.sfproducts||[]).join(', ')}});
+  S.push({kind:'done',group:'Complete Onboarding',q:'You’re all set.',sub:'Based on your answers, here’s where we’d start.',
+    routes:[{ic:'✎',t:'Describe your need',d:'In plain language.'},{ic:'＋',t:'Create a role',d:'Structured, for matching.'},{ic:'✦',t:'Talk to Skai',d:'Scope it with our AI.'},{ic:'⌕',t:'Browse experts',d:'Explore matches now.'}],
+    goalMap:{'Find an individual expert':3,'Build or add to a project team':1,'Get help delivering a project':0,'Find ongoing technology support':0,'Assess or plan our technology':2,'Explore for future needs':3,'I’m not sure yet':2},
+    invite:true});
+  return S;
+}
+
+/* ============ CLIENT ============ */
+const FIRM_TYPES=[{v:'it',l:'IT Consulting / Systems Integration',i:'layers'},{v:'mgmt',l:'Business / Management Consulting',i:'brief'},{v:'agency',l:'Marketing, Digital, or Creative agency',i:'spark'},{v:'staffing',l:'Staffing or Recruiting firm',i:'users'},{v:'software',l:'Software / Tech company with services',i:'building'},{v:'other',l:'Other professional services',i:'compass'}];
+const FIRM_SECTION_TITLE={it:'IT Consulting or Systems Integration Firm',mgmt:'Business or Management Consulting Firm',agency:'Marketing, Digital or Creative Agency',staffing:'Staffing or Recruiting Firm',software:'Software or Technology Company with Client Services',other:'Other Professional Services Firm'};
+function firmtypeBody(){const a=A();
+  let h=optionCards('firmtype',FIRM_TYPES,{auto:false});
+  if(a.firmtype==='other')h+=`<div class="field" style="margin-top:14px"><label>Briefly describe your firm<span class="req">*</span></label><textarea data-k="firmother" placeholder="e.g. Legal technology advisory">${esc(a.firmother||'')}</textarea></div>`;
+  return h;}
+function firmTypeScreen(){return {kind:'firmtype',group:'About Your Firm',q:'Which best describes your organization?',sub:'This tailors the questions we ask next.',id:'firmtype',
+  pv:{k:'Firm type',get:a=>({it:'IT Consulting / SI',mgmt:'Management Consulting',agency:'Creative agency',staffing:'Staffing / Recruiting',software:'Software w/ services',other:'Other services'}[a.firmtype]||'')}};}
+function clientBranchSteps(a){const S=[firmTypeScreen(),companyScreen()];
+  S.push({kind:'multi',group:'Your Client Focus',q:'Which industries does your firm primarily serve?',sub:'Up to three.',opts:['Financial Services','Healthcare & Life Sciences','Technology & Software','Manufacturing','Retail & Consumer','Public Sector & Education','Other','No specific focus'],cols:true,id:'industries',max:3,pv:{k:'Industries',get:a=>(a.industries||[]).slice(0,3).join(', ')}});
+  S.push({kind:'multi',group:'Your Client Focus',q:'What size organizations does your firm typically support?',opts:['Small (1–100)','Mid Market (101–1,000)','Enterprise (1,001–10,000)','Large Enterprise (10,000+)','No specific size'],cols:true,id:'sizes'});
+  S.push({kind:'multi',group:'Your Client Focus',q:'Which client markets does your firm primarily serve?',opts:['United States','Canada','Latin America','UK & Ireland','Continental Europe','Middle East & Africa','Asia Pacific','Global','Other'],cols:true,id:'markets',pv:{k:'Markets',get:a=>(a.markets||[]).slice(0,3).join(', ')}});
+  if((a.markets||[]).includes('United States'))S.push({kind:'multi',group:'Your Client Focus',q:'Which regions do you primarily serve?',opts:['Northeast','Mid Atlantic','Southeast','Midwest','Southwest','Mountain West','West Coast','Nationwide'],cols:true,id:'usregions'});
+  // firm branch
+  const t=a.firmtype;
+  if(t==='it'){
+    S.push({kind:'multi',group:'FirmBranch',q:'What services does your firm provide to clients?',opts:['Technology Strategy and Roadmapping','Implementation and Custom Development','Systems Integration and Automation','Data Analytics and AI','Cloud and Infrastructure','Managed Services and Ongoing Support','Staff Augmentation','Other'],cols:true,id:'svc',pv:{k:'Services',get:a=>(a.svc||[]).slice(0,3).join(', ')}});
+    S.push({kind:'multi',group:'FirmBranch',q:'Which technology areas does your firm work in or support for clients?',sub:'Up to six.',opts:['Salesforce & CRM','Cloud & DevOps','Data & Analytics','AI & Machine Learning','ERP & Enterprise Apps','Integration & APIs','Cybersecurity','Custom Software','Other'],cols:true,id:'techareas_c',max:6});
+    S.push({kind:'chips',group:'FirmBranch',q:'Which platforms and technologies does your firm work with?',sub:'Search or add your own.',opts:TECH_LIST,id:'platforms',custom:true,pv:{k:'Platforms',get:a=>(a.platforms||[]).slice(0,3).join(', ')}});
+    if((a.techareas_c||[]).includes('AI & Machine Learning'))S.push({kind:'chips',group:'FirmBranch',q:'Which AI platforms do you work with?',opts:AI_PLATFORMS,id:'aiplatforms',pv:{k:'AI platforms',get:a=>(a.aiplatforms||[]).join(', ')}});
+    S.push({kind:'multi',group:'FirmBranch',q:'How does your firm typically staff client work?',opts:['Internal employees','Independent contractors','Subcontracting / partners','A blended model'],cols:true,id:'staffing_m'});
+    S.push({kind:'multi',group:'FirmBranch',q:'Which roles are already represented on your client delivery team?',sub:'Select all that apply.',opts:['Sales, Presales and Solutions Engineering','Architecture and Technical Leadership','Functional Consulting and Business Analysis','Development and Engineering','Data and AI','Cloud DevOps and Infrastructure','Project and Delivery Management','Quality Assurance or Managed Support','Other'],cols:true,id:'roles'});
+  } else if(t==='mgmt'){
+    S.push({kind:'multi',group:'FirmBranch',q:'What services does your firm provide to clients?',opts:['Business Strategy','Operations and Process Improvement','Organizational Change and Transformation','Human Capital and Workforce Consulting','Program and Project Management','Technology Strategy or Transformation','Other'],cols:true,id:'svc',pv:{k:'Services',get:a=>(a.svc||[]).slice(0,3).join(', ')}});
+    S.push({kind:'multi',group:'FirmBranch',q:'Where might your firm need technology or delivery support for client work?',opts:['Technology Strategy and Architecture','Software or Platform Implementation','Data, Analytics, and AI','Cloud and Infrastructure','Technical Project Delivery','Specialized Technology Experts','I’m Not Sure Yet','Other'],cols:true,id:'techneed'});
+  } else if(t==='agency'){
+    S.push({kind:'multi',group:'FirmBranch',q:'What services does your agency provide?',opts:['Marketing Strategy and Branding','Digital and Performance Marketing','Creative and Content','Web and Application Development','Marketing Automation and CRM','Commerce and Customer Experience','Data Analytics and Personalization','Other'],cols:true,id:'svc',pv:{k:'Services',get:a=>(a.svc||[]).slice(0,3).join(', ')}});
+    if((a.svc||[]).includes('Marketing Automation and CRM'))S.push({kind:'multi',group:'FirmBranch',q:'Which platforms does your agency work with?',opts:['Salesforce Marketing Cloud','Salesforce Account Engagement','HubSpot','Adobe Marketo Engage','Adobe Journey Optimizer','Braze','Klaviyo','Mailchimp','Oracle Eloqua','Other'],cols:true,id:'maplatforms'});
+  } else if(t==='staffing'){
+    S.push({kind:'multi',group:'FirmBranch',q:'What services does your firm provide?',opts:['Contract Staffing','Contract to Hire','Permanent Placement','Statement of Work or Project Staffing','Recruitment Process Outsourcing','Other'],cols:true,id:'svc',pv:{k:'Services',get:a=>(a.svc||[]).slice(0,3).join(', ')}});
+    S.push({kind:'multi',group:'FirmBranch',q:'Which professional or technology areas does your firm primarily support?',opts:['Business and Functional Roles','Software Engineering','CRM and Enterprise Applications','Data and AI','Cloud and Infrastructure','Cybersecurity','Project and Program Delivery','Other'],cols:true,id:'areas'});
+    S.push({kind:'chips',group:'FirmBranch',q:'Which platforms do you recruit for?',opts:TECH_LIST,id:'platforms',pv:{k:'Platforms',get:a=>(a.platforms||[]).slice(0,3).join(', ')}});
+  } else if(t==='software'){
+    S.push({kind:'multi',group:'FirmBranch',q:'What client services do you provide?',opts:['Implementation','Config & Customization','Integration','Data Migration','Training & Adoption','Customer Support','Managed Services','Other'],cols:true,id:'svc',pv:{k:'Services',get:a=>(a.svc||[]).slice(0,3).join(', ')}});
+    S.push({kind:'form',group:'FirmBranch',q:'Your product & ecosystems.',sub:'Searchable in production, with free text for your own product.',body:()=>text('ownproduct','Product category & ecosystems',{req:true,ph:'Our platform + Salesforce, Snowflake'})});
+  } else if(t==='other'){
+    S.push({kind:'form',group:'FirmBranch',q:'What services do you provide?',body:()=>`<div class="field"><label>Describe your services<span class="req">*</span></label><textarea data-k="othersvc" placeholder="A short description">${esc(a.othersvc||'')}</textarea></div>`});
+    S.push({kind:'multi',group:'FirmBranch',q:'Where might you need support?',opts:['Tech Advice / Assessment','Specialized Experts','Project Delivery','Data or AI','Software / Platform','Ongoing Support','I’m not sure yet','Other'],cols:true,id:'techneed'});
+  }
+  S.push({kind:'single',group:'What Brings You to Cloud Club',q:'What are you primarily looking to do with Cloud Club?',id:'goal',
+    opts:[{v:'Find an Expert for a Client Need',i:'target'},{v:'Add Capacity or Build a Client Project Team',i:'users'},{v:'Get Help Scoping or Solutioning Client Work',i:'brief'},{v:'Find a Delivery Partner for Ongoing or White Label Support',i:'layers'},{v:'Explore Experts and Cloud Club for Future Client Needs',i:'spark'},{v:'I’m Not Sure Yet'}],pv:{k:'Goal',get:a=>a.goal||''}});
+  S.push({kind:'single',group:'What Brings You to Cloud Club',q:'How would you describe where you are today?',sub:'Exact timing, scope, budget, and staffing requirements belong in the specific candidate or project flow.',id:'stage',opts:['We Have an Active Client Need and Are Ready to Get Started','We Have a Client Need and Are Evaluating Options','We Are Planning for Expected Client Work','We Are Exploring Cloud Club for Future Needs','I’m Not Sure Yet'],pv:{k:'Stage',get:a=>a.stage||''}});
+  S.push({kind:'chips',group:'General Resource Interests',q:'What types of experts might your firm need for client work?',sub:'Select up to five. Personalizes your experience — doesn’t replace a real requirement.',opts:['Architect','Developer or Engineer','Technical Lead','Functional Consultant','Business Analyst or Product Owner','Project, Program, or Delivery Manager','Data or AI Specialist','DevOps, Cloud, or Security Engineer','Administrator, QA, or Platform Specialist','Other','I’m Not Sure'],id:'expertneed',max:5});
+  S.push({kind:'done',group:'Complete Onboarding',q:'You’re all set.',sub:'Here’s where we’d start based on your answers.',
+    routes:[{ic:'✎',t:'Describe a client need',d:'What your client needs.'},{ic:'＋',t:'Create a role',d:'Structured, for matching.'},{ic:'✦',t:'Talk to Skai',d:'Scope it with our AI.'},{ic:'⌕',t:'Browse experts',d:'Explore matches now.'},{ic:'⇄',t:'Partner conversation',d:'White-label delivery.'}],
+    goalMap:{'Find an Expert for a Client Need':0,'Add Capacity or Build a Client Project Team':1,'Get Help Scoping or Solutioning Client Work':2,'Find a Delivery Partner for Ongoing or White Label Support':4,'Explore Experts and Cloud Club for Future Client Needs':3,'I’m Not Sure Yet':2},
+    invite:true});
+  return S;
+}
+
+/* ---- experience: manual add ---- */
+/* ---- icons ---- */
+const ICON_CHECK=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="#68727a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_CHECK_OK=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="#547691" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_EDIT=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5-8 8-3 .5.5-3 8-8z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_TRASH=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M6 4.5V3h4v1.5M5 4.5l.5 8h5l.5-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const ICON_CLOSE=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+/* ---- parsed resume data (seeded when resume is uploaded) ---- */
+const PARSED_EXPERIENCES=[
+  {employer:'Cloud Systems Inc',client:'XYZ Financial',industry:'Financial Services',type:'Consulting engagement',start:'2022-01',end:'',role:'Solution Architect',platforms:['Salesforce','Financial Services Cloud'],skills:['Solution Architecture','Data Modeling','Integration Design'],outcome:'Led FSC rollout for 1,200 advisors; designed integration with core banking.'},
+  {employer:'Cloud Systems Inc',client:'Regional Health Network',industry:'Healthcare',type:'Consulting engagement',start:'2020-06',end:'2021-12',role:'Technical Lead',platforms:['Salesforce','MuleSoft'],skills:['Apex','LWC','Integration Design'],outcome:'Built patient service console; integrated 3 legacy systems.'},
+  {employer:'Brightpath Solutions',client:'',industry:'Technology',type:'Full-time employee',start:'2017-08',end:'2020-05',role:'Salesforce Developer',platforms:['Salesforce'],skills:['Apex','Solution Architecture'],outcome:'Delivered CPQ; reduced quote cycle time 40%.'},
+];
+const EXP_PLATFORMS=['Salesforce','Financial Services Cloud','Service Cloud','AWS','Microsoft Azure','Google Cloud','MuleSoft','ServiceNow','SAP','HubSpot','Other'];
+const EXP_SKILLS=['Solution Architecture','Apex','LWC','Integration Design','Data Modeling','Project Management','Business Analysis','QA','Other'];
+
+function clearExpDraft(a){a.exp_employer='';a.exp_client='';a.exp_industry='';a.exp_type='';a.exp_start='';a.exp_end='';a.exp_role='';a.exp_platforms=[];a.exp_skills=[];a.exp_outcome='';}
+function expManualBody(){const a=A();
+  if(a.resume&&!a.expSeeded){a.experiences=PARSED_EXPERIENCES.map(e=>({...e}));a.expSeeded=true;}
+  a.experiences||=[];
+  // pre-fill draft before rendering (edit mode)
+  if(a.expEditIdx!==undefined){
+    const src=a.experiences[a.expEditIdx];
+    if(!a.exp_role&&src){const pre=(k,v)=>{if(!a['exp_'+k])a['exp_'+k]=v||'';};
+      pre('employer',src.employer);pre('client',src.client);pre('industry',src.industry);pre('type',src.type);
+      pre('start',src.start);pre('end',src.end);pre('role',src.role);pre('outcome',src.outcome);
+      if(!a.exp_platforms||!a.exp_platforms.length)a.exp_platforms=(src.platforms||[]).slice();
+      if(!a.exp_skills||!a.exp_skills.length)a.exp_skills=(src.skills||[]).slice();}
+  }
+  let h=`<div class="exp-hint">We've parsed your resume — confirm each role, then continue. Click <b>✓</b> to confirm, <b>✎</b> to edit, or <b>⌫</b> to remove.</div>`;
+  if(ERRS['_exp'])h+=`<div class="form-err-banner"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#b4462f" stroke-width="1.4"/><path d="M8 5v4M8 10.5v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS['_exp'])}</div>`;
+  h+=a.experiences.map((e,i)=>{
+    // show inline edit form in place of this card when editing it
+    if(a.expEditIdx===i){
+      return `<div class="exp-modal-overlay" data-modalbackdrop><div class="icard exp-editing">
+        <div class="exp-edit-hd"><span class="exp-edit-tag">Editing</span><button class="icon-btn" data-cancelexp title="Discard">${ICON_CLOSE}</button></div>
+        ${text('exp_role','Role or title',{req:true,ph:'Solution Architect'})}
+        ${text('exp_employer','Employer or consulting firm',{req:true,ph:'Cloud Systems Inc'})}
+        ${text('exp_client','End client',{ph:'XYZ Financial (if different)'})}
+        <div class="row">${sel('exp_industry','Client industry',['Financial Services','Healthcare','Technology','Manufacturing','Retail','Public Sector','Other'])}${sel('exp_type','Engagement type',['Full-time employee','Consulting engagement','Contract','Contract-to-hire'])}</div>
+        <div class="row">${text('exp_start','Start',{type:'date'})}${text('exp_end','End',{type:'date'})}</div>
+        <div class="field"><label>Platforms & products</label>${chipBlock('exp_platforms',EXP_PLATFORMS,{add:false})}</div>
+        <div class="field"><label>Skills & capabilities</label>${chipBlock('exp_skills',EXP_SKILLS,{add:false})}</div>
+        <div class="field"><label>Responsibilities & outcomes</label><textarea data-k="exp_outcome" placeholder="What did you do, and what was the result?">${esc(a.exp_outcome||'')}</textarea></div>
+        <div class="exp-edit-foot">
+          <button class="btn primary" data-saveexp="${i}" style="box-shadow:none;padding:10px 18px">Save changes</button>
+          <button class="btn ghost" data-cancelexp>Cancel</button>
+        </div>
+      </div></div>`;
+    }
+    const confirmed=e._ok;
+    const dates=`${esc(e.start||'—')}${e.end?' – '+esc(e.end):' – Present'}`;
+    return `<div class="icard exp-card ${confirmed?'exp-ok':''}">
+      <div class="exp-hd">
+        <div><div class="ctitle">${esc(e.role||'Untitled')}${e.client?' · '+esc(e.client):e.employer?' · '+esc(e.employer):''}</div>
+        <div class="csub">${esc(e.employer||'')}${e.client?' · end client: '+esc(e.client):''}</div></div>
+        <div class="exp-acts">
+          <button class="icon-btn${confirmed?' icon-confirmed':''}" data-okexp="${i}" title="${confirmed?'Confirmed':'Mark as correct'}">${confirmed?ICON_CHECK_OK:ICON_CHECK}</button>
+          <button class="icon-btn" data-editexp="${i}" title="Edit">${ICON_EDIT}</button>
+          <button class="icon-btn warn" data-rmexp="${i}" title="Remove">${ICON_TRASH}</button>
+        </div>
+      </div>
+      <div class="metaline"><span><b>Industry</b> ${esc(e.industry||'—')}</span><span><b>Type</b> ${esc(e.type||'—')}</span><span><b>Dates</b> ${dates}</span></div>
+      ${(e.platforms&&e.platforms.length)?`<div class="pillset" style="margin-bottom:8px">${e.platforms.map(t=>`<span class="pill tech">${esc(t)}</span>`).join('')}</div>`:''}
+      ${(e.skills&&e.skills.length)?`<div class="pillset">${e.skills.map(t=>`<span class="pill">${esc(t)}</span>`).join('')}</div>`:''}
+      ${e.outcome?`<div class="csub" style="margin-top:8px">${esc(e.outcome)}</div>`:''}
+      ${confirmed?`<div class="exp-badge">${ICON_CHECK_OK} Confirmed</div>`:''}
+    </div>`;}).join('');
+  // "Add new" form at the bottom
+  if(a.expFormOpen){
+    h+=`<div class="exp-modal-overlay" data-modalbackdrop><div class="icard exp-editing">
+      <div class="exp-edit-hd"><span class="exp-edit-tag">New experience</span><button class="icon-btn" data-cancelexp title="Discard">${ICON_CLOSE}</button></div>
+      ${text('exp_role','Role or title',{req:true,ph:'Solution Architect'})}
+      ${text('exp_employer','Employer or consulting firm',{req:true,ph:'Cloud Systems Inc'})}
+      ${text('exp_client','End client',{ph:'XYZ Financial (if different)'})}
+      <div class="row">${sel('exp_industry','Client industry',['Financial Services','Healthcare','Technology','Manufacturing','Retail','Public Sector','Other'])}${sel('exp_type','Engagement type',['Full-time employee','Consulting engagement','Contract','Contract-to-hire'])}</div>
+      <div class="row">${text('exp_start','Start',{type:'date'})}${text('exp_end','End',{type:'date'})}</div>
+      <div class="field"><label>Platforms & products</label>${chipBlock('exp_platforms',EXP_PLATFORMS,{add:false})}</div>
+      <div class="field"><label>Skills & capabilities</label>${chipBlock('exp_skills',EXP_SKILLS,{add:false})}</div>
+      <div class="field"><label>Responsibilities & outcomes</label><textarea data-k="exp_outcome" placeholder="What did you do, and what was the result?">${esc(a.exp_outcome||'')}</textarea></div>
+      <div class="exp-edit-foot">
+        <button class="btn primary" data-saveexp="" style="box-shadow:none;padding:10px 18px">Add experience</button>
+        <button class="btn ghost" data-cancelexp>Cancel</button>
+      </div>
+    </div></div>`;
+  } else {
+    h+=`<button class="ghostbtn" style="margin-top:6px" data-addexp>+ Add another experience</button>`;
+  }
+  h+=`<div style="margin-top:14px">${callout('For a <b>confidential client</b>, leave the end-client field blank — we\'ll still show the industry, products, and skills on your profile.')}</div>`;
+  return h;}
+
+
+function resolveChosenRoute(scr,a){
+  if(a.nextRoute!==undefined)return a.nextRoute;
+  if(scr.goalMap&&a.goal&&scr.goalMap[a.goal]!==undefined)return scr.goalMap[a.goal];
+  const p=scr.routes.findIndex(r=>r.primary);
+  return p>=0?p:0;
+}
+function doneBody(scr){const a=A();const invited=a.invited||[];
+  const chosen=resolveChosenRoute(scr,a);
+  const suggested=a.nextRoute===undefined&&scr.goalMap&&a.goal&&scr.goalMap[a.goal]!==undefined;
+  let h=`<div class="done-hero"><div class="done-badge">${CHECK}</div></div><div class="field"><label>Recommended next step</label>${suggested?`<div class="hint" style="margin:-2px 0 12px">Because you said “${esc(a.goal)}”, we’d start here — tap any card to choose a different path.</div>`:''}<div class="routes">${scr.routes.map((r,i)=>`<button class="route ${i===chosen?'primary':''}" data-route="${i}"><div class="r-ic">${r.ic}</div><div class="r-t">${esc(r.t)}</div><div class="r-d">${esc(r.d)}</div></button>`).join('')}</div></div>`;
+  if(scr.invite){h+=`<div class="groupcard"><div class="gh"><span class="gicon">＋</span>Invite your team</div><div class="hint" style="margin-top:-4px">Teammates get their own login but share the org account. Won’t block finishing.</div>${optionCards('invite',[{v:'yes',l:'Yes, invite someone'},{v:'no',l:'Not right now'}],{cols:true,auto:false})}${a.invite==='yes'?`${invited.length?`<div class="pillset" style="margin:14px 0 10px">${invited.map(e=>`<span class="pill tech">${esc(e)}</span>`).join('')}</div>`:''}<div class="addrow" style="margin-top:${invited.length?'0':'14px'}"><div class="field"><input type="email" data-k="inviteemail" placeholder="teammate@acme.com" value="${esc(a.inviteemail||'')}"></div></div><button class="ghostbtn" data-invite>+ Add teammate</button>`:''}</div>`;}
+  return h;}
+
+function renderRedirect(label){
+  const cfoot=document.querySelector('.cfoot');if(cfoot)cfoot.style.display='none';
+  const st=document.getElementById('stage');
+  st.innerHTML=`<div class="redirect-wrap"><div class="spinner"></div><div class="redirect-t">Taking you to ${esc(label)}…</div></div>`;
+  st.classList.remove('anim');void st.offsetWidth;st.classList.add('anim');
+  window.scrollTo({top:0,behavior:'smooth'});
+  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  setTimeout(()=>{
+    st.innerHTML=`<div class="redirect-wrap"><div class="redirect-landed">${CHECK}</div><div class="qh" style="margin-top:16px">${esc(label)}</div><div class="qs">This is where that screen opens in the real product.</div><button class="btn ghost" id="restartBtn">Restart demo</button></div>`;
+    document.getElementById('restartBtn').addEventListener('click',()=>{
+      state.finished=false;state.idx=0;state.ans[state.flow]={};
+      if(cfoot)cfoot.style.display='';
+      render(true);
+    });
+  },rm?80:1100);
+}
+
+/* ---- assembly + branch ---- */
+function getScreens(){return state.flow==='candidate'?buildCandidate():buildOrgSteps();}
+const FLOW_META={
+  candidate:{eyebrow:'For consultants',hl:'Build your practice. <span class="serif-i">On your terms.</span>',copy:'Bring your expertise—we help with the business around it. Add your experience once and we’ll build your profile from it.',live:'Your profile so far',mono:'RK'},
+  hiring:{eyebrow:'Get started',hl:'Find the right expertise. <span class="serif-i">Fast.</span>',copy:'It starts with a short profile. No payment, no commitment — just the details we need to make a great first match, for your team or your clients.',live:'Your brief so far',mono:'AC'},
+};
+
+function ringSVG(pct){const R=18,C=2*Math.PI*R,off=C*(1-pct/100);
+  return `<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${R}" fill="none" stroke="#e7edf1" stroke-width="4"/><circle cx="22" cy="22" r="${R}" fill="none" stroke="#547691" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1)"/></svg><span class="pct">${pct}%</span>`;}
+
+function sectionGroups(screens){
+  const groups=[];
+  screens.forEach((s,i)=>{
+    const g=s.group||'';
+    const last=groups[groups.length-1];
+    if(last&&last.name===g)last.end=i;else groups.push({name:g,start:i,end:i});
+  });
+  return groups;
+}
+function workspaceLabel(){
+  if(state.flow==='candidate')return 'Consultant profile';
+  const eff=effectiveUseCase();
+  return eff==='client'?'Client delivery':'Internal technology';
+}
+function livePanel(screens){const meta=FLOW_META[state.flow];const a=A();
+  const groups=sectionGroups(screens);
+  const steps=groups.map((g,gi)=>{
+    const done=state.idx>g.end,current=state.idx>=g.start&&state.idx<=g.end;
+    const cls=done?'done':(current?'current':'');
+    const label=g.name==='FirmBranch'?(FIRM_SECTION_TITLE[a.firmtype]||'Firm Services'):g.name;
+    return `<div class="secstep ${cls}"><span class="sc">${done?CHECK_S:gi+1}</span><span class="st">${esc(label)}</span></div>`;
+  }).join('');
+  return `<div class="eyebrow">${meta.eyebrow}</div><h1>${meta.hl}</h1><p>${esc(meta.copy)}</p>
+    <div class="secwrap"><div class="seceyebrow">Setup progress</div><div class="secname">${esc(workspaceLabel())}</div>
+    <div class="secsteps">${steps}</div></div>`;
+}
+
+function render(transition){
+  const screens=getScreens();if(state.idx>=screens.length)state.idx=screens.length-1;
+  const s=screens[state.idx];const total=screens.length;
+  const sideEl=document.getElementById('side');
+  sideEl.classList.toggle('soft',!transition);
+  sideEl.innerHTML=livePanel(screens);
+  document.getElementById('kick').textContent=(s.group==='FirmBranch'?(FIRM_SECTION_TITLE[A().firmtype]||'Firm Services'):s.group)||'';
+  document.getElementById('stepline').textContent=`Step ${state.idx+1} of ${total}`;
+  const pct=Math.round(state.idx/Math.max(1,total-1)*100);
+  document.getElementById('ring').innerHTML=ringSVG(pct);
+  // body
+  let body='';
+  if(s.kind==='form')body=s.body();
+  else if(s.kind==='single')body=optionCards(s.id,s.opts,{multi:false,cols:s.cols});
+  else if(s.kind==='multi')body=optionCards(s.id,s.opts,{multi:true,cols:s.cols,max:s.max})+(s.extra?s.extra():'');
+  else if(s.kind==='chips'){const merged=s.opts.concat((A()['custom_'+s.id]||[]).filter(v=>!s.opts.includes(v)));body=chipBlock(s.id,merged,{max:s.max,custom:s.custom})+(s.extra?s.extra():'');}
+  else if(s.kind==='expmanual')body=expManualBody();
+  else if(s.kind==='done')body=doneBody(s);
+  else if(s.kind==='usecase')body=usecaseBody();
+  else if(s.kind==='firmtype')body=firmtypeBody();
+  const st=document.getElementById('stage');
+  const capLine=s.max?`<div class="capcount">${(A()[s.id]||[]).length} of ${s.max} selected</div>`:'';
+  const optsErrBanner=ERRS['_opts']?`<div class="form-err-banner" style="margin-bottom:12px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#b4462f" stroke-width="1.4"/><path d="M8 5v4M8 10.5v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS['_opts'])}</div>`:'';
+  const prevOverlayScroll=document.querySelector('.exp-modal-overlay')?.scrollTop;
+  const prevCardScroll=document.querySelector('.exp-modal-overlay .exp-editing')?.scrollTop;
+  st.innerHTML=`<div class="qh">${s.q}</div>${s.sub?`<div class="qs">${esc(s.sub)}</div>`:''}${capLine}${optsErrBanner}${body}`;
+  if(prevOverlayScroll!==undefined){const mo=document.querySelector('.exp-modal-overlay');if(mo)mo.scrollTop=prevOverlayScroll;}
+  if(prevCardScroll!==undefined){const mc=document.querySelector('.exp-modal-overlay .exp-editing');if(mc)mc.scrollTop=prevCardScroll;}
+  if(transition){st.classList.remove('anim');void st.offsetWidth;st.classList.add('anim');}
+  // remove any stale overlay
+  // footer
+  document.querySelector('.cfoot').style.display='';
+  document.getElementById('backBtn').disabled=false;// step 0 Back routes to landing, so never disabled
+  const last=state.idx===total-1;
+  const nb=document.getElementById('nextBtn');
+  let nextLabel=last?'Finish setup':'Continue';
+  if(last&&s.kind==='done'){
+    const chosen=resolveChosenRoute(s,A());
+    const dest=(s.routes&&s.routes[chosen])?s.routes[chosen].t:'';
+    if(dest)nextLabel=`Continue to ${dest}`;
+  }
+  nb.innerHTML=nextLabel+' '+ARW;
+  // single-select auto-advances, so hide Continue on those (still show for last/multi/form)
+  nb.style.display='';
+  document.getElementById('hintfoot').textContent='';
+  if(transition)window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(d){Object.keys(ERRS).forEach(k=>delete ERRS[k]);const screens=getScreens();const n=state.idx+d;if(n<0||n>=screens.length)return;state.idx=n;render(true);}
+
+/* ═══════════════ VALIDATION ═══════════════ */
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function required(v){return v!==undefined&&v!==null&&String(v).trim()!=='';}
+function addErr(k,msg){ERRS[k]=msg;}
+function clearErrs(){Object.keys(ERRS).forEach(k=>delete ERRS[k]);}
+
+function validate(s,a){
+  clearErrs();
+  let ok=true;
+  const fail=(k,msg)=>{addErr(k,msg);ok=false;};
+
+  if(s.kind==='form'){
+    const q=s.q;
+    // Account fields
+    if(has(a,'first')===false&&q.includes('Create your account')){}
+    // detect required inputs via rendered DOM
+    document.querySelectorAll('#stage input[data-k],#stage select[data-k],#stage textarea[data-k]').forEach(el=>{
+      const k=el.dataset.k;
+      const lbl=el.closest('.field')?.querySelector('label');
+      const isReq=lbl&&lbl.querySelector('.req');
+      if(!isReq)return;
+      const v=(el.value||'').trim();
+      if(!v){fail(k,`${lbl.childNodes[0]?.textContent?.trim()||'This field'} is required`);}
+      else if(el.type==='email'&&!EMAIL_RE.test(v)){fail(k,'Enter a valid email address');}
+      else if(el.type==='password'&&v.length<8){fail(k,'Password must be at least 8 characters');}
+      else if(el.type==='number'&&Number(v)<0){fail(k,'Must be a positive number');}
+    });
+    // cross-field: max hours >= min hours
+    if(a.minhrs&&a.maxhrs&&Number(a.maxhrs)<Number(a.minhrs)){fail('maxhrs','Max must be ≥ minimum hours');}
+  }
+
+  if(s.kind==='single'||s.kind==='usecase'||s.kind==='firmtype'){
+    const id=s.id;
+    if(!a[id]){addErr('_opts','Please select an option to continue.');ok=false;}
+  }
+
+  if(s.kind==='multi'){
+    // multi-select: required means at least one
+    if(s.id&&!s.sub?.toLowerCase().includes('optional')&&(!a[s.id]||!a[s.id].length)){
+      addErr('_opts','Please select at least one option.');ok=false;
+    }
+  }
+
+  if(s.kind==='expmanual'){
+    // require at least one confirmed experience
+    if(!a.experiences||!a.experiences.length){addErr('_exp','Add at least one experience before continuing.');ok=false;}
+    else if(!a.experiences.some(e=>e._ok)){addErr('_exp','Please confirm at least one experience with ✓ before continuing.');ok=false;}
+  }
+
+  if(s.kind==='chips'){
+    // only validate if not explicitly optional (no sub containing 'optional' / 'personalize')
+    const sub=(s.sub||'').toLowerCase();
+    if(!sub.includes('optional')&&!sub.includes('personaliz')&&!sub.includes('doesn\'t replace')){
+      if(!a[s.id]||!a[s.id].length){addErr('_opts','Please select at least one option.');ok=false;}
+    }
+  }
+
+  return ok;
+}
+
+function validateExpDrawer(a){
+  clearErrs();
+  let ok=true;
+  if(!required(a.exp_role)){addErr('exp_role','Role or title is required');ok=false;}
+  if(!required(a.exp_employer)){addErr('exp_employer','Employer is required');ok=false;}
+  return ok;
+}
+
+function showValidationErrors(){
+  // re-render to show errors, then scroll to first one
+  render();
+  const first=document.querySelector('#stage .field-err,.form-err-banner,.exp-err-banner');
+  if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+}
+document.getElementById('stage').addEventListener('click',e=>{const a=A();
+  const opt=e.target.closest('[data-opt]');
+  if(opt){const id=opt.dataset.opt,val=opt.dataset.val,single=opt.dataset.single==='true';
+    if(single){
+      a[id]=val;render();
+    } else {
+      a[id]=a[id]||[];const i=a[id].indexOf(val);
+      if(i>-1){a[id].splice(i,1);render();}
+      else{
+        const max=Number(opt.dataset.max)||0;
+        if(max&&a[id].length>=max){opt.classList.add('capshake');setTimeout(()=>opt.classList.remove('capshake'),320);}
+        else{a[id].push(val);render();}
+      }
+    }
+    return;}
+  const chip=e.target.closest('[data-chip]');
+  if(chip){const id=chip.dataset.chip,val=chip.dataset.val;a[id]=a[id]||[];const i=a[id].indexOf(val);
+    if(i>-1){a[id].splice(i,1);render();}
+    else{
+      const max=Number(chip.dataset.max)||0;
+      if(max&&a[id].length>=max){chip.classList.add('capshake');setTimeout(()=>chip.classList.remove('capshake'),320);}
+      else{a[id].push(val);render();}
+    }
+    return;}
+  const chipAdd=e.target.closest('[data-chipadd]');
+  if(chipAdd){
+    const id=chipAdd.dataset.chipadd,draftKey='draftadd_'+id,val=(a[draftKey]||'').trim();
+    if(val){
+      a['custom_'+id]=a['custom_'+id]||[];
+      if(!a['custom_'+id].includes(val))a['custom_'+id].push(val);
+      a[id]=a[id]||[];
+      if(!a[id].includes(val))a[id].push(val);
+      a[draftKey]='';render();
+    }
+    return;}
+  const addexp=e.target.closest('[data-addexp]');
+  if(addexp){a.expFormOpen=true;a.expEditIdx=undefined;clearExpDraft(a);render();return;}
+  const routeBtn=e.target.closest('[data-route]');
+  if(routeBtn){a.nextRoute=Number(routeBtn.dataset.route);render();return;}
+  if(e.target.closest('[data-upload]')){a.resume=true;render();return;}
+  if(e.target.closest('[data-addprofile]')){if(a.ptype&&a.purl){a.profiles=a.profiles||[];a.profiles.push({type:a.ptype,url:a.purl});a.purl='';render();}return;}
+  if(e.target.closest('[data-addcred]')){if(a.credname){a.credentials=a.credentials||[];a.credentials.push({name:a.credname,issuer:a.credissuer||''});a.credname='';a.credissuer='';render();}return;}
+  if(e.target.closest('[data-invite]')){if(a.inviteemail){a.invited=a.invited||[];a.invited.push(a.inviteemail);a.inviteemail='';render();}return;}
+});
+
+// Separate document-level handler for experience overlay buttons (which live in document.body)
+document.addEventListener('click',e=>{const a=A();
+  if(e.target.hasAttribute('data-modalbackdrop')){a.expFormOpen=false;a.expEditIdx=undefined;clearExpDraft(a);render();return;}
+  const cancelexp=e.target.closest('[data-cancelexp]');
+  if(cancelexp){a.expFormOpen=false;a.expEditIdx=undefined;clearExpDraft(a);render();return;}
+  const editexp=e.target.closest('[data-editexp]');
+  if(editexp){const i=Number(editexp.dataset.editexp);a.expFormOpen=false;a.expEditIdx=i;clearExpDraft(a);render();return;}
+  const okexp=e.target.closest('[data-okexp]');
+  if(okexp){const i=Number(okexp.dataset.okexp);a.experiences[i]._ok=!a.experiences[i]._ok;render();return;}
+  const saveexp=e.target.closest('[data-saveexp]');
+  if(saveexp){
+    if(!validateExpDrawer(a)){render();const first=document.querySelector('.exp-editing .field-err');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    const rec={employer:a.exp_employer,client:a.exp_client||'',industry:a.exp_industry||'',type:a.exp_type||'',start:a.exp_start||'',end:a.exp_end||'',role:a.exp_role,platforms:(a.exp_platforms||[]).slice(),skills:(a.exp_skills||[]).slice(),outcome:a.exp_outcome||''};
+    const idx=saveexp.dataset.saveexp;
+    if(idx!==''){const i=Number(idx);rec._ok=a.experiences[i]._ok;a.experiences[i]=rec;}
+    else{a.experiences=a.experiences||[];a.experiences.push(rec);}
+    a.expFormOpen=false;a.expEditIdx=undefined;clearExpDraft(a);clearErrs();render();return;}
+  const rmexp=e.target.closest('[data-rmexp]');
+  if(rmexp){const i=Number(rmexp.dataset.rmexp);a.experiences.splice(i,1);if(a.expEditIdx===i)a.expEditIdx=undefined;render();return;}
+});
+document.getElementById('stage').addEventListener('input',e=>{
+  const k=e.target.dataset.k;if(k){A()[k]=e.target.value;if(ERRS[k]){delete ERRS[k];const f=e.target.closest('.field');if(f)f.classList.remove('field-err');const em=f?.querySelector('.err-msg');if(em)em.remove();}}
+  const ci=e.target.closest('[data-chipadd-input]');
+  if(ci){
+    const id=ci.dataset.chipaddInput;
+    const wrap=e.target.closest(`[data-cf="${id}"]`);
+    if(wrap){
+      const q=e.target.value.trim().toLowerCase();
+      const cur=A()[id]||[];
+      let anyVisible=false,exact=false;
+      wrap.querySelectorAll('.chip[data-chip]').forEach(ch=>{
+        const val=ch.dataset.val,valLower=val.toLowerCase();
+        if(valLower===q)exact=true;
+        const show=!q||cur.includes(val)||valLower.includes(q);
+        ch.style.display=show?'':'none';
+        if(show)anyVisible=true;
+      });
+      const btn=wrap.querySelector('[data-chipadd]');
+      if(btn)btn.disabled=!q||exact;
+      let note=wrap.querySelector('.chip-nomatch');
+      if(q&&!anyVisible){
+        if(!note){note=document.createElement('div');note.className='hint chip-nomatch';note.style.margin='6px 0 0';wrap.appendChild(note);}
+        note.textContent=`No match — press Add to create “${e.target.value.trim()}”.`;
+      } else if(note)note.remove();
+    }
+  }
+});
+document.getElementById('stage').addEventListener('keydown',e=>{
+  const ci=e.target.closest('[data-chipadd-input]');
+  if(ci&&e.key==='Enter'){e.preventDefault();document.querySelector(`[data-chipadd="${ci.dataset.chipaddInput}"]`)?.click();}
+});
+document.getElementById('stage').addEventListener('change',e=>{const k=e.target.dataset.k;if(k)A()[k]=e.target.value;});
+// Mirror input/change for overlay (rendered in body, not in #stage)
+
+document.getElementById('nextBtn').addEventListener('click',()=>{
+  const screens=getScreens();const s=screens[state.idx];const a=A();
+  if(!validate(s,a)){showValidationErrors();return;}
+  if(state.idx<screens.length-1){go(1);return;}
+  const chosen=resolveChosenRoute(s,a);
+  const label=(s.routes&&s.routes[chosen])?s.routes[chosen].t:'your dashboard';
+  state.finished=true;
+  renderRedirect(label);
+});
+document.getElementById('backBtn').addEventListener('click',()=>{if(state.idx===0)showLanding();else go(-1);});
+/* ── landing path selection ── */
+let selectedPath=null;
+function showLanding(){
+  state.idx=0;state.finished=false;clearErrs();
+  selectedPath=null;
+  document.querySelectorAll('.path-tile').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('landingContinue').disabled=true;
+  document.getElementById('appWrap').style.display='none';
+  document.getElementById('landingWrap').style.display='flex';
+  window.scrollTo({top:0});
+}
+document.querySelectorAll('.path-tile').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    selectedPath=btn.dataset.path;
+    document.querySelectorAll('.path-tile').forEach(b=>b.classList.toggle('sel',b===btn));
+    document.getElementById('landingContinue').disabled=false;
+  });
+});
+document.getElementById('landingContinue').addEventListener('click',()=>{
+  if(!selectedPath)return;
+  state.flow=selectedPath==='hiring'?'hiring':'candidate';
+  state.idx=0;state.busy=false;state.finished=false;
+  document.getElementById('landingWrap').style.display='none';
+  document.getElementById('appWrap').style.display='flex';
+  render(true);
+});
+// don't auto-render the flow — landing card is shown first
+</script>
+</body>
+</html>
