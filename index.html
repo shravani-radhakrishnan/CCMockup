@@ -16,6 +16,11 @@
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 *,*::before,*::after{box-sizing:border-box}
+* {scrollbar-width:thin;scrollbar-color:rgba(84,118,145,.2) transparent}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(84,118,145,.2);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(84,118,145,.45)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans","DM Sans Variable",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -63,15 +68,23 @@ h1,h2,h3{font-family:"Manrope","Manrope Variable",sans-serif}
 .change-path-btn:hover{color:var(--slate);border-color:var(--slate);background:var(--slate-tint)}
 
 .app{display:flex;min-height:calc(100vh - 64px)}
-.side{flex:1;max-width:42%;padding:64px 56px;display:flex;flex-direction:column;position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.side{flex:1;max-width:42%;padding:40px 56px;display:flex;flex-direction:column;position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(84,118,145,.2) transparent}
+.side::-webkit-scrollbar{width:4px}
+.side::-webkit-scrollbar-track{background:transparent}
+.side::-webkit-scrollbar-thumb{background:rgba(84,118,145,.2);border-radius:10px}
+.side::-webkit-scrollbar-thumb:hover{background:rgba(84,118,145,.45)}
 .side .eyebrow{margin-bottom:20px}
 .side h1{font-size:40px;line-height:1.19;font-weight:500;letter-spacing:-1.6px;color:var(--ink);margin:0 0 20px;max-width:12ch}
 .side p{font-size:15px;color:var(--muted);line-height:1.62;max-width:40ch;margin:0}
 
 /* live building card */
-.secwrap{margin-top:10px;max-height:52vh;overflow-y:auto;padding-right:2px}
-.seceyebrow{font-family:"DM Sans",sans-serif;font-size:10px;font-weight:650;letter-spacing:1.6px;color:var(--faint);text-transform:uppercase;margin-bottom:9px}
-.secname{font-family:"Manrope",sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:18px}
+.secwrap{margin-top:0;overflow-y:visible;padding-right:2px;scrollbar-width:thin;scrollbar-color:rgba(84,118,145,.2) transparent}
+.secwrap::-webkit-scrollbar{width:4px}
+.secwrap::-webkit-scrollbar-track{background:transparent}
+.secwrap::-webkit-scrollbar-thumb{background:rgba(84,118,145,.2);border-radius:10px}
+.secwrap::-webkit-scrollbar-thumb:hover{background:rgba(84,118,145,.45)}
+.seceyebrow{font-family:"DM Sans",sans-serif;font-size:10px;font-weight:650;letter-spacing:1.6px;color:var(--faint);text-transform:uppercase;margin-bottom:8px}
+.secname{font-family:"Manrope",sans-serif;font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:20px}
 .secsteps{display:flex;flex-direction:column}
 .secstep{display:flex;align-items:center;gap:13px;padding:9px 0}
 .secstep .sc{width:25px;height:25px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11.5px;font-weight:650;border:1.5px solid var(--line-2);color:var(--muted);background:var(--surface);transition:all .18s}
@@ -354,8 +367,10 @@ const ERRS={};// {key: message} – populated by validate(), cleared on advance
 function errMsg(k){return ERRS[k]?`<div class="err-msg"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#b4462f" stroke-width="1.5"/><path d="M6 3.5v3M6 8v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS[k])}</div>`:''}
 function text(id,label,{type='text',ph='',req=false}={}){const v=A()[id]||'';
   return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><input id="f_${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}">${errMsg(id)}</div>`;}
-function sel(id,label,opts,{req=false}={}){const v=A()[id]||'';
-  return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><select id="f_${id}" data-k="${id}"><option value="">Select…</option>${opts.map(o=>`<option ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>${errMsg(id)}</div>`;}
+function sel(id,label,opts,{req=false,def=''}={}){
+  if(def && A()[id]===undefined) A()[id]=def;
+  const v=A()[id]!==undefined?A()[id]:(def||'');
+  return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><select id="f_${id}" data-k="${id}">${!def?'<option value="">Select…</option>':''}${opts.map(o=>`<option value="${esc(o)}" ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>${errMsg(id)}</div>`;}
 
 /* option cards (single/multi) */
 function optionCards(id,opts,{multi=false,cols=false,auto=true,max=0}={}){
@@ -380,6 +395,7 @@ function chipBlock(id,opts,{max=0,custom=false}={}){const a=A();const cur=a[id]|
 function callout(t){return `<div class="callout"><span class="ci">i</span><span>${t}</span></div>`;}
 
 /* ---- shared data ---- */
+const COUNTRIES=['United States','Canada','United Kingdom','Australia','Germany','France','India','Afghanistan','Albania','Algeria','Andorra','Angola','Argentina','Armenia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belgium','Belize','Bermuda','Bolivia','Bosnia and Herzegovina','Brazil','Bulgaria','Cambodia','Cameroon','Chile','China','Colombia','Costa Rica','Croatia','Cyprus','Czech Republic','Denmark','Dominican Republic','Ecuador','Egypt','Estonia','Ethiopia','Finland','Georgia','Ghana','Greece','Guatemala','Hong Kong','Hungary','Iceland','Indonesia','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kuwait','Latvia','Lebanon','Lithuania','Luxembourg','Malaysia','Malta','Mexico','Monaco','Morocco','Netherlands','New Zealand','Nigeria','Norway','Oman','Pakistan','Panama','Peru','Philippines','Poland','Portugal','Qatar','Romania','Saudi Arabia','Serbia','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','Sweden','Switzerland','Taiwan','Thailand','Trinidad and Tobago','Tunisia','Turkey','Ukraine','United Arab Emirates','Uruguay','Venezuela','Vietnam','Other'];
 const TECH_AREAS=[{v:'crm',l:'CRM & Customer Platforms'},{v:'sales',l:'Sales & Revenue'},{v:'service',l:'Customer Service & Success'},{v:'mktg',l:'Marketing & Commerce'},{v:'finops',l:'Finance & Operations'},{v:'data',l:'Data, Analytics & AI'},{v:'it',l:'IT, Cloud & Engineering'},{v:'integ',l:'Integration & Automation'},{v:'hr',l:'HR & Talent'},{v:'other',l:'Other'},{v:'unsure',l:'I’m not sure'}];
 const TECH_FOLLOWUPS={crm:{q:'Which CRM platforms?',o:['Salesforce','HubSpot','Microsoft Dynamics 365','Zoho','Other','We don’t use a CRM']},sales:{q:'Sales / revenue tools?',o:['Salesforce','HubSpot','Gong','Outreach or Salesloft','Other','No dedicated platform']},service:{q:'Service / success tools?',o:['Salesforce','Zendesk','ServiceNow','HubSpot','Intercom','Other']},mktg:{q:'Marketing / commerce tools?',o:['Salesforce','HubSpot','Adobe','Shopify','Other']},finops:{q:'Finance / operations tools?',o:['SAP','Oracle','NetSuite','Microsoft Dynamics 365','Workday','Certinia','Other']},data:{q:'Data / analytics / AI tools?',o:['Snowflake','Databricks','Tableau','Power BI','AWS','Azure','Google Cloud','Other']},it:{q:'IT / cloud / engineering tools?',o:['AWS','Microsoft Azure','Google Cloud','ServiceNow','GitHub','Other']},integ:{q:'Integration / automation tools?',o:['MuleSoft','Boomi','Workato','Informatica','Power Platform','Custom APIs','Other']},hr:{q:'HR / talent tools?',o:['Workday','SAP SuccessFactors','Oracle HCM','ADP','UKG','Other']}};
 const TECH_LIST=['Salesforce','AWS','Microsoft Azure','Google Cloud (GCP)','Dynamics 365 & Power Platform','HubSpot','ServiceNow','Snowflake','Databricks','SAP','Oracle','NetSuite','MuleSoft'];
@@ -450,7 +466,7 @@ function usecaseBody(){const a=A();
 function useCaseScreen(){return {kind:'usecase',group:'How Will You Use Cloud Club',q:'What are you primarily looking for help with?',sub:'This sets up the right experience. You can add the other later.',id:'usecase',
   pv:{k:'Use case',get:a=>{const eff={internal:'Internal technology',client:'Client work'}[a.usecase==='both'?a.bothstart:a.usecase];return eff||(a.usecase==='else'?'Something else':'');}}};}
 function companyScreen(){return {kind:'form',group:'About Your Company',q:'About your company.',sub:'A few details to help us tailor your matches.',
-  body:()=>`${sel('ind2','Industry',['Professional Services','Technology','Financial Services','Healthcare','Manufacturing','Retail','Public Sector','Other'],{req:true})}${text('emp2','Employee count',{req:true,ph:'e.g. 250',type:'number'})}${text('complocation','Company location',{req:true,ph:'Boston, MA'})}${sel('comptz','Timezone',['US Eastern (ET)','US Central (CT)','US Mountain (MT)','US Pacific (PT)','GMT / UTC','Central European (CET)','India (IST)','Other'],{req:true})}${sel('heard','How did you hear about us?',['Google Search','Referral','LinkedIn','Event or Conference','Other'])}`,
+  body:()=>`${sel('ind2','Industry',['Professional Services','Technology','Financial Services','Healthcare','Manufacturing','Retail','Public Sector','Other'],{req:true})}${text('emp2','Employee count',{req:true,ph:'e.g. 250',type:'number'})}${sel('complocation','Company location',COUNTRIES,{req:true,def:'United States'})}${sel('heard','How did you hear about us?',['Google Search','Referral','LinkedIn','Event or Conference','Other'])}`,
   pv:{k:'Industry',get:a=>a.ind2||''}};}
 function accountOrg(){return {kind:'form',group:'Create Your Account',q:'Create your account.',sub:'We’ll use these details to set up your company account.',
   body:()=>`${text('company','Company name',{req:true,ph:'Acme Consulting'})}${text('website','Company website',{req:true,ph:'acme.com'})}<div class="row">${text('first','First name',{req:true})}${text('last','Last name',{req:true})}</div>${text('jobtitle','Job title',{req:true})}${text('workemail','Work email',{type:'email',req:true,ph:'you@acme.com'})}${text('password','Password',{type:'password',req:true,ph:'••••••••'})}`,pv:{k:'Company',get:a=>a.company||''}};}
@@ -685,7 +701,7 @@ function workspaceLabel(){
   const eff=effectiveUseCase();
   return eff==='client'?'Client delivery':'Internal technology';
 }
-function livePanel(screens){const meta=FLOW_META[state.flow];const a=A();
+function livePanel(screens){const a=A();
   const groups=sectionGroups(screens);
   const steps=groups.map((g,gi)=>{
     const done=state.idx>g.end,current=state.idx>=g.start&&state.idx<=g.end;
@@ -693,8 +709,7 @@ function livePanel(screens){const meta=FLOW_META[state.flow];const a=A();
     const label=g.name==='FirmBranch'?(FIRM_SECTION_TITLE[a.firmtype]||'Firm Services'):g.name;
     return `<div class="secstep ${cls}"><span class="sc">${done?CHECK_S:gi+1}</span><span class="st">${esc(label)}</span></div>`;
   }).join('');
-  return `<div class="eyebrow">${meta.eyebrow}</div><h1>${meta.hl}</h1><p>${esc(meta.copy)}</p>
-    <div class="secwrap"><div class="seceyebrow">Setup progress</div><div class="secname">${esc(workspaceLabel())}</div>
+  return `<div class="secwrap"><div class="seceyebrow">Setup progress</div><div class="secname">${esc(workspaceLabel())}</div>
     <div class="secsteps">${steps}</div></div>`;
 }
 
