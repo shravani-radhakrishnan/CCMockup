@@ -64,7 +64,7 @@ h1,h2,h3{font-family:"Manrope","Manrope Variable",sans-serif}
 .switcher button[aria-pressed="true"]{background:var(--surface);color:var(--slate);box-shadow:0 1px 2px rgba(65,82,96,.12)}
 .backlink{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500}
 .backlink:hover{color:var(--ink)}
-.change-path-btn{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;letter-spacing:.1px;transition:all .14s}
+.change-path-btn{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;letter-spacing:.1px;transition:all .14s;white-space:nowrap;flex-shrink:0}
 .change-path-btn:hover{color:var(--slate);border-color:var(--slate);background:var(--slate-tint)}
 
 .app{display:flex;min-height:calc(100vh - 64px)}
@@ -113,6 +113,7 @@ h1,h2,h3{font-family:"Manrope","Manrope Variable",sans-serif}
 @keyframes enter{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
 .qh{font-family:"Manrope",sans-serif;font-size:23px;font-weight:500;letter-spacing:-.6px;color:var(--ink);line-height:1.16;margin:0 0 6px}
 .qs{font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+.qh+.opts,.qh+.chipfield,.qh+.field,.qh+.chip-add-row{margin-top:20px}
 .capcount{font-size:11.5px;font-weight:650;letter-spacing:.3px;color:var(--slate);margin:-8px 0 12px}
 
 /* option cards */
@@ -155,6 +156,12 @@ h1,h2,h3{font-family:"Manrope","Manrope Variable",sans-serif}
 .chip-add-btn{padding:9px 16px;border-radius:8px;border:1px solid var(--slate);background:var(--slate);color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 .chip-add-btn:hover{background:#4d6d87}
 .chip-add-btn:disabled{opacity:.4;cursor:not-allowed;background:var(--slate)}
+.country-dd-wrap{position:relative}
+.country-dd{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.10);max-height:230px;overflow-y:auto;z-index:20;display:none}
+.country-dd.show{display:block}
+.country-dd-item{padding:9px 13px;font-size:13.5px;color:var(--body);cursor:pointer}
+.country-dd-item:hover,.country-dd-item.hl{background:var(--slate-tint)}
+.country-dd-empty{padding:9px 13px;font-size:13px;color:var(--muted)}
 
 /* fields */
 .field{margin-bottom:16px}
@@ -367,6 +374,10 @@ const ERRS={};// {key: message} – populated by validate(), cleared on advance
 function errMsg(k){return ERRS[k]?`<div class="err-msg"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#b4462f" stroke-width="1.5"/><path d="M6 3.5v3M6 8v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS[k])}</div>`:''}
 function text(id,label,{type='text',ph='',req=false}={}){const v=A()[id]||'';
   return `<div class="field${ERRS[id]?' field-err':''}"><label for="f_${id}">${label}${req?'<span class="req">*</span>':''}</label><input id="f_${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}">${errMsg(id)}</div>`;}
+function selRaw(id,opts,{def=''}={}){
+  if(def && A()[id]===undefined) A()[id]=def;
+  const v=A()[id]!==undefined?A()[id]:(def||'');
+  return `<select id="f_${id}" data-k="${id}">${!def?'<option value="">Select…</option>':''}${opts.map(o=>`<option value="${esc(o)}" ${v===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;}
 function sel(id,label,opts,{req=false,def=''}={}){
   if(def && A()[id]===undefined) A()[id]=def;
   const v=A()[id]!==undefined?A()[id]:(def||'');
@@ -392,6 +403,10 @@ function chipBlock(id,opts,{max=0,custom=false}={}){const a=A();const cur=a[id]|
   const exact=opts.some(o=>o.toLowerCase()===q);
   const noMatch=draft&&visible.length===0;
   return `<div class="chipfield" data-cf="${id}">${chips}<div class="chip-add-row"><input type="text" data-k="draftadd_${id}" data-chipadd-input="${id}" placeholder="Search or add your own…" value="${esc(draft)}"><button class="chip-add-btn" data-chipadd="${id}" ${(!draft||exact)?'disabled':''}>Add</button></div>${noMatch?`<div class="hint chip-nomatch" style="margin:6px 0 0">No match — press Add to create “${esc(draft)}”.</div>`:''}</div>`;}
+function countryPicker(id,opts){const a=A();const cur=a[id]||[];
+  const chips=cur.length?`<div class="chips">`+cur.map(o=>`<span class="chip sel" data-chip="${id}" data-val="${esc(o)}">${esc(o)}<span class="x">×</span></span>`).join('')+`</div>`:'';
+  const draft=(a['draftadd_'+id]||'').trim();
+  return `<div class="chipfield" data-cf="${id}"><div class="country-dd-wrap"><input type="text" data-k="draftadd_${id}" data-countrysearch="${id}" placeholder="Search countries…" value="${esc(draft)}" autocomplete="off"><div class="country-dd" data-countrydd="${id}"></div></div>${chips?`<div style="margin-top:10px">${chips}</div>`:''}</div>`;}
 function callout(t){return `<div class="callout"><span class="ci">i</span><span>${t}</span></div>`;}
 
 /* ---- shared data ---- */
@@ -440,12 +455,12 @@ function buildCandidate(){const a=A();const S=[];
     body:()=>`${text('startdate','Earliest start date',{type:'date',req:true})}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs||'')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" value="${esc(a.maxhrs||'')}"></div></div>`,
     pv:{k:'Availability',get:a=>a.minhrs&&a.maxhrs?`${a.minhrs}–${a.maxhrs} hrs/wk`:''}});
   S.push({kind:'form',group:'Opportunity Preferences and Availability',q:'When are you normally available?',sub:'Recurring windows in your local time — mornings, evenings, or weekends are fine.',
-    body:()=>`<div class="row"><div class="field"><label>Days</label>${sel('days','',['Weekdays','Weekends','Every day','Custom by day']).replace('<label></label>','')}</div><div class="field"><label>Start</label><input type="time" data-k="stime" value="${esc(a.stime||'')}"></div><div class="field"><label>End</label><input type="time" data-k="etime" value="${esc(a.etime||'')}"></div></div>`});
+    body:()=>`<div class="row"><div class="field"><label>Days</label>${selRaw('days',['Weekdays','Weekends','Every day','Custom by day'])}</div><div class="field"><label>Start</label><input type="time" data-k="stime" value="${esc(a.stime||'')}"></div><div class="field"><label>End</label><input type="time" data-k="etime" value="${esc(a.etime||'')}"></div></div>`});
   S.push({kind:'form',group:'Opportunity Preferences and Availability',q:'Your baseline rate by role.',sub:'Rates can differ per role. You’ll confirm the final rate per opportunity.',
     body:()=>{const roles=(a.roletypes&&a.roletypes.length?a.roletypes:['Solution Architect']).slice(0,2);
-      return roles.map(r=>`<div class="groupcard"><div class="gh"><span class="gicon">$</span>${esc(r)}</div><div class="row"><div class="field" style="margin-bottom:11px"><input type="number" data-k="min_${r}" placeholder="Min rate"></div><div class="field" style="margin-bottom:11px"><input type="number" data-k="des_${r}" placeholder="Desired rate"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px">${sel('cur_'+r,'',['USD','EUR','GBP','INR','CAD']).replace('<label></label>','')}</div></div></div>`).join('');}});
+      return roles.map(r=>`<div class="groupcard"><div class="gh"><span class="gicon">$</span>${esc(r)}</div><div class="row"><div class="field" style="margin-bottom:11px"><input type="number" data-k="min_${r}" placeholder="Min rate"></div><div class="field" style="margin-bottom:11px"><input type="number" data-k="des_${r}" placeholder="Desired rate"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px">${selRaw('cur_'+r,['USD','EUR','GBP','INR','CAD'])}</div></div></div>`).join('');}});
   S.push({kind:'form',group:'Work Authorization and Engagement Method',q:'Where are you authorized to work?',sub:'Entity, payroll, tax, and banking come later — only if you’re selected.',
-    body:()=>text('authcountries','Authorized countries',{req:true,ph:'United States, Canada'}),pv:{k:'Authorized in',get:a=>a.authcountries||''}});
+    body:()=>`<div class="field${ERRS.authcountries?' field-err':''}"><label>Authorized countries<span class="req">*</span></label>${countryPicker('authcountries',COUNTRIES)}${errMsg('authcountries')}</div>`,pv:{k:'Authorized in',get:a=>(a.authcountries||[]).join(', ')}});
   S.push({kind:'single',group:'Work Authorization and Engagement Method',q:'Will you need sponsorship?',opts:[{v:'No'},{v:'Yes'},{v:'Not sure'}],id:'sponsor',cols:true,pv:{k:'Sponsorship',get:a=>a.sponsor||''}});
   S.push({kind:'multi',group:'Work Authorization and Engagement Method',q:'How can you engage for contract work?',sub:'Select all that apply.',
     opts:['C2C through my own company','1099 independent contractor','Through an employer','Not sure'],id:'engage',cols:true,pv:{k:'Engagement',get:a=>(a.engage||[]).join(', ')}});
@@ -779,6 +794,7 @@ function validate(s,a){
     if(has(a,'first')===false&&q.includes('Create your account')){}
     // detect required inputs via rendered DOM
     document.querySelectorAll('#stage input[data-k],#stage select[data-k],#stage textarea[data-k]').forEach(el=>{
+      if(el.hasAttribute('data-countrysearch'))return;
       const k=el.dataset.k;
       const lbl=el.closest('.field')?.querySelector('label');
       const isReq=lbl&&lbl.querySelector('.req');
@@ -791,6 +807,7 @@ function validate(s,a){
     });
     // cross-field: max hours >= min hours
     if(a.minhrs&&a.maxhrs&&Number(a.maxhrs)<Number(a.minhrs)){fail('maxhrs','Max must be ≥ minimum hours');}
+    if(q.includes('authorized to work')&&(!a.authcountries||!a.authcountries.length)){fail('authcountries','Select at least one authorized country');}
   }
 
   if(s.kind==='single'||s.kind==='usecase'||s.kind==='firmtype'){
@@ -806,9 +823,9 @@ function validate(s,a){
   }
 
   if(s.kind==='expmanual'){
-    // require at least one confirmed experience
+    // require at least one experience; unconfirmed ones default to confirmed on continue
     if(!a.experiences||!a.experiences.length){addErr('_exp','Add at least one experience before continuing.');ok=false;}
-    else if(!a.experiences.some(e=>e._ok)){addErr('_exp','Please confirm at least one experience with ✓ before continuing.');ok=false;}
+    else if(!a.experiences.some(e=>e._ok)){a.experiences.forEach(e=>{e._ok=true;});}
   }
 
   if(s.kind==='chips'){
@@ -926,6 +943,36 @@ document.getElementById('stage').addEventListener('input',e=>{
         note.textContent=`No match — press Add to create “${e.target.value.trim()}”.`;
       } else if(note)note.remove();
     }
+  }
+  const cs=e.target.closest('[data-countrysearch]');
+  if(cs)updateCountryDD(cs.dataset.countrysearch,true);
+});
+function updateCountryDD(id,open){
+  const dd=document.querySelector(`[data-countrydd="${id}"]`);if(!dd)return;
+  const a=A();const cur=a[id]||[];
+  const q=(a['draftadd_'+id]||'').trim().toLowerCase();
+  const matches=COUNTRIES.filter(o=>!cur.includes(o)&&(!q||o.toLowerCase().includes(q))).slice(0,8);
+  dd.innerHTML=matches.length?matches.map(o=>`<div class="country-dd-item" data-countryopt="${id}" data-val="${esc(o)}">${esc(o)}</div>`).join(''):`<div class="country-dd-empty">No matching countries</div>`;
+  dd.classList.toggle('show',!!open);
+}
+document.getElementById('stage').addEventListener('focusin',e=>{
+  const cs=e.target.closest('[data-countrysearch]');
+  if(cs)updateCountryDD(cs.dataset.countrysearch,true);
+});
+document.getElementById('stage').addEventListener('focusout',e=>{
+  const cs=e.target.closest('[data-countrysearch]');
+  if(cs)setTimeout(()=>{document.querySelector(`[data-countrydd="${cs.dataset.countrysearch}"]`)?.classList.remove('show');},150);
+});
+document.getElementById('stage').addEventListener('mousedown',e=>{
+  const opt=e.target.closest('[data-countryopt]');
+  if(opt){
+    e.preventDefault();
+    const id=opt.dataset.countryopt,val=opt.dataset.val,a=A();
+    a[id]=a[id]||[];
+    if(!a[id].includes(val))a[id].push(val);
+    a['draftadd_'+id]='';
+    render();
+    requestAnimationFrame(()=>{const inp=document.querySelector(`[data-countrysearch="${id}"]`);if(inp)inp.focus();});
   }
 });
 document.getElementById('stage').addEventListener('keydown',e=>{
