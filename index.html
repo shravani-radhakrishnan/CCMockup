@@ -760,6 +760,7 @@
 
     #appWrap input[type=text],
     #appWrap input[type=email],
+    #appWrap input[type=tel],
     #appWrap input[type=password],
     #appWrap input[type=number],
     #appWrap input[type=date],
@@ -1352,6 +1353,89 @@
       border-color: var(--danger)
     }
 
+    .sms-agree-field .agree-text {
+      font-size: 12.5px;
+      line-height: 18.5px;
+      color: #556270;
+    }
+
+    .sms-agree-field .agree-text b {
+      font-weight: 700;
+      color: var(--head);
+    }
+
+    /* phone input */
+    .phone-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--r-inp);
+      background: var(--surface);
+      transition: border-color .15s ease, box-shadow .15s ease;
+      position: relative;
+    }
+
+    .phone-wrap:focus-within {
+      border-color: var(--slate);
+      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14);
+    }
+
+    .field-err .phone-wrap {
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 3px rgba(180, 70, 47, .12) !important;
+    }
+
+    .phone-dial-select {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 10px 10px 13px;
+      cursor: pointer;
+      user-select: none;
+      flex: none;
+      border-right: 1px solid var(--line-2);
+    }
+
+    .phone-flag {
+      font-size: 17px;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    .phone-dial-code {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--body);
+      letter-spacing: -0.2px;
+    }
+
+    .phone-dial-native {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .phone-wrap input[type="tel"] {
+      flex: 1;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      padding: 11px 13px !important;
+      font-size: 15px;
+      color: var(--body);
+      font-family: inherit;
+    }
+
+    .phone-wrap input[type="tel"]:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
     .password-wrap {
       position: relative
     }
@@ -1636,6 +1720,7 @@
 
     input[type=text],
     input[type=email],
+    input[type=tel],
     input[type=password],
     input[type=number],
     input[type=date],
@@ -2172,6 +2257,59 @@
       align-items: center;
       gap: 14px;
       cursor: default
+    }
+
+    .upload .up-main {
+      flex: 1;
+      min-width: 0
+    }
+
+    .up-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .up-btn {
+      font: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--slate);
+      background: #fff;
+      border: 1px solid var(--line-2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center
+    }
+
+    .up-btn:hover {
+      border-color: var(--slate)
+    }
+
+    .up-btn.up-rm {
+      padding: 6px 8px
+    }
+
+    .up-btn.up-rm:hover {
+      color: #b3372f;
+      border-color: #b3372f
+    }
+
+    .up-bar {
+      height: 4px;
+      border-radius: 4px;
+      background: #dfe4e8;
+      margin-top: 8px;
+      overflow: hidden
+    }
+
+    .up-bar span {
+      display: block;
+      height: 100%;
+      background: var(--slate);
+      transition: width .2s ease
     }
 
     .upload-ring {
@@ -2893,6 +3031,96 @@
       const v = A()[id] !== undefined ? A()[id] : (def || '');
       return `<select id="f_${id}" data-k="${id}">${!def ? '<option value="">Select…</option>' : ''}${opts.map(o => `<option value="${esc(o)}" ${v === o ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
     }
+    const COUNTRY_DIAL_CODES = [
+      { code: '+1', country: 'US', flag: '🇺🇸', name: 'United States' },
+      { code: '+1', country: 'CA', flag: '🇨🇦', name: 'Canada' },
+      { code: '+44', country: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
+      { code: '+91', country: 'IN', flag: '🇮🇳', name: 'India' },
+      { code: '+61', country: 'AU', flag: '🇦🇺', name: 'Australia' },
+      { code: '+49', country: 'DE', flag: '🇩🇪', name: 'Germany' },
+      { code: '+33', country: 'FR', flag: '🇫🇷', name: 'France' },
+      { code: '+34', country: 'ES', flag: '🇪🇸', name: 'Spain' },
+      { code: '+39', country: 'IT', flag: '🇮🇹', name: 'Italy' },
+      { code: '+55', country: 'BR', flag: '🇧🇷', name: 'Brazil' },
+      { code: '+52', country: 'MX', flag: '🇲🇽', name: 'Mexico' },
+      { code: '+81', country: 'JP', flag: '🇯🇵', name: 'Japan' },
+      { code: '+65', country: 'SG', flag: '🇸🇬', name: 'Singapore' },
+      { code: '+971', country: 'AE', flag: '🇦🇪', name: 'United Arab Emirates' },
+      { code: '+41', country: 'CH', flag: '🇨🇭', name: 'Switzerland' },
+      { code: '+31', country: 'NL', flag: '🇳🇱', name: 'Netherlands' },
+      { code: '+46', country: 'SE', flag: '🇸🇪', name: 'Sweden' },
+      { code: '+64', country: 'NZ', flag: '🇳🇿', name: 'New Zealand' },
+      { code: '+27', country: 'ZA', flag: '🇿🇦', name: 'South Africa' },
+      { code: '+63', country: 'PH', flag: '🇵🇭', name: 'Philippines' },
+      { code: '+92', country: 'PK', flag: '🇵🇰', name: 'Pakistan' },
+      { code: '+880', country: 'BD', flag: '🇧🇩', name: 'Bangladesh' },
+      { code: '+234', country: 'NG', flag: '🇳🇬', name: 'Nigeria' },
+      { code: '+254', country: 'KE', flag: '🇰🇪', name: 'Kenya' },
+      { code: '+57', country: 'CO', flag: '🇨🇴', name: 'Colombia' },
+      { code: '+54', country: 'AR', flag: '🇦🇷', name: 'Argentina' },
+      { code: '+56', country: 'CL', flag: '🇨🇱', name: 'Chile' },
+      { code: '+48', country: 'PL', flag: '🇵🇱', name: 'Poland' },
+      { code: '+353', country: 'IE', flag: '🇮🇪', name: 'Ireland' },
+      { code: '+47', country: 'NO', flag: '🇳🇴', name: 'Norway' },
+      { code: '+45', country: 'DK', flag: '🇩🇰', name: 'Denmark' },
+      { code: '+358', country: 'FI', flag: '🇫🇮', name: 'Finland' },
+      { code: '+43', country: 'AT', flag: '🇦🇹', name: 'Austria' },
+      { code: '+32', country: 'BE', flag: '🇧🇪', name: 'Belgium' },
+      { code: '+351', country: 'PT', flag: '🇵🇹', name: 'Portugal' },
+      { code: '+30', country: 'GR', flag: '🇬🇷', name: 'Greece' },
+      { code: '+90', country: 'TR', flag: '🇹🇷', name: 'Turkey' },
+      { code: '+966', country: 'SA', flag: '🇸🇦', name: 'Saudi Arabia' },
+      { code: '+974', country: 'QA', flag: '🇶🇦', name: 'Qatar' },
+      { code: '+965', country: 'KW', flag: '🇰🇼', name: 'Kuwait' },
+      { code: '+82', country: 'KR', flag: '🇰🇷', name: 'South Korea' },
+      { code: '+84', country: 'VN', flag: '🇻🇳', name: 'Vietnam' },
+      { code: '+66', country: 'TH', flag: '🇹🇭', name: 'Thailand' },
+      { code: '+62', country: 'ID', flag: '🇮🇩', name: 'Indonesia' },
+      { code: '+60', country: 'MY', flag: '🇲🇾', name: 'Malaysia' },
+      { code: '+852', country: 'HK', flag: '🇭🇰', name: 'Hong Kong' },
+      { code: '+886', country: 'TW', flag: '🇹🇼', name: 'Taiwan' },
+      { code: '+972', country: 'IL', flag: '🇮🇱', name: 'Israel' },
+      { code: '+20', country: 'EG', flag: '🇪🇬', name: 'Egypt' }
+    ];
+
+    function phoneInput(id = 'phone', label = 'Phone number', { req = true, ph = '', hint = '' } = {}) {
+      const a = A();
+      const v = a[id] || '';
+      const currentDial = a[id + '_dial'] || '+1';
+      const currentFlag = a[id + '_flag'] || '🇺🇸';
+
+      const dialOptions = COUNTRY_DIAL_CODES.map(c =>
+        `<option value="${c.code}" data-flag="${c.flag}" ${c.code === currentDial && c.flag === currentFlag ? 'selected' : ''}>${c.flag} ${c.name} (${c.code})</option>`
+      ).join('');
+
+      return `<div class="field${ERRS[id] ? ' field-err' : ''}">
+        <label for="f_${id}">${label}${req ? '<span class="req">*</span>' : ''}</label>
+        <div class="phone-wrap">
+          <div class="phone-dial-select">
+            <span class="phone-flag" id="flag_${id}">${currentFlag}</span>
+            <span class="phone-dial-code" id="dial_${id}">${esc(currentDial)}</span>
+            <select data-k="${id}_dial" data-phone-dial="${id}" class="phone-dial-native" aria-label="Country calling code">
+              ${dialOptions}
+            </select>
+          </div>
+          <input id="f_${id}" type="tel" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}" autocomplete="tel-national">
+        </div>
+        ${hint ? `<div class="field-hint">${esc(hint)}</div>` : ''}
+        ${errMsg(id)}
+      </div>`;
+    }
+
+    function smsAgreeCheck(id = 'agreeSms') {
+      const checked = !!A()[id];
+      return `<div class="field agree-field sms-agree-field${ERRS[id] ? ' field-err' : ''}" style="margin-top:14px;margin-bottom:12px">
+        <label class="agree-row" for="f_${id}">
+          <input type="checkbox" id="f_${id}" data-k="${id}" ${checked ? 'checked' : ''}>
+          <span class="agree-text">I agree to receive SMS notifications from Cloud Club for account security, interview reminders, and project/job updates. Message frequency varies. Message and data rates may apply. Reply <b>STOP</b> to cancel or <b>HELP</b> for help. View our <span class="legal-link" data-legal="privacy" role="link" tabindex="0">Privacy Policy</span> and <span class="legal-link" data-legal="terms" role="link" tabindex="0">Terms of Service</span>.</span>
+        </label>
+        ${errMsg(id)}
+      </div>`;
+    }
+
     function agreeCheck(id = 'agreeTerms') {
       const checked = !!A()[id];
       return `<div class="field agree-field${ERRS[id] ? ' field-err' : ''}"><label class="agree-row" for="f_${id}"><input type="checkbox" id="f_${id}" data-k="${id}" ${checked ? 'checked' : ''}><span class="agree-text">By creating a new account I agree to Cloud Club’s <span class="legal-link" data-legal="terms" role="link" tabindex="0">Terms of Service</span> and <span class="legal-link" data-legal="privacy" role="link" tabindex="0">Privacy Policy</span></span></label>${errMsg(id)}</div>`;
@@ -3042,7 +3270,7 @@
       const a = A(); const S = [];
       S.push({
         kind: 'form', group: 'Create Your Account', q: 'Create your account.', sub: 'Just the basics to get started.',
-        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${agreeCheck()}`
+        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${smsAgreeCheck()}${agreeCheck()}`
       });
       S.push({ kind: 'form', group: 'Verify Your Email', q: 'Verify your email.', body: verifyBody });
       S.push({
@@ -3052,11 +3280,11 @@
           let up;
           if (a.resume) {
             const enter = a.resumeJustDone ? ' upload-enter' : '';
-            up = `<div class="upload filled${enter}" data-noop><span class="up-ic">${CHECK}</span><div><div class="up-t">Ramesh_Kumar_Resume.pdf</div><div class="up-s">Uploaded</div></div></div>`;
+            up = `<div class="upload filled${enter}" data-noop><span class="up-ic">${CHECK}</span><div class="up-main"><div class="up-t">Ramesh_Kumar_Resume.pdf</div><div class="up-s">Uploaded</div></div><div class="up-actions"><button type="button" class="up-btn" data-upload>Replace</button><button type="button" class="up-btn up-rm" data-rmresume aria-label="Remove resume" title="Remove resume">${ICON_TRASH}</button></div></div>`;
             a.resumeJustDone = false;
           } else if (a.uploadPct !== undefined) {
             const idx = Math.min(parseLabels.length - 1, Math.floor(a.uploadPct / (100 / parseLabels.length)));
-            up = `<div class="upload parsing" data-noop>${uploadRingSVG(a.uploadPct)}<div><div class="up-t">${parseLabels[idx]}</div><div class="up-s parsing-status">${a.uploadPct}% complete</div></div></div>`;
+            up = `<div class="upload parsing" data-noop>${uploadRingSVG(a.uploadPct)}<div class="up-main"><div class="up-t">${parseLabels[idx]}</div><div class="up-s parsing-status">${a.uploadPct.toFixed(2)}% complete</div><div class="up-bar"><span style="width:${a.uploadPct.toFixed(2)}%"></span></div></div><button type="button" class="up-btn" data-cancelupload>Cancel</button></div>`;
           } else {
             up = `<div class="upload" data-upload><div class="up-ic">⤒</div><div class="up-t">Upload your resume</div><div class="up-s">PDF or Word</div></div>`;
           }
@@ -3378,6 +3606,7 @@
       const R = 18, C = 2 * Math.PI * R, off = C * (1 - pct / 100);
       return `<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="${R}" fill="none" stroke="#e7edf1" stroke-width="4"/><circle cx="22" cy="22" r="${R}" fill="none" stroke="#547691" stroke-width="4" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1)"/></svg><span class="pct">${pct}%</span>`;
     }
+    let uploadTimer = null;
     function uploadRingSVG(pct) {
       const R = 15, C = 2 * Math.PI * R, off = C * (1 - pct / 100);
       return `<svg class="upload-ring" width="38" height="38" viewBox="0 0 38 38" style="transform:rotate(-90deg)"><circle cx="19" cy="19" r="${R}" fill="none" stroke="#dfe4e8" stroke-width="3.5"/><circle cx="19" cy="19" r="${R}" fill="none" stroke="#547691" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .3s cubic-bezier(.4,0,.2,1)"/></svg>`;
@@ -3481,6 +3710,7 @@
         document.querySelectorAll('#stage input[data-k],#stage select[data-k],#stage textarea[data-k]').forEach(el => {
           if (el.hasAttribute('data-countrysearch')) return;
           if (el.hasAttribute('data-code-digit')) return;
+          if (el.hasAttribute('data-phone-dial')) return;
           const k = el.dataset.k;
           const lbl = el.closest('.field')?.querySelector('label');
           const isReq = lbl && lbl.querySelector('.req');
@@ -3488,6 +3718,7 @@
           const v = (el.value || '').trim();
           if (!v) { fail(k, `${lbl.childNodes[0]?.textContent?.trim() || 'This field'} is required`); }
           else if (el.type === 'email' && !EMAIL_RE.test(v)) { fail(k, 'Enter a valid email address'); }
+          else if ((el.type === 'tel' || k === 'phone') && v.replace(/\D/g, '').length < 7) { fail(k, 'Enter a valid phone number'); }
           else if ((el.type === 'password' || el.dataset.originalType === 'password') && v.length < 8) { fail(k, 'Password must be at least 8 characters'); }
           else if (el.type === 'number' && Number(v) < 0) { fail(k, 'Must be a positive number'); }
         });
@@ -3595,9 +3826,19 @@
       if (addexp) { a.expFormOpen = true; a.expEditIdx = undefined; clearExpDraft(a); render(); return; }
       const routeBtn = e.target.closest('[data-route]');
       if (routeBtn) { a.nextRoute = Number(routeBtn.dataset.route); render(); return; }
+      if (e.target.closest('[data-rmresume]')) {
+        a.resume = false; a.resumeJustDone = false;
+        if (a.expSeeded) { a.experiences = []; a.expSeeded = false; }
+        if (a.credentialsSeeded) { a.credentials = []; a.credentialsSeeded = false; }
+        render(); return;
+      }
+      if (e.target.closest('[data-cancelupload]')) {
+        clearInterval(uploadTimer); delete a.uploadPct; render(); return;
+      }
       if (e.target.closest('[data-upload]')) {
+        clearInterval(uploadTimer);
         a.uploadPct = 0; render();
-        const iv = setInterval(() => {
+        const iv = uploadTimer = setInterval(() => {
           a.uploadPct = Math.min(100, a.uploadPct + (10 + Math.random() * 12));
           if (a.uploadPct >= 100) {
             clearInterval(iv);
@@ -3642,7 +3883,31 @@
       if (rmexp) { const i = Number(rmexp.dataset.rmexp); a.experiences.splice(i, 1); if (a.expEditIdx === i) a.expEditIdx = undefined; render(); return; }
     });
     document.getElementById('stage').addEventListener('input', e => {
-      const k = e.target.dataset.k; if (k) { A()[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; if (e.target.hasAttribute('data-code-digit')) { A()[k] = e.target.value.replace(/\D/g, '').slice(0, 1); e.target.value = A()[k]; e.target.classList.toggle('filled', !!A()[k]); if (A()[k]) { e.target.classList.remove('bump'); void e.target.offsetWidth; e.target.classList.add('bump'); e.target.nextElementSibling?.focus(); } delete ERRS.code; } if (ERRS[k]) { delete ERRS[k]; const f = e.target.closest('.field'); if (f) f.classList.remove('field-err'); const em = f?.querySelector('.err-msg'); if (em) em.remove(); } }
+      const k = e.target.dataset.k; if (k) {
+        A()[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        if (e.target.type === 'tel' || k === 'phone') {
+          const dial = A()[k + '_dial'] || '+1';
+          if (dial === '+1') {
+            const raw = e.target.value.replace(/\D/g, '').slice(0, 10);
+            if (raw.length > 0) {
+              let formatted = raw;
+              if (raw.length <= 3) {
+                formatted = raw;
+              } else if (raw.length <= 6) {
+                formatted = `(${raw.slice(0, 3)}) ${raw.slice(3)}`;
+              } else {
+                formatted = `(${raw.slice(0, 3)}) ${raw.slice(3, 6)}-${raw.slice(6, 10)}`;
+              }
+              if (e.target.value !== formatted) {
+                e.target.value = formatted;
+                A()[k] = formatted;
+              }
+            }
+          }
+        }
+        if (e.target.hasAttribute('data-code-digit')) { A()[k] = e.target.value.replace(/\D/g, '').slice(0, 1); e.target.value = A()[k]; e.target.classList.toggle('filled', !!A()[k]); if (A()[k]) { e.target.classList.remove('bump'); void e.target.offsetWidth; e.target.classList.add('bump'); e.target.nextElementSibling?.focus(); } delete ERRS.code; }
+        if (ERRS[k]) { delete ERRS[k]; const f = e.target.closest('.field'); if (f) f.classList.remove('field-err'); const em = f?.querySelector('.err-msg'); if (em) em.remove(); }
+      }
       const ci = e.target.closest('[data-chipadd-input]');
       if (ci) {
         const id = ci.dataset.chipaddInput;
@@ -3712,6 +3977,18 @@
     document.getElementById('stage').addEventListener('change', e => {
       const k = e.target.dataset.k; if (!k) return;
       A()[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+      const pd = e.target.closest('[data-phone-dial]');
+      if (pd) {
+        const phoneId = pd.dataset.phoneDial;
+        const selOpt = pd.options[pd.selectedIndex];
+        const flag = selOpt ? selOpt.getAttribute('data-flag') : '🇺🇸';
+        const flagEl = document.getElementById(`flag_${phoneId}`);
+        const dialEl = document.getElementById(`dial_${phoneId}`);
+        if (flagEl) flagEl.textContent = flag;
+        if (dialEl) dialEl.textContent = pd.value;
+        A()[phoneId + '_dial'] = pd.value;
+        A()[phoneId + '_flag'] = flag;
+      }
       if (k === 'country') { delete A().state; delete A().city; render(); }
       else if (k === 'state') { delete A().city; render(); }
     });
@@ -3810,12 +4087,18 @@
       const status = document.getElementById('resetStatus');
       status.style.display = 'block';
     });
+    const EYE_SVG = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z"/><circle cx="12" cy="12" r="2.7"/></svg>';
+    const EYE_OFF_SVG = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 002.8 2.8"/><path d="M9.5 5.2A10.8 10.8 0 0112 5c5 0 8.5 4.4 9.5 6.9a11.2 11.2 0 01-2.1 3.1"/><path d="M6.4 6.5A13.8 13.8 0 002.5 12C3.5 14.5 7 19 12 19a10.6 10.6 0 004-.8"/></svg>';
+    function setEye(btn, shown) {
+      btn.innerHTML = shown ? EYE_OFF_SVG : EYE_SVG;
+      btn.setAttribute('aria-label', shown ? 'Hide password' : 'Show password');
+    }
     document.querySelectorAll('[data-reset-toggle]').forEach(btn => {
       btn.addEventListener('click', e => {
         const input = document.getElementById(e.currentTarget.dataset.resetToggle);
         const shown = input.type === 'text';
         input.type = shown ? 'password' : 'text';
-        e.currentTarget.setAttribute('aria-label', shown ? 'Show password' : 'Hide password');
+        setEye(e.currentTarget, !shown);
       });
     });
     ['resetCode', 'resetNewPassword', 'resetRepeatPassword'].forEach(id => {
@@ -3830,7 +4113,7 @@
       const input = document.getElementById('loginPassword');
       const shown = input.type === 'text';
       input.type = shown ? 'password' : 'text';
-      e.currentTarget.setAttribute('aria-label', shown ? 'Show password' : 'Hide password');
+      setEye(e.currentTarget, !shown);
     });
     // don't auto-render the flow — landing card is shown first
   </script>
