@@ -3270,7 +3270,7 @@
       const a = A(); const S = [];
       S.push({
         kind: 'form', group: 'Create Your Account', q: 'Create your account.', sub: 'Just the basics to get started.',
-        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${smsAgreeCheck()}${agreeCheck()}`
+        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${text('referral', 'Referral code', { req: true, ph: 'Enter your referral code' })}${smsAgreeCheck()}${agreeCheck()}`
       });
       S.push({ kind: 'form', group: 'Verify Your Email', q: 'Verify your email.', body: verifyBody });
       S.push({
