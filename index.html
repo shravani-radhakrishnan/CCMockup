@@ -1315,6 +1315,9 @@
       transition: background .15s ease, border-color .15s ease
     }
 
+    .recaptcha-note { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted, #6b7882); }
+    .recaptcha-note a { color: var(--slate-d); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .recaptcha-note a:hover { color: var(--slate); }
     .agree-text {
       display: inline-block;
       line-height: 19px
@@ -3121,6 +3124,9 @@
       </div>`;
     }
 
+    function recaptchaNote() {
+      return `<p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> apply.</p>`;
+    }
     function agreeCheck(id = 'agreeTerms') {
       const checked = !!A()[id];
       return `<div class="field agree-field${ERRS[id] ? ' field-err' : ''}"><label class="agree-row" for="f_${id}"><input type="checkbox" id="f_${id}" data-k="${id}" ${checked ? 'checked' : ''}><span class="agree-text">By creating a new account I agree to Cloud Club’s <span class="legal-link" data-legal="terms" role="link" tabindex="0">Terms of Service</span> and <span class="legal-link" data-legal="privacy" role="link" tabindex="0">Privacy Policy</span></span></label>${errMsg(id)}</div>`;
@@ -3270,7 +3276,7 @@
       const a = A(); const S = [];
       S.push({
         kind: 'form', group: 'Create Your Account', q: 'Create your account.', sub: 'Just the basics to get started.',
-        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${text('referral', 'Referral code', { req: true, ph: 'Enter your referral code' })}${smsAgreeCheck()}${agreeCheck()}`
+        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('email', 'Email', { type: 'email', req: true, ph: 'you@email.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${text('referral', 'Referral code', { req: true, ph: 'Enter your referral code' })}${smsAgreeCheck()}${agreeCheck()}${recaptchaNote()}`
       });
       S.push({ kind: 'form', group: 'Verify Your Email', q: 'Verify your email.', body: verifyBody });
       S.push({
@@ -4006,7 +4012,7 @@
       state.finished = true;
       if (state.flow === 'hiring') {
         try { localStorage.setItem('cc_hiring_profile', JSON.stringify(a)); } catch (e) { }
-        renderRedirect(label, 'dashboard.html'); return;
+        renderRedirect(label, 'client-portal.html'); return;
       }
       renderRedirect(label);
     });
