@@ -1315,6 +1315,8 @@
       transition: background .15s ease, border-color .15s ease
     }
 
+.login-err { margin: 0 0 12px; font-size: 13px; font-weight: 600; color: var(--danger, #b4462f); }
+    .login-err[hidden] { display: none; }
     .recaptcha-note { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted, #6b7882); }
     .recaptcha-note a { color: var(--slate-d); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
     .recaptcha-note a:hover { color: var(--slate); }
@@ -2870,7 +2872,8 @@
             </div>
           </div>
           <div class="forgot-row"><a href="#" id="forgotPasswordLink">Forgot password?</a></div>
-          <button class="btn primary login-submit" type="button">Log in
+          <p class="login-err" id="loginErr" role="alert" hidden></p>
+          <button class="btn primary login-submit" id="loginSubmit" type="button">Log in
             <svg class="arw" viewBox="0 0 16 16" fill="none">
               <path d="M3 8h9M9 4l4 4-4 4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"
                 stroke-linejoin="round" />
@@ -4115,6 +4118,18 @@
         document.getElementById('resetPasswordBtn').disabled = !(code && next.length >= 8 && next === repeat);
       });
     });
+    function doLogin() {
+      const em = document.getElementById('loginEmail').value.trim(), pw = document.getElementById('loginPassword').value;
+      const err = document.getElementById('loginErr'), btn = document.getElementById('loginSubmit');
+      const bad = !/^\S+@\S+\.\S+$/.test(em) ? 'Enter a valid email address.' : !pw ? 'Enter your password.' : '';
+      err.hidden = !bad; err.textContent = bad;
+      if (bad) { (bad.startsWith('Enter a valid') ? document.getElementById('loginEmail') : document.getElementById('loginPassword')).focus(); return; }
+      btn.disabled = true; btn.firstChild.textContent = 'Signing you in… ';
+      const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
+      setTimeout(() => { window.location.href = 'client-portal.html'; }, rm ? 80 : 700);
+    }
+    document.getElementById('loginSubmit').addEventListener('click', doLogin);
+    ['loginEmail', 'loginPassword'].forEach(id => document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } }));
     document.getElementById('loginPasswordToggle').addEventListener('click', e => {
       const input = document.getElementById('loginPassword');
       const shown = input.type === 'text';
