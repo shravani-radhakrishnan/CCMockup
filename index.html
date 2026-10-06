@@ -4017,6 +4017,10 @@
         try { localStorage.setItem('cc_hiring_profile', JSON.stringify(a)); } catch (e) { }
         renderRedirect(label, 'client-portal.html'); return;
       }
+      if (state.flow === 'candidate') {
+        try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email })); } catch (e) { }
+        renderRedirect('your consultant portal', 'consultant-portal.html'); return;
+      }
       renderRedirect(label);
     });
     document.getElementById('backBtn').addEventListener('click', () => { if (state.idx === 0) showLanding(); else go(-1); });
