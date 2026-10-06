@@ -9332,7 +9332,7 @@
     const TECH_CHIPS = Object.values(TECH_AREA_LABELS).filter(x => x !== 'I’m not sure');
     const _co = (ONB && ONB.company) || 'Orion Pharma';
     const ORG = { name: _co, first: (ONB && ONB.first) || 'Olivia', email: (ONB && ONB.workemail) || 'olivia.park@orionpharma.com', ini: _co.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() };
-    const _uc = !ONB ? 'Internal technology' : (ONB.usecase === 'client' ? 'Technology work for our clients' : (ONB.usecase === 'both' ? 'Internal technology & client work' : 'Internal technology'));
+    const _uc = !ONB ? 'Hire for our company' : (ONB.usecase === 'client' ? 'Hire for client projects' : (ONB.usecase === 'both' ? 'Hire for our company & client projects' : 'Hire for our company'));
     const _join = v => Array.isArray(v) ? v.join(', ') : (v || '');
     const PROFILE0 = {
       company: _co, website: (ONB && ONB.website) || '', industry: (ONB && ONB.ind2) || 'Technology', emp: (ONB && ONB.emp2) || '250', loc: (ONB && ONB.complocation) || 'United States', heard: (ONB && ONB.heard) || '',
@@ -9341,7 +9341,7 @@
       clouds: ONB ? ((ONB.techareas || []).map(v => TECH_AREA_LABELS[v] || v)) : ['CRM & Customer Platforms', 'Data, Analytics & AI']
     };
     const NOFAB = ['guided', 'searches', 'intake', 'skai', 'wizard', 'search', 'results', 'cprofile', 'sched'];
-    const NAV = [['profile', 'Profile', IC.building], ['searches', 'Searches', IC.search], ['guided', 'Skai Job Posting', IC.sparkle], ['interviews', 'Interviews', IC.chat], ['projects', 'Projects', IC.brief], ['payments', 'Payments', IC.dollar], ['referrals', 'Referrals', IC.users]];
+    const NAV = [['profile', 'Profile', IC.building], ['searches', 'Searches', IC.search], ['interviews', 'Interviews', IC.chat], ['projects', 'Projects', IC.brief], ['payments', 'Payments', IC.dollar], ['referrals', 'Referrals', IC.users]];
     const NARROW = window.matchMedia('(max-width:1024px)');
     const S = {
       view: 'welcome', expAll: false, sqEdit: null, collapsed: false, theme: 'light', pop: false, chat: false, edit: null,
@@ -9414,12 +9414,12 @@
     <div class="top"><div class="crumb">Client Portal / ${crumb()}</div></div>
     <div class="page" id="page" data-f="pg-${S.view}">${page()}</div>
   </main>
-  ${NOFAB.includes(S.view) ? '' : `<button class="fab" data-a="chat" aria-label="Follow-up questions">${S.chat ? IC.up.replace(/.*/, '✕') : IC.chat}</button>`}
+  ${NOFAB.includes(S.view) ? '' : `<button class="fab" data-a="chat" aria-label="Ask Skai">${S.chat ? IC.up.replace(/.*/, '✕') : IC.chat}</button>`}
   <div id="extras">${modalHtml()}
-  ${S.chat && !NOFAB.includes(S.view) ? `<div class="chat"><header>Follow-up questions</header><div class="bd" id="cbd"><div class="msg">Hi ${esc(ORG.first)} 👋 Ask me anything about your job offers or candidates.</div></div><form id="cf"><input placeholder="Type a question…"><button class="btn p sm" style="padding:0 10px">${IC.send}</button></form></div>` : ''}</div>`);
+  ${S.chat && !NOFAB.includes(S.view) ? `<div class="chat"><header>Ask Skai</header><div class="bd" id="cbd"><div class="msg">Hi ${esc(ORG.first)} 👋 Ask me anything about your job postings or candidates.</div></div><form id="cf"><input placeholder="Type a question…"><button class="btn p sm" style="padding:0 10px">${IC.send}</button></form></div>` : ''}</div>`);
       after();
     }
-    const PREFS = [['m', 'New consultant matches', 'When Skai finds matches for a job offer'], ['i', 'Interview updates', 'Confirmations, changes and reminders'], ['p', 'Payment reminders', 'Invoices due and payment confirmations'], ['t', 'Timesheets to approve', 'When a consultant submits weekly hours'], ['r', 'Referral activity', 'When someone you referred signs up']];
+    const PREFS = [['m', 'New consultant matches', 'When Skai finds matches for a job posting'], ['i', 'Interview updates', 'Confirmations, changes and reminders'], ['p', 'Payment reminders', 'Invoices due and payment confirmations'], ['t', 'Timesheets to approve', 'When a consultant submits weekly hours'], ['r', 'Referral activity', 'When someone you referred signs up']];
     function vSettings() {
       const P = S.prefs = S.prefs || { m: 1, i: 1, p: 1, t: 1, r: 0, tfa: 0 }, sw = (k) => `<button class="swt ${P[k] ? 'on' : ''}" role="switch" aria-checked="${!!P[k]}" data-a="pref" data-v="${k}"><i></i></button>`;
       return `<div class="ph"><div><h1>Settings</h1><p>Manage your account, notifications and how the portal looks.</p></div></div>
@@ -9439,8 +9439,8 @@
       return `<div class="pop fx ${S.collapsed || NARROW.matches ? 'c' : ''}" role="dialog" aria-label="Notifications"><h4>Notifications<button class="pmark" data-a="notifall" ${unread() ? '' : 'disabled'}>Mark all as read</button></h4>
   <div class="pl">${L.map((n, i) => `<button class="it" data-a="notif" data-v="${i}"><i class="dot ${n.u ? '' : 'rd'}"></i><div><b>${n.t}</b><span>${n.s}</span><small>${n.w}</small></div></button>`).join('')}</div></div>`
     }
-    function title() { return { guided: 'Skai Job Posting', intake: 'New Job Posting (Skai)', skai: 'Skai', welcome: 'Welcome', profile: 'Profile', searches: 'Searches', offers: 'Job Offers', wizard: 'New Job Posting', search: 'AI Search', results: 'Consultant Search Results', cprofile: 'Consultant Profile', sched: 'Schedule Interviews', interviews: 'Interviews', projects: 'Projects', payments: 'Payments', referrals: 'Referrals', timesheet: 'Timesheet', settings: 'Settings' }[S.view] }
-    function crumb() { const m = { guided: 'Skai Job Posting / <b>Guided conversation</b>', wizard: 'Searches / <b>New Job Posting</b>', search: 'Searches / <b>Finding matches</b>', results: 'Searches / <b>' + esc((SEARCHES[S.pidx] || {}).title || 'Matched consultants') + '</b>', cprofile: 'Searches / <b>Consultant Profile</b>', sched: 'Searches / <b>Schedule an Interview</b>' }; return m[S.view] || (S.view === 'timesheet' ? 'Projects / <b>Timesheet</b>' : `<b>${title()}</b>`) }
+    function title() { return { guided: 'Create with Skai', intake: 'New Job Posting (Skai)', skai: 'Skai', welcome: 'Welcome', profile: 'Profile', searches: 'Searches', offers: 'Job postings', wizard: 'New Job Posting', search: 'AI Search', results: 'Consultant Search Results', cprofile: 'Consultant Profile', sched: 'Schedule Interviews', interviews: 'Interviews', projects: 'Projects', payments: 'Payments', referrals: 'Referrals', timesheet: 'Timesheet', settings: 'Settings' }[S.view] }
+    function crumb() { const m = { guided: 'Searches / <b>Create with Skai</b>', wizard: 'Searches / <b>New Job Posting</b>', search: 'Searches / <b>Finding matches</b>', results: 'Searches / <b>' + esc((SEARCHES[S.pidx] || {}).title || 'Matched consultants') + '</b>', cprofile: 'Searches / <b>Consultant Profile</b>', sched: 'Searches / <b>Schedule an Interview</b>' }; return m[S.view] || (S.view === 'timesheet' ? 'Projects / <b>Timesheet</b>' : `<b>${title()}</b>`) }
     function page() { return ({ welcome: vWelcome, profile: vProfile, searches: vSearches, offers: vOffers, guided: vGuided, intake: vIntake, skai: vSkai, wizard: vWizard, search: vSearch, results: vResults, cprofile: vCProfile, sched: vSched, interviews: vInterviews, projects: vProjects, payments: vPayments, referrals: vReferrals, timesheet: vTimesheet, settings: vSettings })[S.view]() }
 
     /* ---------- views ---------- */
@@ -9449,11 +9449,11 @@
   <div class="orb" style="width:300px;height:300px;background:#547691;left:-60px;top:-80px"></div>
   <div class="orb" style="width:260px;height:260px;background:#547691;right:-40px;bottom:-90px;animation-delay:-5s"></div>
   <span class="pill" style="background:rgba(255,255,255,.14);color:#e2ebf0;position:relative;margin-bottom:18px">${IC.sparkle} Account verified</span>
-  <h1>Congratulations, you've joined<br><em>The Club</em></h1>
-  <p>Your enterprise workspace is ready. Describe the technology talent you need — our AI curates a vetted shortlist in minutes.</p>
+  <h1>Welcome to <em>Cloud Club</em></h1>
+  <p>Create a job posting to find consultants for your project.</p>
   <div class="acts"><button class="btn" data-go="profile">Go to my profile</button><button class="btn p" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
   <div class="steps3 stagger">
-   ${[['Create a job offer', 'Answer a few simple questions and, if you like, upload an existing job description. We do the rest.', IC.offer], ['Review & interview', 'Our AI curates candidates that meet your needs. Pick your favorites and schedule interviews.', IC.users], ['Hire the best', 'Select your favorite candidate, then track work, hours and payments on one platform.', IC.bolt]].map((x, i) => `<div class="card how"><span class="n">0${i + 1}</span><div class="ic">${x[2]}</div><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}</div>`
+   ${[['Create a job posting', 'Answer a few simple questions and, if you like, upload an existing job description. We do the rest.', IC.offer], ['Review & interview', 'Our AI curates candidates that meet your needs. Pick your favorites and schedule interviews.', IC.users], ['Hire the best', 'Select your favorite candidate, then track work, hours and payments on one platform.', IC.bolt]].map((x, i) => `<div class="card how"><span class="n">0${i + 1}</span><div class="ic">${x[2]}</div><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join('')}</div>`
     }
 
     function field(label, body, req) { return `<div class="fld"><label>${label}${req ? '<span class="rq">*</span>' : ''}</label>${body}</div>` }
@@ -9461,11 +9461,11 @@
       const p = S.profile, e = S.edit;
       const pct = 82, C = 2 * Math.PI * 42;
       const kv = (k, l, ph) => e ? `<div class="fld" style="margin:0"><label>${l}</label><input class="in" data-p="${k}" value="${esc(p[k])}"></div>` : `<div><small>${l}</small><b>${esc(p[k]) || '—'}</b></div>`;
-      return `<div class="ph"><div><h1>Welcome, ${ORG.name}</h1><p>Keep this data up to date — it powers Cloud Club's AI matching.</p></div>
+      return `<div class="ph"><div><h1>Welcome, ${ORG.name}</h1><p>Keep this data up to date — these details help us recommend relevant consultants.</p></div>
     <div class="r"><button class="btn" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
   <div class="grid g4 stagger" style="margin-bottom:20px">
-    <div class="card" style="display:flex;gap:14px;align-items:center"><div class="ringw"><svg width="96" height="96"><circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="8"/><circle class="ring-fg" cx="48" cy="48" r="42" fill="none" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><b data-count="${pct}" data-suf="%">${pct}%</b></div><div><b style="font-family:Manrope">Profile strength</b><div style="color:var(--muted);font-size:12px">Keep your company details up to date</div></div></div>
-    ${[['Active job offers', SEARCHES.filter(x => x.posted).length, SEARCHES.filter(x => !x.posted).length + ' draft' + (SEARCHES.filter(x => !x.posted).length === 1 ? '' : 's') + ' not posted'], ['Candidates matched', 20, '+8 this week'], ['Interviews booked', 2, 'Next: Thu 10:00']].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
+    <div class="card" style="display:flex;gap:14px;align-items:center"><div class="ringw"><svg width="96" height="96"><circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="8"/><circle class="ring-fg" cx="48" cy="48" r="42" fill="none" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><b data-count="${pct}" data-suf="%">${pct}%</b></div><div><b style="font-family:Manrope">Profile completeness</b><div style="color:var(--muted);font-size:12px">${p.website ? 'Add your hiring contact details to reach 100%' : 'Add your company website'}</div></div></div>
+    ${[['Active job postings', SEARCHES.filter(x => x.posted).length, SEARCHES.filter(x => !x.posted).length + ' draft' + (SEARCHES.filter(x => !x.posted).length === 1 ? '' : 's') + ' not posted'], ['Candidates matched', 20, '+8 this week'], ['Interviews booked', 2, 'Next: Thu 10:00']].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
   <div class="grid g2">
     <div class="card stagger"><h3>${IC.building} About your company <span class="r">${e === 'co' ? `<button class="btn sm" data-a="canceledit">Cancel</button> <button class="btn p sm" data-a="saveedit">Save changes</button>` : `<button class="btn sm" data-a="edit" data-v="co">${IC.edit} Edit</button>`}</span></h3>
       <div class="kv">${(() => { const o = S.edit; S.edit = e === 'co' ? 1 : 0; const r = kv('company', 'Company name') + kv('website', 'Website') + kv('industry', 'Industry') + kv('emp', 'Employee count') + kv('loc', 'Location') + kv('heard', 'How you heard about us'); S.edit = o; return r })()}</div></div>
@@ -9476,8 +9476,8 @@
     }
     function docRow(d, i) { return `<div class="doc"><div class="fi">${IC.offer}</div><div class="t"><b>${esc(d.n)}</b><small>${d.s}</small></div><button class="btn sm" data-a="rmdoc" data-v="${i}" aria-label="Remove">${IC.trash}</button></div>` }
 
-    const SEARCHES = [{ id: 1, title: 'Senior Cloud Data Engineer — Migration, Integration', created: 'Sep 10, 2026', starts: '09-09-2026', role: 'Senior Cloud Data Engineer', snippet: '“Perfect — searching for Senior cloud and data consultants with AWS, Snowflake and integration experience now…”', n: 5, posted: true, kind: 'wiz', jt: 'Senior Cloud Data Engineer' },
-    { id: 2, title: 'Legacy Core Banking Modernisation', created: 'Oct 01, 2026', starts: '11-02-2026', role: 'COBOL Mainframe Developer', n: 0, posted: true, kind: 'wiz', jt: 'COBOL Mainframe Developer', niche: true, reach: false }];
+    const SEARCHES = [{ id: 1, title: 'Senior Cloud Data Engineer — Migration, Integration', created: 'Sep 10, 2026', starts: 'Sep 9, 2026', role: 'Senior Cloud Data Engineer', snippet: '“Perfect — searching for Senior cloud and data consultants with AWS, Snowflake and integration experience now…”', n: 5, posted: true, kind: 'wiz', jt: 'Senior Cloud Data Engineer' },
+    { id: 2, title: 'Legacy Core Banking Modernisation', created: 'Oct 01, 2026', starts: 'Nov 2, 2026', role: 'COBOL Mainframe Developer', n: 0, posted: true, kind: 'wiz', jt: 'COBOL Mainframe Developer', niche: true, reach: false }];
     const matchCount = d => (d.prods || []).includes('Other') || (d.tech || []).includes('Other') ? 0 : CANDIDATES.length;
     const stepsOf = x => x.wiz ? Math.min(x.wiz.step + 1, STEPS.length) : 1;
     function draftSnip(x) {
@@ -9489,8 +9489,8 @@
     function vSearches() {
       const f = S.sqf || 'all', nP = SEARCHES.filter(x => x.posted).length, nD = SEARCHES.length - nP;
       const rows = SEARCHES.map((x, i) => [x, i]).filter(([x]) => f === 'all' || (f === 'draft' ? !x.posted : x.posted));
-      const posted = SEARCHES.filter(x => x.posted), withM = posted.filter(x => x.n > 0).length, noM = posted.filter(x => x.n === 0), needTeam = noM.filter(x => !x.reach).length, tot = posted.reduce((a, x) => a + (x.n || 0), 0), perfect = withM * CANDIDATES.filter(c => c.fit === 'Perfect Fit').length, ivc = S.ivs.filter(v => v[3] === 'Confirmed').length, att = nD + needTeam;
-      const mets = [['Active searches', nP, withM + ' with matches' + (noM.length ? ' · ' + noM.length + ' being sourced' : '')], ['Consultants matched', tot, perfect + ' perfect fit' + (perfect === 1 ? '' : 's') + ' to review'], ['Interviews booked', S.ivs.length, ivc + ' confirmed · ' + (S.ivs.length - ivc) + ' awaiting reply'], ['Needs your attention', att, att ? (nD ? nD + ' draft' + (nD > 1 ? 's' : '') + ' to post' : '') + (nD && needTeam ? ' · ' : '') + (needTeam ? needTeam + ' to reach our team' : '') : 'You\u2019re all caught up', att > 0]];
+      const posted = SEARCHES.filter(x => x.posted), withM = posted.filter(x => x.n > 0).length, noM = posted.filter(x => x.n === 0), needTeam = noM.filter(x => !x.reach).length, tot = posted.reduce((a, x) => a + (x.n || 0), 0), perfect = withM * CANDIDATES.filter(c => c.fit === 'Top match').length, ivc = S.ivs.filter(v => v[3] === 'Confirmed').length, att = nD + needTeam;
+      const mets = [['Active searches', nP, withM + ' with matches' + (noM.length ? ' · ' + noM.length + ' being sourced' : '')], ['Consultants matched', tot, perfect + ' top match' + (perfect === 1 ? '' : 'es') + ' to review'], ['Interviews booked', S.ivs.length, ivc + ' confirmed · ' + (S.ivs.length - ivc) + ' awaiting reply'], ['Needs your attention', att, att ? (nD ? nD + ' draft' + (nD > 1 ? 's' : '') + ' to post' : '') + (nD && needTeam ? ' · ' : '') + (needTeam ? needTeam + ' to reach our team' : '') : 'You\u2019re all caught up', att > 0]];
       return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
   <div class="grid g4 stagger" style="margin-bottom:20px">${mets.map(m => `<div class="card stat"><small>${m[0]}</small><b data-count="${m[1]}">${m[1]}</b><span class="tr${m[3] ? ' warn' : ''}">${m[2]}</span></div>`).join('')}</div>
   <div class="sqtabs" role="tablist">${[['all', 'All', SEARCHES.length], ['posted', 'Posted', nP], ['draft', 'Drafts', nD]].map(t => `<button class="${f === t[0] ? 'on' : ''}" role="tab" aria-selected="${f === t[0]}" data-a="sqf" data-v="${t[0]}">${t[1]} <em>${t[2]}</em></button>`).join('')}</div>
@@ -9509,8 +9509,8 @@
     function vOffers() {
       const posted = SEARCHES.filter(x => x.posted), drafts = SEARCHES.length - posted.length, pipe = posted.reduce((a, x) => a + (x.n || 0), 0);
       const st = x => !x.posted ? ['', 'Draft'] : x.n === 0 ? ['am', x.reach ? 'Team sourcing' : 'No matches yet'] : ['ok', 'Matches ready'];
-      const bud = x => { const d = x.wiz && x.wiz.d || (x.posted ? postedWiz(x).d : null); if (!d || !d.bamt) return '—'; const u = { 'Monthly budget': '/mo', 'Fixed project budget': ' total' }[d.btype] || '/hr'; return '$' + esc(d.bamt) + u };
-      return `<div class="ph"><div><h1>Job Offers</h1><p>Every job posting from your Searches, with its current status.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
+      const bud = x => { const d = x.wiz && x.wiz.d || (x.posted ? postedWiz(x).d : null); if (!d || !d.bamt) return '—'; const u = { 'Monthly budget': '/month', 'Fixed project budget': ' total' }[d.btype] || '/hour'; return 'USD ' + esc(d.bamt) + u };
+      return `<div class="ph"><div><h1>Job postings</h1><p>Every job posting from your Searches, with its current status.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Open offers', posted.length], ['Candidates in pipeline', pipe], ['Drafts not posted', drafts]].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b></div>`).join('')}</div>
   <div class="card tw"><table><thead><tr><th>Role</th><th>Status</th><th>Candidates</th><th>Budget</th><th>Created</th></tr></thead><tbody>
   ${SEARCHES.map((x, i) => { const p = st(x); return `<tr class="orow" data-a="opensearch" data-v="${i}" tabindex="0" style="animation-delay:${i * .07}s"><td><b>${esc(x.title)}</b><br><small style="color:var(--muted)">${esc(x.role)}</small></td><td><span class="pill ${p[0]}"><i></i>${p[1]}</span></td><td>${x.posted ? x.n : '—'}</td><td>${bud(x)}</td><td>${x.created}</td></tr>` }).join('') || '<tr><td colspan="5" class="empty">No job postings yet.</td></tr>'}</tbody></table></div>`
@@ -9542,7 +9542,7 @@
     function sel(k, list, ph, r) { return `<select class="in" data-w="${k}" ${r ? 'data-r="1"' : ''}><option value="">${ph}</option>${list.map(o => `<option ${S.wiz.d[k] === o ? 'selected' : ''}>${o}</option>`).join('')}</select>` }
     function tx(k, ph, t = 'text') { return `<input class="in" type="${t}" data-w="${k}" placeholder="${ph}" value="${esc(S.wiz.d[k])}">` }
     const notSure = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>Not sure yet</button>`;
-    function wf(k, label, body) { return `<div class="fld ${S.wiz.err[k] ? 'err' : ''} ${S.wiz.ai && S.wiz.ai[k] ? 'aif' : ''}" data-f="${k}"><label>${label}<span class="rq">*</span></label>${body}<span class="em">This field is required</span></div>` }
+    function wf(k, label, body, opt) { return `<div class="fld ${S.wiz.err[k] ? 'err' : ''} ${S.wiz.ai && S.wiz.ai[k] ? 'aif' : ''}" data-f="${k}"><label>${label}${opt ? ' <span style="font-weight:500;color:var(--muted)">(optional)</span>' : '<span class="rq">*</span>'}</label>${body}${opt ? '' : '<span class="em">This field is required</span>'}</div>` }
     function ms(k, list, ph) {
       const v = S.wiz.d[k], open = S.ms === k;
       return `<div class="ms ${open ? 'open' : ''}"><div class="msb" data-a="msopen" data-k="${k}">${v.length ? v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('') : `<span class="ph2">${ph}</span>`}<span class="car"></span></div>
@@ -9672,19 +9672,19 @@
   <div class="row2">${wf('start', 'Ideal start date', `<input type="date" class="in" data-w="start" min="${today()}" value="${d.start}">`)}${wf('end', 'Ideal end date', `<input type="date" class="in" data-w="end" min="${d.start || today()}" value="${d.end}" ${d.endNo ? 'disabled' : ''}>${notSure('end')}`)}</div>
   ${wf('budgetOk', 'Has the budget been approved?', sel('budgetOk', ['Yes', 'Pending approval', 'Not yet'], 'Select…', 1))}
   ${d.budgetOk === 'Yes' ? `<div class="fu">${wf('btype', 'Choose your desired budget type', opts('btype', BT.map(b => [b[0], b[1]])))}
-   ${bt ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>$</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
+   ${bt ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>USD</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
         }
         case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like — and how much each requirement matters.</p>
   ${wf('sen', 'What seniority level should this consultant have?', sel('sen', LIST.sen, 'Select seniority'))}
   ${wf('prods', 'Which products or platforms should the consultant know?', ms('prods', LIST.prods, 'Select products & platforms'))}
   ${imp('prods')}${d.prods.includes('Other') ? `<div class="fu">${wf('oprod', 'Please specify other products or platforms required', tx('oprod', 'e.g. Kubernetes'))}</div>` : ''}
-  ${wf('certs', 'Required certifications', ms('certs', LIST.certs, 'Select certifications'))}
+  ${wf('certs', 'Required certifications', ms('certs', LIST.certs, 'Select certifications or leave blank for no preference'), 1)}
   ${imp('certs', 'We recommend marking certifications as “Preferred” or “Bonus” unless absolutely required.')}
   ${wf('tech', 'Which programming languages & technical skills should they have?', ms('tech', LIST.tech, 'Select languages & skills'))}
   ${imp('tech')}${d.tech.includes('Other') ? `<div class="fu">${wf('otech', 'Please specify other technical skills required', tx('otech', 'e.g. MuleSoft'))}</div>` : ''}
   ${wf('indExp', 'Does the consultant need experience in your specific industry?', sel('indExp', LIST.ind, 'Select…', 1))}
   ${d.indExp === 'Yes, need experience' ? `<div class="fu impb"><b>Your industry</b><div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag">${esc(S.profile.industry)}</span>${(d.subs || []).map((x, i) => `<span class="tag">${esc(x)}<button type="button" data-a="subrm" data-v="${i}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div><div style="display:flex;gap:8px;margin-top:12px"><input class="in" id="subin" placeholder="Add a sub-industry (optional), e.g. Education" maxlength="40" autocomplete="off"><button type="button" class="btn" data-a="subadd">${IC.plus} Add</button></div></div>` : ''}
-  ${wf('orgs', 'What type of organization should the consultant have experience with?', ms('orgs', LIST.orgs, 'Select organization types'))}
+  ${wf('orgs', 'What type of organization should the consultant have experience with?', ms('orgs', LIST.orgs, 'Select organization types or leave blank for no preference'), 1)}
   <div class="fld"><label>Please provide any additional and relevant information (optional)</label><textarea class="in" maxlength="250" data-w="extra" placeholder="Anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/250</div></div>`;
         case 3: return `<h2>Work location, environment & availability</h2><p>Where and when the work happens.</p>
   ${wf('wloc', 'Work location', sel('wloc', LIST.wloc, 'Select work location', 1))}
@@ -9705,7 +9705,7 @@
     }
     function vWizard() {
       const w = S.wiz, n = STEPS.length, sk = !!(w.skai && NS) && S.editIdx == null, ed = S.editIdx != null; if (S.draft && S.draft.kind === 'wiz') S.draft.wiz = w;
-      const out = `<div class="ph"><div><h1>${ed ? 'Edit job posting' : 'New Job Posting'}</h1><p>${ed ? `<b>${esc(SEARCHES[S.editIdx].title)}</b> · ${esc(SEARCHES[S.editIdx].role)} — update any step, then save your changes.` : S.draft ? `<b>${esc(S.draft.title)}</b> · ${esc(S.draft.role)} — saved as a draft until you post it.` : `Welcome, ${ORG.name} — let's create your job offer.`}</p></div></div>
+      const out = `<div class="ph"><div><h1>${ed ? 'Edit job posting' : 'New Job Posting'}</h1><p>${ed ? `<b>${esc(SEARCHES[S.editIdx].title)}</b> · ${esc(SEARCHES[S.editIdx].role)} — update any step, then save your changes.` : S.draft ? `<b>${esc(S.draft.title)}</b> · ${esc(S.draft.role)} — saved as a draft until you post it.` : `Welcome, ${ORG.name} — let's create your job posting.`}</p></div></div>
  <div class="wiz ${sk ? 'wiz-sk' : ''} ${ed ? 'wiz-ed' : ''}"><div class="stepper">${STEPS.map((s, i) => `<div class="st ${i === w.step ? 'on' : ''} ${i < w.step ? 'done' : ''}"><span class="d">${i < w.step ? IC.check : i + 1}</span><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join('')}
   ${sk ? '' : `<div class="card help" style="padding:16px;margin-top:14px"><b style="font-family:Manrope">Do you need help defining the details?</b><p style="margin:4px 0 12px;font-size:12.5px;color:var(--muted)">A Cloud Club representative can analyze your project needs and advise on the resources needed.</p><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Schedule a call</button></div>`}</div>
   <div class="card wcard"><div class="wbar"><i style="transform:scaleX(${(w.step + 1) / n})"></i></div>
@@ -9718,7 +9718,7 @@
     function vSearch() {
       return `<div class="srch"><div>
  <div class="radar" aria-hidden="true"><i></i><i></i><i></i><span>${IC.search.replace('width="16" height="16"', 'width="30" height="30"')}</span></div>
- <h2>Just a moment please.</h2><p id="mt">We are matching your job offer against our consultants base.</p><div class="pbar"><i></i></div></div></div>`}
+ <h2>Just a moment please.</h2><p id="mt">We are matching your job posting against our consultants base.</p><div class="pbar"><i></i></div></div></div>`}
 
     /* ---------- consultant results (Client 9.0) ---------- */
     const CONS = [
@@ -9744,12 +9744,12 @@
    <div class="grid g2" style="gap:12px"><div class="tbx"><b>Technology experience</b><div class="t2">${c.sk.slice(0, lim).map(x => `<span>${esc(x)}</span>`).join('')}</div></div><div class="tbx"><b>Industry experience</b><div class="t2">${c.ind.slice(0, lim).map(x => `<span>${esc(x)}</span>`).join('')}</div></div></div>
    ${c.sk.length > 3 || c.ind.length > 3 ? `<button class="btn sm" style="margin-top:10px;border:0;background:none;color:var(--accent)" data-a="more" data-v="${c.id}">${more ? 'SHOW LESS' : 'SHOW MORE'}</button>` : ''}</div>`,
         `<div class="tpane">${c.exp.map(e => `<div style="padding:8px 0;border-bottom:1px dashed var(--line-2)"><b>${esc(e[1])}</b><br><small style="color:var(--muted)">${e[0]}</small></div>`).join('')}</div>`,
-        `<div class="tpane">${c.fit.map(f => `<div class="fitr"><span>${f[0]}</span><div class="bar"><i style="transform:scaleX(${f[1] / 100})"></i></div><b>${f[1]}%</b></div>`).join('')}<small style="color:var(--muted)">Coverage of the requirements you marked in your job offer.</small></div>`][tab];
+        `<div class="tpane">${c.fit.map(f => `<div class="fitr"><span>${f[0]}</span><div class="bar"><i style="transform:scaleX(${f[1] / 100})"></i></div><b>${f[1]}%</b></div>`).join('')}<small style="color:var(--muted)">Coverage of the requirements you marked in your job posting.</small></div>`][tab];
       return `<div class="rc ${on ? 'on' : ''}" style="animation-delay:${i * .08}s"><button class="cbx ${on ? 'on' : ''}" data-a="csel" data-v="${c.id}" aria-label="Select ${esc(c.n)}">${on ? IC.check : ''}</button>
  <div class="card"><div class="chd"><span class="av" style="width:46px;height:46px;flex-basis:46px">${ini(c.n)}</span><div style="flex:1;min-width:0"><h3>${esc(c.r)}</h3><div style="color:var(--muted);font-size:12.5px">${c.n} · ${c.y}</div></div>${mring(c.m)}</div>
-  <div class="facts"><span>${IC.pin} ${c.tz}</span><span><b>$${c.rate}/hr</b></span><span>Bandwidth <b>${c.bw} hrs/week</b></span><span>Available from <b>${c.av}</b></span></div>
-  <div class="tabs">${['Overall Experience', 'Experience Summary', 'Role Fit'].map((t, j) => `<button class="${tab === j ? 'on' : ''}" data-a="ctab" data-v="${c.id}:${j}">${t}</button>`).join('')}</div>${pane}
-  <div class="cft">${c.ver ? `<span class="bd v">${IC.check} Verified technical skills</span>` : ''}${c.pc ? `<span class="bd pc">${IC.check} Proven consultant</span>` : ''}<span class="sp"></span><button class="btn p" data-a="invite1" data-v="${c.id}">Invite to interview ${IC.chat}</button><button class="btn" style="border:0;background:none;color:var(--accent)" data-a="cprof" data-v="${c.id}">VIEW PROFILE ›</button></div></div></div>`
+  <div class="facts"><span>${IC.pin} ${c.tz}</span><span><b>USD ${c.rate}/hour</b></span><span>Available hours <b>${c.bw} hours/week</b></span><span>Available from <b>${c.av}</b></span></div>
+  <div class="tabs">${['Overview', 'Work history', 'Match details'].map((t, j) => `<button class="${tab === j ? 'on' : ''}" data-a="ctab" data-v="${c.id}:${j}">${t}</button>`).join('')}</div>${pane}
+  <div class="cft">${c.ver ? `<span class="bd v" title="Technical skills confirmed through Cloud Club’s skills assessment and certification checks.">${IC.check} Verified technical skills</span>` : ''}${c.pc ? `<span class="bd pc" title="Has completed at least one engagement through Cloud Club with positive client feedback.">${IC.check} Proven consultant</span>` : ''}<span class="sp"></span><button class="btn p" data-a="invite1" data-v="${c.id}">Invite to interview ${IC.chat}</button><button class="btn" style="border:0;background:none;color:var(--accent)" data-a="cprof" data-v="${c.id}">VIEW PROFILE ›</button></div></div></div>`
     }
     function postedWiz(x) {
       if (!x.wiz) x.wiz = { step: 0, dir: '', err: {}, title: x.title, role: x.role, d: Object.assign(D0(), PRE(), { start: '2026-09-09', end: '2027-03-09', hours: '40', budgetOk: 'Yes', btype: 'Target hourly rate', bamt: '160', wloc: 'Remote', regions: ['North America'], tzs: ['US Eastern (ET)'], meet: 'Weekly', stake: 'No', sign: 'Department head', certs: ['Cloud Practitioner / Associate'], cimp: { 'Cloud Practitioner / Associate': 'Preferred' }, indExp: 'No preference', orgs: ['Enterprise'], extra: 'Role: ' + x.role }, x.niche ? { prods: ['Other'], pimp: {}, oprod: 'COBOL, JCL, DB2', tech: ['Other'], timp: {}, otech: 'Mainframe z/OS', sen: LIST.sen[3] } : {}) };
@@ -9779,7 +9779,7 @@
       const mo = d.start && d.end ? Math.max(1, Math.round((new Date(d.end) - new Date(d.start)) / 2.63e9)) : 6;
       const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · No matches yet</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
  <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
- ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/mo' : '/hr'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
+ ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">USD ${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
  <div class="skai">${candidatesBody()}</div>`}`
       return `<div class="sk2${NS.min ? ' min' : ''}"><div class="sk2-left">${main}</div><div class="skai sk2-host">${skChat()}</div></div>${slotsModal()}`
     }
@@ -9789,9 +9789,9 @@
       const c = getC(S.pid), ext = typeof c.id === 'string'; const jobs = c.jobs || c.exp.map((e, i) => ({ t: e[1], co: e[2], p: e[0], b: i === 0 && c.proj ? [c.proj] : [] }));
       const tags = a => `<div class="t2">${a.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
       return `<div class="ph"><div><h1>${esc(c.r)}</h1><p>${IC.pin} ${c.tz} · ${c.y}</p></div><div class="r"><button class="btn" data-a="backres">‹ Back</button><button class="btn p" data-a="${ext ? 'bookext' : 'invite1'}" data-v="${c.id}">Book interview ${IC.chat}</button></div></div>
- <div class="cpg stagger"><div class="card side2 sec"><div style="display:flex;gap:14px;align-items:center"><span class="av bigav">${ini(c.n)}</span><div><b style="font:700 17px Manrope">${esc(c.n)}</b><div style="color:var(--muted)">$${c.rate}/hr · ${c.bw} hrs/week</div></div></div>
+ <div class="cpg stagger"><div class="card side2 sec"><div style="display:flex;gap:14px;align-items:center"><span class="av bigav">${ini(c.n)}</span><div><b style="font:700 17px Manrope">${esc(c.n)}</b><div style="color:var(--muted)">USD ${c.rate}/hour · ${c.bw} hours/week</div></div></div>
   <div style="display:flex;align-items:center;gap:14px;margin-top:16px">${mring(c.m, 64)}<div><b>Role match</b><div style="color:var(--muted);font-size:12.5px">against your job posting</div></div></div>
-  <h4>Cloud Club relationship</h4><span class="vb ${c.pc ? 'pc' : ''}">${c.pc ? 'Proven consultant' : 'New consultant'}</span>${c.ver ? ` <span class="vb" style="margin-top:6px">${IC.check} Verified skills</span>` : ''}
+  <h4>Cloud Club relationship</h4><span class="vb ${c.pc ? 'pc' : ''}" title="${c.pc ? 'Has completed at least one engagement through Cloud Club with positive client feedback.' : 'Not yet engaged through Cloud Club.'}">${c.pc ? 'Proven consultant' : 'New consultant'}</span>${c.ver ? ` <span class="vb" style="margin-top:6px" title="Technical skills confirmed through Cloud Club’s skills assessment and certification checks.">${IC.check} Verified skills</span>` : ''}
   <h4>Spoken languages</h4>${c.lang.map(l => `<div style="padding:6px 0;border-bottom:1px dashed var(--line-2)"><b>${l[0]}</b><br><small style="color:var(--muted)">${l[1]}</small></div>`).join('')}
   <h4>Education</h4>${c.edu && c.edu.length ? c.edu.map(x => `<div>${esc(x)}</div>`).join('') : '<small style="color:var(--muted)">No education added yet</small>'}
   <h4>Certifications</h4><div style="font-weight:700;margin-bottom:8px">${c.certs.length} certification${c.certs.length === 1 ? '' : 's'}</div>${tags(c.certs).replace('class="t2"', 'style="display:flex;gap:6px;flex-wrap:wrap"')}</div>
@@ -9800,7 +9800,7 @@
    <div class="card"><h3>Technologies</h3><small style="color:var(--muted)">Based on work experience</small><div class="tbx" style="border:0;padding:8px 0 0">${tags(c.sk)}</div></div>
    <div class="card"><h3>Work experience</h3><small style="display:block;color:var(--muted);margin:-6px 0 12px">Employer names are kept confidential by Cloud Club.</small><div class="tl">${(S.expAll ? jobs : jobs.slice(0, 2)).map((j, i) => `<div style="animation-delay:${i * .08}s"><b>${esc(j.t)}</b><br><small>${IC.lock || ''}Employer confidential · ${j.p}</small><ul class="tlb">${j.b.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}</div>
     ${jobs.length > 2 ? `<button class="btn sm" data-a="expall">${S.expAll ? 'Show less' : `View full work experience (${jobs.length} roles)`}</button>` : ''}</div>
-   <div class="card"><h3>Role fit</h3><p style="margin:-4px 0 14px;font-size:12.5px;color:var(--muted);line-height:1.5">How closely this consultant matches your job offer: <b>Must have</b> = the required skills, <b>Preferred</b> = the nice-to-have skills, <b>Bonus</b> = extras beyond the brief. Higher is a closer match.</p>${c.fit.map(f => `<div class="fitr"><span>${f[0]}</span><div class="bar"><i style="transform:scaleX(${f[1] / 100})"></i></div><b>${f[1]}%</b></div>`).join('')}</div></div></div>`
+   <div class="card"><h3>Role fit</h3><p style="margin:-4px 0 14px;font-size:12.5px;color:var(--muted);line-height:1.5">How closely this consultant matches your job posting: <b>Must have</b> = the required skills, <b>Preferred</b> = the nice-to-have skills, <b>Bonus</b> = extras beyond the brief. Higher is a closer match.</p>${c.fit.map(f => `<div class="fitr"><span>${f[0]}</span><div class="bar"><i style="transform:scaleX(${f[1] / 100})"></i></div><b>${f[1]}%</b></div>`).join('')}</div></div></div>`
     }
 
     /* ---------- schedule interviews (Client 9.1 / 9.2) ---------- */
@@ -9848,13 +9848,13 @@
       const m = S.modal; if (!m) return '';
       const box = b => `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" role="dialog" aria-modal="true">${b}</div></div>`, x = `<button class="x" data-a="closem" aria-label="Close">×</button>`;
       if (m === 'upload') {
-        const f = S.file; return box(`${x}<h3>Upload a Job Offer</h3><p>We'll read it and pre-fill the form for you.</p>
-  <label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/, 'width="34" height="34"')}<div><u>Browse</u> or drag and drop your job offer here</div><small>PDF, MS Word (max. 3MB)</small><input type="file" id="fi" accept=".pdf,.doc,.docx" hidden></label>
+        const f = S.file; return box(`${x}<h3>Upload a job posting</h3><p>We'll read it and pre-fill the form for you.</p>
+  <label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/, 'width="34" height="34"')}<div><u>Browse</u> or drag and drop your job posting here</div><small>PDF, MS Word (max. 3MB)</small><input type="file" id="fi" accept=".pdf,.doc,.docx" hidden></label>
   ${f ? `<div class="fprog"><b style="font-size:13px">${esc(f.n)}</b><div class="bar" style="margin:8px 0 6px"><i style="transform:scaleX(${f.p / 100})"></i></div><small>${f.p >= 100 ? 'Ready · ' + f.s : Math.round(f.p) + '% uploaded'}</small></div>` : ''}
   <div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="doupload" ${f && f.p >= 100 ? '' : 'disabled'}>Upload file</button></div>`)
       }
       if (m === 'existing') return box(`${x}<h3>Use an existing offer</h3><p>Start from one of your offers and complete any missing information.</p>${S.offers.map((o, i) => `<button class="exo" data-a="useoffer" data-v="${i}"><span class="fi doc" style="margin:0;padding:0;border:0">${IC.offer}</span><div><b>${esc(o.t)}</b><small>${o.st} · ${o.b}</small></div></button>`).join('')}`);
-      if (m === 'leave') return box(`<div class="mic">${IC.clock}</div><h3>You are about to abandon this page${S.view === 'wizard' ? '' : ' and search'}</h3><p>${S.view === 'wizard' ? 'Your answers on this form will be lost.' : 'You can resume your consultant search for this offer from the “Job Offers” page.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="leave">Yes, leave page</button></div>`);
+      if (m === 'leave') return box(`<div class="mic">${IC.clock}</div><h3>You are about to abandon this page${S.view === 'wizard' ? '' : ' and search'}</h3><p>${S.view === 'wizard' ? 'Your answers on this form will be lost.' : 'You can resume your consultant search for this offer from the “Searches” page.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="leave">Yes, leave page</button></div>`);
       if (m === 'cancel') return box(`<div class="mic">${IC.edit}</div><h3>Are you sure?</h3><p>By cancelling, your changes won't be saved.</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">No, go back</button><button class="btn p" data-a="yescancel">Yes, cancel</button></div>`);
       if (m === 'sent') return box(`<div class="mic ok">${IC.send}</div><h3>Your interview invite has been sent!</h3><p>Consultants have two working days to confirm and pick a slot. We'll notify you as soon as they respond.</p><div class="mact" style="margin-top:0"><button class="btn" data-go="profile">Back to my profile</button><button class="btn p" data-go="interviews">See interviews</button></div>`);
       return ''
@@ -9866,7 +9866,7 @@
  <div class="ivl stagger">${S.ivs.map((c, i) => {
         const ok = c[3] === 'Confirmed', k = ok ? CONS.find(x => x.n === c[0]) : null, link = 'meet.cloudclub.com/iv/' + c[0].toLowerCase().replace('-', '');
         return `<div class="card iv"><div class="ivh"><span class="av">${ini(c[0])}</span><div class="ivt"><b>${c[0]}</b><small>${c[1]}</small></div><span class="pill ${ok ? 'ok' : 'am'}"><i></i>${c[3]}</span></div>
-  <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? '$' + k.rate + '/hr' : ''}</span>` : ''}</div>
+  <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? 'USD ' + k.rate + '/hour' : ''}</span>` : ''}</div>
   ${k ? `<div class="ivs"><p>${esc(k.spec)}</p><div class="ivk"><div><small>Experience</small><b>${esc(k.y.split(' · ')[0])}</b></div><div><small>Availability</small><b>From ${esc(k.av)}</b></div><div><small>Languages</small><b>${k.lang.map(l => l[0]).join(', ')}</b></div></div>
    <div class="ivc">${k.sk.slice(0, 6).map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>
    <small class="ivcert">Certifications: ${k.certs.map(esc).join(' · ')}</small></div>` : ''}
@@ -9960,7 +9960,7 @@
 
     const PAYS = [['P-0001', 'CC-117', 'Cloud Data Platform Rollout', '04/02/2026 – 04/10/2026', 5.25, 120, '—', 'Upcoming'], ['P-0002', 'CC-104', 'Marketing Analytics Migration', '09/21/2026 – 09/27/2026', 24, 95, 'Oct 10, 2026', 'Due'], ['P-0003', 'CC-117', 'Cloud Data Platform Rollout', '09/14/2026 – 09/20/2026', 40, 120, 'Oct 02, 2026', 'Processing'], ['P-0004', 'CC-117', 'Cloud Data Platform Rollout', '09/07/2026 – 09/13/2026', 40, 120, 'Sep 25, 2026', 'Paid'], ['P-0005', 'CC-131', 'CPQ Implementation', '09/07/2026 – 09/13/2026', 20, 110, 'Sep 25, 2026', 'Paid'], ['P-0006', 'CC-104', 'Marketing Analytics Migration', '08/31/2026 – 09/06/2026', 24, 95, 'Sep 18, 2026', 'Paid'], ['P-0007', 'CC-149', 'Commerce Replatform', '08/24/2026 – 08/30/2026', 40, 105, 'Sep 11, 2026', 'Paid'], ['P-0008', 'CC-152', 'MuleSoft ERP Integration', '08/17/2026 – 08/23/2026', 40, 100, 'Sep 04, 2026', 'Paid']];
     const PAY_ST = { Paid: 'ok', Due: 'am', Processing: '', Upcoming: '' };
-    const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const money = n => 'USD ' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     function vPayments() {
       const P = S.pay = S.pay || { page: 0, per: 5, f: 'All' }, list = PAYS.filter(r => P.f === 'All' || r[7] === P.f), pages = Math.max(1, Math.ceil(list.length / P.per)); if (P.page >= pages) P.page = pages - 1; const rows = list.slice(P.page * P.per, P.page * P.per + P.per);
       const amt = r => r[4] * r[5], sum = f => PAYS.filter(f).reduce((a, r) => a + amt(r), 0), hrs = PAYS.reduce((a, r) => a + r[4], 0);
@@ -10014,7 +10014,7 @@
     /* ================= Skai job posting (merged from existing app) ================= */
     const CANDIDATES = [
       {
-        id: 'CC-128', fit: 'Perfect Fit', match: 96, role: 'Principal Cloud & Data Architect — AWS, Snowflake & AI', avail: 'Available for project start', availLater: false,
+        id: 'CC-128', fit: 'Top match', match: 96, role: 'Principal Cloud & Data Architect — AWS, Snowflake & AI', avail: 'Available for project start', availLater: false,
         exp: '16 years', region: 'US - Central', rate: '$175–190/hr',
         skills: ['AWS', 'Snowflake', 'Databricks', 'Terraform', 'Python', 'Data Governance', 'AI / ML'],
         why: ['Led two cloud data-platform migrations end to end — the exact stack in your brief', 'Data governance and multi-account strategy experience for standing up a new region and business unit', 'Hands-on architect who can also build, so a small team of 5 gets both vision and delivery', 'Available immediately at 40 hrs/week'],
@@ -10023,8 +10023,8 @@
         standout: ['Architected a data platform across 9 countries', 'ML pipeline that cut forecasting error by 38%', 'Mentored 3 internal analysts into data engineers']
       },
       {
-        id: 'CC-141', fit: 'Strong Fit', match: 92, role: 'Senior Cloud Solutions Architect & Engineer', avail: 'Available for project start', availLater: false,
-        exp: '13 years', region: 'US - Central', rate: '$160–175/hr',
+        id: 'CC-141', fit: 'Strong match', match: 92, role: 'Senior Cloud Solutions Architect & Engineer', avail: 'Available for project start', availLater: false,
+        exp: '13 years', region: 'US - Central', rate: 'USD 160–175/hour',
         skills: ['AWS', 'Azure', 'Kubernetes', 'Terraform', 'CI/CD', 'Python', 'Cost Optimisation', 'Snowflake'],
         why: ['13 years of cloud engineering with direct AWS and Snowflake delivery — aligns with your core stack', 'Infrastructure-as-code background translates directly to the new region’s environments', 'Multi-account strategy skill is a direct match for standing up a new business unit from scratch', 'Financial Services and FinTech-adjacent experience with strong solution design capabilities', 'Full-time availability (40 hrs/week) means fully dedicated to your project from day one'],
         certs: ['AWS Solutions Architect – Professional', 'Azure Solutions Architect Expert', 'Certified Kubernetes Administrator'],
@@ -10032,7 +10032,7 @@
         standout: ['Cloud landing-zone design and delivery expertise', 'Multi-account strategy and new environment setup experience', 'Strong solution design + API integration background']
       },
       {
-        id: 'CC-145', fit: 'Strong Fit', match: 86, role: 'Senior CRM & Revenue Systems Consultant', avail: 'Available in ~3 weeks', availLater: true,
+        id: 'CC-145', fit: 'Strong match', match: 86, role: 'Senior CRM & Revenue Systems Consultant', avail: 'Available in ~3 weeks', availLater: true,
         exp: '15 years', region: 'US - East', rate: '$140–155/hr',
         skills: ['Salesforce', 'HubSpot', 'CPQ', 'Customer Data Platform'],
         why: ['15 years across CRM and sales systems with hands-on CPQ configuration', 'Prior experience leading a techno-functional team through a multi-system migration', 'Comfortable owning both discovery workshops and hands-on build'],
@@ -10041,7 +10041,7 @@
         standout: ['CPQ rollout across 3 business units', 'Led techno-functional workstream for a national retailer']
       },
       {
-        id: 'CC-158', fit: 'Potential Fit', match: 78, role: 'Integration Architect (MuleSoft / Boomi)', avail: 'Available in ~2 weeks', availLater: true,
+        id: 'CC-158', fit: 'Potential match', match: 78, role: 'Integration Architect (MuleSoft / Boomi)', avail: 'Available in ~2 weeks', availLater: true,
         exp: '12 years', region: 'US - East', rate: '$150–165/hr',
         skills: ['MuleSoft', 'Boomi', 'API Design', 'Integrations', 'Kafka', 'Python'],
         why: ['Strong integration background that fits the new-region system connections', 'Less direct data-platform exposure than the top matches', 'Could pair well with a data architect on your team'],
@@ -10050,7 +10050,7 @@
         standout: ['Built an API-led integration layer for 12 systems', 'Cut nightly sync failures by 70%']
       },
       {
-        id: 'CC-163', fit: 'Potential Fit', match: 72, role: 'Full-Stack Technical Consultant', avail: 'Available in ~4 weeks', availLater: true,
+        id: 'CC-163', fit: 'Potential match', match: 72, role: 'Full-Stack Technical Consultant', avail: 'Available in ~4 weeks', availLater: true,
         exp: '8 years', region: 'Canada', rate: '$115–130/hr',
         skills: ['Node.js', 'React', 'AWS Lambda', 'PostgreSQL', 'REST APIs'],
         why: ['Solid full-stack delivery at a lower rate', 'Newer to large-scale data platform and AI work', 'Good option if budget is the deciding factor'],
@@ -10076,7 +10076,7 @@
       {
         user: 'migrating our data platform to the cloud in a new region (new environment, new business unit, new analytics team)',
         bot: `Absolutely — let me run that search now!<br><br>One quick thing before I do: your job description shows a <b>seniority level of "Mid"</b> — but given you're a small team of 5 and need someone to independently set up a new cloud environment, new business unit, and new analytics team across your data platform and AI tooling, I'd typically recommend leaning <b>Senior</b>.<br><br><b>Should I search for Senior consultants, or stick with Mid-level?</b> This will help me surface the most relevant profiles for you.`,
-        pct: 50, fields: { location: 'Remote', start: '09-10-2026', end: '09-02-2026' }
+        pct: 50, fields: { location: 'Remote', start: 'Sep 10, 2026', end: 'Mar 9, 2027' }
       }
     ];
 
@@ -10089,7 +10089,7 @@
         turn: prefilled ? SCRIPT.length : 0,
         typing: false,
         messages: prefilled ? [] : [],
-        jd: prefilled ? { title: 'Senior Cloud Data Engineer', engagement: 'T&M (Time & Materials)', location: 'Remote', start: '09-09-2026', end: '09-02-2026', hours: '40', rate: '$160–175/hr' } : { title: '', engagement: '', location: '', start: '', end: '', hours: '', rate: '' },
+        jd: prefilled ? { title: 'Senior Cloud Data Engineer', engagement: 'T&M (Time & Materials)', location: 'Remote', start: 'Sep 9, 2026', end: 'Mar 9, 2027', hours: '40', rate: 'USD 160–175/hour' } : { title: '', engagement: '', location: '', start: '', end: '', hours: '', rate: '' },
         pct: prefilled ? 92 : 0,
         upload: 'idle', uploadPct: 0,
         activeTab: prefilled ? 'candidates' : 'jd',
@@ -10134,7 +10134,7 @@
     }
     const EDU_SAMPLES = [['M.S. Computer Science — Georgia Institute of Technology, 2012', 'B.S. Information Systems — University of Texas at Austin, 2009'], ['B.S. Computer Engineering — Purdue University, 2011'], ['M.S. Data Science — University of Washington, 2015', 'B.Tech. Computer Science — IIT Madras, 2012'], ['B.S. Software Engineering — Arizona State University, 2010'], ['MBA, Technology Management — University of Chicago Booth, 2016', 'B.S. Computer Science — University of Illinois, 2010']];
     function matchColor(pct) { return pct >= 90 ? 'var(--slate-dd)' : pct >= 80 ? 'var(--slate)' : 'var(--faint)'; }
-    function fitCls(f) { return f === 'Perfect Fit' ? 'fit-p' : f === 'Strong Fit' ? 'fit-s' : 'fit-o'; }
+    function fitCls(f) { return f === 'Top match' ? 'fit-p' : f === 'Strong match' ? 'fit-s' : 'fit-o'; }
     function ringSVG(pct, size = 32, stroke = 4, color) {
       color = color || 'var(--slate-d)';
       const r = (size - stroke) / 2, c = 2 * Math.PI * r, off = c * (1 - pct / 100);
@@ -10199,7 +10199,7 @@
       resetWiz(); S.link = null; S.wiz.title = I.name.trim(); S.wiz.role = I.role.trim(); S.wiz.d.extra = 'Role: ' + I.role.trim();
       x.kind = 'wiz'; x.wiz = S.wiz; S.view = 'wizard'; S.pop = false; S.modal = null; window.scrollTo(0, 0); render()
     }
-    const fmtDate = d => d ? (p => p[1] + '-' + p[2] + '-' + p[0])(d.split('-')) : '';
+    const fmtDate = d => d ? (p => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0])(d.split('-')) : '';
     function jdPct(jd) { const keys = ['title', 'engagement', 'location', 'start', 'end', 'hours', 'rate', 'resources', 'team', 'overview']; return Math.round(keys.filter(k => jd[k]).length / keys.length * 45); }
     const skGreet = (n, r) => `Hi! I've started a draft for <b>${esc(n)}</b> (${esc(r)}).<br><br><b>Paste your requirements</b> — a job description, SOW, or just a few lines about the role — and I'll fill in the form on the left. I'll ask about anything that's missing, and the draft stays saved until you post it.`;
     function startSkai() {
@@ -10342,7 +10342,7 @@
         const diff = new Set(list.map(r[2])).size > 1; const vc = {}; if (!r[3]) list.forEach(c => { const k = JSON.stringify(r[2](c)); vc[k] = (vc[k] || 0) + 1 });
         return `<tr><th scope="row">${r[0]}${diff && multi ? '<i class="dd" title="Differs between consultants"></i>' : ''}</th>${list.map(c => `<td class="${NS.cdiff && !r[3] && vc[JSON.stringify(r[2](c))] > 1 ? 'same' : ''}">${r[1](c)}</td>`).join('')}</tr>`;
       }).join('')}
-      <tr class="cmp-act"><th></th>${list.map(c => `<td><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button> <button class="btn primary sm" data-bookinterview="${c.id}">Book Interview</button></td>`).join('')}</tr></tbody>
+      <tr class="cmp-act"><th></th>${list.map(c => `<td><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button> <button class="btn primary sm" data-bookinterview="${c.id}">Request interview</button></td>`).join('')}</tr></tbody>
   </table></div>`;
     }
     function candidatesBody() {
@@ -10360,7 +10360,7 @@
   <div class="ctool">
     <div class="filter-row">
       <div class="fgrp"><span class="flabel">Available</span><div class="fchips">${['Now', '≤2 weeks'].map(v => `<button class="fchip ${NS.filter.avail === v ? 'active' : ''}" data-filter="avail:${v}">${v}</button>`).join('')}</div></div>
-      <div class="fgrp"><span class="flabel">Fit</span><div class="fchips">${['Perfect Fit', 'Strong Fit', 'Potential Fit'].map(v => `<button class="fchip ${NS.filter.fit === v ? 'active' : ''}" data-filter="fit:${v}">${v}</button>`).join('')}</div></div>
+      <div class="fgrp"><span class="flabel">Fit</span><div class="fchips">${['Top match', 'Strong match', 'Potential match'].map(v => `<button class="fchip ${NS.filter.fit === v ? 'active' : ''}" data-filter="fit:${v}">${v}</button>`).join('')}</div></div>
     </div>
   <div class="cview"><div class="seg"><button class="${NS.cview !== 'table' ? 'on' : ''}" data-cview="cards">Cards</button><button class="${NS.cview === 'table' ? 'on' : ''}" data-cview="table">Compare table</button></div></div>
   </div>
@@ -10394,7 +10394,7 @@
     `: ''}
     <div class="cand-foot">
       <button class="view-more" data-expand="${c.id}">${ex ? 'View less ▲' : 'View more ▼'}</button>
-      <div class="cand-actions"><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button><button class="btn primary sm" data-bookinterview="${c.id}">Book Interview</button></div>
+      <div class="cand-actions"><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button><button class="btn primary sm" data-bookinterview="${c.id}">Request interview</button></div>
     </div>
   </div>`;
     }
@@ -10430,7 +10430,7 @@
       return [...new Set(Object.keys(p).map(k => SK_LBL[k]).filter(Boolean))]
     }
     const RES_NONE = ['Reach out to our team', 'What can I change to get matches?'];
-    const RES_SUG = ['Show only perfect fits', 'Who is available now?', 'Compare them side by side'];
+    const RES_SUG = ['Show only top matches', 'Who is available now?', 'Compare them side by side'];
     const candVisible = () => CANDIDATES.filter(c => (!NS.filter.fit || c.fit === NS.filter.fit) && (!NS.filter.avail || !c.availLater));
     function skResultsReply(t) {
       const q = t.toLowerCase();
@@ -10441,16 +10441,16 @@
         return `I couldn’t find matches for this role yet. Ask me to <b>reach out to our team</b>, or edit the requirements in the Job posting tab.`
       }
       const f = NS.filter, n = () => candVisible().length, pl = k => `${k} consultant${k === 1 ? '' : 's'}`;
-      if (/perfect/.test(q)) { f.fit = 'Perfect Fit'; return `Filtered to <b>Perfect Fit</b> — showing ${pl(n())}. Say “show all” to clear the filters.` }
-      if (/strong/.test(q)) { f.fit = 'Strong Fit'; return `Filtered to <b>Strong Fit</b> — showing ${pl(n())}.` }
-      if (/potential/.test(q)) { f.fit = 'Potential Fit'; return `Filtered to <b>Potential Fit</b> — showing ${pl(n())}.` }
+      if (/perfect|top/.test(q)) { f.fit = 'Top match'; return `Filtered to <b>Top match</b> — showing ${pl(n())}. Say “show all” to clear the filters.` }
+      if (/strong/.test(q)) { f.fit = 'Strong match'; return `Filtered to <b>Strong match</b> — showing ${pl(n())}.` }
+      if (/potential/.test(q)) { f.fit = 'Potential match'; return `Filtered to <b>Potential match</b> — showing ${pl(n())}.` }
       if (/compare|table|side by side/.test(q)) { NS.cview = 'table'; return `Here is a side-by-side table of your matches. Use <b>Show differences only</b> to focus on what sets them apart.` }
       if (/show all|clear|reset|everyone|all of them/.test(q)) { f.fit = null; f.avail = null; f.rel = null; NS.cview = 'cards'; return `Filters cleared — showing all ${pl(n())}.` }
       if (/available|availab|now|asap|immediate|start/.test(q)) { f.avail = 'Now'; return `Showing consultants who can start right away — ${pl(n())}.` }
       if (/rate|cost|cheap|budget|price/.test(q)) return `Estimated rates: ${CANDIDATES.map(c => `<b>${c.id}</b> ${esc(c.rate)}`).join(' · ')}. Final rates are subject to Cloud Club pricing approval.`
-      if (/book|interview|schedule|meet/.test(q)) return `Click <b>Book Interview</b> on any consultant card — you pick time windows and I'll offer them to the consultant.`
+      if (/book|interview|schedule|meet/.test(q)) return `Click <b>Request interview</b> on any consultant card — you pick time windows and I'll offer them to the consultant.`
       const top = [...CANDIDATES].sort((a, b) => b.match - a.match)[0];
-      return `<b>${top.id}</b> is your closest match at ${top.match}%. You can ask me to show only perfect fits, who is available now, or to compare the consultants side by side.`
+      return `<b>${top.id}</b> is your closest match at ${top.match}%. You can ask me to show only top matches, who is available now, or to compare the consultants side by side.`
     }
     function sendMessage() {
       if (NS.typing) return;
@@ -10484,8 +10484,8 @@
           NS.jd.title = NS.jd.title || 'Senior Cloud Data Engineer';
           NS.jd.engagement = NS.jd.engagement || 'T&M (Time & Materials)';
           NS.jd.location = NS.jd.location || 'Remote';
-          NS.jd.start = NS.jd.start || '09-10-2026';
-          NS.jd.end = NS.jd.end || '09-02-2026';
+          NS.jd.start = NS.jd.start || 'Sep 10, 2026';
+          NS.jd.end = NS.jd.end || 'Mar 9, 2027';
           NS.jd.hours = NS.jd.hours || '40';
           NS.jd.rate = NS.jd.rate || '$130–$150/hr';
           NS.pct = Math.max(NS.pct, 78);
@@ -10629,7 +10629,7 @@
       const x = t.toLowerCase(), p = {};
       const sen = x.match(/principal|staff|senior|sr\.|mid[- ]?level|junior|entry/); if (sen) p.seniority = /principal|staff/.test(sen[0]) ? 'Principal' : /senior|sr\./.test(sen[0]) ? 'Senior' : /mid/.test(sen[0]) ? 'Mid-level' : 'Junior';
       const h = x.match(/(\d{1,2})\s*(?:hrs?|hours?)\b/); if (h) p.hours = String(Math.min(80, +h[1])); else if (/full[- ]?time/.test(x)) p.hours = '40';
-      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + ' / hr';
+      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) p.rate = 'USD ' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour';
       if (/remote/.test(x)) p.location = 'Remote'; else if (/hybrid/.test(x)) p.location = 'Hybrid'; else if (/on[- ]?site/.test(x)) p.location = 'On-site';
       const w = x.match(/in (\d+)\s*weeks?/); if (w) p.start = +w[1] <= 1 ? 'As soon as possible' : +w[1] <= 4 ? 'In 2–4 weeks' : 'In 1–2 months'; else if (/asap|immediately|right away/.test(x)) p.start = 'As soon as possible'; else if (/next month/.test(x)) p.start = 'In 2–4 weeks';
       const d = x.match(/(\d+)\s*(?:-|to|–)?\s*(\d+)?\s*months?/); if (d) { const n = +(d[2] || d[1]); p.duration = n <= 3 ? '1–3 months' : n <= 6 ? '3–6 months' : n <= 12 ? '6–12 months' : '12+ months' }
@@ -10782,7 +10782,7 @@
       const imps = (l, g) => d[l].forEach(x => { if (!d[g][x]) e[g + ':' + x] = 1 });
       if (st === 0) ['why', 'urgency'].forEach(need);
       if (st === 1) { ['rtype', 'hours', 'budgetOk'].forEach(need); need('start'); if (!d.endNo) need('end'); if (d.rtype === 'Multiple roles') need('qty'); if (!d.endNo && d.start && d.end && d.end < d.start) e.end = 1; if (d.budgetOk === 'Yes') { need('btype'); if (d.btype) need('bamt') } }
-      if (st === 2) { ['sen', 'prods', 'certs', 'tech', 'indExp', 'orgs'].forEach(need); if (d.prods.includes('Other')) need('oprod'); if (d.tech.includes('Other')) need('otech') }
+      if (st === 2) { ['sen', 'prods', 'tech', 'indExp'].forEach(need); if (d.prods.includes('Other')) need('oprod'); if (d.tech.includes('Other')) need('otech') }
       if (st === 3) { ['wloc', 'regions', 'tzs', 'meet'].forEach(need); if (d.wloc && d.wloc !== 'Remote') { need('sloc'); need('onsite') } }
       if (st === 4) { ['stake', 'sign'].forEach(need); if (d.stake === 'Yes') d.holders.forEach((h, i) => { if (!h.n.trim()) e['h' + i + 'n'] = 1; if (!h.p.trim()) e['h' + i + 'p'] = 1 }) }
       S.wiz.err = e; return !Object.keys(e).length
@@ -10801,7 +10801,7 @@
       const d = S.wiz.d, t = d.sen.split(' ')[0].split('-')[0] + ' ' + (d.rtype === 'Multiple roles' ? 'Team' : d.rtype);
       let it = S.draft; if (!it) { it = { id: Date.now(), created: 'Today', title: t, role: t }; SEARCHES.unshift(it) }
       Object.assign(it, { posted: true, kind: 'wiz', wiz: JSON.parse(JSON.stringify(S.wiz)), ns: null, jt: t, n: matchCount(d), reach: false, starts: d.start ? fmtDate(d.start) : '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' }); S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.draft = null;
-      S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: '$' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/mo' : '/h') });
+      S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: 'USD ' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/month' : '/hour') });
       S.view = 'search'; render(); window.scrollTo(0, 0);
       const m = ['Scoring skills & certifications', 'Checking availability & time zones', 'Weighing your must-haves', 'Ranking your top matches']; let i = 0;
       const t2 = setInterval(() => { const el = $('#mt'); if (!el || S.view !== 'search') { clearInterval(t2); return } el.textContent = m[i++ % m.length] }, 1100);

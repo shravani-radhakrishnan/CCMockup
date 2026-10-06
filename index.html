@@ -2409,6 +2409,11 @@
       cursor: default
     }
 
+    .route.preview.primary:hover {
+      border-color: var(--slate);
+      background: var(--slate-tint)
+    }
+
     .route.preview:hover {
       border-color: var(--line);
       background: var(--surface);
@@ -2795,7 +2800,7 @@
         <div class="clogo"><span class="wm" style="font-size:17px"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true"><path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor"/><path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cloud&nbsp;Club</span></div>
         <div class="eyebrow" style="margin-bottom:10px">Step 1 of 3 · Sign up</div>
         <h2 style="font-size:26px;letter-spacing:-.7px;margin:0 0 6px">Great things start here.</h2>
-        <p class="sub" style="margin-bottom:20px">Create your profile in three steps. All fields are required.</p>
+        <p class="sub" style="margin-bottom:20px">Set up your account and tell us what you need. Fields marked <span style="color:var(--err,#b3261e)">*</span> are required.</p>
         <div style="height:4px;background:var(--track);border-radius:3px;overflow:hidden;margin:0 0 24px">
           <div style="height:100%;width:33%;background:var(--slate);border-radius:3px"></div>
         </div>
@@ -3363,15 +3368,15 @@
     function usecaseBody() {
       const a = A();
       let h = optionCards('usecase', [
-        { v: 'internal', l: 'Our internal technology', s: 'Hire experts for your own systems', i: 'building' },
-        { v: 'client', l: 'Technology work for our clients', s: 'Consulting, delivery, or staffing', i: 'users' }], { auto: false });
-      h += `<div class="hint" style="margin-top:14px">Need both? No problem — you can create separate profiles for internal technology and client work.</div>`;
+        { v: 'internal', l: 'Hire for our company', s: 'Hire experts for your own systems and internal projects', i: 'building' },
+        { v: 'client', l: 'Hire for client projects', s: 'Consulting, delivery, or staffing for your clients', i: 'users' }], { auto: false });
+      h += `<div class="hint" style="margin-top:14px">You can add another hiring use case later from your profile settings.</div>`;
       return h;
     }
     function useCaseScreen() {
       return {
         kind: 'usecase', group: 'How Will You Use Cloud Club', q: 'What are you primarily looking for help with?', sub: 'This sets up the right experience. You can add the other later.', id: 'usecase',
-        pv: { k: 'Use case', get: a => { const eff = { internal: 'Internal technology', client: 'Client work' }[a.usecase === 'both' ? a.bothstart : a.usecase]; return eff || (a.usecase === 'else' ? 'Something else' : ''); } }
+        pv: { k: 'Use case', get: a => { const eff = { internal: 'Hire for our company', client: 'Hire for client projects' }[a.usecase === 'both' ? a.bothstart : a.usecase]; return eff || (a.usecase === 'else' ? 'Something else' : ''); } }
       };
     }
     function companyScreen({ industry = true } = {}) {
@@ -3383,7 +3388,7 @@
     }
     function accountOrg() {
       return {
-        kind: 'form', group: 'Create Your Account', q: 'Create your account.', sub: 'We’ll use these details to set up your company account.',
+        kind: 'form', group: 'Create Your Account', q: 'Create your company account.', sub: 'We’ll use these details to set up your company account.',
         body: () => `${text('company', 'Company name', { req: true, ph: 'Acme Consulting' })}${text('website', 'Company website', { req: true, ph: 'acme.com' })}<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('jobtitle', 'Job title', { req: true })}${text('workemail', 'Work email', { type: 'email', req: true, ph: 'you@acme.com' })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${agreeCheck()}`, pv: { k: 'Company', get: a => a.company || '' }
       };
     }
@@ -3415,12 +3420,12 @@
         pv: { k: 'Stage', get: a => a.stage || '' }
       });
       S.push({
-        kind: 'multi', group: 'Your Technology', q: 'Which technology areas are relevant?', sub: 'We’ll only ask about each one you pick — one quick question per area.', opts: TECH_AREAS, cols: true, id: 'techareas',
+        kind: 'multi', group: 'Your Technology', q: 'Which technology areas are relevant?', sub: 'Select the technology areas relevant to your hiring needs.', opts: TECH_AREAS, cols: true, id: 'techareas',
         pv: { k: 'Tech areas', get: a => { const t = (a.techareas || []).map(v => { const f = TECH_AREAS.find(x => x.v === v); return f ? f.l.split(' ')[0] : v; }); return t.slice(0, 3).join(', ') + (t.length > 3 ? ` +${t.length - 3}` : ''); } }
       });
       S.push({
-        kind: 'done', group: 'Complete Onboarding', q: 'You’re all set.', sub: 'Explore these once you’re in your dashboard.', preview: true,
-        routes: [{ ic: '✎', t: 'Describe your need', d: 'In plain language.' }, { ic: '＋', t: 'Create a role', d: 'Structured, for matching.' }, { ic: '✦', t: 'Talk to Skai', d: 'Scope it with our AI.' }, { ic: '⌕', t: 'Browse experts', d: 'Explore matches now.' }],
+        kind: 'done', group: 'Complete Onboarding', q: 'Your company workspace is ready.', sub: 'Here’s where to start in your dashboard.', preview: true,
+        routes: [{ ic: '＋', t: 'Create a job posting', d: 'Describe the consultant you need.', primary: true }, { ic: '✦', t: 'Get help from Skai', d: 'Scope your posting in a conversation.' }],
         goalMap: { 'Find an individual expert': 3, 'Build or add to a project team': 1, 'Get help delivering a project': 0, 'Find ongoing technology support': 0, 'Assess or plan our technology': 2, 'Explore for future needs': 3, 'I’m not sure yet': 2 },
         invite: true
       });
@@ -3448,7 +3453,7 @@
       // firm branch
       const t = a.firmtype;
       if (t === 'it') {
-        S.push({ kind: 'multi', group: 'FirmBranch', q: 'How does your firm typically staff client work?', opts: ['Internal employees', 'Independent Contractors', 'Staffing Firms', 'Sub consulting vendors', 'Blended Monel'], cols: true, id: 'staffing_m' });
+        S.push({ kind: 'multi', group: 'FirmBranch', q: 'How does your firm typically staff client work?', opts: ['Internal employees', 'Independent contractors', 'Staffing firms', 'Subcontracting partners', 'Blended model'], cols: true, id: 'staffing_m' });
       } else if (t === 'agency') {
         S.push({ kind: 'multi', group: 'FirmBranch', q: 'What services does your agency provide?', opts: ['Marketing Strategy and Branding', 'Digital and Performance Marketing', 'Creative and Content', 'Web and Application Development', 'Marketing Automation and CRM', 'Commerce and Customer Experience', 'Data Analytics and Personalization', 'Other'], cols: true, id: 'svc', pv: { k: 'Services', get: a => (a.svc || []).slice(0, 3).join(', ') } });
         if ((a.svc || []).includes('Marketing Automation and CRM')) S.push({ kind: 'multi', group: 'FirmBranch', q: 'Which platforms does your agency work with?', opts: ['Salesforce Marketing Cloud', 'Salesforce Account Engagement', 'HubSpot', 'Adobe Marketo Engage', 'Adobe Journey Optimizer', 'Braze', 'Klaviyo', 'Mailchimp', 'Oracle Eloqua', 'Other'], cols: true, id: 'maplatforms' });
@@ -3460,8 +3465,8 @@
         opts: [{ v: 'Find an Expert for a Client Need', i: 'target' }, { v: 'Add Capacity or Build a Client Project Team', i: 'users' }, { v: 'Get Help Scoping or Solutioning Client Work', i: 'brief' }, { v: 'Find a Delivery Partner for Ongoing or White Label Support', i: 'layers' }, { v: 'Explore Experts and Cloud Club for Future Client Needs', i: 'spark' }, { v: 'I’m Not Sure Yet' }], pv: { k: 'Goal', get: a => (a.goal || []).join(', ') }
       });
       S.push({
-        kind: 'done', group: 'Complete Onboarding', q: 'You’re all set.', sub: 'Explore these once you’re in your dashboard.', preview: true,
-        routes: [{ ic: '✎', t: 'Describe a client need', d: 'What your client needs.' }, { ic: '＋', t: 'Create a role', d: 'Structured, for matching.' }, { ic: '✦', t: 'Talk to Skai', d: 'Scope it with our AI.' }, { ic: '⌕', t: 'Browse experts', d: 'Explore matches now.' }, { ic: '⇄', t: 'Partner conversation', d: 'White-label delivery.' }],
+        kind: 'done', group: 'Complete Onboarding', q: 'Your company workspace is ready.', sub: 'Here’s where to start in your dashboard.', preview: true,
+        routes: [{ ic: '＋', t: 'Create a job posting', d: 'Describe what your client needs.', primary: true }, { ic: '✦', t: 'Get help from Skai', d: 'Scope your posting in a conversation.' }],
         goalMap: { 'Find an Expert for a Client Need': 0, 'Add Capacity or Build a Client Project Team': 1, 'Get Help Scoping or Solutioning Client Work': 2, 'Find a Delivery Partner for Ongoing or White Label Support': 4, 'Explore Experts and Cloud Club for Future Client Needs': 3, 'I’m Not Sure Yet': 2 },
         invite: true
       });
@@ -3575,7 +3580,7 @@
       const a = A(); const invited = a.invited || [];
       let h;
       if (scr.preview) {
-        h = `<div class="done-hero"><div class="done-badge">${CHECK}</div></div><div class="field"><label>${esc(scr.dashboardLabel || 'What’s waiting in your dashboard')}</label><div class="routes">${scr.routes.map(r => `<div class="route preview"><div class="r-ic">${r.ic}</div><div class="r-t">${esc(r.t)}</div><div class="r-d">${esc(r.d)}</div></div>`).join('')}</div></div>`;
+        h = `<div class="done-hero"><div class="done-badge">${CHECK}</div></div><div class="field"><label>${esc(scr.dashboardLabel || 'What’s waiting in your dashboard')}</label><div class="routes">${scr.routes.map(r => `<div class="route preview${r.primary ? ' primary' : ''}"><div class="r-ic">${r.ic}</div><div class="r-t">${esc(r.t)}</div><div class="r-d">${esc(r.d)}</div></div>`).join('')}</div></div>`;
       } else {
         const chosen = resolveChosenRoute(scr, a);
         const g = Array.isArray(a.goal) ? a.goal[0] : a.goal;
@@ -3633,7 +3638,7 @@
     function workspaceLabel() {
       if (state.flow === 'candidate') return 'Consultant profile';
       const eff = effectiveUseCase();
-      return eff === 'client' ? 'Client delivery' : 'Internal technology';
+      return eff === 'client' ? 'Client delivery' : 'Company hiring';
     }
     function livePanel(screens) {
       const a = A();
@@ -3738,7 +3743,7 @@
           if (!/^\d{6}$/.test(code)) { fail('code', 'Enter the 6-digit code'); }
         }
         if (q.includes('authorized to work') && (!a.authcountries || !a.authcountries.length)) { fail('authcountries', 'Select at least one authorized country'); }
-        if (q.includes('Create your account') && !a.agreeTerms) { fail('agreeTerms', 'You must agree to the Terms of Service and Privacy Policy to continue'); }
+        if (/^Create your (company )?account/.test(q) && !a.agreeTerms) { fail('agreeTerms', 'You must agree to the Terms of Service and Privacy Policy to continue'); }
       }
 
       if (s.kind === 'single' || s.kind === 'usecase' || s.kind === 'firmtype') {
