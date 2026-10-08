@@ -34,6 +34,11 @@
       --amber-tint: #faf1e2;
       --danger: #b4462f;
       --danger-tint: #f7e6e1;
+      --pc-1: #b4462f;
+      --pc-2: #c98a2e;
+      --pc-3: #547691;
+      --pc-4: #2f7fa8;
+      --pc-5: #3f9e83;
       --shadow: 0 24px 64px rgba(65, 82, 96, .08);
       --shadow-lg: 0 32px 80px -12px rgba(44, 62, 76, .22);
       --r: 16px;
@@ -61,6 +66,11 @@
       --ok-tint: #1d3a31;
       --amber-tint: #3a2f1c;
       --danger-tint: #3d2420;
+      --pc-1: #d9705a;
+      --pc-2: #e0a24a;
+      --pc-3: #7fa3bf;
+      --pc-4: #5aa9d1;
+      --pc-5: #4fb596;
       --shadow: 0 24px 64px rgba(0, 0, 0, .35);
       --shadow-lg: 0 32px 80px -12px rgba(0, 0, 0, .55);
       color-scheme: dark
@@ -590,6 +600,21 @@
       background: var(--surface);
       color: var(--slate-dd);
       box-shadow: 0 1px 4px rgba(0, 0, 0, .14)
+    }
+
+    .mper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600
+    }
+
+    .mper-row .seg {
+      margin: 0;
+      min-width: 180px
     }
 
     .side>* {
@@ -1629,7 +1654,7 @@
     }
 
     .ring-fg {
-      stroke: var(--accent);
+      stroke: var(--pcol, var(--accent));
       stroke-linecap: round;
       transition: stroke-dashoffset 1.2s cubic-bezier(.2, .7, .2, 1)
     }
@@ -6498,6 +6523,44 @@
       color: var(--slate-d)
     }
 
+    .tsreq {
+      border: 1px solid var(--line);
+      background: var(--slate-tint);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px
+    }
+
+    .tsreq textarea {
+      min-height: 96px;
+      resize: vertical
+    }
+
+    .tsreqa {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px
+    }
+
+    .tsnote {
+      border: 1px solid rgba(180, 70, 47, .35);
+      background: rgba(180, 70, 47, .06);
+      border-left: 4px solid var(--danger);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 12px
+    }
+
+    .tsnote p {
+      margin: 6px 0;
+      font-weight: 600
+    }
+
+    .tsnote small {
+      color: var(--muted)
+    }
+
     .tsact {
       display: flex;
       align-items: center;
@@ -7821,6 +7884,347 @@
       border-style: dashed
     }
 
+    .sqbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px
+    }
+
+    .sqbar .sqtabs {
+      margin-bottom: 0;
+      flex-wrap: wrap
+    }
+
+    .sqsearch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 240px;
+      padding: 0 12px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--muted)
+    }
+
+    .sqsearch input {
+      border: 0;
+      outline: 0;
+      background: none;
+      font: inherit;
+      color: var(--ink);
+      width: 100%
+    }
+
+    .sq-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px
+    }
+
+    .sq-foot .sq-facts,
+    .sq-foot .sq-prog {
+      margin-top: 0
+    }
+
+    .sq-act {
+      display: inline-flex;
+      gap: 6px;
+      margin-left: auto
+    }
+
+    .sqi {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s, transform .15s
+    }
+
+    .sqi svg {
+      width: 15px;
+      height: 15px
+    }
+
+    .sqi:hover {
+      background: var(--slate-tint);
+      color: var(--ink);
+      border-color: var(--line-2);
+      transform: translateY(-1px)
+    }
+
+    .sqi.del:hover {
+      background: rgba(180, 70, 47, .1);
+      color: var(--danger);
+      border-color: rgba(180, 70, 47, .35)
+    }
+
+    .sqi::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      right: 0;
+      white-space: nowrap;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #2c3e4c;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(3px);
+      transition: opacity .15s, transform .15s
+    }
+
+    .sqi:hover::after,
+    .sqi:focus-visible::after {
+      opacity: 1;
+      transform: none
+    }
+
+    .sq-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px
+    }
+
+    .sq-f {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--slate-tint);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    .sq-f svg {
+      width: 13px;
+      height: 13px;
+      color: var(--accent)
+    }
+
+    .sq-f.sk {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 500
+    }
+
+    .sq-prog {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      max-width: 360px
+    }
+
+    .sq-prog div {
+      flex: 1;
+      display: flex;
+      gap: 4px
+    }
+
+    .sq-prog i {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--line)
+    }
+
+    .sq-prog i.on {
+      background: var(--accent)
+    }
+
+    .sq-prog small {
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap
+    }
+
+    .sq.cl {
+      background: var(--slate-tint);
+      border: 1px solid var(--line-2);
+      border-left: 4px solid #7b8a96
+    }
+
+    .sq.cl:hover {
+      border-color: var(--line-2);
+      border-left-color: #7b8a96
+    }
+
+    .sq.cl .sq-ttl h3 {
+      color: var(--muted)
+    }
+
+    .sq.cl {
+      cursor: default
+    }
+
+    .sqi[disabled] {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .sqi[disabled]:hover {
+      background: var(--surface);
+      color: var(--muted);
+      border-color: var(--line);
+      transform: none
+    }
+
+    .sq.dl .sqa .btn[disabled],
+    .sq.cl .sqa .btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+      pointer-events: auto
+    }
+
+    .pill.cd {
+      background: rgba(123, 138, 150, .18);
+      color: #55646f
+    }
+
+    .pill.cd i {
+      background: #7b8a96
+    }
+
+    .rmail {
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      padding: 12px 14px;
+      margin: 14px 0;
+      max-height: 280px;
+      overflow: auto
+    }
+
+    .rmail>div {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      padding: 2px 0
+    }
+
+    .rmail small {
+      width: 56px;
+      color: var(--muted);
+      font-weight: 700;
+      flex: none
+    }
+
+    .rmail pre {
+      white-space: pre-wrap;
+      font: 12.5px/1.55 inherit;
+      font-family: inherit;
+      margin: 10px 0 0;
+      padding-top: 10px;
+      border-top: 1px solid var(--line)
+    }
+
+    .btn.sent,
+    .btn.sent:disabled {
+      background: var(--ok);
+      border-color: var(--ok);
+      color: #fff;
+      opacity: 1;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .btn.sent svg {
+      width: 14px;
+      height: 14px
+    }
+
+    .sq.dl {
+      cursor: default;
+      opacity: 1;
+      background: rgba(180, 70, 47, .06);
+      border: 1px dashed rgba(180, 70, 47, .45);
+      border-left: 4px solid var(--danger)
+    }
+
+    .sq.dl:hover {
+      transform: none;
+      border-color: rgba(180, 70, 47, .45);
+      border-left-color: var(--danger)
+    }
+
+    .sq.dl .sq-ttl h3 {
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-color: rgba(180, 70, 47, .6)
+    }
+
+    .sq.dl .sqa.ok {
+      background: linear-gradient(135deg, #7d3b2d, #a65745)
+    }
+
+    .sq.dl .sqa.ok small,
+    .sq.dl .sqa.ok .sqa-t,
+    .sq.dl .sqa.ok .sqa-s {
+      color: rgba(255, 255, 255, .55)
+    }
+
+    .sq.dl .sqa.ok .sqa-av {
+      opacity: .6;
+      filter: grayscale(.5)
+    }
+
+    .sq.dl .sqa.ok .btn[disabled] {
+      color: rgba(90, 40, 30, .6)
+    }
+
+    .sq.dl .sqa.dr,
+    .sq.dl .sqa.none {
+      background: rgba(180, 70, 47, .08);
+      border-color: rgba(180, 70, 47, .35)
+    }
+
+    .sq.dl .sq-f {
+      background: rgba(180, 70, 47, .1);
+      color: var(--danger)
+    }
+
+    .sq.dl .sq-f svg {
+      color: var(--danger)
+    }
+
+    .sq.dl .sqi[disabled] {
+      border-color: rgba(180, 70, 47, .3)
+    }
+
+    .pill.rd {
+      background: rgba(180, 70, 47, .12);
+      color: var(--danger)
+    }
+
+    .pill.rd i {
+      background: var(--danger)
+    }
+
     .skstat {
       align-self: flex-start;
       background: var(--track);
@@ -8310,6 +8714,378 @@
       padding: 44px 28px
     }
 
+    .es {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: 10px;
+      padding: 48px 28px
+    }
+
+    .es-ic {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--slate-tint);
+      color: var(--accent)
+    }
+
+    .es-ic svg {
+      width: 24px;
+      height: 24px
+    }
+
+    .es h3 {
+      margin: 4px 0 0;
+      font-size: 18px
+    }
+
+    .es p {
+      margin: 0;
+      max-width: 460px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6
+    }
+
+    .es-act {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px
+    }
+
+    .gs {
+      display: grid;
+      gap: 0;
+      padding: 22px 24px;
+      margin-bottom: 20px
+    }
+
+    .gs-h {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+    .gs-h h3 {
+      margin: 0;
+      font-size: 16px
+    }
+
+    .gs-h span {
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .gs-i {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .gs-n {
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--slate-tint);
+      color: var(--accent)
+    }
+
+    .gs-i.done .gs-n {
+      background: var(--ok);
+      color: #fff
+    }
+
+    .gs-n svg {
+      width: 14px;
+      height: 14px
+    }
+
+    .gs-t {
+      flex: 1;
+      min-width: 0
+    }
+
+    .gs-t b {
+      display: block;
+      font-size: 14px
+    }
+
+    .gs-t small {
+      color: var(--muted);
+      font-size: 12.5px
+    }
+
+    .gs-i.done .gs-t b {
+      color: var(--muted);
+      text-decoration: line-through
+    }
+
+    .nmx {
+      display: grid;
+      gap: 20px
+    }
+
+    .nmx-top {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px;
+      margin: 0
+    }
+
+    .nmx-top .nm-ic {
+      flex: none
+    }
+
+    .nmx-top h3 {
+      margin: 0 0 6px;
+      font-size: 19px
+    }
+
+    .nmx-top p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 640px
+    }
+
+    .nmx-sk {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 8px;
+      align-items: center;
+      margin-top: 12px
+    }
+
+    .nmx-l {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-right: 2px
+    }
+
+    .nmx-chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: var(--slate-tint);
+      color: var(--body)
+    }
+
+    .nmx-chip.miss {
+      background: var(--amber-tint);
+      color: var(--amber)
+    }
+
+    .nmx-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px
+    }
+
+    .nmx-req,
+    .nmx-alt {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 0
+    }
+
+    .nmx-alt {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    .nmx-alt h4 {
+      grid-column: 1 / -1
+    }
+
+    .nmx-req .row2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    .nmx-req .fld {
+      margin: 0
+    }
+
+    .nmx-req .fld label {
+      display: block;
+      margin-bottom: 6px;
+      white-space: nowrap
+    }
+
+    .nmx-req .in {
+      width: 100%;
+      box-sizing: border-box
+    }
+
+    .nmx-req textarea.in {
+      min-height: 96px;
+      resize: vertical
+    }
+
+    .nmx-act {
+      padding-top: 4px
+    }
+
+    .nmx-req h4,
+    .nmx-alt h4 {
+      margin: 0;
+      font-size: 16px
+    }
+
+    .nmx-sub {
+      margin: -6px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55
+    }
+
+    .nmx-sum {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      background: var(--slate-tint)
+    }
+
+    .nmx-sum small {
+      display: block;
+      color: var(--muted);
+      font-size: 11.5px
+    }
+
+    .nmx-sum b {
+      font-size: 13.5px
+    }
+
+    .nmx-act {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .nmx-done {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--ok-tint)
+    }
+
+    .nmx-done h4 {
+      color: var(--ok)
+    }
+
+    .nmx-done p {
+      margin: 4px 0 0;
+      font-size: 13.5px;
+      line-height: 1.55
+    }
+
+    .nmx-ok {
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ok);
+      color: #fff
+    }
+
+    .nmx-ok svg {
+      width: 14px;
+      height: 14px
+    }
+
+    .nmx-flow {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px
+    }
+
+    .nmx-flow li {
+      display: grid;
+      gap: 2px;
+      padding-left: 16px;
+      border-left: 3px solid var(--line);
+      font-size: 13px
+    }
+
+    .nmx-flow li.on {
+      border-color: var(--ok)
+    }
+
+    .nmx-flow span {
+      color: var(--muted)
+    }
+
+    .nmx-opt {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 4px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      font: inherit;
+      color: inherit
+    }
+
+    .nmx-opt:hover {
+      border-color: var(--accent)
+    }
+
+    .nmx-opt span {
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.5
+    }
+
+    @media (max-width: 860px) {
+      .nmx-alt {
+        grid-template-columns: 1fr
+      }
+
+      .nmx-sum {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .nmx-top {
+        flex-direction: column
+      }
+    }
+
     .nomatch h3 {
       margin: 0;
       font-size: 19px
@@ -8586,6 +9362,46 @@
 
     .sqa.ok .sqa-t {
       color: #fff
+    }
+
+    .sqa-av {
+      display: flex;
+      margin: 0
+    }
+
+    .sqa-av i {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      color: #2c3e4c;
+      display: grid;
+      place-items: center;
+      margin-left: -6px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .sqa-av i:first-child {
+      margin-left: 0
+    }
+
+    .sqa-av i img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .sqa-av svg {
+      width: 12px;
+      height: 12px
+    }
+
+    .sqa.ok {
+      gap: 6px;
+      padding: 10px 14px
     }
 
     /* ---------- guided Skai job posting ---------- */
@@ -9295,6 +10111,11 @@
   <script>
     /* ---------- icons ---------- */
     const I = (d, s = 18, w = 1.8) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const CONS_AV = ['<circle cx="12" cy="9" r="3.6"/><path d="M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>',
+      '<circle cx="12" cy="9" r="3.6"/><path d="M6 11V9a6 6 0 0112 0v2M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>',
+      '<circle cx="12" cy="9" r="3.6"/><path d="M5 20c.8-4 3.6-6 7-6s6.2 2 7 6M12 14l-1.5 3 1.5 2 1.5-2z"/>',
+      '<circle cx="12" cy="9" r="3.6"/><path d="M8.4 8.2c2 0 3.6-.8 4.6-2.2 1 1.4 2 2 2.6 2.2M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>',
+      '<circle cx="12" cy="9" r="3.6"/><path d="M8.5 7.5h7M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>'].map(p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`);
     const IC = {
       cloud: I('<path d="M6 18a4 4 0 010-8 5 5 0 019.5-1.8A4.5 4.5 0 0118 18H6z"/>', 20, 2),
       building: I('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M10 21v-4h4v4"/>'),
@@ -9302,6 +10123,7 @@
       chat: I('<path d="M21 11.5a8.5 8.5 0 01-12.4 7.55L3 20l1.1-4.2A8.5 8.5 0 1121 11.5z"/>'),
       brief: I('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/>'),
       dollar: I('<path d="M12 2v20M17 6.5c0-2-2-3-5-3s-5 1.4-5 3.2 2 2.9 5 3.3 5 1.6 5 3.4-2 3.1-5 3.1-5-1-5-3"/>'),
+      user1: I('<circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>'),
       users: I('<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.7-3.6 3.2-5.5 6.5-5.5s5.8 1.9 6.5 5.5M16 5a3.2 3.2 0 010 6M18 14.8c2 .6 3.3 2.4 3.7 5.2"/>'),
       plus: I('<path d="M12 5v14M5 12h14"/>', 16, 2.4),
       bell: I('<path d="M6 8a6 6 0 1112 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 004 0"/>'),
@@ -9315,6 +10137,8 @@
       sparkle: I('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7z"/>'),
       up: I('<path d="M12 16V4M6 10l6-6 6 6M4 20h16"/>', 16),
       check: I('<path d="M4 12l5 5L20 6"/>', 14, 3),
+      arch: I('<path d="M6 6l12 12M18 6L6 18"/>', 14),
+      undo: I('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/>', 14),
       edit: I('<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/>', 14),
       trash: I('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 15),
       phone: I('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>', 15),
@@ -9329,7 +10153,8 @@
     const ONB = (() => { try { const r = localStorage.getItem('cc_hiring_profile'); return r ? JSON.parse(r) : null } catch (e) { return null } })();
     const TECH_AREA_LABELS = { crm: 'CRM & Customer Platforms', sales: 'Sales & Revenue', service: 'Customer Service & Success', mktg: 'Marketing & Commerce', finops: 'Finance & Operations', data: 'Data, Analytics & AI', it: 'IT, Cloud & Engineering', integ: 'Integration & Automation', hr: 'HR & Talent', other: 'Other', unsure: 'I’m not sure' };
     const FIRM_TYPE_LABELS = { it: 'IT Consulting / Systems Integration', mgmt: 'Business / Management Consulting', agency: 'Marketing, Digital, or Creative agency', staffing: 'Staffing or Recruiting firm', software: 'Software / Tech company with services', other: 'Other professional services' };
-    const TECH_CHIPS = Object.values(TECH_AREA_LABELS).filter(x => x !== 'I’m not sure');
+    const NOT_SURE = TECH_AREA_LABELS.unsure, TECH_CHIPS = Object.values(TECH_AREA_LABELS);
+    const FRESH = /[?&]new\b/.test(location.search); /* first visit after onboarding: no postings, interviews, projects or payments yet */
     const _co = (ONB && ONB.company) || 'Orion Pharma';
     const ORG = { name: _co, first: (ONB && ONB.first) || 'Olivia', email: (ONB && ONB.workemail) || 'olivia.park@orionpharma.com', ini: _co.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() };
     const _uc = !ONB ? 'Hire for our company' : (ONB.usecase === 'client' ? 'Hire for client projects' : (ONB.usecase === 'both' ? 'Hire for our company & client projects' : 'Hire for our company'));
@@ -9400,7 +10225,7 @@
       <button class="tgl" data-a="collapse" aria-label="Toggle sidebar">${IC.chev}</button></div>
     <button class="cta" data-a="newoffer">${IC.plus}<span>New Job Posting</span></button>
     <div class="lbl">Workspace</div>
-    <nav class="nav">${NAV.map(([k, l, i]) => `<button class="ni ${S.view === k || (k === 'guided' && S.view === 'intake' && INTAKE && INTAKE.via === 'guided') || (k === 'searches' && ['intake', 'skai', 'wizard'].includes(S.view) && !(S.view === 'intake' && INTAKE && INTAKE.via === 'guided')) || (k === 'searches' && ['search', 'results', 'cprofile', 'sched'].includes(S.view)) || (k === 'offers' && ['__none'].includes(S.view)) || (k === 'interviews' && S.view === 'sched') || (k === 'projects' && S.view === 'timesheet') ? 'on' : ''}" data-go="${k}" data-tip="${l}">${i}<span>${l}</span>${k === 'offers' ? `<i class="cnt">${SEARCHES.filter(x => x.posted).length}</i>` : ''}${k === 'interviews' ? '<i class="bd">2</i>' : ''}</button>`).join('')}</nav>
+    <nav class="nav">${NAV.map(([k, l, i]) => `<button class="ni ${S.view === k || (k === 'guided' && S.view === 'intake' && INTAKE && INTAKE.via === 'guided') || (k === 'searches' && ['intake', 'skai', 'wizard'].includes(S.view) && !(S.view === 'intake' && INTAKE && INTAKE.via === 'guided')) || (k === 'searches' && ['search', 'results', 'cprofile', 'sched'].includes(S.view)) || (k === 'offers' && ['__none'].includes(S.view)) || (k === 'interviews' && S.view === 'sched') || (k === 'projects' && S.view === 'timesheet') ? 'on' : ''}" data-go="${k}" data-tip="${l}">${i}<span>${l}</span>${k === 'offers' ? `<i class="cnt">${SEARCHES.filter(x => x.posted).length}</i>` : ''}${k === 'interviews' && S.ivs.length ? '<i class="bd">2</i>' : ''}</button>`).join('')}</nav>
     <div class="sp"></div>
     <div class="foot">
       <div class="seg"><button class="${S.theme === 'light' ? 'on' : ''}" data-a="theme" data-v="light" title="Light">${IC.sun}<span>Light</span></button><button class="${S.theme === 'dark' ? 'on' : ''}" data-a="theme" data-v="dark" title="Dark">${IC.moon}<span>Dark</span></button></div>
@@ -9424,7 +10249,7 @@
       const P = S.prefs = S.prefs || { m: 1, i: 1, p: 1, t: 1, r: 0, tfa: 0 }, sw = (k) => `<button class="swt ${P[k] ? 'on' : ''}" role="switch" aria-checked="${!!P[k]}" data-a="pref" data-v="${k}"><i></i></button>`;
       return `<div class="ph"><div><h1>Settings</h1><p>Manage your account, notifications and how the portal looks.</p></div></div>
  <div class="stg stagger">
-  <div class="card"><h3>Account</h3><div class="avrow"><span class="av avbig" ${avCss()}>${ORG.ini}</span><div><b>Profile photo</b><small>JPG or PNG, up to 2 MB. Shown in the sidebar.</small><div class="avbtn"><button class="btn sm" data-a="avpick">${IC.up} ${S.avatar ? 'Change photo' : 'Upload photo'}</button>${S.avatar ? '<button class="btn sm" data-a="avrm">Remove</button>' : ''}</div></div><input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden></div><div class="kv" style="margin-top:16px"><div><small>Name</small><b>${esc(ORG.first)}</b></div><div><small>Work email</small><b>${esc(ORG.email)}</b></div><div><small>Company</small><b>${esc(ORG.name)}</b></div><div><small>Role</small><b>Account owner</b></div></div>
+  <div class="card"><h3>Account</h3><div class="avrow"><span class="av avbig" ${avCss()}>${ORG.ini}</span><div><b>Profile photo</b><small>JPG or PNG, up to 2 MB. Shown in the sidebar.</small><div class="avbtn"><button class="btn sm" data-a="avpick">${IC.up} ${S.avatar ? 'Change photo' : 'Upload photo'}</button>${S.avatar ? '<button class="btn sm" data-a="avrm">Remove</button>' : ''}</div></div><input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden></div><div class="kv" style="margin-top:16px"><div><small>Name</small><b>${esc(ORG.first)}</b></div><div><small>Work email</small><b>${esc(ORG.email)}</b></div><div><small>Company</small><b>${esc(ORG.name)}</b></div><div><small>Role</small><b>Admin</b></div></div>
    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn sm" data-go="profile">Edit Profile</button><button class="btn sm" data-a="toast" data-v="Password reset link sent to ${esc(ORG.email)}">Change password</button></div></div>
   <div class="card"><h3>Email notifications</h3><div class="stl">${PREFS.map(([k, t, d]) => `<div class="str"><div><b>${t}</b><small>${d}</small></div>${sw(k)}</div>`).join('')}</div></div>
   <div class="card"><h3>Appearance</h3><p style="color:var(--muted);margin:4px 0 12px">Choose how Cloud Club looks on this device.</p><div class="thm">${[['light', 'Light', 'Bright and clean — best in well-lit rooms'], ['dark', 'Dark', 'Easier on the eyes in low light']].map(([k, l, d]) => `<button class="thc ${S.theme === k ? 'on' : ''}" data-a="theme" data-v="${k}" role="radio" aria-checked="${S.theme === k}"><span class="thp ${k}"><i></i><i></i><i></i><u></u></span><span class="tht"><b>${l}</b><small>${d}</small></span><span class="thk">${IC.check}</span></button>`).join('')}</div></div>
@@ -9432,6 +10257,8 @@
    <div style="margin-top:14px"><button class="btn sm" data-a="signout">${IC.out} Sign out</button></div></div>
  </div>`}
     const NOTIFS = [{ k: 'm', t: '3 new matches', s: 'for Marketing Cloud Architect', w: '2h ago', go: 'searches', u: 1 }, { k: 'i', t: 'Interview confirmed', s: 'CC-104 · Thu 10:00 AM', w: 'Yesterday', go: 'interviews', u: 1 }, { k: 'p', t: 'Payment due soon', s: 'P-0002 · $2,280.00 due Oct 10', w: '2d ago', go: 'payments', u: 1 }, { k: 't', t: 'Timesheet ready to approve', s: 'Cloud Data Platform Rollout · week of Sep 21', w: '3d ago', go: 'projects', u: 0 }, { k: 'r', t: 'Referral signed up', s: 'tom@brightlabs.io joined Cloud Club', w: '5d ago', go: 'referrals', u: 0 }];
+    const emptyCard = (ic, t, p, btns) => `<div class="card es"><span class="es-ic">${ic}</span><h3>${t}</h3><p>${p}</p>${btns ? `<div class="es-act">${btns}</div>` : ''}</div>`;
+    const newPostBtns = `<button class="btn p" data-a="newoffer">${IC.plus} Create a job posting</button>`;
     const avCss = () => S.avatar ? `style="background:url(${S.avatar}) center/cover;color:transparent"` : '';
     const unread = () => (S.notifs = S.notifs || NOTIFS.map(n => ({ ...n }))).filter(n => n.u).length;
     function notifPop() {
@@ -9459,18 +10286,35 @@
     function field(label, body, req) { return `<div class="fld"><label>${label}${req ? '<span class="rq">*</span>' : ''}</label>${body}</div>` }
     function vProfile() {
       const p = S.profile, e = S.edit;
-      const pct = 82, C = 2 * Math.PI * 42;
-      const kv = (k, l, ph) => e ? `<div class="fld" style="margin:0"><label>${l}</label><input class="in" data-p="${k}" value="${esc(p[k])}"></div>` : `<div><small>${l}</small><b>${esc(p[k]) || '—'}</b></div>`;
+      const C = 2 * Math.PI * 42;
+      const yr = S.mper === 'year', t0 = today0();
+      const inP = SEARCHES.filter(x => { const d = new Date(x.created); return isNaN(d) || (d.getFullYear() === t0.getFullYear() && (yr || d.getMonth() === t0.getMonth())) }), nDraft = inP.filter(x => !x.posted).length;
+      /* completeness = weighted checklist of real profile data (weights total 100) */
+      const pcItems = [
+        [10, !!(p.company || '').trim(), 'Add your company name', 'co'],
+        [10, !!(p.website || '').trim(), 'Add your company website', 'co'],
+        [10, !!(p.industry && p.emp && p.loc), 'Add your industry, employee count and location', 'co'],
+        [15, !!S.avatar, 'Upload a profile photo', 'photo'],
+        [15, p.clouds.length > 0, 'Select your technology areas', 'sf'],
+        [10, !!(p.goal && p.stage), 'Tell us your goal and where you are today', 'sf'],
+        [30, SEARCHES.some(x => x.posted), 'Post your first job', 'job']
+      ];
+      const pct = pcItems.reduce((a, x) => a + (x[1] ? x[0] : 0), 0), nextPc = pcItems.filter(x => !x[1]).sort((a, b) => b[0] - a[0])[0];
+      const pcol = pct >= 100 ? 'var(--pc-5)' : pct >= 75 ? 'var(--pc-4)' : pct >= 50 ? 'var(--pc-3)' : pct >= 25 ? 'var(--pc-2)' : 'var(--pc-1)';
+      const pdr = S.pdraft || {}, perr = S.perr || {};
+      const kv = (k, l, ph) => S.edit ? `<div class="fld${perr[k] ? ' err' : ''}" style="margin:0"><label>${l}<span class="rq">*</span></label><input class="in" data-p="${k}" value="${esc(k in pdr ? pdr[k] : p[k])}" required aria-required="true"><span class="em">${l} is required</span></div>` : `<div><small>${l}</small><b>${esc(p[k]) || '—'}</b></div>`;
       return `<div class="ph"><div><h1>Welcome, ${ORG.name}</h1><p>Keep this data up to date — these details help us recommend relevant consultants.</p></div>
     <div class="r"><button class="btn" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
+  <div class="mper-row" style="margin-bottom:12px"><span>${yr ? 'Showing ' + t0.getFullYear() : 'Showing ' + t0.toLocaleString('en-US', { month: 'long', year: 'numeric' })}</span><div class="seg" role="group" aria-label="Metrics period"><button class="${yr ? '' : 'on'}" data-a="mper" data-v="month" aria-pressed="${!yr}">Monthly</button><button class="${yr ? 'on' : ''}" data-a="mper" data-v="year" aria-pressed="${yr}">Yearly</button></div></div>
   <div class="grid g4 stagger" style="margin-bottom:20px">
-    <div class="card" style="display:flex;gap:14px;align-items:center"><div class="ringw"><svg width="96" height="96"><circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="8"/><circle class="ring-fg" cx="48" cy="48" r="42" fill="none" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><b data-count="${pct}" data-suf="%">${pct}%</b></div><div><b style="font-family:Manrope">Profile completeness</b><div style="color:var(--muted);font-size:12px">${p.website ? 'Add your hiring contact details to reach 100%' : 'Add your company website'}</div></div></div>
-    ${[['Active job postings', SEARCHES.filter(x => x.posted).length, SEARCHES.filter(x => !x.posted).length + ' draft' + (SEARCHES.filter(x => !x.posted).length === 1 ? '' : 's') + ' not posted'], ['Candidates matched', 20, '+8 this week'], ['Interviews booked', 2, 'Next: Thu 10:00']].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
-  <div class="grid g2">
-    <div class="card stagger"><h3>${IC.building} About your company <span class="r">${e === 'co' ? `<button class="btn sm" data-a="canceledit">Cancel</button> <button class="btn p sm" data-a="saveedit">Save changes</button>` : `<button class="btn sm" data-a="edit" data-v="co">${IC.edit} Edit</button>`}</span></h3>
+    <div class="card" style="display:flex;gap:14px;align-items:center"><div class="ringw" style="--pcol:${pcol}"><svg width="96" height="96"><circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="8"/><circle class="ring-fg" cx="48" cy="48" r="42" fill="none" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><b data-count="${pct}" data-suf="%" style="color:${pcol}">${pct}%</b></div><div><b style="font-family:Manrope">Profile completeness</b><div style="color:var(--muted);font-size:12px">${nextPc ? `Next: ${nextPc[2]} (+${nextPc[0]}%)` : 'Your profile is complete'}</div></div></div>
+    ${[['Job postings posted', inP.filter(x => x.posted).length, nDraft + ' draft' + (nDraft === 1 ? '' : 's') + ' not posted'], SEARCHES.length ? ['Candidates matched', yr ? 20 : 12, yr ? 'Across ' + SEARCHES.filter(x => x.posted).length + ' job posting' + (SEARCHES.filter(x => x.posted).length === 1 ? '' : 's') : '+8 this week'] : ['Candidates matched', 0, 'Post a job to get matches'], S.ivs.length ? ['Interviews booked', yr ? 5 : 2, yr ? 'Across all consultants' : 'Next: Thu 10:00'] : ['Interviews booked', 0, 'Request interviews from your matches']].map(s => `<div class="card stat"><small>${s[0]}${yr ? ' · year' : ' · month'}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
+  ${(() => { const posted = SEARCHES.some(x => x.posted), rev = posted && !!S.reviewed, st = [[!!p.website, 'Complete your company profile', 'Add your company website so we can recommend relevant consultants.', 'Edit profile', 'data-a="edit" data-v="co"'], [posted, 'Create your first job posting', 'Describe the consultant you need — with Skai or a short form.', 'Create a job posting', 'data-a="newoffer"'], [rev, 'Review your matched consultants', 'We show your best matches as soon as your job is posted.', 'View matches', 'data-go="searches"'], [!!S.ivReq, 'Request interviews', 'Pick your favourites and propose times — the consultant confirms.', 'Go to my searches', 'data-go="searches"']], dn = st.filter(x => x[0]).length, cur = st.findIndex(x => !x[0]); if (dn === st.length || !FRESH) return ''; return `<div class="card gs"><div class="gs-h"><h3>Get started with Cloud Club</h3><span>${dn} of ${st.length} done</span></div>${st.map((x, i) => `<div class="gs-i ${x[0] ? 'done' : ''}"><span class="gs-n">${x[0] ? IC.check : i + 1}</span><div class="gs-t"><b>${x[1]}</b><small>${x[2]}</small></div>${!x[0] && x[3] && (i === cur || i < 2) ? `<button class="btn ${i === cur ? 'p ' : ''}sm" ${x[4]}>${x[3]}</button>` : ''}</div>`).join('')}</div>` })()}
+  <div class="grid g2" style="align-items:${e ? 'start' : 'stretch'}">
+    <div class="card stagger" style="${e && S.pH ? `min-height:${S.pH}px` : ''}"><h3>${IC.building} About your company <span class="r">${e === 'co' ? `<button class="btn sm" data-a="canceledit">Cancel</button> <button class="btn p sm" data-a="saveedit">Save changes</button>` : `<button class="btn sm" data-a="edit" data-v="co">${IC.edit} Edit</button>`}</span></h3>
       <div class="kv">${(() => { const o = S.edit; S.edit = e === 'co' ? 1 : 0; const r = kv('company', 'Company name') + kv('website', 'Website') + kv('industry', 'Industry') + kv('emp', 'Employee count') + kv('loc', 'Location') + kv('heard', 'How you heard about us'); S.edit = o; return r })()}</div></div>
     <div class="card stagger"><h3>${IC.bolt} How you use Cloud Club <span class="r">${e === 'sf' ? `<button class="btn sm" data-a="canceledit">Cancel</button> <button class="btn p sm" data-a="saveedit">Save changes</button>` : `<button class="btn sm" data-a="edit" data-v="sf">${IC.edit} Edit</button>`}</span></h3>
-      <small style="color:var(--muted);font-weight:600">TECHNOLOGY AREAS</small><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px">${(e === 'sf' ? TECH_CHIPS : p.clouds).map(c => `<button class="chip ${p.clouds.includes(c) ? 'on' : ''}" ${e === 'sf' ? `data-a="pcloud" data-v="${c}"` : 'style="pointer-events:none"'}>${c}</button>`).join('') || '<span style="color:var(--muted);font-size:13px">None selected yet</span>'}</div>
+      <small style="color:var(--muted);font-weight:600">TECHNOLOGY AREAS${e === 'sf' ? '<span class="rq" style="color:var(--danger);margin-left:2px">*</span>' : ''}</small><div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px">${(e === 'sf' ? TECH_CHIPS : p.clouds).map(c => `<button class="chip ${p.clouds.includes(c) ? 'on' : ''}" ${e === 'sf' ? `data-a="pcloud" data-v="${c}"` : 'style="pointer-events:none"'}>${c}</button>`).join('') || '<span style="color:var(--muted);font-size:13px">None selected yet</span>'}</div>${perr.clouds ? '<div class="fld err" style="margin:-8px 0 14px"><span class="em">Select at least one technology area</span></div>' : ''}
       <div class="kv">${(() => { const o = S.edit; S.edit = e === 'sf' ? 1 : 0; const r = kv('usecase', 'Primary use') + kv('goal', 'Primary goal') + kv('stage', 'Where you are today') + (p.firm ? kv('firm', 'Firm type') + kv('industries', 'Industries served') : ''); S.edit = o; return r })()}</div></div>
   </div>`
     }
@@ -9478,7 +10322,10 @@
 
     const SEARCHES = [{ id: 1, title: 'Senior Cloud Data Engineer — Migration, Integration', created: 'Sep 10, 2026', starts: 'Sep 9, 2026', role: 'Senior Cloud Data Engineer', snippet: '“Perfect — searching for Senior cloud and data consultants with AWS, Snowflake and integration experience now…”', n: 5, posted: true, kind: 'wiz', jt: 'Senior Cloud Data Engineer' },
     { id: 2, title: 'Legacy Core Banking Modernisation', created: 'Oct 01, 2026', starts: 'Nov 2, 2026', role: 'COBOL Mainframe Developer', n: 0, posted: true, kind: 'wiz', jt: 'COBOL Mainframe Developer', niche: true, reach: false }];
-    const matchCount = d => (d.prods || []).includes('Other') || (d.tech || []).includes('Other') ? 0 : CANDIDATES.length;
+    const NICHE = /cobol|mainframe|as\/?400|\brpg\b|fortran|pl\/1|assembler|vb6|delphi|abap/i;
+    /* skills outside our network: niche/legacy skills, or (when a known list is given) anything the client typed in themselves */
+    const unmatchedSkills = (list, known) => (list || []).map(t => String(t).trim()).filter(t => t && (NICHE.test(t) || (known && !known.includes(t))));
+    const matchCount = d => (d.prods || []).includes('Other') || (d.tech || []).includes('Other') || (d.nmSkills || []).length ? 0 : CANDIDATES.length;
     const stepsOf = x => x.wiz ? Math.min(x.wiz.step + 1, STEPS.length) : 1;
     function draftSnip(x) {
       if (x.kind === 'wiz') return `Job form · step ${stepsOf(x)} of ${STEPS.length} — pick up where you left off.`;
@@ -9486,30 +10333,66 @@
       if (x.kind === 'skai') return x.ns && x.ns.messages.some(m => m.who === 'user') ? `Skai brief ${x.ns.pct}% complete — post the job to see matched consultants.` : 'Paste your requirements to Skai to start filling the brief.';
       return 'Choose how to fill in this job posting — with Skai or manually.'
     }
-    function vSearches() {
-      const f = S.sqf || 'all', nP = SEARCHES.filter(x => x.posted).length, nD = SEARCHES.length - nP;
-      const rows = SEARCHES.map((x, i) => [x, i]).filter(([x]) => f === 'all' || (f === 'draft' ? !x.posted : x.posted));
-      const posted = SEARCHES.filter(x => x.posted), withM = posted.filter(x => x.n > 0).length, noM = posted.filter(x => x.n === 0), needTeam = noM.filter(x => !x.reach).length, tot = posted.reduce((a, x) => a + (x.n || 0), 0), perfect = withM * CANDIDATES.filter(c => c.fit === 'Top match').length, ivc = S.ivs.filter(v => v[3] === 'Confirmed').length, att = nD + needTeam;
-      const mets = [['Active searches', nP, withM + ' with matches' + (noM.length ? ' · ' + noM.length + ' being sourced' : '')], ['Consultants matched', tot, perfect + ' top match' + (perfect === 1 ? '' : 'es') + ' to review'], ['Interviews booked', S.ivs.length, ivc + ' confirmed · ' + (S.ivs.length - ivc) + ' awaiting reply'], ['Needs your attention', att, att ? (nD ? nD + ' draft' + (nD > 1 ? 's' : '') + ' to post' : '') + (nD && needTeam ? ' · ' : '') + (needTeam ? needTeam + ' to reach our team' : '') : 'You\u2019re all caught up', att > 0]];
-      return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
-  <div class="grid g4 stagger" style="margin-bottom:20px">${mets.map(m => `<div class="card stat"><small>${m[0]}</small><b data-count="${m[1]}">${m[1]}</b><span class="tr${m[3] ? ' warn' : ''}">${m[2]}</span></div>`).join('')}</div>
-  <div class="sqtabs" role="tablist">${[['all', 'All', SEARCHES.length], ['posted', 'Posted', nP], ['draft', 'Drafts', nD]].map(t => `<button class="${f === t[0] ? 'on' : ''}" role="tab" aria-selected="${f === t[0]}" data-a="sqf" data-v="${t[0]}">${t[1]} <em>${t[2]}</em></button>`).join('')}</div>
-  <div class="sq-list stagger">${rows.map(([x, i]) => {
+    /* ---------- "Contact our team" request email ---------- */
+    const TALENT_EMAIL = 'talent@cloudclub.com';
+    function reachEmail(x) {
+      const d = postedWiz(x).d, p = S.profile, r = x.reachInfo || {}, num = '#NM-' + (1000 + SEARCHES.indexOf(x) * 7 + 21);
+      const L = (k, v) => v ? k + ': ' + v : '', list = a => (a || []).filter(t => t && t !== 'Other').join(', ');
+      const bud = d.bamt ? '$' + d.bamt + (d.btype === 'Monthly budget' ? '/month' : d.btype === 'Fixed project budget' ? ' fixed' : '/hour') : '';
+      const missing = (d.nmSkills && d.nmSkills.length ? d.nmSkills : [].concat(String(d.oprod || '').split(','), String(d.otech || '').split(',')).map(t => t.trim()).filter(Boolean));
+      const sec = (h, rows) => { const l = rows.filter(Boolean); return l.length ? h + '\n' + l.map(t => '  ' + t).join('\n') : '' };
+      const body = ['Hello Cloud Club talent team,', '',
+        'We have posted a job on the client portal but no consultants in your network match it yet. Please help us source candidates.', '',
+        sec('REQUEST', [L('Reference', num), L('Urgency', r.urg), L('Preferred contact', r.ch), L('Note', r.note)]), '',
+        sec('JOB POSTING REQUIREMENTS', [L('Project', x.title), L('Role', x.role), L('Resource type', d.rtype), L('Seniority', d.sen), L('Hours per week', d.hours), L('Start date', d.start ? fmtDate(d.start) : ''), L('End date', d.end ? fmtDate(d.end) : d.endNo ? 'Not sure yet' : ''), L('Budget', bud), L('Work location', d.wloc), L('Skills we could not match', missing.join(', ')), L('Cloud / product areas', list(d.prods)), L('Technologies', list(d.tech)), L('Certifications', list(d.certs)), L('Time zones', list(d.tzs)), L('Additional details', String(d.extra || '').replace(/\n+/g, ' | '))]), '',
+        sec('COMPANY', [L('Company', p.company || ORG.name), L('Website', p.website), L('Industry', p.industry), L('Employees', p.emp), L('Location', p.loc)]), '',
+        sec('CONTACT TO REACH BACK', [L('Name', ORG.first), L('Work email', ORG.email), L('Preferred channel', r.ch || 'Email')]), '',
+        'Thank you,', ORG.first, p.company || ORG.name].filter(l => l !== undefined && l !== null).join('\n').replace(/\n{3,}/g, '\n\n');
+      return { to: TALENT_EMAIL, cc: ORG.email, subject: 'Sourcing request ' + num + ' — ' + (x.role || x.title) + ' (' + (p.company || ORG.name) + ')', body };
+    }
+    const DELETED = [];
+    const sqActs = (x, i, del) => del ? `<span class="sq-act"><button class="sqi" disabled aria-label="Edit" data-tip="Deleted">${IC.edit}</button>${x.wasPosted ? `<button class="sqi" disabled aria-label="Close" data-tip="Deleted">${IC.arch}</button>` : ''}<button class="sqi del" disabled aria-label="Delete" data-tip="Deleted">${IC.trash}</button></span>` : `<span class="sq-act">${S.sqEdit === i ? '' : `<button class="sqi" data-tip="${x.closed ? 'Reopen to edit' : x.posted ? 'Edit job posting' : 'Continue draft'}" aria-label="Edit" data-a="opensearch" data-tab="job" data-v="${i}" ${x.closed ? 'disabled' : ''}>${IC.edit}</button>${x.posted ? `<button class="sqi" data-tip="${x.closed ? 'Reopen posting' : 'Close posting'}" aria-label="${x.closed ? 'Reopen' : 'Close'}" data-a="sqclose" data-v="${i}">${x.closed ? IC.undo : IC.arch}</button>` : ''}<button class="sqi del" data-tip="Delete" aria-label="Delete" data-a="delsearch" data-v="${i}">${IC.trash}</button>`}</span>`;
+    const sqMatch = (x, q) => !q || `${x.title} ${x.role || ''} ${x.jt || ''}`.toLowerCase().includes(q);
+    function sqCard(x, i, del) {
         const top = [...CANDIDATES].sort((a, b) => b.match - a.match);
-        const side = !x.posted ? `<aside class="sqa dr"><small>Draft</small><b class="sqa-t">${x.kind === 'wiz' ? 'Step ' + stepsOf(x) + ' of ' + STEPS.length : x.kind === 'guided' ? gCount(x.g) + ' of ' + GQ.length + ' details' : 'Not started'}</b><span class="sqa-s">Matches unlock once you post</span><button type="button" class="btn sm" data-a="opensearch" data-v="${i}">Continue draft ›</button></aside>`
-          : x.n === 0 ? `<aside class="sqa none"><div class="sqa-row"><span class="sqa-ic">${IC.users}</span><b class="sqa-t">No matches yet</b></div><span class="sqa-s">${x.reach ? 'Request sent — our team will reach out shortly.' : 'Our team can help find candidates for this role.'}</span>${x.reach ? `<span class="sqa-done">${IC.check} Request sent</span>` : `<button type="button" class="btn p sm" data-a="reachlist" data-v="${i}">${IC.chat} Contact our team</button>`}</aside>`
-            : `<aside class="sqa ok"><small>Matched consultants</small><b class="sqa-t">${x.n} consultant${x.n === 1 ? '' : 's'}</b><span class="sqa-s">Top match ${top[0].match}% · ready to review</span><button type="button" class="btn light sm" data-a="opensearch" data-v="${i}">View matches ›</button></aside>`;
-        return `<div class="card sq${x.posted ? '' : ' dr'}${S.sqEdit === i ? ' ed' : ''}" ${S.sqEdit === i ? '' : `data-a="opensearch" data-v="${i}" tabindex="0"`}><div class="sqm"><div class="sqm-l">
-    <div class="sq-meta"><span class="pill am"><i></i>End Client</span>${x.posted ? (x.n === 0 ? `<span class="pill am"><i></i>Posted · No matches yet</span>` : `<span class="pill ok"><i></i>Posted · Matches ready</span>`) : '<span class="pill am"><i></i>Draft · not posted</span>'}<span>· created ${x.created}</span></div>
-    ${S.sqEdit === i ? `<div class="sq-ttl"><input class="in" data-sqin value="${esc(x.title)}" maxlength="120" aria-label="Search title"><button class="btn p sm" data-a="sqsave" data-v="${i}" ${x.title.trim() ? '' : 'disabled'}>Save</button><button class="btn sm" data-a="sqcancel">Cancel</button></div>` : `<div class="sq-ttl"><h3>${esc(x.title)}</h3><button class="sq-pen" data-a="sqedit" data-v="${i}" aria-label="Edit title" title="Edit title">${IC.edit}</button></div>`}<div class="sq-role">${esc(x.role)}</div>${x.posted && x.n > 0 ? `<div class="sq-start">Starts ${esc(x.starts)}</div>` : ''}
-    <p class="sq-snip">${x.posted ? (x.n === 0 ? 'We don’t have consultants with this skill set yet. Our team can source candidates for you.' : esc(x.snippet || 'Job posted — your matched consultants are ready to review.')) : esc(draftSnip(x))}</p></div>${side}</div></div>`
-      }).join('') || `<div class="card empty">${f === 'draft' ? 'No drafts — every job posting has been posted.' : 'Nothing here yet.'}</div>`}</div>`
+        let side = !x.posted ? `<aside class="sqa dr"><small>Draft</small><b class="sqa-t">${x.kind === 'wiz' ? 'Step ' + stepsOf(x) + ' of ' + STEPS.length : x.kind === 'guided' ? gCount(x.g) + ' of ' + GQ.length + ' details' : 'Not started'}</b><span class="sqa-s">Matches unlock once you post</span><button type="button" class="btn sm" data-a="opensearch" data-v="${i}">Continue draft ›</button></aside>`
+          : x.n === 0 ? `<aside class="sqa none"><div class="sqa-row"><span class="sqa-ic">${IC.users}</span><b class="sqa-t">No matches yet</b></div><span class="sqa-s">${x.reach ? 'Request sent — our team will reach out shortly.' : 'Our team can help find candidates for this role.'}</span>${x.reach ? `<span class="sqa-done">${IC.check} Request sent</span>` : `<button type="button" class="btn p sm" data-a="reachlist" data-v="${i}" ${x.closed ? 'disabled' : ''}>${IC.chat} Contact our team</button>`}</aside>`
+            : `<aside class="sqa ok"><small>Matched consultants</small><b class="sqa-t">${x.n} consultant${x.n === 1 ? '' : 's'}</b><span class="sqa-av" aria-hidden="true">${Array.from({ length: Math.min(x.n, 5) }, (_, k) => `<i style="background:${['#8fb2cb', '#e0a24a', '#7fc4a8', '#c9a3d6', '#e08f7a'][k % 5]}">${CONS_AV[k % 5]}<img src="https://i.pravatar.cc/56?img=${[12, 32, 47, 5, 68][k % 5]}" alt="" loading="lazy" onerror="this.remove()"></i>`).join('')}</span><span class="sqa-s">Top match ${top[0].match}% · ready to review</span><button type="button" class="btn light sm" data-a="opensearch" data-v="${i}" ${x.closed ? 'disabled title="Reopen this posting to view matches"' : ''}>View matches ›</button></aside>`;
+        if (del) side = side.replace(/ data-a="[^"]*"| data-v="[^"]*"/g, '').replace(/<button /g, '<button disabled ');
+        const ed = !del && S.sqEdit === i;
+        return `<div class="card sq${del ? ' dr dl' : x.posted ? '' : ' dr'}${!del && x.closed ? ' cl' : ''}${ed ? ' ed' : ''}" ${ed || del || x.closed ? '' : `data-a="opensearch" data-v="${i}" tabindex="0"`}><div class="sqm"><div class="sqm-l">
+    <div class="sq-meta">${del ? `<span class="pill rd"><i></i>${x.wasPosted ? 'Deleted posting' : 'Deleted draft'}</span>` : x.closed ? '<span class="pill cd"><i></i>Closed</span>' : x.posted ? (x.n === 0 ? `<span class="pill am"><i></i>Posted · No matches yet</span>` : `<span class="pill ok"><i></i>Posted · Matches ready</span>`) : '<span class="pill am"><i></i>Draft · not posted</span>'}<span>· created ${x.created}${del ? ' · deleted ' + x.deletedOn : ''}</span></div>
+    ${ed ? `<div class="sq-ttl"><input class="in" data-sqin value="${esc(x.title)}" maxlength="120" aria-label="Search title"><button class="btn p sm" data-a="sqsave" data-v="${i}" ${x.title.trim() ? '' : 'disabled'}>Save</button><button class="btn sm" data-a="sqcancel">Cancel</button></div>` : `<div class="sq-ttl"><h3>${esc(x.title)}</h3>${x.closed || del ? '' : `<button class="sq-pen" data-a="sqedit" data-v="${i}" aria-label="Edit title" title="Edit title">${IC.edit}</button>`}</div>`}<div class="sq-role">${esc(x.role)}</div>
+    <p class="sq-snip">${del ? (x.wasPosted ? 'This posting was deleted and its matches were removed. Kept here as history.' : 'This draft was deleted before it was posted.') : x.posted ? (x.n === 0 ? 'We don’t have consultants with this skill set yet. Our team can source candidates for you.' : esc(x.snippet || 'Job posted — your matched consultants are ready to review.')) : esc(draftSnip(x))}</p><div class="sq-foot">${(() => {
+            if (x.posted) { const d = postedWiz(x).d, ch = [[IC.pin, d.wloc || 'Remote'], [IC.clock, (d.hours || '40') + ' hrs/week']]; if (d.bamt) ch.push([IC.card || '', '$' + d.bamt + (d.btype === 'Monthly budget' ? '/month' : '/hour')]); return `<div class="sq-facts">${ch.map(c => `<span class="sq-f">${c[0]}${esc(c[1])}</span>`).join('')}</div>` }
+            const tot = x.kind === 'wiz' ? STEPS.length : x.kind === 'guided' ? GQ.length : 0, dn = x.kind === 'wiz' ? stepsOf(x) : x.kind === 'guided' ? gCount(x.g) : 0;
+            return tot ? `<div class="sq-prog" aria-label="Draft progress"><div>${Array.from({ length: tot }, (_, k) => `<i class="${k < dn ? 'on' : ''}"></i>`).join('')}</div><small>${x.kind === 'wiz' ? 'Step ' + dn + ' of ' + tot : dn + ' of ' + tot + ' details'}</small></div>` : ''
+          })()}${sqActs(x, i, del)}</div></div>${side}</div></div>`
+    }
+    function sqList(f) {
+      const q = (S.sq || '').trim().toLowerCase();
+      if (f === 'deleted') return DELETED.map((x, i) => [x, i]).filter(([x]) => sqMatch(x, q)).map(([x, i]) => sqCard(x, i, true)).join('') || `<div class="card empty">${q ? 'No deleted items match your search.' : 'Nothing deleted yet.'}</div>`;
+      const rows = SEARCHES.map((x, i) => [x, i]).filter(([x]) => (f === 'all' || (f === 'draft' ? !x.posted : f === 'closed' ? x.closed : x.posted && !x.closed)) && sqMatch(x, q));
+      return rows.map(([x, i]) => sqCard(x, i, false)).join('') || `<div class="card empty">${q ? 'No job postings match your search.' : f === 'draft' ? 'No drafts — every job posting has been posted.' : f === 'closed' ? 'No closed job postings.' : 'Nothing here yet.'}</div>`
+    }
+    function vSearches() {
+      const f = S.sqf || 'all', nP = SEARCHES.filter(x => x.posted && !x.closed).length, nC = SEARCHES.filter(x => x.closed).length, nD = SEARCHES.filter(x => !x.posted).length;
+      const posted = SEARCHES.filter(x => x.posted && !x.closed && inMper(parseAnyDate(x.created))), withM = posted.filter(x => x.n > 0).length, noM = posted.filter(x => x.n === 0), needTeam = SEARCHES.filter(x => x.posted && !x.closed && x.n === 0 && !x.reach).length, tot = posted.reduce((a, x) => a + (x.n || 0), 0), perfect = withM * CANDIDATES.filter(c => c.fit === 'Top match').length, ivc = S.ivs.filter(v => v[3] === 'Confirmed').length, att = nD + needTeam;
+      const mets = [['Active searches', posted.length, withM + ' with matches' + (noM.length ? ' · ' + noM.length + ' being sourced' : '')], ['Consultants matched', tot, perfect + ' top match' + (perfect === 1 ? '' : 'es') + ' to review'], ['Interviews booked', S.ivs.length + (S.mper === 'year' ? 3 : 0), ivc + ' confirmed · ' + (S.ivs.length - ivc) + ' awaiting reply'], ['Needs your attention', att, att ? (nD ? nD + ' draft' + (nD > 1 ? 's' : '') + ' to post' : '') + (nD && needTeam ? ' · ' : '') + (needTeam ? needTeam + ' to reach our team' : '') : 'You\u2019re all caught up', att > 0]];
+      if (!SEARCHES.length && !DELETED.length) return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
+  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Active searches', 0, 'Post your first job to get started'], ['Consultants matched', 0, 'Matches appear once you post'], ['Interviews booked', 0, 'Request interviews from your matches'], ['Needs your attention', 0, 'You’re all caught up']].map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' · ' + mperTag() : ''}</small><b>${m[1]}</b><span class="tr">${m[2]}</span></div>`).join('')}</div>
+  ${emptyCard(IC.search, 'Create your first job posting', 'Tell us the consultant you need. We’ll match you with vetted consultants — usually within minutes. Drafts are saved automatically, so you can finish later.', newPostBtns)}`;
+      return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
+  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${mets.map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' · ' + mperTag() : ''}</small><b data-count="${m[1]}">${m[1]}</b><span class="tr${m[3] ? ' warn' : ''}">${m[2]}</span></div>`).join('')}</div>
+  <div class="sqbar"><div class="sqtabs" role="tablist">${[['all', 'All', SEARCHES.length], ['posted', 'Posted', nP], ['draft', 'Drafts', nD], ['closed', 'Closed', nC], ['deleted', 'Deleted', DELETED.length]].map(t => `<button class="${f === t[0] ? 'on' : ''}" role="tab" aria-selected="${f === t[0]}" data-a="sqf" data-v="${t[0]}">${t[1]} <em>${t[2]}</em></button>`).join('')}</div>
+  <label class="sqsearch">${IC.search}<input type="search" data-sqsearch placeholder="Search by title or role" value="${esc(S.sq || '')}" aria-label="Search job postings"></label></div>
+  <div class="sq-list stagger">${sqList(f)}</div>`
     }
 
     function vOffers() {
       const posted = SEARCHES.filter(x => x.posted), drafts = SEARCHES.length - posted.length, pipe = posted.reduce((a, x) => a + (x.n || 0), 0);
       const st = x => !x.posted ? ['', 'Draft'] : x.n === 0 ? ['am', x.reach ? 'Team sourcing' : 'No matches yet'] : ['ok', 'Matches ready'];
-      const bud = x => { const d = x.wiz && x.wiz.d || (x.posted ? postedWiz(x).d : null); if (!d || !d.bamt) return '—'; const u = { 'Monthly budget': '/month', 'Fixed project budget': ' total' }[d.btype] || '/hour'; return 'USD ' + esc(d.bamt) + u };
+      const bud = x => { const d = x.wiz && x.wiz.d || (x.posted ? postedWiz(x).d : null); if (!d || !d.bamt) return '—'; const u = { 'Monthly budget': '/month', 'Fixed project budget': ' total' }[d.btype] || '/hour'; return '$' + esc(d.bamt) + u };
       return `<div class="ph"><div><h1>Job postings</h1><p>Every job posting from your Searches, with its current status.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Open offers', posted.length], ['Candidates in pipeline', pipe], ['Drafts not posted', drafts]].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b></div>`).join('')}</div>
   <div class="card tw"><table><thead><tr><th>Role</th><th>Status</th><th>Candidates</th><th>Budget</th><th>Created</th></tr></thead><tbody>
@@ -9672,7 +10555,7 @@
   <div class="row2">${wf('start', 'Ideal start date', `<input type="date" class="in" data-w="start" min="${today()}" value="${d.start}">`)}${wf('end', 'Ideal end date', `<input type="date" class="in" data-w="end" min="${d.start || today()}" value="${d.end}" ${d.endNo ? 'disabled' : ''}>${notSure('end')}`)}</div>
   ${wf('budgetOk', 'Has the budget been approved?', sel('budgetOk', ['Yes', 'Pending approval', 'Not yet'], 'Select…', 1))}
   ${d.budgetOk === 'Yes' ? `<div class="fu">${wf('btype', 'Choose your desired budget type', opts('btype', BT.map(b => [b[0], b[1]])))}
-   ${bt ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>USD</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
+   ${bt ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>$</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
         }
         case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like — and how much each requirement matters.</p>
   ${wf('sen', 'What seniority level should this consultant have?', sel('sen', LIST.sen, 'Select seniority'))}
@@ -9747,7 +10630,7 @@
         `<div class="tpane">${c.fit.map(f => `<div class="fitr"><span>${f[0]}</span><div class="bar"><i style="transform:scaleX(${f[1] / 100})"></i></div><b>${f[1]}%</b></div>`).join('')}<small style="color:var(--muted)">Coverage of the requirements you marked in your job posting.</small></div>`][tab];
       return `<div class="rc ${on ? 'on' : ''}" style="animation-delay:${i * .08}s"><button class="cbx ${on ? 'on' : ''}" data-a="csel" data-v="${c.id}" aria-label="Select ${esc(c.n)}">${on ? IC.check : ''}</button>
  <div class="card"><div class="chd"><span class="av" style="width:46px;height:46px;flex-basis:46px">${ini(c.n)}</span><div style="flex:1;min-width:0"><h3>${esc(c.r)}</h3><div style="color:var(--muted);font-size:12.5px">${c.n} · ${c.y}</div></div>${mring(c.m)}</div>
-  <div class="facts"><span>${IC.pin} ${c.tz}</span><span><b>USD ${c.rate}/hour</b></span><span>Available hours <b>${c.bw} hours/week</b></span><span>Available from <b>${c.av}</b></span></div>
+  <div class="facts"><span>${IC.pin} ${c.tz}</span><span><b>$${c.rate}/hour</b></span><span>Available hours <b>${c.bw} hours/week</b></span><span>Available from <b>${c.av}</b></span></div>
   <div class="tabs">${['Overview', 'Work history', 'Match details'].map((t, j) => `<button class="${tab === j ? 'on' : ''}" data-a="ctab" data-v="${c.id}:${j}">${t}</button>`).join('')}</div>${pane}
   <div class="cft">${c.ver ? `<span class="bd v" title="Technical skills confirmed through Cloud Club’s skills assessment and certification checks.">${IC.check} Verified technical skills</span>` : ''}${c.pc ? `<span class="bd pc" title="Has completed at least one engagement through Cloud Club with positive client feedback.">${IC.check} Proven consultant</span>` : ''}<span class="sp"></span><button class="btn p" data-a="invite1" data-v="${c.id}">Invite to interview ${IC.chat}</button><button class="btn" style="border:0;background:none;color:var(--accent)" data-a="cprof" data-v="${c.id}">VIEW PROFILE ›</button></div></div></div>`
     }
@@ -9755,31 +10638,66 @@
       if (!x.wiz) x.wiz = { step: 0, dir: '', err: {}, title: x.title, role: x.role, d: Object.assign(D0(), PRE(), { start: '2026-09-09', end: '2027-03-09', hours: '40', budgetOk: 'Yes', btype: 'Target hourly rate', bamt: '160', wloc: 'Remote', regions: ['North America'], tzs: ['US Eastern (ET)'], meet: 'Weekly', stake: 'No', sign: 'Department head', certs: ['Cloud Practitioner / Associate'], cimp: { 'Cloud Practitioner / Associate': 'Preferred' }, indExp: 'No preference', orgs: ['Enterprise'], extra: 'Role: ' + x.role }, x.niche ? { prods: ['Other'], pimp: {}, oprod: 'COBOL, JCL, DB2', tech: ['Other'], timp: {}, otech: 'Mainframe z/OS', sen: LIST.sen[3] } : {}) };
       return x.wiz
     }
+    const SKMAP = { prods: { 'Cloud (AWS / Azure / GCP)': /aws|azure|gcp|google cloud|cloud/i, 'Data & Analytics': /snowflake|databricks|data|analytics|bi\b|tableau|power bi/i, 'CRM & Sales': /salesforce|crm|hubspot|dynamics/i, 'Integration & Automation': /mulesoft|integration|boomi|zapier|automation/i, 'AI / ML': /\bai\b|ml|machine learning/i, 'Security': /security|iam|soc/i, 'ERP & Finance': /sap|erp|netsuite|oracle/i }, tech: { 'Python': /python/i, 'SQL': /\bsql\b/i, 'Infrastructure as Code': /terraform|cloudformation|pulumi/i, 'CI/CD & DevOps': /kubernetes|docker|devops|ci\/cd|jenkins/i, 'JavaScript / TypeScript': /javascript|typescript|node|react/i, 'APIs & Integrations': /\bapi/i } };
+    const isoDate = d => d && !isNaN(d) ? d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') : '';
+    function skaiWiz(x, o) {
+      const d = Object.assign(D0(), { hours: o.hours || '', start: o.start || '', end: o.end || '', endNo: !o.end, wloc: o.wloc || '', sen: o.sen || '', why: o.why || '', sign: o.sign || '', urgency: o.urgency || '' });
+      if (o.bamt) { d.budgetOk = 'Yes'; d.btype = 'Target hourly rate'; d.bamt = o.bamt }
+      const tl = String(o.title || '');
+      if (!d.urgency && d.start) { const dd = (new Date(d.start) - new Date()) / 864e5; if (!isNaN(dd)) d.urgency = dd <= 7 ? 'Immediately' : dd <= 28 ? 'Soon' : 'Planning' }
+      if (!d.rtype) d.rtype = /architect/i.test(tl) ? 'Architect' : /data engineer/i.test(tl) ? 'Data Engineer' : /\b(qa|test)/i.test(tl) ? 'QA Tester' : /admin/i.test(tl) ? 'Administrator' : /analyst/i.test(tl) ? 'Business Analyst' : /project manager|\bpm\b/i.test(tl) ? 'Project Manager' : /develop|engineer|programmer/i.test(tl) ? 'Developer' : '';
+      if (!d.sen) d.sen = /principal|lead\b|staff/i.test(tl) ? LIST.sen[3] : /senior|sr\b/i.test(tl) ? LIST.sen[2] : /junior|jr\b/i.test(tl) ? LIST.sen[0] : /mid/i.test(tl) ? LIST.sen[1] : '';
+      const must = o.must || [], pref = o.pref || [], left = [];
+      [[must, 'Must have'], [pref, 'Preferred']].forEach(([l, imp]) => l.forEach(sk => {
+        let hit = false;
+        [['prods', 'pimp'], ['tech', 'timp']].forEach(([f, im]) => Object.keys(SKMAP[f]).forEach(k => { if (SKMAP[f][k].test(sk)) { hit = true; if (!d[f].includes(k)) { d[f].push(k); d[im][k] = imp } } }));
+        if (!hit) left.push(sk)
+      }));
+      d.extra = [o.title ? 'Role: ' + o.title : '', must.length ? 'Required skills: ' + must.join(', ') : '', pref.length ? 'Preferred skills: ' + pref.join(', ') : '', o.notes || ''].filter(Boolean).join('\n');
+      x.wiz = { step: 0, dir: '', err: {}, title: o.title || x.title, role: o.title || x.role, d };
+      return x.wiz
+    }
+    let JP_OPT = false;
     function jobTab(x) {
       const w = S.wiz = postedWiz(x), keep = w.step;
       if (w.d.start) x.starts = fmtDate(w.d.start);
-      const secs = STEPS.map((st, i) => { w.step = i; return `<section class="card jpe">${wizStep()}</section>` }).join('');
-      w.step = keep;
+      if (!w.d.end) w.d.endNo = true;
+      w.err = {}; JP_OPT = true;
+      const secs = STEPS.map((st, i) => { w.step = i; return `<section class="card jpe">${wizStep().replace(/<span class="rq">\*<\/span>/g, '')}</section>` }).join('');
+      JP_OPT = false; w.step = keep;
       return `<div class="jp stagger"><div class="jpnote">${IC.edit} Edit any field below and click <b>Save changes</b>.</div>${secs}<div class="jpsave"><button class="btn p" data-a="jpsave">${IC.check} Save changes</button></div></div>`
     }
     function noMatchPanel(x, d) {
-      const sk = [...(d.prods || []), ...(d.tech || [])].filter(t => t !== 'Other').concat(String(d.oprod || '').split(','), String(d.otech || '').split(',')).map(t => t.trim()).filter(Boolean);
-      return `<div class="card nomatch stagger"><span class="nm-ic">${IC.users}</span><h3>We don’t have matching consultants for this role yet</h3>
-   <p>Your job is posted and saved. Cloud Club doesn’t currently have consultants with this combination of skills${sk.length ? ` (<b>${sk.map(esc).join(', ')}</b>)` : ''}, but our talent team can source candidates for you.</p>
-   ${x.reach ? `<div class="nm-ok">${IC.check} Request sent — our talent team will reach out to <b>${esc(ORG.email)}</b> shortly.</div>` : `<div class="nm-act"><button class="btn p" data-a="reachteam">${IC.chat} Reach out to our team</button><button class="btn" data-a="rtab" data-v="job">Adjust job requirements</button></div>`}
-   <ul class="nm-steps"><li><b>1.</b> Our team reviews your posting and requirements</li><li><b>2.</b> We source and vet matching consultants for you</li><li><b>3.</b> You get a shortlist here and can book interviews</li></ul></div>`
+      const typed = [].concat(String(d.oprod || '').split(','), String(d.otech || '').split(',')).map(t => t.trim()).filter(Boolean);
+      const miss = (d.nmSkills && d.nmSkills.length) ? d.nmSkills : typed;
+      const have = [...(d.prods || []), ...(d.tech || [])].filter(t => t !== 'Other' && !miss.includes(t));
+      const chips = (l, c) => l.map(t => `<span class="nmx-chip ${c}">${esc(t)}</span>`).join('');
+      const r = x.reachInfo, num = '#NM-' + (1000 + SEARCHES.indexOf(x) * 7 + 21);
+      const sum = [['Role', x.role || x.title], ['Hours', (d.hours || '40') + ' hours/week'], ['Budget', d.bamt ? '$' + esc(d.bamt) + (d.btype === 'Monthly budget' ? '/month' : '/hour') : '—'], ['Start', d.start ? fmtDate(d.start) : (x.starts || '—')]];
+      const req = x.reach ? `<div class="nmx-done"><span class="nmx-ok">${IC.check}</span><div><h4>Request sent to our team</h4><p>Thanks — we’ve received your request <b>${num}</b>. A member of our talent team will reach out to you within <b>1–2 business days</b> to go through your requirements and start sourcing consultants for this role.</p></div></div>`
+        : x.nmOpen ? `<h4>Tell our team what you need</h4><p class="nmx-sub">We’ll source candidates for this role. Your posting details are included automatically.</p>
+     <div class="nmx-sum">${sum.map(k => `<div><small>${k[0]}</small><b>${esc(k[1])}</b></div>`).join('')}</div>
+     <div class="row2"><div class="fld"><label>Urgency</label><select class="in" id="nmUrg"><option>Immediately</option><option selected>Within a month</option><option>Flexible</option></select></div><div class="fld"><label>Preferred contact</label><select class="in" id="nmCh"><option>Email</option><option>Phone call</option></select></div></div>
+     <div class="fld"><label>Anything our team should know? <span style="font-weight:500;color:var(--muted)">(optional)</span></label><textarea class="in" id="nmNote" maxlength="250" placeholder="e.g. Flexible on seniority, must know our core banking system…"></textarea></div>
+     <div class="nmx-act"><button class="btn p" data-a="reachsend">${IC.send} Send to our team</button><button class="btn" data-a="reachcancel">Cancel</button></div>`
+          : `<h4>Let our team find the right person</h4><p class="nmx-sub">Our talent team sources consultants beyond our current network and sends you a vetted shortlist — usually within a few business days.</p>
+     <div class="nmx-act"><button class="btn p" data-a="reachteam">${IC.chat} Contact our team</button></div>`;
+      return `<div class="nmx stagger"><div class="card nmx-top"><span class="nm-ic">${IC.users}</span><div><h3>No matching consultants yet</h3>
+   <p>Your job is posted and saved. We don’t currently have consultants with ${miss.length ? 'this skill set' : 'this combination of skills'} — but we can still help you find someone.</p>
+   ${miss.length || have.length ? `<div class="nmx-sk">${miss.length ? `<span class="nmx-l">Not in our network</span>${chips(miss, 'miss')}` : ''}${have.length ? `<span class="nmx-l">Requested</span>${chips(have, '')}` : ''}</div>` : ''}</div></div>
+   <div class="nmx-grid" style="grid-template-columns:1fr"><div class="card nmx-req">${req}</div></div></div>`
     }
     function vResults() {
       const c = S.cur, x = SEARCHES[S.pidx] || { title: c.t, role: '' }, d = postedWiz(x).d, tab = S.rtab || 'cons';
-      const nm = matchCount(d); if (x.posted) x.n = nm;
+      const nm = matchCount(d); if (x.posted) x.n = nm; if (x.posted && nm > 0 && (S.rtab || 'cons') === 'cons') S.reviewed = true;
       NS = x.resNS || (x.resNS = Object.assign(freshNS(true), { candJustEntered: false })); NS.noMatch = nm === 0;
-      if (nm === 0 && NS.kind !== 'none' && NS.messages.length <= 1) { NS.messages = [{ who: 'bot', text: `Thanks for posting <b>${esc(x.title)}</b>. I couldn’t find consultants in our network with this skill set yet.<br><br>Our talent team can source candidates for you — use <b>Reach out to our team</b> and they’ll get in touch. You can also adjust the requirements in the Job posting tab.` }]; NS.kind = 'none' }
+      if (nm === 0 && NS.kind !== 'none' && NS.messages.length <= 1) { NS.messages = [{ who: 'bot', text: `Thanks for posting <b>${esc(x.title)}</b>. I couldn’t find consultants in our network with this skill set yet.<br><br>Our talent team can source candidates for you — use <b>Contact our team</b> and tell them what you need. You can also adjust the requirements in the Job posting tab.` }]; NS.kind = 'none' }
       else if (nm > 0 && NS.kind === 'none') { NS.messages = []; NS.kind = 'ok' }
       if (!NS.messages.length) { const top = [...CANDIDATES].sort((a, b) => b.match - a.match).slice(0, 2); NS.messages.push({ who: 'bot', text: `Good news — I found <b>${CANDIDATES.length} consultants</b> matching <b>${esc(x.title)}</b>.<br><br>Your closest matches are <b>${top[0].id}</b> (${top[0].match}%) and <b>${top[1].id}</b> (${top[1].match}%). Ask me to narrow the list, compare consultants, or help you book interviews.` }) }
       const mo = d.start && d.end ? Math.max(1, Math.round((new Date(d.end) - new Date(d.start)) / 2.63e9)) : 6;
       const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · No matches yet</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
  <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
- ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">USD ${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
+ ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
  <div class="skai">${candidatesBody()}</div>`}`
       return `<div class="sk2${NS.min ? ' min' : ''}"><div class="sk2-left">${main}</div><div class="skai sk2-host">${skChat()}</div></div>${slotsModal()}`
     }
@@ -9789,7 +10707,7 @@
       const c = getC(S.pid), ext = typeof c.id === 'string'; const jobs = c.jobs || c.exp.map((e, i) => ({ t: e[1], co: e[2], p: e[0], b: i === 0 && c.proj ? [c.proj] : [] }));
       const tags = a => `<div class="t2">${a.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
       return `<div class="ph"><div><h1>${esc(c.r)}</h1><p>${IC.pin} ${c.tz} · ${c.y}</p></div><div class="r"><button class="btn" data-a="backres">‹ Back</button><button class="btn p" data-a="${ext ? 'bookext' : 'invite1'}" data-v="${c.id}">Book interview ${IC.chat}</button></div></div>
- <div class="cpg stagger"><div class="card side2 sec"><div style="display:flex;gap:14px;align-items:center"><span class="av bigav">${ini(c.n)}</span><div><b style="font:700 17px Manrope">${esc(c.n)}</b><div style="color:var(--muted)">USD ${c.rate}/hour · ${c.bw} hours/week</div></div></div>
+ <div class="cpg stagger"><div class="card side2 sec"><div style="display:flex;gap:14px;align-items:center"><span class="av bigav">${ini(c.n)}</span><div><b style="font:700 17px Manrope">${esc(c.n)}</b><div style="color:var(--muted)">$${c.rate}/hour · ${c.bw} hours/week</div></div></div>
   <div style="display:flex;align-items:center;gap:14px;margin-top:16px">${mring(c.m, 64)}<div><b>Role match</b><div style="color:var(--muted);font-size:12.5px">against your job posting</div></div></div>
   <h4>Cloud Club relationship</h4><span class="vb ${c.pc ? 'pc' : ''}" title="${c.pc ? 'Has completed at least one engagement through Cloud Club with positive client feedback.' : 'Not yet engaged through Cloud Club.'}">${c.pc ? 'Proven consultant' : 'New consultant'}</span>${c.ver ? ` <span class="vb" style="margin-top:6px" title="Technical skills confirmed through Cloud Club’s skills assessment and certification checks.">${IC.check} Verified skills</span>` : ''}
   <h4>Spoken languages</h4>${c.lang.map(l => `<div style="padding:6px 0;border-bottom:1px dashed var(--line-2)"><b>${l[0]}</b><br><small style="color:var(--muted)">${l[1]}</small></div>`).join('')}
@@ -9855,6 +10773,11 @@
       }
       if (m === 'existing') return box(`${x}<h3>Use an existing offer</h3><p>Start from one of your offers and complete any missing information.</p>${S.offers.map((o, i) => `<button class="exo" data-a="useoffer" data-v="${i}"><span class="fi doc" style="margin:0;padding:0;border:0">${IC.offer}</span><div><b>${esc(o.t)}</b><small>${o.st} · ${o.b}</small></div></button>`).join('')}`);
       if (m === 'leave') return box(`<div class="mic">${IC.clock}</div><h3>You are about to abandon this page${S.view === 'wizard' ? '' : ' and search'}</h3><p>${S.view === 'wizard' ? 'Your answers on this form will be lost.' : 'You can resume your consultant search for this offer from the “Searches” page.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="leave">Yes, leave page</button></div>`);
+      if (m === 'reachmail') {
+        const sx = SEARCHES[S.pidx], e = sx && sx.reachMail; if (!e) return ''; return box(`${x}<div class="mic ok">${IC.send}</div><h3>Request sent to our talent team</h3><p>We emailed our team with your job requirements. They’ll contact you shortly within 1–2 business days.</p>
+  <div class="mact" style="margin-top:0"><button class="btn p" data-a="closem">Done</button></div>`)
+      }
+      if (m === 'delsearch') { const x = SEARCHES[S.delIdx]; if (!x) return ''; return box(`<div class="mic">${IC.trash}</div><h3>Delete this ${x.posted ? 'job posting' : 'draft'}?</h3><p>${x.posted ? '“' + esc(x.title) + '” is posted, so its matches will be removed. It will be kept under Deleted as history.' : 'Delete the draft “' + esc(x.title) + '”? It hasn’t been posted. It will appear under Deleted.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">No, keep it</button><button class="btn p" data-a="yesdel">Yes, delete</button></div>`) }
       if (m === 'cancel') return box(`<div class="mic">${IC.edit}</div><h3>Are you sure?</h3><p>By cancelling, your changes won't be saved.</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">No, go back</button><button class="btn p" data-a="yescancel">Yes, cancel</button></div>`);
       if (m === 'sent') return box(`<div class="mic ok">${IC.send}</div><h3>Your interview invite has been sent!</h3><p>Consultants have two working days to confirm and pick a slot. We'll notify you as soon as they respond.</p><div class="mact" style="margin-top:0"><button class="btn" data-go="profile">Back to my profile</button><button class="btn p" data-go="interviews">See interviews</button></div>`);
       return ''
@@ -9862,11 +10785,13 @@
 
     /* ---------- interviews list ---------- */
     function vInterviews() {
+      if (!S.ivs.length) return `<div class="ph"><div><h1>Interviews</h1><p>Join your interviews and review each consultant’s details before you meet.</p></div></div>
+ ${emptyCard(IC.chat, 'No interviews yet', 'Once you have matched consultants, choose “Request interview” and propose times. Confirmed interviews and join links will appear here.', `<button class="btn p" data-go="searches">View your searches</button>`)}`;
       return `<div class="ph"><div><h1>Interviews</h1><p>Join your interviews and review each consultant’s details before you meet.</p></div></div>
  <div class="ivl stagger">${S.ivs.map((c, i) => {
         const ok = c[3] === 'Confirmed', k = ok ? CONS.find(x => x.n === c[0]) : null, link = 'meet.cloudclub.com/iv/' + c[0].toLowerCase().replace('-', '');
         return `<div class="card iv"><div class="ivh"><span class="av">${ini(c[0])}</span><div class="ivt"><b>${c[0]}</b><small>${c[1]}</small></div><span class="pill ${ok ? 'ok' : 'am'}"><i></i>${c[3]}</span></div>
-  <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? 'USD ' + k.rate + '/hour' : ''}</span>` : ''}</div>
+  <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? '$' + k.rate + '/hour' : ''}</span>` : ''}</div>
   ${k ? `<div class="ivs"><p>${esc(k.spec)}</p><div class="ivk"><div><small>Experience</small><b>${esc(k.y.split(' · ')[0])}</b></div><div><small>Availability</small><b>From ${esc(k.av)}</b></div><div><small>Languages</small><b>${k.lang.map(l => l[0]).join(', ')}</b></div></div>
    <div class="ivc">${k.sk.slice(0, 6).map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>
    <small class="ivcert">Certifications: ${k.certs.map(esc).join(' · ')}</small></div>` : ''}
@@ -9896,10 +10821,14 @@
     const pinfo = t => PINFO[t] || { cons: [], start: '', end: '', hpw: 0, created: 'Today' };
     const fmtLong = k => k ? new Date(k + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
     function vProjects() {
-      const all = PROJ.flatMap(g => g.items), hrs = all.reduce((a, p) => a + p[3], 0), active = all.filter(p => !p[7] && p[6] !== 'Completed').length;
+      const all = PROJ.flatMap(g => g.items), rg = mperRange(), r0 = lid(rg[0]), r1 = lid(rg[1]);
+      const inPer = p => { const f = pinfo(p[0]); return p[7] ? inMper(parseAnyDate(f.created)) : !!f.start && f.start <= r1 && f.end >= r0 };
+      const perP = all.filter(inPer), active = perP.filter(p => !p[7] && p[6] !== 'Completed').length, coN = PROJ.filter(g => g.items.some(inPer)).length;
+      let hrs = 0; perP.forEach(p => { if (p[7]) return; const f = pinfo(p[0]); f.cons.forEach(cid => { for (let d = new Date(rg[0]); d <= rg[1]; d.setDate(d.getDate() + 1)) hrs += tsHours(f, cid, d) }) });
+      if (!all.length) return `<div class="ph"><div><h1>Projects</h1><p>Every engagement, from hiring to delivery — with timesheets for approval.</p></div></div>\n ${emptyCard(IC.brief, 'No projects yet', 'A project starts when you hire a consultant. You’ll track progress, hours and timesheets here.', newPostBtns)}`;
       return `<div class="ph"><div><h1>Projects</h1><p>Every engagement, from hiring to delivery — grouped by company, with timesheets for approval.</p></div></div>
- <div class="grid g4 stagger" style="margin-bottom:18px">${[['Companies', PROJ.length], ['Projects', all.length], ['In delivery', active], ['Hours delivered', hrs]].map(x => `<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
- <div class="pgroups">${PROJ.map(g => {
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:18px">${[['Companies', coN], ['Projects', perP.length], ['In delivery', active], ['Hours delivered', hrs.toLocaleString('en-US')]].map(x => `<div class="card stat"><small>${x[0]} · ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
+ <div class="pgroups">${PROJ.filter(g => g.items.length).map(g => {
         const open = !(S.pcol || {})[g.co], n = g.items.length, avg = Math.round(g.items.reduce((a, p) => a + p[2], 0) / n), h = g.items.reduce((a, p) => a + p[3], 0), t = g.items.reduce((a, p) => a + p[4], 0);
         return `<section class="card pgrp ${open ? 'open' : ''}" data-f="pg-${esc(g.co)}">
    <button class="pgh" data-a="pgtoggle" data-v="${esc(g.co)}" aria-expanded="${open}"><span class="av">${ini(g.co)}</span>
@@ -9919,6 +10848,12 @@
     /* ---------- timesheets (client review & approval) ---------- */
     const lid = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     const today0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d };
+    /* shared Monthly / Yearly switch for metric cards (Profile, Searches, Payments, Projects) */
+    const mperTag = () => S.mper === 'year' ? 'year' : 'month';
+    const mperRange = () => { const t = today0(), y = t.getFullYear(); return S.mper === 'year' ? [new Date(y, 0, 1), new Date(y, 11, 31)] : [new Date(y, t.getMonth(), 1), new Date(y, t.getMonth() + 1, 0)] };
+    const parseAnyDate = v => { const str = String(v || ''); if (/^today$/i.test(str.trim())) return today0(); const m = str.match(/(\d\d)\/(\d\d)\/(\d{4})\s*$/); if (m) return new Date(+m[3], +m[1] - 1, +m[2]); const d = new Date(str); return isNaN(d) ? null : d };
+    const inMper = d => { if (!d) return true; const r = mperRange(); return d >= r[0] && d <= r[1] };
+    const mperRow = () => { const yr = S.mper === 'year', t0 = today0(); return `<div class="mper-row" style="margin-bottom:12px"><span>${yr ? 'Showing ' + t0.getFullYear() : 'Showing ' + t0.toLocaleString('en-US', { month: 'long', year: 'numeric' })}</span><div class="seg" role="group" aria-label="Metrics period"><button class="${yr ? '' : 'on'}" data-a="mper" data-v="month" aria-pressed="${!yr}">Monthly</button><button class="${yr ? 'on' : ''}" data-a="mper" data-v="year" aria-pressed="${yr}">Yearly</button></div></div>` };
     const fmtH = h => { const m = Math.round(h * 60); return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0') };
     const dShort = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const TS_TASKS = ['Development', 'Code review', 'Testing & QA', 'Documentation', 'Solution design'];
@@ -9936,7 +10871,7 @@
       while (mon <= last) { const sun = new Date(mon); sun.setDate(mon.getDate() + 6); out.push({ mon: new Date(mon), s: new Date(mon), e: sun, first, last }); mon.setDate(mon.getDate() + 7) } return out
     }
     function tsStatus(k, total, mon) { if (S.tsApp && S.tsApp[k]) return S.tsApp[k]; if (!total) return 'none'; const cur = today0(); cur.setDate(cur.getDate() - ((cur.getDay() + 6) % 7)); const diff = Math.round((cur - mon) / 6048e5); return diff <= 0 ? 'draft' : diff === 1 ? 'submitted' : 'approved' }
-    const TS_ST = { approved: ['ok', 'Hours approved'], submitted: ['am', 'Awaiting your approval'], draft: ['', 'Draft — consultant logging'], changes: ['dg', 'Changes requested'], none: ['', 'No hours'] };
+    const TS_ST = { approved: ['ok', 'Hours approved'], submitted: ['am', 'Awaiting your approval'], draft: ['', 'Draft — consultant logging'], changes: ['dg', 'Rejected'], none: ['', 'No hours'] };
     function vTimesheet() {
       const t = S.ts; if (!t) return vProjects(); const info = pinfo(t.p), projs = PROJ.flatMap(g => g.items).filter(p => !p[7]).map(p => p[0]), cid = t.c || info.cons[0] || '';
       const weeks = tsWeeks(t.m), mdate = new Date(today0().getFullYear(), today0().getMonth() + t.m, 1);
@@ -9952,20 +10887,25 @@
   <div class="tsmo"><button class="btn sm" data-a="tsmonth" data-v="-1" ${t.m <= minM ? 'disabled' : ''}>‹ Previous month</button><b>${mdate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</b><button class="btn sm" data-a="tsmonth" data-v="1" ${t.m >= 0 ? 'disabled' : ''}>Next month ›</button></div>
   <div class="tssum"><div><small>This month</small><b>${fmtH(mt)}</b></div><div class="tsbar"><div class="bar"><i style="transform:scaleX(${pct / 100})"></i></div><small>${pct}% of ${exp} expected hrs</small></div></div>
   <h4 class="tsh">Monthly weeks</h4>
-  <div class="tsweeks">${data.map(w => { const s2 = TS_ST[w.st]; return `<button class="tsw ${w === sel ? 'on' : ''}" data-a="tsweek" data-v="${lid(w.mon)}"><span class="tsr">${dShort(w.s)} – ${dShort(w.e)}, ${w.e.getFullYear()}</span>${w.st !== 'none' ? `<span class="pill ${s2[0]} sm"><i></i>${w.st === 'approved' ? 'Approved' : w.st === 'submitted' ? 'Submitted' : w.st === 'changes' ? 'Changes' : 'Draft'}</span>` : '<span></span>'}<span class="tsl">Week total</span><b>${fmtH(w.tot)}</b></button>` }).join('')}</div>
+  <div class="tsweeks">${data.map(w => { const s2 = TS_ST[w.st]; return `<button class="tsw ${w === sel ? 'on' : ''}" data-a="tsweek" data-v="${lid(w.mon)}"><span class="tsr">${dShort(w.s)} – ${dShort(w.e)}, ${w.e.getFullYear()}</span>${w.st !== 'none' ? `<span class="pill ${s2[0]} sm"><i></i>${w.st === 'approved' ? 'Approved' : w.st === 'submitted' ? 'Submitted' : w.st === 'changes' ? 'Rejected' : 'Draft'}</span>` : '<span></span>'}<span class="tsl">Week total</span><b>${fmtH(w.tot)}</b></button>` }).join('')}</div>
   <h4 class="tsh">Logged hours for selected week · ${dShort(sel.s)} – ${dShort(sel.e)}</h4>
   <div class="tsents">${ents.length ? ents.map(e => `<div class="tse"><span class="tsd">${e.d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span><span class="tst">${e.task}</span><b class="h">${fmtH(e.h)}</b></div>`).join('') + `<div class="tse tot"><span class="tsd">Week total</span><span class="tst"></span><b class="h">${fmtH(sel.tot)}</b></div>` : '<div class="empty">No hours logged for this week.</div>'}</div>
-  <div class="tsact"><span class="pill ${st[0]}"><i></i>${st[1]}</span>${sel.st === 'submitted' ? `<span class="sp"></span><button class="btn" data-a="tschanges" data-v="${esc(sel.k)}">Request changes</button><button class="btn p" data-a="tsapprove" data-v="${esc(sel.k)}">${IC.check} Approve week hours</button>` : sel.st === 'draft' ? '<small style="color:var(--muted)">You can approve once the consultant submits this week.</small>' : ''}</div>
+  ${sel.st === 'submitted' && S.tsReq === sel.k ? `<div class="tsreq"><div class="fld ${S.tsReqErr ? 'err' : ''}"><label>What needs to change? <span class="rq">*</span></label><textarea class="in" data-tsmsg maxlength="500" placeholder="Tell ${esc(cname(cid))} what is wrong with this week, e.g. “Tuesday’s 5:00 doesn’t match the QA task — please correct and resubmit.”">${esc(S.tsMsg || '')}</textarea><span class="em">Please explain what needs to change</span></div><div class="tsreqa"><button class="btn" data-a="tsreqcancel">Cancel</button><button class="btn p" data-a="tssend" data-v="${esc(sel.k)}">${IC.send}Sent</button></div></div>` : ''}
+  ${sel.st === 'changes' && (S.tsMsgs || {})[sel.k] ? `<div class="tsnote"><small>Your message to ${esc(cname(cid))} · ${esc(S.tsMsgs[sel.k].on)}</small><p>${esc(S.tsMsgs[sel.k].msg)}</p><small>This week was rejected. ${esc(cname(cid))} needs to correct the hours and submit it again before you can approve it.</small></div>` : ''}
+  <div class="tsact"><span class="pill ${st[0]}"><i></i>${st[1]}</span>${sel.st === 'submitted' && S.tsReq !== sel.k ? `<span class="sp"></span><button class="btn" data-a="tschanges" data-v="${esc(sel.k)}">Request changes</button><button class="btn p" data-a="tsapprove" data-v="${esc(sel.k)}">${IC.check} Approve week hours</button>` : sel.st === 'draft' ? '<small style="color:var(--muted)">You can approve once the consultant submits this week.</small>' : sel.st === 'changes' ? '<small style="color:var(--muted)">Waiting for the consultant to resubmit this week.</small>' : ''}</div>
  </div>`}
 
     const PAYS = [['P-0001', 'CC-117', 'Cloud Data Platform Rollout', '04/02/2026 – 04/10/2026', 5.25, 120, '—', 'Upcoming'], ['P-0002', 'CC-104', 'Marketing Analytics Migration', '09/21/2026 – 09/27/2026', 24, 95, 'Oct 10, 2026', 'Due'], ['P-0003', 'CC-117', 'Cloud Data Platform Rollout', '09/14/2026 – 09/20/2026', 40, 120, 'Oct 02, 2026', 'Processing'], ['P-0004', 'CC-117', 'Cloud Data Platform Rollout', '09/07/2026 – 09/13/2026', 40, 120, 'Sep 25, 2026', 'Paid'], ['P-0005', 'CC-131', 'CPQ Implementation', '09/07/2026 – 09/13/2026', 20, 110, 'Sep 25, 2026', 'Paid'], ['P-0006', 'CC-104', 'Marketing Analytics Migration', '08/31/2026 – 09/06/2026', 24, 95, 'Sep 18, 2026', 'Paid'], ['P-0007', 'CC-149', 'Commerce Replatform', '08/24/2026 – 08/30/2026', 40, 105, 'Sep 11, 2026', 'Paid'], ['P-0008', 'CC-152', 'MuleSoft ERP Integration', '08/17/2026 – 08/23/2026', 40, 100, 'Sep 04, 2026', 'Paid']];
     const PAY_ST = { Paid: 'ok', Due: 'am', Processing: '', Upcoming: '' };
-    const money = n => 'USD ' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     function vPayments() {
       const P = S.pay = S.pay || { page: 0, per: 5, f: 'All' }, list = PAYS.filter(r => P.f === 'All' || r[7] === P.f), pages = Math.max(1, Math.ceil(list.length / P.per)); if (P.page >= pages) P.page = pages - 1; const rows = list.slice(P.page * P.per, P.page * P.per + P.per);
-      const amt = r => r[4] * r[5], sum = f => PAYS.filter(f).reduce((a, r) => a + amt(r), 0), hrs = PAYS.reduce((a, r) => a + r[4], 0);
+      const amt = r => r[4] * r[5], PP = PAYS.filter(r => inMper(parseAnyDate(r[3]))), sum = f => PP.filter(f).reduce((a, r) => a + amt(r), 0), hrs = PP.reduce((a, r) => a + r[4], 0);
+      if (!PAYS.length) return `<div class="ph"><div><h1>Payments</h1><p>Billable hours and amounts due across all your projects.</p></div></div>
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid to date', money(0)], ['Outstanding', money(0)], ['Upcoming', money(0)], ['Billable hours', 0]].map(x => `<div class="card stat"><small>${x[0]} · ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
+ ${emptyCard(IC.dollar, 'No payments yet', 'Billable hours and invoices appear here once a consultant starts working on your project. You approve timesheets before anything is charged.')}`;
       return `<div class="ph"><div><h1>Payments</h1><p>Billable hours and amounts due across all your projects.</p></div></div>
- <div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid to date', money(sum(r => r[7] === 'Paid'))], ['Outstanding', money(sum(r => r[7] === 'Due' || r[7] === 'Processing'))], ['Upcoming', money(sum(r => r[7] === 'Upcoming'))], ['Billable hours', hrs.toLocaleString('en-US')]].map(s => `<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid to date', money(sum(r => r[7] === 'Paid'))], ['Outstanding', money(sum(r => r[7] === 'Due' || r[7] === 'Processing'))], ['Upcoming', money(sum(r => r[7] === 'Upcoming'))], ['Billable hours', hrs.toLocaleString('en-US')]].map(s => `<div class="card stat"><small>${s[0]} · ${mperTag()}</small><b>${s[1]}</b></div>`).join('')}</div>
  <div class="card tw"><div class="payf">${['All', 'Upcoming', 'Processing', 'Due', 'Paid'].map(f => `<button class="fchip ${P.f === f ? 'active' : ''}" data-a="payf" data-v="${f}">${f}</button>`).join('')}</div>
  <table class="paytb"><thead><tr><th>Payment</th><th>Consultant</th><th>Project</th><th>Work period</th><th class="hl">Billable hours</th><th>Hourly rate</th><th>Amount due</th><th>Anticipated pay date</th><th>Status</th></tr></thead><tbody>${rows.length ? rows.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${r[0]}</b></td><td>${esc(cname(r[1]))}</td><td>${esc(r[2])}</td><td>${r[3]}</td><td class="hl">${r[4]} hrs</td><td>${money(r[5])}</td><td><b>${money(amt(r))}</b></td><td>${r[6]}</td><td><span class="pill ${PAY_ST[r[7]]}"><i></i>${r[7]}</span></td></tr>`).join('') : '<tr><td colspan="9"><div class="empty">No payments with this status.</div></td></tr>'}</tbody></table>
  <div class="payp"><label>Rows per page <select class="in" data-payper>${[5, 10].map(n => `<option ${P.per === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label><span>${list.length ? P.page * P.per + 1 : 0}–${Math.min(list.length, P.page * P.per + P.per)} of ${list.length}</span><button class="btn sm" data-a="paypg" data-v="-1" ${P.page <= 0 ? 'disabled' : ''} aria-label="Previous page">‹</button><button class="btn sm" data-a="paypg" data-v="1" ${P.page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">›</button></div></div>`
@@ -9979,7 +10919,7 @@
  <div class="grid g2 stagger"><div class="card"><h3>Your one-time referral code</h3><div style="display:flex;gap:10px"><input class="in" readonly value="${S.refCode}" style="font-weight:700;letter-spacing:.08em;font-family:ui-monospace,Menlo,monospace"><button class="btn p" data-a="copy">${IC.copy} Copy</button></div><p style="color:var(--muted);margin:10px 0 12px">${S.refShared ? '<b>Shared</b> — this code is now reserved for one person and can be used only once.' : 'Unique to this invite — it works for <b>one person only</b> and can be used once.'}</p><button class="btn sm" data-a="refnew">${S.refShared ? 'Generate a new code for someone else' : 'Generate a different code'}</button></div>
  <div class="card"><h3>Invite by email</h3><div style="display:flex;gap:10px"><input class="in" id="refmail" placeholder="colleague@company.com"><button class="btn" data-a="refsend">Send</button></div><p style="color:var(--muted);margin:10px 0 0">Each invitation is sent with its own one-time code.</p></div></div>
  <div class="grid g3 stagger" style="margin:20px 0">${[['Invites sent', R.length], ['Signed up', R.filter(r => r.st !== 'Invited').length], ['Hired', R.filter(r => r.st === 'Hired').length]].map(x => `<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
- <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code || '—')}</td><td>${r.d}</td><td><span class="pill ${REF_ST[r.st]}"><i></i>${r.st}</span></td></tr>`).join('')}</tbody></table></div>`
+ <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${!R.length ? '<tr><td colspan="4"><div class="empty">No referrals yet — share your one-time code or invite a colleague by email.</div></td></tr>' : R.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code || '—')}</td><td>${r.d}</td><td><span class="pill ${REF_ST[r.st]}"><i></i>${r.st}</span></td></tr>`).join('')}</tbody></table></div>`
     }
 
     /* ---------- behaviours ---------- */
@@ -10008,9 +10948,10 @@
     function confetti() { const cols = ['#547691', '#3e566a', '#c98a2e', '#8fb2cb', '#2c3e4c']; for (let i = 0; i < 70; i++) { const e = document.createElement('i'); e.className = 'cf'; e.style.cssText = `left:${Math.random() * 100}vw;background:${cols[i % 5]};animation-duration:${1.6 + Math.random() * 1.8}s;animation-delay:${Math.random() * .4}s;border-radius:${Math.random() > .5 ? '50%' : '2px'}`; document.body.appendChild(e); setTimeout(() => e.remove(), 4200) } }
     Object.assign(S, {
       modal: null, ms: null, file: null, sel: [], tab: {}, more: {}, sort: 'Best match', vf: 'All', pid: 0, cur: null, leaveTo: null,
-      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed'], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed'], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting']]
+      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed'], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed'], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting'], ['CC-136', 'Technical Lead', 'Mon, Oct 7 · 11:00 AM', 'Confirmed'], ['CC-131', 'Software Developer', 'Pending reply', 'Awaiting']]
     });
     S.profile.type = 'Enterprise (end client)';
+    if (FRESH) { SEARCHES.length = 0; PAYS.length = 0; REFS.length = 0; S.offers = []; NOTIFS.splice(0, NOTIFS.length, { k: 'm', t: 'Welcome to Cloud Club', s: 'Create your first job posting to get matches', w: 'Just now', go: 'searches', u: 1 }) }
     /* ================= Skai job posting (merged from existing app) ================= */
     const CANDIDATES = [
       {
@@ -10024,7 +10965,7 @@
       },
       {
         id: 'CC-141', fit: 'Strong match', match: 92, role: 'Senior Cloud Solutions Architect & Engineer', avail: 'Available for project start', availLater: false,
-        exp: '13 years', region: 'US - Central', rate: 'USD 160–175/hour',
+        exp: '13 years', region: 'US - Central', rate: '$160–175/hour',
         skills: ['AWS', 'Azure', 'Kubernetes', 'Terraform', 'CI/CD', 'Python', 'Cost Optimisation', 'Snowflake'],
         why: ['13 years of cloud engineering with direct AWS and Snowflake delivery — aligns with your core stack', 'Infrastructure-as-code background translates directly to the new region’s environments', 'Multi-account strategy skill is a direct match for standing up a new business unit from scratch', 'Financial Services and FinTech-adjacent experience with strong solution design capabilities', 'Full-time availability (40 hrs/week) means fully dedicated to your project from day one'],
         certs: ['AWS Solutions Architect – Professional', 'Azure Solutions Architect Expert', 'Certified Kubernetes Administrator'],
@@ -10089,7 +11030,7 @@
         turn: prefilled ? SCRIPT.length : 0,
         typing: false,
         messages: prefilled ? [] : [],
-        jd: prefilled ? { title: 'Senior Cloud Data Engineer', engagement: 'T&M (Time & Materials)', location: 'Remote', start: 'Sep 9, 2026', end: 'Mar 9, 2027', hours: '40', rate: 'USD 160–175/hour' } : { title: '', engagement: '', location: '', start: '', end: '', hours: '', rate: '' },
+        jd: prefilled ? { title: 'Senior Cloud Data Engineer', engagement: 'T&M (Time & Materials)', location: 'Remote', start: 'Sep 9, 2026', end: 'Mar 9, 2027', hours: '40', rate: '$160–175/hour' } : { title: '', engagement: '', location: '', start: '', end: '', hours: '', rate: '' },
         pct: prefilled ? 92 : 0,
         upload: 'idle', uploadPct: 0,
         activeTab: prefilled ? 'candidates' : 'jd',
@@ -10163,7 +11104,7 @@
       if (I.stage === 'method') return `
   <div class="ihead"><span class="skai-chip"><b>SK</b>Skai</span><h1>How would you like to fill in the job posting?</h1><p><b>${esc(I.name)}</b> · ${esc(I.role)} — saved as a draft in Searches.</p></div>
   <div class="mth-grid">
-   <div class="mth rec" style="cursor:default"><span class="mth-badge">${IC.sparkle} Recommended · fastest</span><span class="mth-ic">${IC.sparkle}</span><b>Create with Skai</b><p>Paste your requirements or describe the role. Skai asks follow-up questions and fills the form for you.</p><ul><li>Paste a job description, SOW or rough notes</li><li>Answer a few quick questions in chat</li><li>Review the auto-filled brief, then post</li></ul><span class="mth-pick"><small>Choose an approach</small><span role="button" tabindex="0" class="mth-chip" data-imeth="skai-guided">${IC.sparkle} Guided conversation</span><span role="button" tabindex="0" class="mth-chip" data-imeth="skai-split">${ICON.brief} Chat + form</span></span></div>
+   <button type="button" class="mth rec" data-imeth="skai-guided"><span class="mth-badge">${IC.sparkle} Recommended · fastest</span><span class="mth-ic">${IC.sparkle}</span><b>Create with Skai</b><p>Paste your requirements or describe the role. Skai asks follow-up questions and fills the form for you.</p><ul><li>Paste a job description, SOW or rough notes</li><li>Answer a few quick questions in chat</li><li>Review the auto-filled brief, then post</li></ul><span class="mth-go">Start the conversation ${ICON.arrow}</span></button>
    <button type="button" class="mth" data-imeth="manual"><span class="mth-ic">${ICON.edit}</span><b>Fill in the form manually</b><p>Go through 5 short steps yourself — urgency, specifications, skills, location and approval.</p><ul><li>Full control over every field</li><li>Save &amp; exit any time</li><li>You can switch to Skai mid-way</li></ul><span class="mth-go">Open the form ${ICON.arrow}</span></button>
   </div>
   <div class="inote">Your progress is saved as a draft in Searches. Matched consultants appear only after you post the job.<br><button data-ibackbasics>Edit project name or role</button></div>`;
@@ -10369,7 +11310,7 @@
   `;
     }
     function candCard(c, i) {
-      const ex = NS.expanded[c.id];
+      const ex = NS.expanded[c.id] === true; /* collapsed by default; client can expand */
       const enter = NS.candJustEntered ? ' cand-enter' : '';
       return `
   <div class="cand-card${enter}" data-cand="${c.id}" style="--i:${i}">
@@ -10429,14 +11370,14 @@
       applyAiToForm(p);
       return [...new Set(Object.keys(p).map(k => SK_LBL[k]).filter(Boolean))]
     }
-    const RES_NONE = ['Reach out to our team', 'What can I change to get matches?'];
+    const RES_NONE = ['Contact our team', 'What can I change to get matches?'];
     const RES_SUG = ['Show only top matches', 'Who is available now?', 'Compare them side by side'];
     const candVisible = () => CANDIDATES.filter(c => (!NS.filter.fit || c.fit === NS.filter.fit) && (!NS.filter.avail || !c.availLater));
     function skResultsReply(t) {
       const q = t.toLowerCase();
       if (NS.noMatch) {
         const x = SEARCHES[S.pidx];
-        if (/reach|team|contact|source|help|talk/.test(q)) { if (x && !x.reach) { x.reach = true; toast('Request sent — our team will reach out') } return `Done — I’ve passed your posting to our talent team. They’ll reach out to <b>${esc(ORG.email)}</b> shortly to source candidates.` }
+        if (/reach|team|contact|source|help|talk/.test(q)) { if (x && x.reach) return `Your request is already with our talent team — they’ll email <b>${esc(ORG.email)}</b> within 1–2 business days.`; if (x) { x.nmOpen = true; setTimeout(() => { render(false); document.querySelector('.nmx-req')?.scrollIntoView({ block: 'center' }) }, 0) } return `I’ve opened a short request form next to your posting. Add anything the team should know and press <b>Send to our team</b> — they’ll email <b>${esc(ORG.email)}</b> within 1–2 business days.` }
         if (/change|broaden|adjust|why|match|edit/.test(q)) return `Try removing the “Other” products or skills, or marking niche skills as <b>Preferred</b> instead of <b>Must have</b>. Edit them in the <b>Job posting</b> tab and I’ll check for matches again.`
         return `I couldn’t find matches for this role yet. Ask me to <b>reach out to our team</b>, or edit the requirements in the Job posting tab.`
       }
@@ -10497,9 +11438,14 @@
       }, 260);
     }
     function startSearch() {
-      const first = !NS.posted, it = SEARCHES.find(x => x.ns === NS);
+      const first = !NS.posted, it = SEARCHES.find(x => x.ns === NS), L = NS.lists || {}, miss = unmatchedSkills([].concat(L.required || [], L.preferred || [], L.integrations || [])), nm = miss.length > 0;
       NS.posted = true;
-      if (it) Object.assign(it, { posted: true, title: it.title || NS.jd.title, starts: NS.jd.start || '—', n: CANDIDATES.length, snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
+      if (it) Object.assign(it, { posted: true, title: it.title || NS.jd.title, starts: NS.jd.start || '—', n: nm ? 0 : CANDIDATES.length, snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
+      if (first && it) {
+        const j = NS.jd, n0 = v => (String(v || '').match(/\d+/) || [])[0], ps = Date.parse(j.start), pe = Date.parse(j.end);
+        skaiWiz(it, { title: j.title, hours: n0(j.hours), bamt: n0(j.rate), start: isoDate(new Date(ps)), end: isoDate(new Date(pe)), wloc: LIST.wloc.find(w => new RegExp('^' + w.replace('-', '.?'), 'i').test(j.location || '')) || '', must: L.required || [], pref: [].concat(L.preferred || [], L.integrations || []), notes: (L.resp || []).length ? 'Responsibilities: ' + L.resp.join('; ') : '' });
+        it.role = j.title || it.role
+      }
       if (first) { S.offers.unshift({ t: NS.jd.title || 'Untitled role', st: 'Matching', c: CANDIDATES.length, d: 'Today', b: NS.jd.rate || '—' }); toast('Job posted — Skai is finding your matches') }
       NS.stage = 'searching'; NS.searchStep = 0; NS.tipIdx = 0; rerender();
       const tipIv = setInterval(() => { NS.tipIdx++; const el = document.querySelector('.tip-carousel'); if (el) { el.style.opacity = 0; setTimeout(() => { const e2 = document.querySelector('.tip-carousel'); if (e2) { e2.textContent = '💡 ' + TIPS[NS.tipIdx % TIPS.length]; e2.style.opacity = 1; } }, 200); } }, 1400);
@@ -10507,7 +11453,9 @@
         NS.searchStep++;
         if (NS.searchStep >= 4) {
           clearInterval(stepIv); clearInterval(tipIv);
-          NS.stage = 'results'; NS.activeTab = 'candidates'; NS.candJustEntered = true; addProject(NS.jd.title || 'Untitled search'); rerender();
+          S.reviewed = true; NS.stage = 'results'; NS.activeTab = 'candidates'; NS.candJustEntered = true; addProject(NS.jd.title || 'Untitled search');
+          if (nm && it) { postedWiz(it).d.nmSkills = miss; it.nmOpen = true; S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.cur = { t: it.title || NS.jd.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; window.scrollTo(0, 0); render(); return }
+          rerender();
           return;
         }
         rerender();
@@ -10541,7 +11489,7 @@
       if (q('[data-upload-doc]')) { startUpload(); return }
       { const el = q('[data-tab]'); if (el) { NS.activeTab = el.dataset.tab; rerender(); return } }
       if (q('[data-search-matches]')) { startSearch(); return }
-      { const el = q('[data-expand]'); if (el) { NS.expanded[el.dataset.expand] = !NS.expanded[el.dataset.expand]; rerender(); return } }
+      { const el = q('[data-expand]'); if (el) { NS.expanded[el.dataset.expand] = NS.expanded[el.dataset.expand] !== true; rerender(); return } }
       { const el = q('[data-filter]'); if (el) { const [k, v] = el.dataset.filter.split(':'); NS.filter[k] = NS.filter[k] === v ? null : v; rerender(); return } }
       { const el = q('[data-bookinterview]'); if (el) { bookExt(el.dataset.bookinterview); return } }
       { const el = q('[data-viewprofile]'); if (el) { profileExt(el.dataset.viewprofile); return } }
@@ -10606,7 +11554,7 @@
     const gme = h => gadd(esc(h), 'user');
     function startGuided() {
       const I = INTAKE, x = I.draft || S.draft; S.draft = x;
-      G = { A: {}, cur: null, editing: false, reviewShown: false, busy: false, html: '', drawer: false, name: I.name.trim(), role: I.role.trim(), draft: x };
+      G = { A: Object.assign({}, I.seed || {}), cur: null, editing: false, reviewShown: false, busy: false, html: '', drawer: false, name: I.name.trim(), role: I.role.trim(), draft: x };
       x.kind = 'guided'; x.g = G; x.wiz = null; x.ns = null;
       S.view = 'guided'; S.pop = false; S.modal = null; window.scrollTo(0, 0); render();
       gbot(`<p>Hi ${esc(ORG.first)} 👋 I’ll help you create the job posting for <b>${esc(G.name)}</b>${G.role ? ' (' + esc(G.role) + ')' : ''}.</p><p><b>Describe the role in your own words</b> — paste a job description, notes, anything. I’ll pick out the details and only ask about what’s missing.</p>
@@ -10629,7 +11577,7 @@
       const x = t.toLowerCase(), p = {};
       const sen = x.match(/principal|staff|senior|sr\.|mid[- ]?level|junior|entry/); if (sen) p.seniority = /principal|staff/.test(sen[0]) ? 'Principal' : /senior|sr\./.test(sen[0]) ? 'Senior' : /mid/.test(sen[0]) ? 'Mid-level' : 'Junior';
       const h = x.match(/(\d{1,2})\s*(?:hrs?|hours?)\b/); if (h) p.hours = String(Math.min(80, +h[1])); else if (/full[- ]?time/.test(x)) p.hours = '40';
-      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) p.rate = 'USD ' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour';
+      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour';
       if (/remote/.test(x)) p.location = 'Remote'; else if (/hybrid/.test(x)) p.location = 'Hybrid'; else if (/on[- ]?site/.test(x)) p.location = 'On-site';
       const w = x.match(/in (\d+)\s*weeks?/); if (w) p.start = +w[1] <= 1 ? 'As soon as possible' : +w[1] <= 4 ? 'In 2–4 weeks' : 'In 1–2 months'; else if (/asap|immediately|right away/.test(x)) p.start = 'As soon as possible'; else if (/next month/.test(x)) p.start = 'In 2–4 weeks';
       const d = x.match(/(\d+)\s*(?:-|to|–)?\s*(\d+)?\s*months?/); if (d) { const n = +(d[2] || d[1]); p.duration = n <= 3 ? '1–3 months' : n <= 6 ? '3–6 months' : n <= 12 ? '6–12 months' : '12+ months' }
@@ -10708,11 +11656,14 @@
       if (G.busy) return; G.busy = true; document.querySelectorAll('[data-gpost],[data-gdraft]').forEach(b => b.disabled = true);
       gme('Post job & find matches');
       await gworking('Posting your job', ['Saving your job posting', 'Publishing to the Cloud Club network', 'Matching consultants to your requirements', 'Ranking the best fits']);
-      const x = G.draft, A = G.A, top = [...CANDIDATES].sort((a, b) => b.match - a.match);
-      Object.assign(x, { posted: true, kind: 'wiz', g: null, ns: null, wiz: null, jt: G.role || G.name, n: CANDIDATES.length, reach: false, starts: '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
-      const w = postedWiz(x), num = s => (String(s || '').match(/\d+/) || [])[0];
-      if (num(A.hours)) w.d.hours = num(A.hours); if (num(A.rate)) { w.d.bamt = num(A.rate); w.d.btype = 'Target hourly rate' }
-      if (A.location) w.d.wloc = A.location; if (A.seniority) w.d.sen = LIST.sen.find(s => s.startsWith(A.seniority.replace('Mid-level', 'Mid-Level'))) || w.d.sen;
+      const x = G.draft, A = G.A, top = [...CANDIDATES].sort((a, b) => b.match - a.match), miss = unmatchedSkills(A.skills, gq('skills').opts), nm = miss.length > 0;
+      Object.assign(x, { posted: true, kind: 'wiz', g: null, ns: null, wiz: null, jt: G.role || G.name, n: nm ? 0 : CANDIDATES.length, reach: false, starts: '—', snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
+      const num = s => (String(s || '').match(/\d+/) || [])[0], dt = new Date(), addD = n => { const t = new Date(dt); t.setDate(t.getDate() + n); return t };
+      const st = /2.4 weeks/.test(A.start) ? 21 : /1.2 months/.test(A.start) ? 45 : 7, mo = num(String(A.duration || '').split(/[–-]/).pop());
+      const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? LIST.sen.find(s => s.startsWith(A.seniority.replace('Mid-level', 'Mid-Level'))) : '', why: A.why ? (LIST.why.find(r => r.split(' ')[0] === A.why.split(' ')[0]) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
+      if (nm) w.d.nmSkills = miss;
+      x.role = G.role || G.name || x.role;
+      if (nm) { x.nmOpen = true; gbot(`<div class="g-success"><span class="g-bigok" style="background:var(--amber-tint);color:var(--amber)">${IC.users}</span><h3>Your job is posted — no matches yet</h3><p style="margin:0">We don’t have consultants with <b>${miss.map(esc).join(', ')}</b> in our network yet, but our talent team can source candidates for you.</p><div class="g-row" style="margin-top:4px"><button class="btn p" data-greach>Contact our team</button><button class="btn" data-gview="job">Edit job posting</button></div></div>`, true); G.busy = false; return }
       gbot(`<div class="g-success"><span class="g-bigok">${GCHECK}</span><h3>Your job is posted — ${CANDIDATES.length} consultants matched</h3><p style="margin:0">Your closest matches are <b>${top[0].id || 'your top consultant'}</b> (${top[0].match}%) and <b>${top[1].id || 'the next best fit'}</b> (${top[1].match}%).</p><div class="g-row" style="margin-top:4px"><button class="btn p" data-gview="cons">View matched consultants</button><button class="btn" data-gview="job">Edit job posting</button></div></div>`, true);
       G.busy = false
     }
@@ -10738,6 +11689,12 @@
       if (c('[data-gagain]')) { c('.g-bub').classList.add('done-card'); gme('I’ll answer it'); gsay('<p>Great — pick an option above or type your answer below.</p>'); document.querySelectorAll('.g-bub.done-card').forEach(b => { if (b.querySelector('.g-opts') && G.cur) b.classList.remove('done-card') }); return }
       if (c('[data-gpost]')) { gpost(); return }
       if (c('[data-gdraft]')) { toast('Saved as a draft in Searches'); doGo('searches'); return }
+      if ((el = c('[data-greach]'))) {
+        const x = G.draft; if (!x || x.reach) return;
+        x.reachInfo = { urg: 'Within a month', ch: 'Email', note: '' }; x.reach = true; x.nmOpen = false; x.reachMail = reachEmail(x);
+        el.disabled = true; el.classList.remove('p'); el.classList.add('sent'); el.innerHTML = GCHECK + ' Request sent'; gsync();
+        S.pidx = SEARCHES.indexOf(x); S.modal = 'reachmail'; render(false); toast('Request sent — our team will reach out within 1–2 business days'); return
+      }
       if ((el = c('[data-gview]'))) { gOpenPosted(el.dataset.gview); return }
       if (c('[data-gopen]')) { G.drawer = true; gdrawer(); return }
       if (c('[data-gclose]')) { G.drawer = false; gdrawer(); return }
@@ -10763,10 +11720,17 @@
     function rerender() { render() }
     const WHY_FROM_SITU = { Bug: 4, Enhancement: 0, Integration: 0, Strategy: 2, 'Ongoing Support': 1 }, SITU_FROM_WHY = ['Enhancement', 'Ongoing Support', 'Strategy', null, 'Bug'];
     function wizardToSkai() {
-      const w = S.wiz, x = S.draft; let ns = x && x.ns;
-      if (!ns) { ns = freshNS(false); ns.messages.push({ who: 'bot', text: skGreet(w.title || (x && x.title) || 'your project', w.role || (x && x.role) || 'this role') }) }
-      if (x) x.ns = ns;
-      NS = ns; ns.min = false; w.skai = true; S.pop = false; S.modal = null; render(); toast('Skai chat opened — it fills this same form')
+      const w = S.wiz, d = w.d || {}; let x = S.draft; const t = (w.title || (x && x.title) || '').trim(), r = (w.role || (x && x.role) || '').trim();
+      if (!x) { x = { id: Date.now(), title: t || 'Untitled job posting', role: r || t, created: 'Today', starts: '—', n: 0, posted: false }; SEARCHES.unshift(x); S.draft = x }
+      INTAKE = Object.assign(freshIntake(), { name: x.title || t || 'Untitled job posting', role: x.role || r, stage: 'method', draft: x });
+      const A = {}, pick = (k, v) => { const q = gq(k); if (v && q.opts.includes(v)) A[k] = v };
+      /* carry over what was already filled in on the form */
+      if (/^\d+$/.test(d.hours || '')) A.hours = d.hours;
+      pick('location', d.wloc); pick('signoff', d.sign);
+      if (d.why) { const m = gq('why').opts.find(o => o.split(' ')[0] === d.why.split(' ')[0]); if (m) A.why = m }
+      if (d.bamt && /^\d+$/.test(d.bamt)) { const n = +d.bamt; A.rate = n >= 160 ? '$160+ / hr' : n >= 130 ? '$130–160 / hr' : n >= 100 ? '$100–130 / hr' : '$80–100 / hr' }
+      INTAKE.seed = A; S.modal = null; startGuided();
+      toast('Switched to the Skai guided conversation')
     }
     function startWizard() { S.link = null; S.draft = null; if (S.view === 'results' || (S.view === 'wizard' && S.wiz.step > 0) || (S.view === 'sched' && !S.sch.sent)) { S.leaveTo = '__new'; S.modal = 'leave'; render(); return } resetWiz(); S.view = 'wizard'; S.pop = false; S.modal = null; window.scrollTo(0, 0); render() }
     function doGo(v) { S.view = v; S.pop = false; S.edit = null; S.modal = null; S.ms = null; window.scrollTo(0, 0); render() }
@@ -10801,7 +11765,7 @@
       const d = S.wiz.d, t = d.sen.split(' ')[0].split('-')[0] + ' ' + (d.rtype === 'Multiple roles' ? 'Team' : d.rtype);
       let it = S.draft; if (!it) { it = { id: Date.now(), created: 'Today', title: t, role: t }; SEARCHES.unshift(it) }
       Object.assign(it, { posted: true, kind: 'wiz', wiz: JSON.parse(JSON.stringify(S.wiz)), ns: null, jt: t, n: matchCount(d), reach: false, starts: d.start ? fmtDate(d.start) : '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' }); S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.draft = null;
-      S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: 'USD ' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/month' : '/hour') });
+      S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: '$' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/month' : '/hour') });
       S.view = 'search'; render(); window.scrollTo(0, 0);
       const m = ['Scoring skills & certifications', 'Checking availability & time zones', 'Weighing your must-haves', 'Ranking your top matches']; let i = 0;
       const t2 = setInterval(() => { const el = $('#mt'); if (!el || S.view !== 'search') { clearInterval(t2); return } el.textContent = m[i++ % m.length] }, 1100);
@@ -10828,7 +11792,8 @@
         case 'sqcancel': S.sqEdit = null; render(false); break;
         case 'sqsave': { const i = $('[data-sqin]'), t = (i ? i.value : '').trim(); if (!t) { i && i.focus(); break } SEARCHES[+v].title = t; S.sqEdit = null; render(false); toast('Title updated'); break }
         case 'opensearch': {
-          const x = SEARCHES[+v]; window.scrollTo(0, 0);
+          const x = SEARCHES[+v]; if (x.closed) break; window.scrollTo(0, 0);
+          const wantTab = a.dataset.tab === 'job' ? 'job' : 'cons';
           if (!x.posted) {
             S.draft = x;
             if (x.kind === 'wiz') { S.wiz = x.wiz; S.wiz.aiBusy = false; if (S.wiz.skai) { NS = x.ns || (x.ns = freshNS(false)); NS.typing = false }; S.view = 'wizard' }
@@ -10837,16 +11802,26 @@
             else { INTAKE = Object.assign(freshIntake(), { name: x.title, role: x.role, stage: 'method', draft: x }); S.view = 'intake' }
             render(); break
           }
-          if (x.kind === 'wiz') { postedWiz(x); S.pidx = +v; S.rtab = 'cons'; S.cur = { t: x.jt || x.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; render(); break }
+          if (x.kind === 'wiz') { postedWiz(x); S.pidx = +v; S.rtab = wantTab; S.cur = { t: x.jt || x.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; render(); break }
           NS = x.ns || freshNS(true); S.view = 'skai'; render(); break
         }
-        case 'sqf': S.sqf = v; render(false); break;
+        case 'sqf': S.sqf = v; S.sqEdit = null; render(false); break;
+        case 'sqclose': { const x = SEARCHES[+v]; if (x) { x.closed = !x.closed; render(false); toast(x.closed ? 'Job posting closed' : 'Job posting reopened') } break }
+        case 'delsearch': S.delIdx = +v; S.modal = 'delsearch'; render(); break;
+        case 'yesdel': { const x = SEARCHES[S.delIdx]; S.modal = null; if (x) { SEARCHES.splice(S.delIdx, 1); DELETED.unshift(Object.assign(x, { wasPosted: !!x.posted, deletedOn: 'Today' })); S.sqEdit = null; toast(x.posted ? 'Job posting deleted — kept in Deleted as history' : 'Draft deleted') } S.delIdx = null; render(false); break }
         case 'tsopen': { const f = pinfo(v); S.ts = { p: v, c: f.cons[0], m: 0, w: null }; S.view = 'timesheet'; window.scrollTo(0, 0); render(); break }
         case 'tsback': doGo('projects'); break
-        case 'tsmonth': S.ts.m += +v; S.ts.w = null; render(false); break
-        case 'tsweek': S.ts.w = v; stepRender(); break
+        case 'tsmonth': S.tsReq = null; S.ts.m += +v; S.ts.w = null; render(false); break
+        case 'tsweek': S.tsReq = null; S.ts.w = v; stepRender(); break
         case 'tsapprove': S.tsApp = S.tsApp || {}; S.tsApp[v] = 'approved'; render(false); toast('Week hours approved — payment scheduled'); break
-        case 'tschanges': S.tsApp = S.tsApp || {}; S.tsApp[v] = 'changes'; render(false); toast('Changes requested — the consultant has been notified'); break
+        case 'tschanges': S.tsReq = v; S.tsReqErr = false; S.tsMsg = ''; render(false); setTimeout(() => $('[data-tsmsg]')?.focus(), 0); break
+        case 'tsreqcancel': S.tsReq = null; S.tsReqErr = false; S.tsMsg = ''; render(false); break
+        case 'tssend': {
+          const msg = (S.tsMsg || ($('[data-tsmsg]') || {}).value || '').trim();
+          if (!msg) { S.tsReqErr = true; render(false); $('[data-tsmsg]')?.focus(); toast('Add a message so the consultant knows what to fix'); break }
+          S.tsApp = S.tsApp || {}; S.tsMsgs = S.tsMsgs || {}; S.tsApp[v] = 'changes'; S.tsMsgs[v] = { msg, on: 'Today' }; S.tsReq = null; S.tsReqErr = false; S.tsMsg = '';
+          render(false); toast('Changes requested — the consultant has been notified and must resubmit this week'); break
+        }
         case 'payf': S.pay = S.pay || { page: 0, per: 5, f: 'All' }; S.pay.f = v; S.pay.page = 0; render(false); break
         case 'paypg': S.pay.page += +v; render(false); break
         case 'pgtoggle': S.pcol = S.pcol || {}; S.pcol[v] = !S.pcol[v]; render(); break;
@@ -10855,6 +11830,7 @@
         case 'pop': S.pop = !S.pop; render(false); break;
         case 'avpick': $('#avfile')?.click(); break
         case 'avrm': S.avatar = ''; try { localStorage.removeItem('ccp_av') } catch (e) { } render(false); toast('Photo removed'); break
+        case 'mper': S.mper = v === 'year' ? 'year' : 'month'; render(false); break
         case 'pref': S.prefs[v] = S.prefs[v] ? 0 : 1; render(false); toast(S.prefs[v] ? 'Turned on' : 'Turned off'); break
         case 'notifall': S.notifs.forEach(n => n.u = 0); render(false); break;
         case 'notif': { const n = S.notifs[+v]; n.u = 0; S.pop = false; doGo(n.go); break }
@@ -10873,11 +11849,19 @@
         case 'refnew': S.refCode = genRef(); S.refShared = false; render(false); toast('New one-time code generated'); break;
         case 'newoffer': { startIntake(); break }
         case 'newoffer_old': { const go2 = () => { resetWiz(); S.view = 'wizard'; S.pop = false; S.modal = null; window.scrollTo(0, 0); render() }; if (S.view === 'wizard' && S.wiz.step > 0 || S.view === 'results' || S.view === 'sched') { S.leaveTo = '__new'; S.modal = 'leave'; render() } else go2(); break }
-        case 'edit': S.edit = v; render(); break;
+        case 'edit': if (!S.edit) { const g = document.querySelector('.grid.g2 > .card'); S.pH = g ? g.offsetHeight : 0 } S.edit = v; S.perr = {}; S.pdraft = null; S.psnap = JSON.parse(JSON.stringify(S.profile)); render(); break;
         case 'canceledit': S.modal = 'cancel'; render(); break;
-        case 'yescancel': S.edit = null; S.modal = null; render(); break;
-        case 'saveedit': document.querySelectorAll('[data-p]').forEach(i => S.profile[i.dataset.p] = i.value); if (S.profile.company) { ORG.name = S.profile.company; ORG.ini = ORG.name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() } S.edit = null; render(); toast('Profile updated'); break;
-        case 'pcloud': { const c = S.profile.clouds, i = c.indexOf(v); i < 0 ? c.push(v) : c.splice(i, 1); render(); break }
+        case 'yescancel': if (S.edit && S.psnap) S.profile = S.psnap; S.psnap = S.pdraft = null; S.perr = {}; S.edit = null; S.modal = null; render(); break;
+        case 'saveedit': {
+          const vals = {}, err = {};
+          document.querySelectorAll('[data-p]').forEach(i => { vals[i.dataset.p] = i.value; if (!i.value.trim()) err[i.dataset.p] = 1 });
+          if (S.edit === 'sf' && !S.profile.clouds.length) err.clouds = 1;
+          if (Object.keys(err).length) { S.pdraft = vals; S.perr = err; render(false); const f = document.querySelector('.fld.err .in'); if (f) f.focus(); toast('Fill in all required fields'); break }
+          Object.keys(vals).forEach(k => S.profile[k] = vals[k].trim());
+          if (S.profile.company) { ORG.name = S.profile.company; ORG.ini = ORG.name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase() }
+          S.edit = null; S.perr = {}; S.pdraft = S.psnap = null; render(); toast('Profile updated'); break
+        }
+        case 'pcloud': { if (S.perr) delete S.perr.clouds; const dr = {}; document.querySelectorAll('[data-p]').forEach(i => dr[i.dataset.p] = i.value); S.pdraft = Object.assign(S.pdraft || {}, dr); const c = S.profile.clouds, i = c.indexOf(v); if (i >= 0) c.splice(i, 1); else if (v === NOT_SURE) c.length = 0, c.push(v); else { const n = c.indexOf(NOT_SURE); if (n >= 0) c.splice(n, 1); c.push(v) } render(); break }
         case 'upload': $('#docfile')?.click(); break;
         case 'rmdoc': S.docs.splice(+v, 1); render(); break;
         /* modals */
@@ -10923,12 +11907,14 @@
         case 'invite': S.from = 'results'; startSched([...S.sel]); break;
         case 'cprof': S.from = 'results'; S.pid = +v; S.view = 'cprofile'; window.scrollTo(0, 0); render(); break;
         case 'backres': S.view = S.from === 'skai' ? 'skai' : S.from === 'interviews' ? 'interviews' : 'results'; window.scrollTo(0, 0); render(); break;
-        case 'reachlist': { const x = SEARCHES[+v]; if (x) { x.reach = true; render(false); toast('Request sent — our team will reach out shortly') } break }
-        case 'reachteam': { const x = SEARCHES[S.pidx]; if (x) { x.reach = true; render(false); toast('Request sent — our team will reach out shortly') } break }
+        case 'reachlist': { const x = SEARCHES[+v]; if (x) { x.nmOpen = !x.reach; S.pidx = +v; S.rtab = 'cons'; S.cur = { t: x.jt || x.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; window.scrollTo(0, 0); render() } break }
+        case 'reachteam': { const x = SEARCHES[S.pidx]; if (x) { x.nmOpen = true; render(false); document.querySelector('.nmx-req')?.scrollIntoView({ block: 'center' }) } break }
+        case 'reachcancel': { const x = SEARCHES[S.pidx]; if (x) { x.nmOpen = false; render(false) } break }
+        case 'reachsend': { const x = SEARCHES[S.pidx]; if (x) { const g = id => (document.getElementById(id) || {}).value || ''; x.reachInfo = { urg: g('nmUrg'), ch: g('nmCh'), note: g('nmNote') }; x.reach = true; x.nmOpen = false; x.reachMail = reachEmail(x); S.modal = 'reachmail'; render(false); toast('Request sent — our team will reach out within 1–2 business days') } break }
+        case 'nmnotify': { const x = SEARCHES[S.pidx]; if (x) { x.notify = !x.notify; render(false); toast(x.notify ? 'We’ll email you when a consultant matches' : 'Notification turned off') } break }
         case 'rtab': S.rtab = v; render(false); break;
         case 'jpsave': {
-          const w = S.wiz, keep = w.step, all = {}; for (let i = 0; i < STEPS.length; i++) { w.step = i; validate(); Object.assign(all, w.err) } w.step = keep; w.err = all;
-          if (Object.keys(all).length) { stepRender(); toast('Please complete the required fields'); setTimeout(() => document.querySelector('.fld.err,.impr.err')?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60); break }
+          S.wiz.err = {}; if (S.wiz.d.end) S.wiz.d.endNo = false; else S.wiz.d.endNo = true; stepRender();
           toast('Job posting updated'); break
         }
         /* schedule */
@@ -10959,7 +11945,7 @@
         case 'snext':
           if (!schValid()) { stepRender(); toast('Please complete the required fields'); break }
           if (S.sch.step === 0) { S.sch.step = 1; S.sch.dir = 'fwd'; render(); window.scrollTo(0, 0) }
-          else { S.sch.sent = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))], S.sch.it]) }); S.modal = 'sent'; render(); confetti() }
+          else { S.sch.sent = true; S.ivReq = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))], S.sch.it]) }); S.modal = 'sent'; render(); confetti() }
           break
       }
     });
@@ -10985,6 +11971,9 @@
       else if (el.dataset.iv) { const [i, k] = el.dataset.iv.split(':'); S.sch.iv[+i][k] = el.value; delete S.sch.err['i' + i + k]; el.closest('.fld')?.classList.remove('err') }
     });
     document.addEventListener('change', e => { const el = e.target; if (el.dataset && el.dataset.slotf && NS && NS.slotsModal) { const [i, k] = el.dataset.slotf.split(':'); const x = NS.slotsModal.slots[+i]; x[k] = el.value; if (k === 's' && el.value && (!x.e || new Date(x.e) <= new Date(el.value))) { x.e = new Date(new Date(el.value).getTime() + 30 * 6e4); const d = x.e, p = n => String(n).padStart(2, '0'); x.e = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()) } NS.slotsModal.touched = true; rerender() } });
+    document.addEventListener('input', e => { const pk = e.target.dataset && e.target.dataset.p; if (pk && e.target.value.trim()) { e.target.closest('.fld')?.classList.remove('err'); if (S.perr) delete S.perr[pk] } });
+    document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-tsmsg]')) { S.tsMsg = e.target.value; if (e.target.value.trim()) { S.tsReqErr = false; e.target.closest('.fld').classList.remove('err') } } });
+    document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-sqsearch]')) { S.sq = e.target.value; const l = $('.sq-list'); if (l) l.innerHTML = sqList(S.sqf || 'all') } });
     document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-sqin]')) { const b = e.target.closest('.sq-ttl').querySelector('[data-a=sqsave]'); if (b) b.disabled = !e.target.value.trim() } });
     document.addEventListener('keydown', e => { if (e.target.matches && e.target.matches('[data-sqin]')) { if (e.key === 'Enter') { e.preventDefault(); e.target.closest('.sq-ttl').querySelector('[data-a=sqsave]').click() } else if (e.key === 'Escape') { S.sqEdit = null; render(false) } } });
     document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.querySelector('.search input')?.focus() } if (e.key === 'Escape' && S.modal && S.modal !== 'sent') { S.modal = null; render() } });

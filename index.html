@@ -4020,7 +4020,7 @@
       state.finished = true;
       if (state.flow === 'hiring') {
         try { localStorage.setItem('cc_hiring_profile', JSON.stringify(a)); } catch (e) { }
-        renderRedirect(label, 'client-portal.html'); return;
+        renderRedirect(label, 'client-portal.html?new=1'); return;
       }
       if (state.flow === 'candidate') {
         try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email })); } catch (e) { }
