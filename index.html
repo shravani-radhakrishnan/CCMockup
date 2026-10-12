@@ -3653,7 +3653,12 @@
     <div class="secsteps">${steps}</div></div>`;
     }
 
+    function persistCandidate() {
+      if (state.flow !== 'candidate') return;
+      try { const keep = Object.assign({}, A()); ['password', 'resume', 'uploadPct', 'resumeJustDone'].forEach(k => delete keep[k]); for (let i = 0; i < 6; i++) delete keep['code' + i]; localStorage.setItem('cc_consultant_answers', JSON.stringify(keep)); } catch (e) { }
+    }
     function render(transition) {
+      persistCandidate();
       const screens = getScreens(); if (state.idx >= screens.length) state.idx = screens.length - 1;
       const s = screens[state.idx]; const total = screens.length;
       const sideEl = document.getElementById('side');
@@ -4024,6 +4029,7 @@
       }
       if (state.flow === 'candidate') {
         try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email })); } catch (e) { }
+        persistCandidate();
         renderRedirect('your consultant portal', 'consultant-portal.html'); return;
       }
       renderRedirect(label);
