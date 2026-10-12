@@ -12,6 +12,7 @@
   --line:#dfe4e8;--line-2:#d3dade;--track:#e7edf1;
   --slate:#547691;--slate-d:#3e566a;--slate-dd:#2c3e4c;--slate-tint:#eef3f6;--slate-tint-2:#e2ebf0;
   --accent:#547691;--accent-tint:#e2ebf0;
+  --pc-1:#b4462f;--pc-2:#c98a2e;--pc-3:#547691;--pc-4:#2f7fa8;--pc-5:#3f9e83;
   --ok:#3f9e83;--ok-tint:#e5f4ee;--amber:#c98a2e;--amber-tint:#faf1e2;--danger:#b4462f;--danger-tint:#f7e6e1;
   --shadow:0 24px 64px rgba(65,82,96,.08);
   --shadow-lg:0 32px 80px -12px rgba(44,62,76,.22);
@@ -21,6 +22,7 @@
   --bg:#12171b;--surface:#1b2227;--surface-2:#1f282e;--ink:#e8edf0;--body:#b9c3ca;--muted:#8f9aa2;--faint:#707b83;
   --line:#2b343b;--line-2:#34404a;--track:#27313a;
   --slate:#7fa3bf;--slate-d:#4f7390;--slate-dd:#e2ebf0;--slate-tint:#232d35;--slate-tint-2:#2b3842;
+  --pc-1:#d9705a;--pc-2:#e0a24a;--pc-3:#7fa3bf;--pc-4:#5aa9d1;--pc-5:#4fb596;
   --accent:#7fa3bf;--accent-tint:#2b3842;--ok:#4fb596;--ok-tint:#1d3a31;--amber-tint:#3a2f1c;--danger-tint:#3d2420;
   --shadow:0 24px 64px rgba(0,0,0,.35);--shadow-lg:0 32px 80px -12px rgba(0,0,0,.55);
   color-scheme:dark
@@ -189,10 +191,21 @@ svg{flex:0 0 auto}
 .stat .tr{font-size:12px;color:var(--ok);font-weight:600}
 .spark{position:absolute;right:14px;bottom:14px;opacity:.9}
 
+/* profile completeness */
+.pring{border:0;background:none;padding:6px;margin:-6px;border-radius:50%;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.pring:hover,.pring:focus-visible{transform:scale(1.04);box-shadow:0 0 0 4px var(--slate-tint-2);outline:none}
+.pctop{display:flex;gap:16px;align-items:center;margin:4px 36px 18px 0;color:var(--ink)}.pcring{flex:none}.pctop h3{margin:0 0 2px}.pctop p{margin:0;font-size:13px;color:var(--muted)}
+.pcls{display:grid;gap:8px}.pcit{border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.pcih{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.pcst{width:22px;height:22px;flex:none;border-radius:50%;border:2px dashed var(--line-2);display:grid;place-items:center;color:#fff}.pcit.ok .pcst{border:0;background:#2f9e6e}.pcst svg{width:12px;height:12px}
+.pcti{flex:1;font-size:14px;font-weight:600}.pcti small{display:block;font-size:12px;font-weight:400;color:var(--muted)}.pcit.ok .pcti{color:var(--muted)}
+.pcpt{font-size:12px;font-weight:700;color:var(--slate-d);background:var(--slate-tint-2);padding:3px 9px;border-radius:999px}.pcit.ok .pcpt{color:#1f7a54;background:#e3f4ec}
+.pcsec{margin:14px 0 8px;font:700 11.5px Manrope;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.pcleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 16px;font-size:12px;color:var(--muted)}.pcleg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
 /* ring */
 .ringw{position:relative;width:96px;height:96px}
 .ringw svg{transform:rotate(-90deg)}.ringw b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;letter-spacing:-.02em;font-family:Manrope,sans-serif;font-weight:800;line-height:1}
-.ring-bg{stroke:var(--track)}.ring-fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)}
+.ring-bg{stroke:var(--track)}.ring-fg{stroke:var(--pcol,var(--accent));stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)}
 
 /* fields */
 .fld{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
@@ -590,6 +603,85 @@ const PROJ=[
  {id:'p1',t:'Sales Cloud CPQ Rollout',co:'Industrial Supply Corporation',start:'2026-09-01',end:'2027-02-26',hpw:20,rate:100,st:'Active',docs:['Assignment Scheduled.pdf','Independent Contractor Agreement.pdf']},
  {id:'p2',t:'Marketing Cloud Migration',co:'Global Retail Group',start:'2026-03-02',end:'2026-08-28',hpw:30,rate:95,st:'Completed',docs:['Independent Contractor Agreement.pdf']}];
 const TASKS=['Development','Code review','Testing & QA','Documentation','Solution design','Meetings & stand-ups'];
+/* ---------- logistics: values come from the onboarding answers (index.html) ---------- */
+const ONBA=(()=>{try{const r=localStorage.getItem('cc_consultant_answers');return r?JSON.parse(r):null}catch(e){return null}})();
+const COUNTRIES=['United States', 'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belgium', 'Belize', 'Bermuda', 'Bolivia', 'Bosnia and Herzegovina', 'Brazil', 'Bulgaria', 'Cambodia', 'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Dominican Republic', 'Ecuador', 'Egypt', 'Estonia', 'Ethiopia', 'Finland', 'France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Latvia', 'Lebanon', 'Lithuania', 'Luxembourg', 'Malaysia', 'Malta', 'Mexico', 'Monaco', 'Morocco', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Saudi Arabia', 'Serbia', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'Sweden', 'Switzerland', 'Taiwan', 'Thailand', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Venezuela', 'Vietnam', 'Other'];
+const US_STATES = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+const STATE_CITIES = { 'Alabama': ['Birmingham', 'Montgomery', 'Huntsville', 'Mobile', 'Tuscaloosa'], 'Alaska': ['Anchorage', 'Fairbanks', 'Juneau'], 'Arizona': ['Phoenix', 'Tucson', 'Mesa', 'Scottsdale', 'Chandler'], 'Arkansas': ['Little Rock', 'Fayetteville', 'Fort Smith'], 'California': ['Los Angeles', 'San Francisco', 'San Diego', 'San Jose', 'Sacramento', 'Oakland'], 'Colorado': ['Denver', 'Colorado Springs', 'Boulder', 'Fort Collins'], 'Connecticut': ['Hartford', 'New Haven', 'Stamford'], 'Delaware': ['Wilmington', 'Dover'], 'District of Columbia': ['Washington'], 'Florida': ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Tallahassee'], 'Georgia': ['Atlanta', 'Savannah', 'Augusta', 'Columbus'], 'Hawaii': ['Honolulu', 'Hilo'], 'Idaho': ['Boise', 'Idaho Falls'], 'Illinois': ['Chicago', 'Springfield', 'Naperville', 'Peoria'], 'Indiana': ['Indianapolis', 'Fort Wayne', 'Bloomington'], 'Iowa': ['Des Moines', 'Cedar Rapids', 'Iowa City'], 'Kansas': ['Wichita', 'Overland Park', 'Topeka'], 'Kentucky': ['Louisville', 'Lexington'], 'Louisiana': ['New Orleans', 'Baton Rouge', 'Shreveport'], 'Maine': ['Portland', 'Augusta'], 'Maryland': ['Baltimore', 'Annapolis', 'Rockville'], 'Massachusetts': ['Boston', 'Cambridge', 'Worcester'], 'Michigan': ['Detroit', 'Ann Arbor', 'Grand Rapids'], 'Minnesota': ['Minneapolis', 'Saint Paul', 'Rochester'], 'Mississippi': ['Jackson', 'Gulfport'], 'Missouri': ['Kansas City', 'St. Louis', 'Springfield'], 'Montana': ['Billings', 'Missoula'], 'Nebraska': ['Omaha', 'Lincoln'], 'Nevada': ['Las Vegas', 'Reno', 'Henderson'], 'New Hampshire': ['Manchester', 'Concord'], 'New Jersey': ['Newark', 'Jersey City', 'Princeton'], 'New Mexico': ['Albuquerque', 'Santa Fe'], 'New York': ['New York City', 'Buffalo', 'Albany', 'Rochester'], 'North Carolina': ['Charlotte', 'Raleigh', 'Durham', 'Greensboro'], 'North Dakota': ['Fargo', 'Bismarck'], 'Ohio': ['Columbus', 'Cleveland', 'Cincinnati'], 'Oklahoma': ['Oklahoma City', 'Tulsa'], 'Oregon': ['Portland', 'Eugene', 'Salem'], 'Pennsylvania': ['Philadelphia', 'Pittsburgh', 'Harrisburg'], 'Rhode Island': ['Providence'], 'South Carolina': ['Columbia', 'Charleston', 'Greenville'], 'South Dakota': ['Sioux Falls', 'Rapid City'], 'Tennessee': ['Nashville', 'Memphis', 'Knoxville', 'Chattanooga'], 'Texas': ['Austin', 'Dallas', 'Houston', 'San Antonio', 'Fort Worth'], 'Utah': ['Salt Lake City', 'Provo'], 'Vermont': ['Burlington', 'Montpelier'], 'Virginia': ['Richmond', 'Arlington', 'Virginia Beach', 'Norfolk'], 'Washington': ['Seattle', 'Bellevue', 'Spokane', 'Tacoma'], 'West Virginia': ['Charleston', 'Morgantown'], 'Wisconsin': ['Milwaukee', 'Madison'], 'Wyoming': ['Cheyenne', 'Casper'] };
+const COUNTRY_STATES = {
+      'United States': US_STATES,
+      'Canada': ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan'],
+      'United Kingdom': ['England', 'Scotland', 'Wales', 'Northern Ireland'],
+      'Australia': ['New South Wales', 'Victoria', 'Queensland', 'Western Australia', 'South Australia', 'Tasmania', 'Australian Capital Territory', 'Northern Territory'],
+      'India': ['Andhra Pradesh', 'Delhi', 'Gujarat', 'Karnataka', 'Kerala', 'Maharashtra', 'Punjab', 'Rajasthan', 'Tamil Nadu', 'Telangana', 'Uttar Pradesh', 'West Bengal'],
+      'Germany': ['Bavaria', 'Berlin', 'Hamburg', 'Hesse', 'North Rhine-Westphalia', 'Saxony'],
+      'France': ['Île-de-France', 'Auvergne-Rhône-Alpes', 'Nouvelle-Aquitaine', 'Occitanie', 'Provence-Alpes-Côte d’Azur'],
+      'Brazil': ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Bahia', 'Paraná'],
+      'Mexico': ['Ciudad de México', 'Jalisco', 'Nuevo León', 'Puebla', 'Yucatán'],
+      'Spain': ['Madrid', 'Catalonia', 'Andalusia', 'Valencia', 'Basque Country'],
+      'Italy': ['Lazio', 'Lombardy', 'Campania', 'Sicily', 'Veneto'],
+      'China': ['Beijing', 'Shanghai', 'Guangdong', 'Sichuan', 'Zhejiang'],
+      'Japan': ['Tokyo', 'Osaka', 'Kanagawa', 'Aichi', 'Hokkaido']
+    };
+const COUNTRY_STATE_CITIES = {
+      'United States': STATE_CITIES,
+      'Canada': { 'Alberta': ['Calgary', 'Edmonton'], 'British Columbia': ['Vancouver', 'Victoria'], 'Manitoba': ['Winnipeg'], 'New Brunswick': ['Fredericton', 'Moncton'], 'Newfoundland and Labrador': ["St. John's"], 'Nova Scotia': ['Halifax'], 'Ontario': ['Toronto', 'Ottawa', 'Mississauga'], 'Prince Edward Island': ['Charlottetown'], 'Quebec': ['Montreal', 'Quebec City'], 'Saskatchewan': ['Regina', 'Saskatoon'] },
+      'United Kingdom': { 'England': ['London', 'Manchester', 'Birmingham', 'Leeds'], 'Scotland': ['Edinburgh', 'Glasgow'], 'Wales': ['Cardiff', 'Swansea'], 'Northern Ireland': ['Belfast'] },
+      'Australia': { 'New South Wales': ['Sydney', 'Newcastle'], 'Victoria': ['Melbourne', 'Geelong'], 'Queensland': ['Brisbane', 'Gold Coast'], 'Western Australia': ['Perth'], 'South Australia': ['Adelaide'], 'Tasmania': ['Hobart'], 'Australian Capital Territory': ['Canberra'], 'Northern Territory': ['Darwin'] },
+      'India': { 'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada'], 'Delhi': ['New Delhi'], 'Gujarat': ['Ahmedabad', 'Surat'], 'Karnataka': ['Bengaluru', 'Mysuru'], 'Kerala': ['Kochi', 'Thiruvananthapuram'], 'Maharashtra': ['Mumbai', 'Pune', 'Nagpur'], 'Punjab': ['Chandigarh', 'Ludhiana'], 'Rajasthan': ['Jaipur', 'Udaipur'], 'Tamil Nadu': ['Chennai', 'Coimbatore'], 'Telangana': ['Hyderabad'], 'Uttar Pradesh': ['Lucknow', 'Noida'], 'West Bengal': ['Kolkata'] },
+      'Germany': { 'Bavaria': ['Munich', 'Nuremberg'], 'Berlin': ['Berlin'], 'Hamburg': ['Hamburg'], 'Hesse': ['Frankfurt', 'Wiesbaden'], 'North Rhine-Westphalia': ['Cologne', 'Düsseldorf'], 'Saxony': ['Leipzig', 'Dresden'] },
+      'France': { 'Île-de-France': ['Paris'], 'Auvergne-Rhône-Alpes': ['Lyon', 'Grenoble'], 'Nouvelle-Aquitaine': ['Bordeaux'], 'Occitanie': ['Toulouse', 'Montpellier'], 'Provence-Alpes-Côte d’Azur': ['Marseille', 'Nice'] },
+      'Brazil': { 'São Paulo': ['São Paulo', 'Campinas'], 'Rio de Janeiro': ['Rio de Janeiro'], 'Minas Gerais': ['Belo Horizonte'], 'Bahia': ['Salvador'], 'Paraná': ['Curitiba'] },
+      'Mexico': { 'Ciudad de México': ['Mexico City'], 'Jalisco': ['Guadalajara'], 'Nuevo León': ['Monterrey'], 'Puebla': ['Puebla'], 'Yucatán': ['Mérida'] },
+      'Spain': { 'Madrid': ['Madrid'], 'Catalonia': ['Barcelona'], 'Andalusia': ['Seville', 'Málaga'], 'Valencia': ['Valencia'], 'Basque Country': ['Bilbao'] },
+      'Italy': { 'Lazio': ['Rome'], 'Lombardy': ['Milan'], 'Campania': ['Naples'], 'Sicily': ['Palermo'], 'Veneto': ['Venice'] },
+      'China': { 'Beijing': ['Beijing'], 'Shanghai': ['Shanghai'], 'Guangdong': ['Guangzhou', 'Shenzhen'], 'Sichuan': ['Chengdu'], 'Zhejiang': ['Hangzhou'] },
+      'Japan': { 'Tokyo': ['Tokyo'], 'Osaka': ['Osaka'], 'Kanagawa': ['Yokohama'], 'Aichi': ['Nagoya'], 'Hokkaido': ['Sapporo'] }
+    };
+const COUNTRY_CITIES_FALLBACK = { 'Afghanistan': ['Kabul'], 'Albania': ['Tirana'], 'Algeria': ['Algiers'], 'Andorra': ['Andorra la Vella'], 'Angola': ['Luanda'], 'Argentina': ['Buenos Aires', 'Córdoba'], 'Armenia': ['Yerevan'], 'Austria': ['Vienna', 'Graz'], 'Azerbaijan': ['Baku'], 'Bahamas': ['Nassau'], 'Bahrain': ['Manama'], 'Bangladesh': ['Dhaka', 'Chittagong'], 'Barbados': ['Bridgetown'], 'Belgium': ['Brussels', 'Antwerp'], 'Belize': ['Belize City'], 'Bermuda': ['Hamilton'], 'Bolivia': ['La Paz', 'Santa Cruz'], 'Bosnia and Herzegovina': ['Sarajevo'], 'Bulgaria': ['Sofia'], 'Cambodia': ['Phnom Penh'], 'Cameroon': ['Douala', 'Yaoundé'], 'Chile': ['Santiago', 'Valparaíso'], 'Colombia': ['Bogotá', 'Medellín'], 'Costa Rica': ['San José'], 'Croatia': ['Zagreb'], 'Cyprus': ['Nicosia'], 'Czech Republic': ['Prague', 'Brno'], 'Denmark': ['Copenhagen', 'Aarhus'], 'Dominican Republic': ['Santo Domingo'], 'Ecuador': ['Quito', 'Guayaquil'], 'Egypt': ['Cairo', 'Alexandria'], 'Estonia': ['Tallinn'], 'Ethiopia': ['Addis Ababa'], 'Finland': ['Helsinki', 'Tampere'], 'Georgia': ['Tbilisi'], 'Ghana': ['Accra', 'Kumasi'], 'Greece': ['Athens', 'Thessaloniki'], 'Guatemala': ['Guatemala City'], 'Hong Kong': ['Hong Kong'], 'Hungary': ['Budapest'], 'Iceland': ['Reykjavik'], 'Indonesia': ['Jakarta', 'Surabaya'], 'Ireland': ['Dublin', 'Cork'], 'Israel': ['Tel Aviv', 'Jerusalem'], 'Jamaica': ['Kingston'], 'Jordan': ['Amman'], 'Kazakhstan': ['Almaty', 'Astana'], 'Kenya': ['Nairobi', 'Mombasa'], 'Kuwait': ['Kuwait City'], 'Latvia': ['Riga'], 'Lebanon': ['Beirut'], 'Lithuania': ['Vilnius'], 'Luxembourg': ['Luxembourg City'], 'Malaysia': ['Kuala Lumpur', 'Penang'], 'Malta': ['Valletta'], 'Monaco': ['Monaco'], 'Morocco': ['Casablanca', 'Rabat'], 'Netherlands': ['Amsterdam', 'Rotterdam'], 'New Zealand': ['Auckland', 'Wellington'], 'Nigeria': ['Lagos', 'Abuja'], 'Norway': ['Oslo', 'Bergen'], 'Oman': ['Muscat'], 'Pakistan': ['Karachi', 'Lahore', 'Islamabad'], 'Panama': ['Panama City'], 'Peru': ['Lima', 'Arequipa'], 'Philippines': ['Manila', 'Cebu City'], 'Poland': ['Warsaw', 'Kraków'], 'Portugal': ['Lisbon', 'Porto'], 'Qatar': ['Doha'], 'Romania': ['Bucharest', 'Cluj-Napoca'], 'Saudi Arabia': ['Riyadh', 'Jeddah'], 'Serbia': ['Belgrade'], 'Singapore': ['Singapore'], 'Slovakia': ['Bratislava'], 'Slovenia': ['Ljubljana'], 'South Africa': ['Johannesburg', 'Cape Town'], 'South Korea': ['Seoul', 'Busan'], 'Sri Lanka': ['Colombo'], 'Sweden': ['Stockholm', 'Gothenburg'], 'Switzerland': ['Zürich', 'Geneva', 'Bern'], 'Taiwan': ['Taipei', 'Kaohsiung'], 'Thailand': ['Bangkok', 'Chiang Mai'], 'Trinidad and Tobago': ['Port of Spain'], 'Tunisia': ['Tunis'], 'Turkey': ['Istanbul', 'Ankara'], 'Ukraine': ['Kyiv', 'Lviv'], 'United Arab Emirates': ['Dubai', 'Abu Dhabi'], 'Uruguay': ['Montevideo'], 'Venezuela': ['Caracas'], 'Vietnam': ['Ho Chi Minh City', 'Hanoi'] };
+const stOpts=c=>COUNTRY_STATES[c]||null,ctOpts=(c,st)=>COUNTRY_STATES[c]?((COUNTRY_STATE_CITIES[c]||{})[st]||[]):(COUNTRY_CITIES_FALLBACK[c]||[]);
+const TZ_OPTS=['US Eastern (ET)','US Central (CT)','US Mountain (MT)','US Pacific (PT)','GMT / UTC','Central European (CET)','India (IST)','Other'];
+const LOOK_OPTS=['Full-time contract work','Part-time or side work','Project advisory or fractional','Permanent employment','Explore future opportunities'];
+const ENG_OPTS=['C2C through my own company','1099 independent contractor','Through an employer','Not sure'];
+const DAY_OPTS=['Weekdays','Weekends','Every day','Custom by day'];
+const SPON_OPTS=['No','Yes','Not sure'];
+const t12=t=>{if(!t||!/^\d{1,2}:\d{2}/.test(t))return '';const [h,m]=t.split(':').map(Number);return ((h%12)||12)+':'+String(m).padStart(2,'0')+' '+(h<12?'AM':'PM')};
+function lgSync(g){
+  g.address=[g.city,g.state,g.country].filter(Boolean).join(', ');
+  g.bw=g.minhrs&&g.maxhrs?g.minhrs+'–'+g.maxhrs+' hrs/week':'';
+  g.open=g.looking.join(', ');
+  g.hours=g.stime&&g.etime?(g.days?g.days+' · ':'')+t12(g.stime)+' – '+t12(g.etime):(g.days||'');
+  g.contract=g.engage.join(', ');
+  g.auth=g.authc.length?g.authc.join(', ')+(g.sponsor?' · Sponsorship: '+g.sponsor:''):'';
+  return g}
+function lgInit(){
+  const o=ONBA||{},g={country:'Argentina',state:'Buenos Aires',city:'Buenos Aires',tz:'Other',roles:['SF Administrator','SF Solutions Architect'],rate:'100',min:'90',minhrs:'20',maxhrs:'40',looking:['Full-time contract work','Part-time or side work'],days:'Weekdays',stime:'09:00',etime:'17:00',start:iso(D(21)),engage:[],authc:[],sponsor:''};
+  const mp={country:'country',state:'state',city:'city',tz:'tz',startdate:'start',minhrs:'minhrs',maxhrs:'maxhrs',days:'days',stime:'stime',etime:'etime',minrate:'min',desrate:'rate',sponsor:'sponsor'};
+  Object.keys(mp).forEach(k=>{if(o[k])g[mp[k]]=String(o[k])});
+  [['looking','looking'],['engage','engage'],['authcountries','authc']].forEach(([a,b])=>{if(Array.isArray(o[a])&&o[a].length)g[b]=o[a].slice()});
+  return lgSync(g)}
+function lgValid(P,g,ob){
+  const e={};['country','state','city','tz','rate','minhrs','maxhrs','start'].forEach(k=>{if(!String(g[k]||'').trim())e[P+k]=1});
+  if(!g.engage.length)e[P+'engage']=1;if(!g.authc.length)e[P+'authc']=1;if(!ob&&!g.roles.length)e[P+'roles']=1;
+  if(!e[P+'minhrs']&&!e[P+'maxhrs']&&+g.maxhrs<+g.minhrs)e[P+'maxhrs']=2;
+  if(g.min&&g.rate&&+g.min>+g.rate)e[P+'min']=2;
+  S.err=e;if(Object.keys(e).length){const f=Object.keys(e)[0];toast(e[P+'min']===2&&Object.keys(e).length===1?'Minimum can’t be higher than desired rate':'Please complete the required fields')}
+  return !Object.keys(e).length}
+function lgForm(P,g,ob){
+  const er=k=>S.err[P+k]?'err':'',stO=stOpts(g.country),ctO=ctOpts(g.country,g.state);
+  const chips=(k,opts,label,req)=>`<div class="fld ${er(k)}"><label>${label}${req?'<span class="rq">*</span>':''}</label><div class="pills">${opts.map(o=>`<button type="button" class="chip ${g[k].includes(o)?'on':''}" data-a="lgtog" data-p="${P+k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><span class="em">Select at least one</span></div>`;
+  const ctry=`<div class="fld ${er('authc')}"><label>Authorized countries<span class="rq">*</span></label>${g.authc.length?`<div class="pills" style="margin-bottom:8px">${g.authc.map(c=>`<span class="tag">${esc(c)}<button type="button" data-a="lgrm" data-p="${P}authc" data-v="${esc(c)}" aria-label="Remove ${esc(c)}">×</button></span>`).join('')}</div>`:''}<select class="in" data-addto="${P}authc"><option value="">Add a country…</option>${COUNTRIES.filter(c=>!g.authc.includes(c)).map(c=>`<option>${esc(c)}</option>`).join('')}</select><span class="em">Select at least one country</span></div>`;
+  const sp=`<div class="fld"><label>Will you need sponsorship?</label><div class="pills">${SPON_OPTS.map(o=>`<button type="button" class="chip ${g.sponsor===o?'on':''}" data-a="lgset" data-p="${P}sponsor" data-v="${o}">${o}</button>`).join('')}</div></div>`;
+  return `<div class="row2">${fld('Country',P+'country',{req:1,opts:COUNTRIES})}${stO?fld('State',P+'state',{req:1,opts:stO}):fld('State / region',P+'state',{req:1,ph:'State or region'})}</div>
+  <div class="row2">${ctO.length?fld('City',P+'city',{req:1,opts:ctO}):fld('City',P+'city',{req:1,ph:'City'})}${fld('Primary time zone',P+'tz',{req:1,opts:TZ_OPTS})}</div>
+  ${ob?'':`<div class="fld ${er('roles')}"><label>Type of roles you are interested in<span class="rq">*</span></label><div class="pills">${ROLE_OPTS.map(r=>`<button type="button" class="chip ${g.roles.includes(r)?'on':''}" data-a="lgtog" data-p="${P}roles" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div><span class="em">Pick at least one role</span></div>`}
+  <div class="row2">${fld('Desired rate ($/hour)',P+'rate',{req:1,type:'number'})}${fld('Min. willing to accept ($/hour)',P+'min',{type:'number',bad:'Minimum can’t be higher than desired rate'})}</div>
+  <div class="row2">${fld('Min hours / week',P+'minhrs',{req:1,type:'number',ph:'10'})}${fld('Max hours / week',P+'maxhrs',{req:1,type:'number',ph:'40',bad:'Max must be at least the minimum hours'})}</div>
+  ${ob?'':chips('looking',LOOK_OPTS,'What are you looking for through Cloud Club?')}
+  <div class="row2">${fld('Earliest start date',P+'start',{req:1,type:'date'})}${fld('Normally available',P+'days',{opts:DAY_OPTS,ph:'Days'})}</div>
+  <div class="row2">${fld('Available from',P+'stime',{type:'time'})}${fld('Available until',P+'etime',{type:'time'})}</div>
+  ${chips('engage',ENG_OPTS,'How can you engage for contract work?',1)}
+  ${ctry}${sp}`}
 const S={view:'profile',ptab:'resume',collapsed:false,theme:'light',pop:false,chat:false,modal:null,open:true,mf:{},err:{},
  resume:'Ramesh_Kumar_Resume.pdf',vreq:false,vclosed:false,
  prof:{headline:'SF Senior Engineer',loc:'Buenos Aires, Argentina',tz:'ART (UTC−3)',about:'Salesforce engineer who designs and ships CRM and Marketing Cloud solutions for regulated industries.',beganSF:'2015',beganSW:'2010',
@@ -600,7 +692,7 @@ const S={view:'profile',ptab:'resume',collapsed:false,theme:'light',pop:false,ch
   skills:[['Salesforce Clouds',['Sales Cloud','Service Cloud','Marketing Cloud','Health Cloud','Commerce Cloud']],['Coding languages',['Apex','JavaScript','SOQL','HTML','Java']],['Configuration abilities',['Flows','Process Builder','Validation Rules','Permission Sets']],['Marketing automation',['Journey Builder','Email Studio','Pardot']],['Integration / iPaaS',['MuleSoft','Boomi','REST APIs']]],
   links:{linkedin:'linkedin.com/in/john-davis',github:'github.com/johndavis',trail:''}},
  showMore:{},
- lg:{address:'Buenos Aires, Argentina',tz:'ART (UTC−3)',roles:['SF Administrator','SF Solutions Architect'],rate:'100',min:'90',bw:'40 hrs/week',open:'Full-time and part-time',hours:'9:00 AM – 5:00 PM ART',start:iso(D(21)),contract:'',auth:''},
+ lg:lgInit(),
  lgEdit:false,lgDraft:null,docView:'grid',docQ:'',
  c2c:[['COI Type 1.pdf','Expiring '+dLong(D(40))],['Corp to Corp.pdf','']],
  refs:[{n:'Marc Anthony',r:'Worked together on the Hertz Service Cloud rollout',d:'Mar 2026',t:'Marc was a pleasure to work with — proactive, precise and calm under pressure.',st:'Received'},{n:'Priya Raman',r:'Client stakeholder at Amazon',d:'Jan 2026',t:'John delivered the onboarding portal two weeks ahead of schedule.',st:'Received'},{n:'Luis Ortega',r:'Engineering manager at Avianca',d:'Sep 2026',t:'',st:'Requested'}],
@@ -613,7 +705,7 @@ const S={view:'profile',ptab:'resume',collapsed:false,theme:'light',pop:false,ch
  logs:{},wk:{},ts:null,pay:{f:'All',proj:'All',page:0,per:5},
  payd:{bank:'Banco Galicia',addr:'Av. Corrientes 456, Buenos Aires',acct:'•••• •••• 3122',route:'•••• 5521'},
  prefs:{o:1,i:1,h:1,p:1,r:1,tfa:0},
- refcode:'JOHN-CLUB-2026',rl:[{who:'Aisha Bello',type:'Consultant',d:'Aug 12, 2026',st:'Joined'},{who:'Northwind Retail',type:'Client',d:'Jul 03, 2026',st:'Invited'}]};
+ refcode:'JOHN-CLUB-2026',rl:[{who:'aisha.bello@gmail.com',type:'Consultant',code:'CC-7KQ2-M9XA',d:'Aug 12, 2026',st:'Signed up'},{who:'ops@northwind.com',type:'Client',code:'CC-4TRN-8HWB',d:'Jul 03, 2026',st:'Invited'}]};
 try{S.avatar=localStorage.getItem('ccc_av')||'';S.collapsed=localStorage.getItem('ccc_c')==='1';S.theme=localStorage.getItem('ccc_t')||'light'}catch(e){}
 document.documentElement.dataset.theme=S.theme;
 
@@ -625,7 +717,18 @@ document.documentElement.dataset.theme=S.theme;
 
 /* ---------- derived ---------- */
 const logiDone=()=>!!(S.lg.contract&&S.lg.auth&&S.lg.address&&S.lg.rate&&S.lg.roles.length);
-const strength=()=>{const c=[!!S.resume,!!S.prof.headline,!!S.prof.about,S.prof.skills.length>2,S.prof.certs.length>0,logiDone(),S.refs.some(r=>r.st==='Received'),!!S.prof.links.linkedin,!!S.prof.links.trail,S.vreq];return Math.round(c.filter(Boolean).length/c.length*100)};
+const pcItems=()=>[
+ ['Upload your resume','We read it to refresh your experience and skills','Resume uploaded',!!S.resume],
+ ['Add a headline','The first thing clients read on your profile','Headline added',!!S.prof.headline],
+ ['Add an experience overview','Introduce yourself and your work','Experience overview added',!!S.prof.about],
+ ['Add at least 3 skills','Used to match you with the right offers','Skills added',S.prof.skills.length>2],
+ ['Add a certification','Certifications raise your match score','Certification added',S.prof.certs.length>0],
+ ['Complete your Logistics tab','Contract type, work authorization, address, rate and roles','Logistics completed',logiDone()],
+ ['Get a reference','Ask a colleague or client to vouch for you','Reference received',S.refs.some(r=>r.st==='Received')],
+ ['Connect LinkedIn','Link your LinkedIn profile','LinkedIn connected',!!S.prof.links.linkedin],
+ ['Connect Trailblazer','Link your Trailblazer profile','Trailblazer connected',!!S.prof.links.trail],
+ ['Request skills verification','A free verification interview with Cloud Club','Verification requested',!!S.vreq]];
+const strength=()=>{const c=pcItems();return Math.round(c.filter(x=>x[3]).length/c.length*100)};
 const nInv=()=>S.ivs.filter(x=>x.st==='invited').length,nOff=()=>S.offers.filter(x=>x.st==='new').length;
 const avCss=()=>S.avatar?`style="background:url(${S.avatar}) center/cover;color:transparent"`:'';
 
@@ -705,7 +808,8 @@ function need(paths,rules={}){S.err={};let ok=true;paths.forEach(p=>{const v=Str
 const isMail=v=>/^\S+@\S+\.\S+$/.test(v);
 function toast(m){document.querySelector('.toast')?.remove();document.body.insertAdjacentHTML('beforeend',`<div class="toast">${esc(m)}</div>`);setTimeout(()=>document.querySelector('.toast')?.remove(),2600)}
 function confetti(){const cols=['#547691','#3e566a','#c98a2e','#8fb2cb','#2c3e4c'];for(let i=0;i<70;i++){const e=document.createElement('i');e.className='cf';e.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%5]};animation-duration:${1.6+Math.random()*1.8}s;animation-delay:${Math.random()*.4}s;border-radius:${Math.random()>.5?'50%':'2px'}`;document.body.appendChild(e);setTimeout(()=>e.remove(),4200)}}
-const ring=(pct,s=72)=>{const r=s/2-6,C=2*Math.PI*r;return `<div class="ringw" style="width:${s}px;height:${s}px"><svg width="${s}" height="${s}"><circle class="ring-bg" cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="7"/><circle class="ring-fg" cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="7" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}"/></svg><b style="font-size:${s<80?14:18}px">${pct}%</b></div>`};
+const pcol=pct=>pct>=100?'var(--pc-5)':pct>=75?'var(--pc-4)':pct>=50?'var(--pc-3)':pct>=25?'var(--pc-2)':'var(--pc-1)';
+const ring=(pct,s=72)=>{const r=s/2-6,C=2*Math.PI*r;return `<div class="ringw" style="width:${s}px;height:${s}px;--pcol:${pcol(pct)}"><svg width="${s}" height="${s}"><circle class="ring-bg" cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="7"/><circle class="ring-fg" cx="${s/2}" cy="${s/2}" r="${r}" fill="none" stroke-width="7" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}"/></svg><b style="font-size:${s<80?14:18}px;color:${pcol(pct)}">${pct}%</b></div>`};
 
 /* ================= MY PROFILE ================= */
 function vProfile(){
@@ -717,9 +821,9 @@ function vProfile(){
 function addBtn(k){return `<button class="ib" data-a="madd" data-v="${k}" aria-label="Add">${IC.plus}</button>`}
 function tResume(pct){const p=S.prof,L=p.links;
   const certs=S.showMore.certs?p.certs:p.certs.slice(0,3),oth=S.showMore.other?p.other:p.other.slice(0,2);
-  return `<div class="card" style="margin-bottom:20px"><div class="phead">${ring(pct,76)}
+  return `<div class="card" style="margin-bottom:20px"><div class="phead"><button class="pring" data-a="mopen" data-v="pcomp" aria-label="View what is missing from your profile">${ring(pct,76)}</button>
     <div class="nm"><h2>${esc(p.headline)} <button class="ib" data-a="medit" data-v="head" aria-label="Edit headline">${IC.edit}</button></h2><div class="sub"><span>${IC.pin} ${esc(p.loc)}</span><span>${IC.clock} ${esc(p.tz)}</span><span>${IC.offer} ${esc(S.resume||'No resume yet')}</span></div></div>
-    <div class="acts"><button class="btn sm" data-a="medit" data-v="resume">${IC.up} Upload new resume</button><button class="btn sm" data-a="toast" data-v="Resume exported as PDF">${IC.down} Export resume</button></div></div></div>
+    <div class="acts"><button class="btn sm" data-a="medit" data-v="resume">${IC.up} Upload new resume</button></div></div></div>
   <div class="pcols">
    <div class="stk">
     <div class="card"><h3>Cloud Club relationship</h3><div class="pills"><span class="pill out">SF Solutions Engineer</span><span class="pill out sl">Proven Consultant</span></div></div>
@@ -747,19 +851,14 @@ function tResume(pct){const p=S.prof,L=p.links;
 
 const ROLE_OPTS=['SF Administrator','SF Solutions Architect','SF Developer','SF Business Analyst','Marketing Cloud Specialist','Integration Engineer','Data Engineer','Project Manager'];
 function tLogistics(){const e=S.lgEdit,g=e?S.lgDraft:S.lg,P=e?'lgDraft.':'lg.';
-  const row=(k,l,ph,o={})=>e?fld(l,P+k,{ph,req:o.req,type:o.type,opts:o.opts}):`<div><small>${l}</small><b>${esc(o.type==='date'?fmtLong(g[k]):(k==='rate'||k==='min')&&g[k]?'$'+g[k]+'/hour':g[k])||'<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div>`;
+  const nv='<span style="color:var(--faint);font-weight:500">Not set</span>',kv=(l,v)=>`<div><small>${l}</small><b>${v?esc(v):nv}</b></div>`;
   const done=logiDone();
   return `<div class="lg"><div class="card"><div class="sech"><h3>Your logistic information</h3><span class="r">${e?`<button class="btn sm" data-a="lgcancel">Cancel</button><button class="btn p sm" data-a="lgsave">Save changes</button>`:`<button class="btn sm" data-a="lgedit">${IC.edit} ${done?'Edit':'Complete'}</button>`}</span></div>
     <div class="bnr ${done?'info':''}">${IC.info}<div><b>${done?'Keep it up to date':'Complete this to get matched'}</b>${done?'This data helps us match you with job offers that fit your work conditions.':'This data ensures fitted matches between potential job offers and your work conditions. Please fill in all the requested information.'}</div></div>
-    ${e?`<div class="row2">${row('address','Your address','City, country',{req:1})}${row('tz','Time zone','e.g. ART (UTC−3)',{req:1})}</div>
-      <div class="fld"><label>Type of roles you are interested in<span class="rq">*</span></label><div class="pills">${ROLE_OPTS.map(r=>`<button class="chip ${g.roles.includes(r)?'on':''}" data-a="role" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div></div>
-      <div class="row2">${row('rate','Desired rate ($/hour)','100',{req:1,type:'number'})}${row('min','Min. willing to accept ($/hour)','90',{type:'number'})}</div>
-      <div class="row2">${row('bw','Current bandwidth','',{req:1,opts:['10 hrs/week','20 hrs/week','30 hrs/week','40 hrs/week']})}${row('open','What kind of positions are you open to?','',{opts:['Full-time only','Part-time only','Full-time and part-time','Project based']})}</div>
-      <div class="row2">${row('hours','Available working hours','e.g. 9:00 AM – 5:00 PM')}${row('start','Earliest start date','',{type:'date'})}</div>
-      <div class="row2">${row('contract','Contract type','',{req:1,opts:['Corp-to-Corp','1099 Contractor']})}${row('auth','Work authorization','',{req:1,opts:['Authorized to work','Requires sponsorship','Citizen / permanent resident']})}</div>`
-    :`<div class="kvl"><div><small>Your address</small><b>${esc(g.address)||'—'}</b></div><div><small>Time zone</small><b>${esc(g.tz)||'—'}</b></div>
+    ${e?lgForm('lgDraft.',g,0)
+    :`<div class="kvl">${kv('Your address',g.address)}${kv('Time zone',g.tz)}
       <div style="grid-column:1/-1"><small>Type of roles you are interested in</small><div class="pills" style="margin-top:6px">${g.roles.map(r=>`<span class="tag" style="padding-right:11px">${esc(r)}</span>`).join('')||'—'}</div></div>
-      ${row('rate','Desired rate','')}${row('min','Min. willing to accept','')}${row('bw','Current bandwidth','')}${row('open','Open to','')}${row('hours','Available working hours','')}${row('start','Earliest start date','',{type:'date'})}${row('contract','Contract type','')}${row('auth','Work authorization','')}</div>`}</div>
+      ${kv('Desired rate',g.rate?'$'+g.rate+'/hour':'')}${kv('Min. willing to accept',g.min?'$'+g.min+'/hour':'')}${kv('Current bandwidth',g.bw)}${kv('Looking for',g.open)}${kv('Available working hours',g.hours)}${kv('Earliest start date',g.start?fmtLong(g.start):'')}${kv('Contract type',g.contract)}${kv('Work authorization',g.auth)}</div>`}</div>
    <div class="card"><div class="ft-h"><h3>Uploaded documents</h3><button class="ib" data-a="docview" data-v="grid" aria-label="Grid view" style="${S.docView==='grid'?'background:var(--slate-tint-2)':''}">${IC.grid}</button><button class="ib" data-a="docview" data-v="list" aria-label="List view" style="${S.docView==='list'?'background:var(--slate-tint-2)':''}">${IC.list}</button></div>
     <div class="ft-s"><input class="in" data-b="docQ" placeholder="Search file name" value="${esc(S.docQ)}" aria-label="Search files"></div>
     ${(()=>{const q=S.docQ.trim().toLowerCase(),c2cWarn=S.c2c.some(x=>x[1]),files=[['Resumes',S.resume?1:0,'',''],['Corp to Corp',S.c2c.length,c2cWarn?'Action required*':'',c2cWarn?'wr':'','c2c']].filter(f=>!q||f[0].toLowerCase().includes(q));
@@ -836,11 +935,10 @@ function vPayments(){const P=S.pay,projs=[...new Set(PAYS.map(r=>r.p))],list=PAY
 /* ================= REFERRALS ================= */
 function vReferrals(){const R=S.rl;
   return `<div class="ph"><div><h1>Earn Rewards with Cloud Club Referrals</h1><p>That’s why we’re offering attractive referral rewards when you help grow our network.</p></div><div class="r"><button class="btn p" data-a="mopen" data-v="refer">${IC.plus} Refer now</button></div></div>
-  <div class="grid g2 stagger"><div class="card"><h3>There’s no limit — earn rewards for every new referral you bring to Cloud Club</h3><p style="color:var(--muted);margin:0 0 14px">Start referring today and watch your rewards grow.</p>
-   <div class="refc"><div><small>Client referrals</small><b>5% of monthly gross profit</b><small>Paid each month for the first 3 months of the engagement, up to a maximum of $500 per month.</small></div><div><small>Consultant referrals</small><b>5% of monthly gross profit</b><small>Paid each month for the first 3 months once the consultant starts their first engagement.</small></div></div></div>
+  <div class="grid g2 stagger" style="grid-template-columns:1fr">
    <div class="card"><h3>Your referral code</h3><div style="display:flex;gap:10px"><input class="in" readonly value="${S.refcode}" style="font-weight:700;letter-spacing:.06em"><button class="btn p" data-a="copy" data-v="${S.refcode}">${IC.copy} Copy</button></div><p style="color:var(--muted)">Share this code when a peer or a client signs up.</p></div></div>
-  <div class="grid g3 stagger" style="margin:20px 0">${[['Referrals sent',R.length],['Joined',R.filter(r=>r.st==='Joined').length],['Hired',R.filter(r=>r.st==='Hired').length]].map(x=>`<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
-  <div class="card tw"><h3>Your referrals status</h3><table><thead><tr><th>Referral</th><th>Type</th><th>Date</th><th>Status</th></tr></thead><tbody>${R.map((r,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${esc(r.who)}</b></td><td>${r.type}</td><td>${r.d}</td><td><span class="pill ${r.st==='Hired'?'ok':r.st==='Joined'?'am':''}"><i></i>${r.st==='Invited'?'Referral invited':r.st==='Joined'?'Referral has joined':'Hired'}</span></td></tr>`).join('')}</tbody></table></div>`}
+  <div class="grid g3 stagger" style="margin:20px 0">${[['Referrals sent',R.length],['Signed up',R.filter(r=>r.st!=='Invited').length],['Hired',R.filter(r=>r.st==='Hired').length]].map(x=>`<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
+  <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code||'—')}</td><td>${r.d}</td><td><span class="pill ${r.st==='Hired'?'ok':r.st==='Signed up'?'am':''}"><i></i>${r.st}</span></td></tr>`).join('')}</tbody></table></div>`}
 
 /* ================= SETTINGS ================= */
 const PREFS=[['o','New offers','When a client sends you an offer'],['i','Interview requests','Invitations, confirmations and reminders'],['h','Timesheet updates','When your weekly hours are approved or need changes'],['p','Payment updates','Invoices issued and payments sent'],['r','Referral activity','When someone you referred signs up']];
@@ -866,6 +964,11 @@ function modalHtml(){const m=S.modal;if(!m)return '';
  const acts=(ok,okl,o={})=>`<div class="mact"><button class="btn" data-a="mclose">${o.cancel||'Cancel'}</button><button class="btn ${o.cls||'p'}" data-a="${ok}" ${o.dis?'disabled':''}>${okl}</button></div>`;
  const p=m.p;
  switch(m.t){
+ case 'pcomp':{const L=pcItems(),pc=strength(),n=L.length,left=L.filter(x=>!x[3]).length,R=26,C2=2*Math.PI*R,todo=L.filter(x=>!x[3]),fin=L.filter(x=>x[3]),each=Math.round(100/n);
+  return box(`<div class="pctop"><svg class="pcring" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--slate-tint-2)" stroke-width="6"/><circle cx="32" cy="32" r="${R}" fill="none" stroke="${pcol(pc)}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C2}" stroke-dashoffset="${C2*(1-pc/100)}" transform="rotate(-90 32 32)"/><text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">${pc}%</text></svg><div><h3>${pc>=100?'Your profile is complete':'Your profile is '+pc+'% complete'}</h3><p>${pc>=100?'Everything is filled in — nice work.':left+' item'+(left===1?'':'s')+' left to reach 100%.'}</p></div></div>
+  ${todo.length?`<div class="pcsec">Still to do</div><div class="pcls">${todo.map(x=>`<div class="pcit"><span class="pcih"><span class="pcst"></span><span class="pcti">${x[0]}<small>${x[1]}</small></span><span class="pcpt">+${each}%</span></span></div>`).join('')}</div>`:''}
+  ${fin.length?`<div class="pcsec">Completed</div><div class="pcls">${fin.map(x=>`<div class="pcit ok"><span class="pcih"><span class="pcst">${IC.check}</span><span class="pcti">${x[2]}</span><span class="pcpt">+${each}%</span></span></div>`).join('')}</div>`:''}
+  <div class="mact"><button class="btn" data-a="mclose">Close</button></div>`)}
  case 'head':return box(`<h3>Edit headline</h3><p>This is the first thing clients read on your profile.</p>${fld('Headline','mf.head',{req:1,max:80,ph:'e.g. SF Senior Engineer'})}${fld('Location','mf.loc',{req:1,ph:'City, country'})}${acts('msave','Save')}`);
  case 'resume':{const f=S.mf.file;return box(`<h3>Upload a new resume</h3><p>We’ll read it and refresh your experience and skills.</p>
   <label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/,'width="34" height="34"')}<div><u>Browse</u> or drag and drop your resume here</div><small>PDF, MS Word (max. 3MB)</small><input type="file" id="resumefile" accept=".pdf,.doc,.docx" hidden></label>
@@ -884,7 +987,7 @@ function modalHtml(){const m=S.modal;if(!m)return '';
  case 'ref':{const r=S.refs[+p];return box(`<h3>Your reference</h3><div class="kv" style="margin:14px 0"><div><small>Referee’s name</small><b>${esc(r.n)}</b></div><div><small>Working relationship</small><b>${esc(r.r)}</b></div></div><small style="color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Reference letter</small><p style="color:var(--body);margin:6px 0 0">${esc(r.t)}</p><div class="mact"><button class="btn p" data-a="mclose">Close</button></div>`)}
  case 'ivacc':{const iv=S.ivs.find(z=>z.id===+p);
   if(iv.method==='gcal')return box(`<h3>Let’s set up your job interview</h3><p>Your interviewer has shared their Google Calendar for you to book the interview in one of the available days and time slots.</p><div class="mact"><button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="ivgcal" data-v="${iv.id}">${IC.cal} Open Google Calendar</button></div>`);
-  return box(`<h3>Let’s set up your job interview</h3><p>Accept one of the proposed days and time slots.</p><div class="slotl">${iv.slots.map((s,i)=>`<button class="slotb ${S.mf.slot===i?'on':''}" data-a="mset" data-k="slot" data-v="${i}"><b>${dFull(s[0])}</b><span>${s[1]} ART</span></button>`).join('')}</div>${acts('ivdo','Schedule interview',{dis:S.mf.slot==null})}`)}
+  return box(`<h3>Let’s set up your job interview</h3><p>Accept one of the proposed days and time slots.</p><div class="slotl">${iv.slots.map((s,i)=>`<button class="slotb ${S.mf.slot===i?'on':''}" data-a="mset" data-k="slot" data-v="${i}"><b>${dFull(s[0])}</b><span>${s[1]} ART</span></button>`).join('')}</div>${acts('ivdo','Accept interview',{dis:S.mf.slot==null})}`)}
  case 'ivrej':return box(`<div class="mic">${IC.warn}</div><h3>Reject this interview?</h3><p>The client will be told you’re not available for this role.</p>${fld('Reason (optional)','mf.reason',{opts:['Rate is too low','Schedule conflict','Role is not a fit','Already committed elsewhere']})}${acts('ivno','Yes, reject interview',{cancel:'Cancel',cls:'dgp'})}`);
  case 'decl':return box(`<h3>Are you sure you wish to decline this job offer?</h3><p>Once confirmed, this action can’t be undone.</p>${fld('Select a reason','mf.reason',{req:1,opts:['Rate is below my minimum','Schedule does not work','I accepted another offer','Role is not what I expected','Other']})}${acts('declsave','Yes, decline offer',{cls:'dgp'})}`);
  case 'onb':return onbHtml(box);
@@ -897,7 +1000,7 @@ function modalHtml(){const m=S.modal;if(!m)return '';
 function onbHtml(box){const o=S.onb,steps=o.steps,cur=steps[o.step],n=steps.length,ct=S.mf.ctype,of=S.offers.find(z=>z.id===o.id);
  const head=`<div class="mstep">Step ${o.step+1} of ${n}</div><div class="mbar"><i style="width:${(o.step+1)/n*100}%"></i></div>`;
  let body='';
- if(cur==='logistics')body=`<h3>Let’s get you started!</h3><div class="bnr info">${IC.info}<div>In order to start working in your new project, follow these steps to complete the onboarding process.</div></div><h4 style="margin-top:0">Complete your logistic information</h4><div class="scr">${fld('Your location','lg.address',{req:1,ph:'City, country'})}${fld('Time zone','lg.tz',{req:1})}<div class="row2">${fld('Desired rate ($/hour)','lg.rate',{req:1,type:'number'})}${fld('Min. willing to accept ($/hour)','lg.min',{type:'number'})}</div>${fld('Current bandwidth','lg.bw',{req:1,opts:['10 hrs/week','20 hrs/week','30 hrs/week','40 hrs/week']})}${fld('Contract type','lg.contract',{req:1,opts:['Corp-to-Corp','1099 Contractor']})}${fld('Work authorization','lg.auth',{req:1,opts:['Authorized to work','Requires sponsorship','Citizen / permanent resident']})}</div>`;
+ if(cur==='logistics')body=`<h3>Let’s get you started!</h3><div class="bnr info">${IC.info}<div>In order to start working in your new project, follow these steps to complete the onboarding process.</div></div><h4 style="margin-top:0">Complete your logistic information</h4><div class="scr">${lgForm('lg.',S.lg,1)}</div>`;
  else if(cur==='details')body=`<h3>Complete details</h3><p style="margin-bottom:12px">Please confirm your contract type.</p><div class="rads" style="margin-bottom:6px">${[['corp','Corp-to-Corp'],['1099','1099 Contractor']].map(([k,l])=>`<button class="rad ${ct===k?'on':''}" data-a="mset" data-k="ctype" data-v="${k}"><i></i>${l}</button>`).join('')}</div><div class="scr">${ct==='corp'?`<h4>About your corporation</h4>${fld('Corporation name','mf.o1',{req:1})}${fld('Corporation address','mf.o2',{req:1})}${fld('Corporation EIN','mf.o3',{req:1,ph:'12-3456789'})}${fld('Primary point of contact','mf.o4',{req:1})}<div class="row2">${fld('Phone number','mf.o5',{req:1})}${fld('Email','mf.o6',{req:1,type:'email',bad:'Enter a valid email'})}</div><h4>Corp bank information</h4>`:`<h4>Consultant information</h4>${fld('Consultant name','mf.o1',{req:1})}${fld('Consultant address','mf.o2',{req:1})}${fld('Consultant tax ID (SSN)','mf.o3',{req:1})}<div class="row2">${fld('Phone number','mf.o5',{req:1})}${fld('Email','mf.o6',{req:1,type:'email',bad:'Enter a valid email'})}</div><h4>Consultant bank information</h4>`}${fld('Bank name','mf.o7',{req:1})}${fld('Bank address','mf.o8',{req:1})}<div class="row2">${fld('Account number','mf.o9',{req:1})}${fld('Routing number','mf.o10',{req:1})}</div></div>`;
  else body=`<h3>Upload your documents</h3><p>${ct==='corp'?'Please upload your Certificate of Insurance (COI) if available now.':'Please upload your signed and dated W-9.'}</p><label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/,'width="34" height="34"')}<div><u>Browse</u> or drag and drop your file here</div><small>PDF (max. 3MB)</small><input type="file" id="onbfile" accept=".pdf" hidden></label>${S.mf.doc?`<div class="fprog"><b style="font-size:13px">${esc(S.mf.doc)}</b><div class="bar" style="margin:8px 0 6px"><i style="transform:scaleX(1)"></i></div><small>Uploaded</small></div>`:''}<small style="display:block;margin-top:10px;color:var(--muted)">You can also add it later from Profile › Logistics.</small>`;
  const last=o.step===n-1;
@@ -922,7 +1025,7 @@ function openModal(t,p){S.modal={t,p};S.err={};S.mf={};const P=S.prof;
   else if(t==='entry'){const e=p!=null?(S.logs[S.ts.p+'|'+S.ts.d]||[])[+p]:null;S.mf=e?{task:e.task,tech:e.tech,note:e.note,h:String(e.h)}:{task:'Development',tech:'',note:'',h:''}}
   else if(t==='bank')S.mf={b1:S.payd.bank,b2:S.payd.addr,b3:S.payd.acct,b4:S.payd.route};
   else if(t==='refer')S.mf={rt:'Client'};
-  else if(t==='onb'){S.mf={ctype:S.lg.contract==='1099 Contractor'?'1099':'corp'};S.onb={id:+p,step:0,steps:logiDone()?['details','docs']:['logistics','details','docs']}}
+  else if(t==='onb'){S.mf={ctype:/1099/.test(S.lg.contract)?'1099':'corp'};S.onb={id:+p,step:0,steps:logiDone()?['details','docs']:['logistics','details','docs']}}
   render()}
 function saveModal(){const m=S.modal,mf=S.mf,P=S.prof;
   switch(m.t){
@@ -934,10 +1037,10 @@ function saveModal(){const m=S.modal,mf=S.mf,P=S.prof;
      if(k==='lang')P.langs.push([mf.a1.trim(),mf.a2]);else if(k==='edu')P.edu.push([mf.a1.trim(),mf.a2.trim()]);else if(k==='cert')(mf.a2==='Other'?P.other:P.certs).push(mf.a1.trim());else P.jobs.unshift([mf.a1.trim(),mf.a2.trim(),mf.a3.trim(),(mf.a4||'').trim()]);toast('Added to your profile');break}
    case 'trail':if(!need(['mf.trail'],{'mf.trail':v=>/trailblazer\.me|salesforce\.com\/trailblazer/i.test(v)}))return render();P.links.trail=mf.trail.trim().replace(/^https?:\/\//,'');toast('Trailblazer connected');break;
    case 'bank':if(!need(['mf.b1','mf.b2','mf.b3','mf.b4']))return render();S.payd={bank:mf.b1.trim(),addr:mf.b2.trim(),acct:mf.b3.trim(),route:mf.b4.trim()};toast('Payment details saved');break;
-   case 'refer':if(!need(['mf.n','mf.e'],{'mf.e':isMail}))return render();S.rl.unshift({who:mf.n.trim(),type:mf.rt,d:dLong(D(0)),st:'Invited'});toast('Invitation sent to '+mf.e.trim());break;
+   case 'refer':if(!need(['mf.n','mf.e'],{'mf.e':isMail}))return render();S.rl.unshift({who:mf.e.trim(),type:mf.rt,code:'CC-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase(),d:dLong(D(0)),st:'Invited'});toast('Invitation sent to '+mf.e.trim());break;
   }S.modal=null;S.err={};render()}
 function onbNext(){const o=S.onb,cur=o.steps[o.step],mf=S.mf;
-  if(cur==='logistics'){if(!need(['lg.address','lg.tz','lg.rate','lg.bw','lg.contract','lg.auth']))return render();mf.ctype=S.lg.contract==='1099 Contractor'?'1099':'corp'}
+  if(cur==='logistics'){lgSync(S.lg);if(!lgValid('lg.',S.lg,1))return render();mf.ctype=/1099/.test(S.lg.contract)?'1099':'corp'}
   else if(cur==='details'){const ks=['mf.o1','mf.o2','mf.o3','mf.o5','mf.o6','mf.o7','mf.o8','mf.o9','mf.o10'];if(mf.ctype==='corp')ks.push('mf.o4');if(!need(ks,{'mf.o6':isMail}))return render();S.lg.contract=mf.ctype==='corp'?'Corp-to-Corp':'1099 Contractor'}
   S.err={};
   if(o.step<o.steps.length-1){o.step++;render();return}
@@ -969,8 +1072,10 @@ document.addEventListener('click',e=>{
    case 'skadd':{const i=$('#ska-'+v),t=(i&&i.value||'').trim();if(!t){i&&i.focus();break}if(!S.sk[+v][1].includes(t))S.sk[+v][1].push(t);render();setTimeout(()=>$('#ska-'+v)?.focus(),0);break}
    case 'lgedit':S.lgDraft=JSON.parse(JSON.stringify(S.lg));S.lgEdit=true;S.err={};render();break;
    case 'lgcancel':S.lgEdit=false;S.err={};render();break;
-   case 'lgsave':{const d=S.lgDraft,ks=['lgDraft.address','lgDraft.tz','lgDraft.rate','lgDraft.bw','lgDraft.contract','lgDraft.auth'];if(!d.roles.length){toast('Pick at least one role');break}if(!need(ks))return render();if(d.min&&+d.min>+d.rate){S.err['lgDraft.min']=2;render();toast('Minimum can’t be higher than desired rate');break}S.lg=d;S.lgEdit=false;S.err={};render();toast('Logistics saved');break}
-   case 'role':{const r=S.lgDraft.roles,i=r.indexOf(v);i<0?r.push(v):r.splice(i,1);render();break}
+   case 'lgsave':{const d=S.lgDraft;if(!lgValid('lgDraft.',d,0)){render();break}S.lg=lgSync(d);S.lgEdit=false;S.err={};render();toast('Logistics saved');break}
+   case 'lgtog':{const l=getp(a_p(a)),i=l.indexOf(v);i<0?l.push(v):l.splice(i,1);delete S.err[a_p(a)];render();break}
+   case 'lgrm':{const l=getp(a_p(a)),i=l.indexOf(v);if(i>=0)l.splice(i,1);render();break}
+   case 'lgset':{setp(a_p(a),getp(a_p(a))===v?'':v);render();break}
    case 'docview':S.docView=v;render();break;
    case 'c2cdel':S.c2c.splice(+v,1);render();break;
    case 'askref':{if(!need(['mf.rn','mf.re','mf.rr','mf.rc'],{'mf.re':isMail}))return render();S.refs.unshift({n:S.mf.rn.trim(),r:S.mf.rr.trim()+' · '+S.mf.rc.trim(),d:new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'}),t:'',st:'Requested'});const em=S.mf.re;S.mf={};S.err={};render();toast('Your reference request was sent to '+em);break}
@@ -1013,7 +1118,10 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{const el=e.target,b=el.dataset&&el.dataset.b;if(!b)return;setp(b,el.value);
   if(b==='docQ'){render();return}
   if(S.err[b]){delete S.err[b];el.closest('.fld')?.classList.remove('err')}});
+const a_p=a=>a.dataset.p;
 document.addEventListener('change',e=>{const el=e.target,b=el.dataset&&el.dataset.b;
+  if(b&&/^lg(Draft)?\.(country|state)$/.test(b)){const P=b.split('.')[0],k=b.split('.')[1];setp(b,el.value);if(k==='country'){setp(P+'.state','');setp(P+'.city','')}else setp(P+'.city','');delete S.err[P+'.state'];delete S.err[P+'.city'];render();return}
+  if(el.dataset&&el.dataset.addto){const l=getp(el.dataset.addto);if(el.value&&!l.includes(el.value))l.push(el.value);delete S.err[el.dataset.addto];render();return}
   if(el.id==='avfile'){const f=el.files&&el.files[0];el.value='';if(!f)return;if(!/^image\/(png|jpe?g|webp)$/.test(f.type)){toast('Please choose a JPG or PNG image');return}if(f.size>2*1048576){toast('Image is larger than 2 MB');return}
     const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),n=192;c.width=c.height=n;const x=c.getContext('2d'),m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,n,n);S.avatar=c.toDataURL('image/jpeg',.85);save('ccc_av',S.avatar);render();toast('Profile photo updated')};im.onerror=()=>toast('Could not read that image');im.src=r.result};r.readAsDataURL(f);return}
   if(['resumefile','c2cfile','onbfile'].includes(el.id)){const f=el.files&&el.files[0];fileIn(f,el);el.value='';return}
