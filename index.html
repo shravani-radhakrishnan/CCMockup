@@ -4030,7 +4030,7 @@
       if (state.flow === 'candidate') {
         try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email })); } catch (e) { }
         persistCandidate();
-        renderRedirect('your consultant portal', 'consultant-portal.html'); return;
+        renderRedirect('your consultant portal', 'consultant-portal.html?new=1'); return;
       }
       renderRedirect(label);
     });
