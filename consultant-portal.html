@@ -290,6 +290,20 @@ tbody tr{transition:.15s;animation:up .5s both}tbody tr:hover{background:var(--s
 .cf{position:fixed;top:-12px;width:9px;height:14px;z-index:200;animation:fall linear forwards;pointer-events:none}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.9}}
 .empty{text-align:center;color:var(--muted);padding:30px}
+.es{display:grid;justify-items:center;text-align:center;gap:10px;padding:48px 28px}
+.es-ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--slate-tint);color:var(--accent)}
+.es-ic svg{width:24px;height:24px}
+.es h3{margin:4px 0 0;font-size:18px}
+.es p{margin:0;max-width:460px;color:var(--muted);font-size:14px;line-height:1.6}
+.es-act{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.gs{display:grid;gap:0;padding:22px 24px;margin-bottom:20px}
+.gs-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.gs-h h3{margin:0;font-size:16px}.gs-h span{color:var(--muted);font-size:13px}
+.gs-i{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.gs-n{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--slate-tint);color:var(--accent)}
+.gs-i.done .gs-n{background:var(--ok);color:#fff}.gs-n svg{width:14px;height:14px}
+.gs-t{flex:1;min-width:0}.gs-t b{display:block;font-size:14px}.gs-t small{color:var(--muted);font-size:12.5px}
+.gs-i.done .gs-t b{color:var(--muted);text-decoration:line-through}
 /* flow additions */
 .ai .acts{display:flex;gap:8px;flex-wrap:wrap}
 .fu{animation:fade .3s both}
@@ -576,6 +590,7 @@ const IC={
 };
 
 /* ---------- state ---------- */
+const FRESH=/[?&]new\b/.test(location.search); /* first login after onboarding: nothing exists yet except what the onboarding collected */
 const ONB=(()=>{try{const r=localStorage.getItem('cc_consultant_profile');return r?JSON.parse(r):null}catch(e){return null}})();
 const ME={first:(ONB&&ONB.first)||'John',last:(ONB&&ONB.last)||'Davis',email:(ONB&&ONB.email)||'john.davis@email.com'};
 ME.name=ME.first+' '+ME.last;ME.ini=((ME.first[0]||'')+(ME.last[0]||'')).toUpperCase()||'CC';
@@ -602,6 +617,7 @@ const ini=n=>n.split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase();
 const PROJ=[
  {id:'p1',t:'Sales Cloud CPQ Rollout',co:'Industrial Supply Corporation',start:'2026-09-01',end:'2027-02-26',hpw:20,rate:100,st:'Active',docs:['Assignment Scheduled.pdf','Independent Contractor Agreement.pdf']},
  {id:'p2',t:'Marketing Cloud Migration',co:'Global Retail Group',start:'2026-03-02',end:'2026-08-28',hpw:30,rate:95,st:'Completed',docs:['Independent Contractor Agreement.pdf']}];
+if(FRESH)PROJ.length=0;
 const TASKS=['Development','Code review','Testing & QA','Documentation','Solution design','Meetings & stand-ups'];
 /* ---------- logistics: values come from the onboarding answers (index.html) ---------- */
 const ONBA=(()=>{try{const r=localStorage.getItem('cc_consultant_answers');return r?JSON.parse(r):null}catch(e){return null}})();
@@ -656,6 +672,7 @@ function lgSync(g){
   return g}
 function lgInit(){
   const o=ONBA||{},g={country:'Argentina',state:'Buenos Aires',city:'Buenos Aires',tz:'Other',roles:['SF Administrator','SF Solutions Architect'],rate:'100',min:'90',minhrs:'20',maxhrs:'40',looking:['Full-time contract work','Part-time or side work'],days:'Weekdays',stime:'09:00',etime:'17:00',start:iso(D(21)),engage:[],authc:[],sponsor:''};
+  if(FRESH)Object.assign(g,{country:'',state:'',city:'',tz:'',roles:[],rate:'',min:'',minhrs:'',maxhrs:'',looking:[],days:'',stime:'',etime:'',start:''});
   const mp={country:'country',state:'state',city:'city',tz:'tz',startdate:'start',minhrs:'minhrs',maxhrs:'maxhrs',days:'days',stime:'stime',etime:'etime',minrate:'min',desrate:'rate',sponsor:'sponsor'};
   Object.keys(mp).forEach(k=>{if(o[k])g[mp[k]]=String(o[k])});
   [['looking','looking'],['engage','engage'],['authcountries','authc']].forEach(([a,b])=>{if(Array.isArray(o[a])&&o[a].length)g[b]=o[a].slice()});
@@ -708,9 +725,18 @@ const S={view:'profile',ptab:'resume',collapsed:false,theme:'light',pop:false,ch
  refcode:'JOHN-CLUB-2026',rl:[{who:'aisha.bello@gmail.com',type:'Consultant',code:'CC-7KQ2-M9XA',d:'Aug 12, 2026',st:'Signed up'},{who:'ops@northwind.com',type:'Client',code:'CC-4TRN-8HWB',d:'Jul 03, 2026',st:'Invited'}]};
 try{S.avatar=localStorage.getItem('ccc_av')||'';S.collapsed=localStorage.getItem('ccc_c')==='1';S.theme=localStorage.getItem('ccc_t')||'light'}catch(e){}
 document.documentElement.dataset.theme=S.theme;
+if(FRESH)(function freshInit(){const o=ONBA||{},ex=o.experiences||[],P=S.prof,M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ const mon=k=>{if(!k)return '';const [y,m]=k.split('-');return (m?M[+m-1]+' ':'')+y};
+ S.resume=ONBA?'Ramesh_Kumar_Resume.pdf':'';
+ Object.assign(P,{headline:o.headline||'',loc:[o.city,o.country].filter(Boolean).join(', '),tz:o.tz||'',about:'',beganSF:'',beganSW:'',langs:[],edu:[],certs:(o.credentials||[]).map(c=>c.name),other:[],
+  jobs:ex.map(e=>[e.client?e.employer+' · '+e.client:e.employer,e.role,mon(e.start)+' – '+(e.end?mon(e.end):'Present'),e.outcome||'']),
+  industries:[...new Set(ex.map(e=>e.industry).filter(Boolean))],skills:[],links:{linkedin:'',github:'',trail:''}});
+ (o.profiles||[]).forEach(x=>{const t=(x.type||'').toLowerCase(),k=/linkedin/.test(t)?'linkedin':/github/.test(t)?'github':/trail/.test(t)?'trail':'';if(k)P.links[k]=(x.url||'').replace(/^https?:\/\//,'')});
+ S.refs=[];S.ivs=[];S.offers=[];S.c2c=[];S.rl=[];S.payd={bank:'',addr:'',acct:'',route:''};S.refcode=ME.first.toUpperCase()+'-CLUB-2026';
+ S.notifs=[{t:'Welcome to Cloud Club',s:'Complete your profile to start getting matched',w:'Just now',go:'profile',u:1}]})();
 
 /* seed timesheet: two approved weeks, one draft week ready to submit */
-(function seed(){const m0=monOf(D(0)),p=PROJ[0];
+if(!FRESH)(function seed(){const m0=monOf(D(0)),p=PROJ[0];
  [-3,-2,-1].forEach(w=>{const mon=addD(m0,w*7);for(let i=0;i<5;i++){const d=addD(mon,i);S.logs[p.id+'|'+iso(d)]=[{task:TASKS[(i+w+9)%5],tech:'Salesforce',note:i%2?'Sprint work':'',h:4}]}
   if(w<-1)S.wk[p.id+'|'+iso(mon)]='approved'});
  const q=PROJ[1];[-11,-10,-9,-8,-7,-6,-5].forEach(w=>{const mon=addD(m0,w*7);S.wk[q.id+'|'+iso(mon)]='approved';for(let i=0;i<5;i++)S.logs[q.id+'|'+iso(addD(mon,i))]=[{task:TASKS[(i+w+11)%5],tech:'Marketing Cloud',note:'',h:6}]})})();
@@ -793,7 +819,6 @@ function render(){
     <div class="top"><div class="crumb">Consultant Portal / ${crumb()}</div></div>
     <div class="page" id="page" data-f="pg-${S.view}-${S.view==='profile'?S.ptab:''}">${page()}</div>
   </main>
-  <button class="fab" data-a="chat" aria-label="Contact Cloud Club">${S.chat?'✕':IC.chat}</button>
   <div id="extras">${modalHtml()}
   ${S.chat?`<div class="chat"><header>Cloud Club support</header><div class="bd" id="cbd"><div class="msg">Hi ${esc(ME.first)} 👋 Ask us anything about your profile, offers or payments.</div></div><form id="cf"><input placeholder="Type a message…"><button class="btn p sm" style="padding:0 10px">${IC.send}</button></form></div>`:''}</div>`);
   after();
@@ -818,35 +843,44 @@ function vProfile(){
   <div class="ptabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.ptab===k}" class="${S.ptab===k?'on':''}" data-a="ptab" data-v="${k}">${l}${k==='logistics'&&!logiDone()?'<span class="tb">!</span>':''}</button>`).join('')}</div>
   ${S.ptab==='resume'?tResume(pct):S.ptab==='logistics'?tLogistics():tRefs()}`}
 
+const emptyCard=(ic,t,p,btns)=>`<div class="card es"><span class="es-ic">${ic}</span><h3>${t}</h3><p>${p}</p>${btns?`<div class="es-act">${btns}</div>`:''}</div>`;
+function getStarted(){if(!FRESH)return '';
+  const L=S.prof.links,st=[[!!(S.prof.about&&S.prof.skills.length),'Finish your profile','Add an experience overview and your skills so clients can see what you do best.','Edit overview','data-a="medit" data-v="overview"'],
+   [logiDone(),'Complete your logistics','Roles, rate, work authorization and contract type decide which offers you are matched with.','Complete logistics','data-a="gologi"'],
+   [S.refs.some(r=>r.st==='Received'),'Get a reference','Ask a colleague or client to vouch for you — it helps clients say yes faster.','Ask for a reference','data-a="goref"'],
+   [!!S.vreq,'Verify your skills (free)','A short technical interview with Cloud Club adds a vote of trust to your profile.','Book online interview','data-a="vreq"']],
+   dn=st.filter(x=>x[0]).length,cur=st.findIndex(x=>!x[0]);if(dn===st.length)return '';
+  return `<div class="card gs"><div class="gs-h"><h3>Get started with Cloud Club</h3><span>${dn} of ${st.length} done</span></div>${st.map((x,i)=>`<div class="gs-i ${x[0]?'done':''}"><span class="gs-n">${x[0]?IC.check:i+1}</span><div class="gs-t"><b>${x[1]}</b><small>${x[2]}</small></div>${!x[0]?`<button class="btn ${i===cur?'p ':''}sm" ${x[4]}>${x[3]}</button>`:''}</div>`).join('')}</div>`}
 function addBtn(k){return `<button class="ib" data-a="madd" data-v="${k}" aria-label="Add">${IC.plus}</button>`}
 function tResume(pct){const p=S.prof,L=p.links;
   const certs=S.showMore.certs?p.certs:p.certs.slice(0,3),oth=S.showMore.other?p.other:p.other.slice(0,2);
   return `<div class="card" style="margin-bottom:20px"><div class="phead"><button class="pring" data-a="mopen" data-v="pcomp" aria-label="View what is missing from your profile">${ring(pct,76)}</button>
-    <div class="nm"><h2>${esc(p.headline)} <button class="ib" data-a="medit" data-v="head" aria-label="Edit headline">${IC.edit}</button></h2><div class="sub"><span>${IC.pin} ${esc(p.loc)}</span><span>${IC.clock} ${esc(p.tz)}</span><span>${IC.offer} ${esc(S.resume||'No resume yet')}</span></div></div>
+    <div class="nm"><h2>${p.headline?esc(p.headline):'<span style="color:var(--faint)">Add your headline</span>'} <button class="ib" data-a="medit" data-v="head" aria-label="Edit headline">${IC.edit}</button></h2><div class="sub"><span>${IC.pin} ${esc(p.loc||'Add your location')}</span><span>${IC.clock} ${esc(p.tz||'Time zone not set')}</span><span>${IC.offer} ${esc(S.resume||'No resume yet')}</span></div></div>
     <div class="acts"><button class="btn sm" data-a="medit" data-v="resume">${IC.up} Upload new resume</button></div></div></div>
+  ${getStarted()}
   <div class="pcols">
    <div class="stk">
     <div class="card"><h3>Cloud Club relationship</h3><div class="pills"><span class="pill out">SF Solutions Engineer</span><span class="pill out sl">Proven Consultant</span></div></div>
     <div class="card"><div class="sech"><h3>Languages</h3><span class="r">${addBtn('lang')}</span></div>${p.langs.map((l,i)=>`<div class="li"><div class="lr"><b>${esc(l[0])}</b><button class="ib dg" data-a="mdel" data-v="langs:${i}" aria-label="Remove">${IC.trash}</button></div><small>${esc(l[1])}</small></div>`).join('')||'<div class="empty">No languages yet</div>'}</div>
     <div class="card"><div class="sech"><h3>Education</h3><span class="r">${addBtn('edu')}</span></div>${p.edu.map((e,i)=>`<div class="li"><div class="lr"><b>${esc(e[0])}</b><button class="ib dg" data-a="mdel" data-v="edu:${i}" aria-label="Remove">${IC.trash}</button></div><small>${esc(e[1])}</small></div>`).join('')||'<div class="empty">No education yet</div>'}</div>
     <div class="card"><div class="sech"><h3>Certifications</h3><span class="r">${addBtn('cert')}</span></div>
-     <small style="color:var(--muted)">${p.certs.length} Salesforce certifications</small>
+     <small style="color:var(--muted)">${p.certs.length?p.certs.length+' certification'+(p.certs.length===1?'':'s'):'No certifications yet'}</small>
      ${certs.map(c=>`<div class="li"><div class="lr"><b>${esc(c)}</b><button class="ib dg" data-a="mdel" data-v="certs:${p.certs.indexOf(c)}" aria-label="Remove">${IC.trash}</button></div></div>`).join('')}
      ${p.certs.length>3?`<button class="btn sm" data-a="more" data-v="certs" style="margin-top:8px">${S.showMore.certs?'Show less':'Show more'}</button>`:''}
      <div class="fsub">Other certifications</div>${oth.map(c=>`<div class="li"><b>${esc(c)}</b></div>`).join('')}
      ${p.other.length>2?`<button class="btn sm" data-a="more" data-v="other" style="margin-top:8px">${S.showMore.other?'Show less':'Show more'}</button>`:''}</div>
     <div class="card"><h3>Linked accounts</h3>
      ${[['linkedin','LinkedIn'],['github','GitHub']].map(([k,n])=>`<div class="li"><div class="lr"><b>${n}</b>${L[k]?`<button class="btn sm" data-a="unlink" data-v="${k}">Disconnect</button>`:`<button class="btn sm" data-a="toast" data-v="${n} connection opens in a new window">Connect</button>`}</div><small>${L[k]?esc(L[k]):'Not connected'}</small></div>`).join('')}
-     ${L.trail?`<div class="li"><div class="lr"><b>Trailblazer</b><button class="btn sm" data-a="unlink" data-v="trail">Disconnect</button></div><small>${esc(L.trail)}</small></div>`:`<div class="bnr" style="margin:12px 0 0">${IC.warn}<div><b>Your Trailblazer account is not public and could not be linked</b>Switch your Trailblazer profile to public to make the connection possible.<div style="margin-top:10px"><button class="btn sm" data-a="mopen" data-v="trail">Connect Trailblazer</button></div></div></div>`}</div>
+     ${L.trail?`<div class="li"><div class="lr"><b>Trailblazer</b><button class="btn sm" data-a="unlink" data-v="trail">Disconnect</button></div><small>${esc(L.trail)}</small></div>`:FRESH?`<div class="li"><div class="lr"><b>Trailblazer</b><button class="btn sm" data-a="mopen" data-v="trail">Connect</button></div><small>Not connected</small></div>`:`<div class="bnr" style="margin:12px 0 0">${IC.warn}<div><b>Your Trailblazer account is not public and could not be linked</b>Switch your Trailblazer profile to public to make the connection possible.<div style="margin-top:10px"><button class="btn sm" data-a="mopen" data-v="trail">Connect Trailblazer</button></div></div></div>`}</div>
    </div>
    <div class="stk">
     ${S.vclosed?'':`<div class="vbox"><div class="ic">${IC.shield}</div><div><h4>Verify your skills for free</h4><p>${S.vreq?'Request received — a Cloud Club vetter will email you interview times within one business day.':'Schedule a technical verification interview with us to back up your profile with a Cloud Club vote of trust.'}</p>${S.vreq?`<span class="pill ok"><i></i>Verification requested</span>`:`<button class="btn sm p" data-a="vreq">Book online interview</button>`}</div><button class="x" data-a="vclose" aria-label="Dismiss">×</button></div>`}
     <div class="card"><div class="sech"><h3>Experience overview</h3><span class="r"><button class="ib" data-a="medit" data-v="overview" aria-label="Edit">${IC.edit}</button></span></div>
      <p style="margin:0 0 14px;color:var(--body)">${esc(p.about)||'<span style="color:var(--muted)">Introduce yourself and your work.</span>'}</p>
-     <div class="kvl"><div><small>Year began working in Salesforce</small><b>${esc(p.beganSF)} · ${new Date().getFullYear()-p.beganSF} years</b></div><div><small>Year began working in software</small><b>${esc(p.beganSW)} · ${new Date().getFullYear()-p.beganSW} years</b></div></div>
-     <div class="fsub">Industry experience</div><div class="pills">${p.industries.map(x=>`<span class="tag" style="padding-right:11px">${esc(x)}</span>`).join('')}</div></div>
+     <div class="kvl"><div><small>Year began working in Salesforce</small><b>${p.beganSF?esc(p.beganSF)+' · '+(new Date().getFullYear()-p.beganSF)+' years':'<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div><div><small>Year began working in software</small><b>${p.beganSW?esc(p.beganSW)+' · '+(new Date().getFullYear()-p.beganSW)+' years':'<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div></div>
+     <div class="fsub">Industry experience</div><div class="pills">${p.industries.map(x=>`<span class="tag" style="padding-right:11px">${esc(x)}</span>`).join('')||'<small style="color:var(--muted)">None added</small>'}</div></div>
     <div class="card"><div class="sech"><h3>Work experience</h3><span class="r">${addBtn('job')}</span></div>${p.jobs.map((j,i)=>`<div class="xp"><div class="lr" style="display:flex;align-items:center;gap:8px"><b style="flex:1">${esc(j[0])}</b><button class="ib dg" data-a="mdel" data-v="jobs:${i}" aria-label="Remove">${IC.trash}</button></div><div class="d">${esc(j[2])}</div><div style="font-size:13px;font-weight:600">${esc(j[1])}</div><p>${esc(j[3])}</p></div>`).join('')||'<div class="empty">No work experience yet</div>'}</div>
-    <div class="card"><div class="sech"><h3>Proficient skills and technologies</h3><span class="r"><button class="ib" data-a="medit" data-v="skills" aria-label="Edit">${IC.edit}</button></span></div>${p.skills.map(g=>`<div class="sg"><b>${esc(g[0])}</b><div class="pills">${g[1].map(x=>`<span class="tag" style="padding-right:11px">${esc(x)}</span>`).join('')||'<small style="color:var(--muted)">None added</small>'}</div></div>`).join('')}</div>
+    <div class="card"><div class="sech"><h3>Proficient skills and technologies</h3><span class="r"><button class="ib" data-a="medit" data-v="skills" aria-label="Edit">${IC.edit}</button></span></div>${p.skills.length?'':'<div class="empty">No skills yet. Add the clouds, languages and tools you are strongest in.</div>'}${p.skills.map(g=>`<div class="sg"><b>${esc(g[0])}</b><div class="pills">${g[1].map(x=>`<span class="tag" style="padding-right:11px">${esc(x)}</span>`).join('')||'<small style="color:var(--muted)">None added</small>'}</div></div>`).join('')}</div>
    </div></div>`}
 
 const ROLE_OPTS=['SF Administrator','SF Solutions Architect','SF Developer','SF Business Analyst','Marketing Cloud Specialist','Integration Engineer','Data Engineer','Project Manager'];
@@ -864,7 +898,7 @@ function tLogistics(){const e=S.lgEdit,g=e?S.lgDraft:S.lg,P=e?'lgDraft.':'lg.';
     ${(()=>{const q=S.docQ.trim().toLowerCase(),c2cWarn=S.c2c.some(x=>x[1]),files=[['Resumes',S.resume?1:0,'',''],['Corp to Corp',S.c2c.length,c2cWarn?'Action required*':'',c2cWarn?'wr':'','c2c']].filter(f=>!q||f[0].toLowerCase().includes(q));
      const pf=PROJ.filter(p=>!q||p.t.toLowerCase().includes(q));
      return `<div class="ftg ${S.docView}">${files.map(f=>`<button class="ft ${f[3]}" data-a="${f[4]==='c2c'?'mopen':'toast'}" data-v="${f[4]==='c2c'?'c2c':'Opening '+f[0]}"><span class="fi">${f[3]?IC.warn:IC.folder}</span><div><b>${f[0]}</b><small>${f[1]} file${f[1]===1?'':'s'}</small>${f[2]?`<small class="wn">${f[2]}</small>`:''}</div></button>`).join('')}</div>
-      <div class="fsub">Projects</div><div class="ftg ${S.docView}">${pf.map(p=>`<button class="ft" data-a="mopen" data-v="pdocs:${p.id}"><span class="fi">${IC.folder}</span><div><b>${esc(p.t)}</b><small>${p.docs.length} file${p.docs.length===1?'':'s'}</small></div></button>`).join('')||'<div class="empty" style="grid-column:1/-1">No matching files</div>'}</div>`})()}</div></div>`}
+      <div class="fsub">Projects</div><div class="ftg ${S.docView}">${pf.map(p=>`<button class="ft" data-a="mopen" data-v="pdocs:${p.id}"><span class="fi">${IC.folder}</span><div><b>${esc(p.t)}</b><small>${p.docs.length} file${p.docs.length===1?'':'s'}</small></div></button>`).join('')||`<div class="empty" style="grid-column:1/-1">${FRESH&&!q?'No project files yet — contracts appear here once you start a project':'No matching files'}</div>`}</div>`})()}</div></div>`}
 
 function tRefs(){const R=S.refs;
   return `<div class="lg"><div class="card"><h3>Enhance your profile with trusted references</h3><p style="margin:0 0 16px;color:var(--muted)">Invite someone to leave a good word about your work. A short, honest reference helps clients say yes faster.</p>
@@ -878,6 +912,7 @@ function tRefs(){const R=S.refs;
 function vInterviews(){
   return `<div class="ph"><div><h1>Job Interviews</h1><p>Accept, schedule and access your job interviews from here.</p></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Awaiting your reply',nInv()],['Accepted',S.ivs.filter(x=>x.st==='accepted').length],['Declined',S.ivs.filter(x=>x.st==='rejected').length]].map(s=>`<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
+  ${S.ivs.length?'':emptyCard(IC.chat,'No interview requests yet','When a client likes your profile they send you an interview request here. Keep your profile and logistics complete to get matched faster.',`<button class="btn p" data-a="gologi">Complete my logistics</button><button class="btn" data-go="profile">View my profile</button>`)}
   <div class="ivl stagger">${S.ivs.map(iv=>{const st={invited:['am','Awaiting your reply'],accepted:['ok','Interview accepted'],rejected:['dg','Declined']}[iv.st];
    return `<div class="card offc"><div class="offh"><span class="av">${ini(iv.co)}</span><div class="t"><h3>${esc(iv.role)}</h3><small>${esc(iv.co)}</small></div><span class="pill ${st[0]}"><i></i>${st[1]}</span></div>
    <div class="meta"><span>${IC.pin} Time zone <b>${iv.loc}</b></span><span><b>${iv.hpw}</b> hrs/week</span><span><b>$${iv.rate}</b>/hr</span><span><b>${iv.len}</b> contract length</span><span><b>${iv.mode}</b></span></div>
@@ -891,7 +926,7 @@ function vOffers(){const nw=S.offers.filter(o=>o.st==='new'),old=S.offers.filter
   return `<div class="ph"><div><h1>Offers</h1><p>Review job offers from clients and start your next engagement.</p></div></div>
   ${nw.length?nw.map(o=>`<div class="hero2" style="margin-bottom:20px"><div class="orb"></div><span class="pill">${IC.sparkle} New offer</span><h2>Congratulations! You’ve been offered a new position</h2><p>${esc(o.role)} · ${esc(o.co)}</p>
     <div class="meta"><span>${IC.pin} Time zone <b>${o.loc}</b></span><span><b>${o.hpw}</b> hrs/week</span><span><b>$${o.rate}</b>/hr</span><span>${fmtLong(o.start)} – ${fmtLong(o.end)}</span><span><b>${o.mode}</b></span></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" data-a="mopen" data-v="onb:${o.id}">Accept offer</button><button class="btn" data-a="mopen" data-v="decl:${o.id}">Decline offer</button></div></div>`).join(''):`<div class="card" style="margin-bottom:20px"><div class="empty">No new offers right now. Keep your profile and logistics up to date to get matched.</div></div>`}
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn p" data-a="mopen" data-v="onb:${o.id}">Accept offer</button><button class="btn" data-a="mopen" data-v="decl:${o.id}">Decline offer</button></div></div>`).join(''):FRESH?emptyCard(IC.offer,'No offers yet','Offers arrive after a client interviews you. Complete your profile and logistics so Cloud Club can start matching you.',`<button class="btn p" data-go="profile">Complete my profile</button>`):`<div class="card" style="margin-bottom:20px"><div class="empty">No new offers right now. Keep your profile and logistics up to date to get matched.</div></div>`}
   <div class="card tw"><h3 style="padding:0 0 0">Offer history</h3><table style="margin-top:12px"><thead><tr><th>Role</th><th>Client</th><th>Terms</th><th>Dates</th><th>Status</th></tr></thead><tbody>
    ${old.map((o,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${esc(o.role)}</b></td><td>${esc(o.co)}</td><td>${o.hpw} hrs/wk · $${o.rate}/hr</td><td>${fmtLong(o.start)} – ${fmtLong(o.end)}</td><td><span class="pill ${o.st==='accepted'?'ok':'dg'}"><i></i>${o.st==='accepted'?'Accepted':'Declined'}</span>${o.reason?`<small style="display:block;color:var(--muted);margin-top:4px">${esc(o.reason)}</small>`:''}</td></tr>`).join('')||'<tr><td colspan="5"><div class="empty">No past offers yet.</div></td></tr>'}</tbody></table></div>`}
 
@@ -902,6 +937,7 @@ const wkSt=(pid,mon)=>S.wk[pid+'|'+iso(mon)]||'draft';
 function vProjects(){const act=PROJ.filter(p=>p.st==='Active').length,hrs=PROJ.reduce((a,p)=>{let t=0;Object.keys(S.logs).forEach(k=>{if(k.startsWith(p.id+'|'))t+=S.logs[k].reduce((x,e)=>x+e.h,0)});return a+t},0);
   return `<div class="ph"><div><h1>Your Projects</h1><p>Track and log your hours, review dates, contracts and rates.</p></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Active projects',act],['Completed',PROJ.length-act],['Hours logged',Math.round(hrs)]].map(s=>`<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
+  ${PROJ.length?'':emptyCard(IC.brief,'No projects yet','A project starts once you accept an offer. Your contract, documents and timesheet will live here.',`<button class="btn p" data-go="offers">See my offers</button>`)}
   <div class="ivl stagger">${PROJ.map(p=>`<div class="card offc"><div class="offh"><span class="av">${ini(p.co)}</span><div class="t"><small>${esc(p.co)}</small><h3>${esc(p.t)}</h3></div><span class="pill ${p.st==='Active'?'ok':''}"><i></i>${p.st}</span></div>
    <div class="meta"><span>${IC.cal} <b>Start</b> ${fmtLong(p.start)}</span><span>${IC.cal} <b>End</b> ${fmtLong(p.end)}</span><span><b>${p.hpw}</b> hrs/week</span><span><b>$${p.rate}</b>/hour</span></div>
    <div class="offact"><button class="btn sm" data-a="mopen" data-v="pdocs:${p.id}">${IC.offer} Contract &amp; documents</button><span class="sp"></span><button class="btn p sm" data-a="tsopen" data-v="${p.id}">${IC.clock} ${p.st==='Active'?'Log hours':'View timesheet'}</button></div></div>`).join('')}</div>`}
@@ -922,13 +958,14 @@ function vTimesheet(){const t=S.ts;if(!t)return vProjects();const p=PROJ.find(x=
    <small style="color:var(--muted)">Approved weeks are grouped into one invoice and appear under Payments.</small>`}</div>`}
 
 /* ================= PAYMENTS ================= */
-const PAYS=(()=>{const m0=monOf(D(0)),R=[];let n=0;
+const PAYS=FRESH?[]:(()=>{const m0=monOf(D(0)),R=[];let n=0;
  [[PROJ[1],-11],[PROJ[1],-10],[PROJ[1],-9],[PROJ[1],-8],[PROJ[1],-7],[PROJ[1],-6],[PROJ[1],-5],[PROJ[0],-3],[PROJ[0],-2]].forEach(([p,w],i,a)=>{const mon=addD(m0,w*7),h=p.id==='p2'?p.hpw:p.hpw,pay=addD(mon,13);n++;R.push({no:'CCI-'+String(n).padStart(4,'0'),p:p.t,per:dShort(mon)+' – '+dShort(addD(mon,6))+', '+mon.getFullYear(),h,amt:h*p.rate,pay:dLong(pay),st:w===-2?'Upcoming':w===-3&&pay>D(0)?'Upcoming':'Received'})});
  return R.reverse()})();
 function vPayments(){const P=S.pay,projs=[...new Set(PAYS.map(r=>r.p))],list=PAYS.filter(r=>(P.f==='All'||r.st===P.f)&&(P.proj==='All'||r.p===P.proj)),pages=Math.max(1,Math.ceil(list.length/P.per));if(P.page>=pages)P.page=pages-1;const rows=list.slice(P.page*P.per,P.page*P.per+P.per),sum=f=>PAYS.filter(f).reduce((a,r)=>a+r.amt,0);
   return `<div class="ph"><div><h1>All Your Project’s Billable Hours Grouped In One Invoice</h1><p>Approved weeks are invoiced together. Download any invoice for your records.</p></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Received to date',money(sum(r=>r.st==='Received'))],['Upcoming',money(sum(r=>r.st==='Upcoming'))],['Billable hours',PAYS.reduce((a,r)=>a+r.h,0)]].map(s=>`<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
-  <div class="card tw"><div class="payf">${['All','Upcoming','Received'].map(f=>`<button class="fchip ${P.f===f?'active':''}" data-a="payf" data-v="${f}">${f}</button>`).join('')}<span style="flex:1"></span><label style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)">Project<select class="in" style="height:32px;width:auto;padding:0 28px 0 10px" data-payproj><option>All</option>${projs.map(x=>`<option ${P.proj===x?'selected':''}>${esc(x)}</option>`).join('')}</select></label></div>
+  ${FRESH?emptyCard(IC.dollar,'No invoices yet','Once the client approves your weekly hours they are grouped into one invoice and appear here with the expected pay date.',`<button class="btn" data-a="mopen" data-v="bank">Add payment details</button><button class="btn p" data-go="projects">Go to projects</button>`):''}
+  <div class="card tw" ${FRESH?'hidden':''}><div class="payf">${['All','Upcoming','Received'].map(f=>`<button class="fchip ${P.f===f?'active':''}" data-a="payf" data-v="${f}">${f}</button>`).join('')}<span style="flex:1"></span><label style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)">Project<select class="in" style="height:32px;width:auto;padding:0 28px 0 10px" data-payproj><option>All</option>${projs.map(x=>`<option ${P.proj===x?'selected':''}>${esc(x)}</option>`).join('')}</select></label></div>
   <table class="paytb"><thead><tr><th>Invoice number</th><th>Project</th><th>Work period</th><th class="hl">Billable hours</th><th>Gross payment</th><th>Anticipated pay date</th><th>Status</th><th></th></tr></thead><tbody>${rows.length?rows.map((r,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${r.no}</b></td><td>${esc(r.p)}</td><td>${r.per}</td><td class="hl">${r.h} hrs</td><td><b>${money(r.amt)}</b></td><td>${r.pay}</td><td><span class="pill ${r.st==='Received'?'ok':'am'}"><i></i>${r.st}</span></td><td><button class="ib" data-a="toast" data-v="Downloading ${r.no}.pdf" aria-label="Download invoice">${IC.down}</button></td></tr>`).join(''):'<tr><td colspan="8"><div class="empty">No invoices match these filters.</div></td></tr>'}</tbody></table>
   <div class="payp"><label>Rows per page <select class="in" data-payper>${[5,10].map(n=>`<option ${P.per===n?'selected':''}>${n}</option>`).join('')}</select></label><span>${list.length?P.page*P.per+1:0}–${Math.min(list.length,P.page*P.per+P.per)} of ${list.length}</span><button class="btn sm" data-a="paypg" data-v="-1" ${P.page<=0?'disabled':''} aria-label="Previous page">‹</button><button class="btn sm" data-a="paypg" data-v="1" ${P.page>=pages-1?'disabled':''} aria-label="Next page">›</button></div></div>`}
 
@@ -938,7 +975,7 @@ function vReferrals(){const R=S.rl;
   <div class="grid g2 stagger" style="grid-template-columns:1fr">
    <div class="card"><h3>Your referral code</h3><div style="display:flex;gap:10px"><input class="in" readonly value="${S.refcode}" style="font-weight:700;letter-spacing:.06em"><button class="btn p" data-a="copy" data-v="${S.refcode}">${IC.copy} Copy</button></div><p style="color:var(--muted)">Share this code when a peer or a client signs up.</p></div></div>
   <div class="grid g3 stagger" style="margin:20px 0">${[['Referrals sent',R.length],['Signed up',R.filter(r=>r.st!=='Invited').length],['Hired',R.filter(r=>r.st==='Hired').length]].map(x=>`<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
-  <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code||'—')}</td><td>${r.d}</td><td><span class="pill ${r.st==='Hired'?'ok':r.st==='Signed up'?'am':''}"><i></i>${r.st}</span></td></tr>`).join('')}</tbody></table></div>`}
+  <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r,i)=>`<tr style="animation-delay:${i*.05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code||'—')}</td><td>${r.d}</td><td><span class="pill ${r.st==='Hired'?'ok':r.st==='Signed up'?'am':''}"><i></i>${r.st}</span></td></tr>`).join('')||'<tr><td colspan="4"><div class="empty">No referrals yet. Share your code or invite someone by email — each invite is listed here.</div></td></tr>'}</tbody></table></div>`}
 
 /* ================= SETTINGS ================= */
 const PREFS=[['o','New offers','When a client sends you an offer'],['i','Interview requests','Invitations, confirmations and reminders'],['h','Timesheet updates','When your weekly hours are approved or need changes'],['p','Payment updates','Invoices issued and payments sent'],['r','Referral activity','When someone you referred signs up']];
@@ -946,9 +983,9 @@ function vSettings(){const P=S.prefs,sw=k=>`<button class="swt ${P[k]?'on':''}" 
   return `<div class="ph"><div><h1>Settings</h1><p>Manage your account, payment details, notifications and how the portal looks.</p></div></div>
   <div class="stg stagger">
    <div class="card"><h3>Account details</h3><div class="avrow"><span class="av avbig" ${avCss()}>${ME.ini}</span><div><b>Profile photo</b><small>JPG or PNG, up to 2 MB. Shown in the sidebar.</small><div class="avbtn"><button class="btn sm" data-a="avpick">${IC.up} ${S.avatar?'Change photo':'Upload photo'}</button>${S.avatar?'<button class="btn sm" data-a="avrm">Remove</button>':''}</div></div><input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden></div>
-    <div class="kv" style="margin-top:16px"><div><small>Full name</small><b>${esc(ME.name)}</b></div><div><small>Email</small><b>${esc(ME.email)}</b></div><div><small>Phone number</small><b>+54 11 5555 0123</b></div><div><small>Role</small><b>${esc(S.prof.headline)}</b></div></div>
+    <div class="kv" style="margin-top:16px"><div><small>Full name</small><b>${esc(ME.name)}</b></div><div><small>Email</small><b>${esc(ME.email)}</b></div><div><small>Phone number</small><b>${FRESH?(ONBA&&ONBA.phone?esc(ONBA.phone):'Not set'):'+54 11 5555 0123'}</b></div><div><small>Role</small><b>${S.prof.headline?esc(S.prof.headline):'Not set'}</b></div></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn sm" data-go="profile">Edit profile</button><button class="btn sm" data-a="toast" data-v="Password reset link sent to ${esc(ME.email)}">Change password</button></div></div>
-   <div class="card"><div class="sech"><h3>Payment details</h3><span class="r"><button class="btn sm" data-a="mopen" data-v="bank">${IC.edit} Edit</button></span></div><p style="color:var(--muted);margin:0 0 12px">Modify or erase your payment information as needed. Payouts are sent here.</p><div class="kv"><div><small>Bank name</small><b>${esc(S.payd.bank)}</b></div><div><small>Bank address</small><b>${esc(S.payd.addr)}</b></div><div><small>Account number</small><b>${esc(S.payd.acct)}</b></div><div><small>Routing number</small><b>${esc(S.payd.route)}</b></div></div></div>
+   <div class="card"><div class="sech"><h3>Payment details</h3><span class="r"><button class="btn sm" data-a="mopen" data-v="bank">${IC.edit} ${S.payd.bank?'Edit':'Add'}</button></span></div><p style="color:var(--muted);margin:0 0 12px">Modify or erase your payment information as needed. Payouts are sent here.</p><div class="kv">${[['Bank name','bank'],['Bank address','addr'],['Account number','acct'],['Routing number','route']].map(([l,k])=>`<div><small>${l}</small><b>${S.payd[k]?esc(S.payd[k]):'<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div>`).join('')}</div></div>
    <div class="card"><h3>Linked accounts</h3><div class="acc">${[['linkedin','LinkedIn'],['github','GitHub'],['trail','Trailblazer']].map(([k,n])=>`<div class="a"><b>${n}</b><small>${L[k]?esc(L[k]):'Not connected'}</small>${L[k]?`<button class="btn sm" data-a="unlink" data-v="${k}">Disconnect</button>`:`<button class="btn sm" data-a="${k==='trail'?'mopen':'toast'}" data-v="${k==='trail'?'trail':n+' connection opens in a new window'}">Connect</button>`}</div>`).join('')}</div></div>
    <div class="card"><h3>Email notifications</h3><div class="stl">${PREFS.map(([k,t,d])=>`<div class="str"><div><b>${t}</b><small>${d}</small></div>${sw(k)}</div>`).join('')}</div></div>
    <div class="card"><h3>Appearance</h3><p style="color:var(--muted);margin:4px 0 12px">Choose how Cloud Club looks on this device.</p><div class="thm">${[['light','Light','Bright and clean — best in well-lit rooms'],['dark','Dark','Easier on the eyes in low light']].map(([k,l,d])=>`<button class="thc ${S.theme===k?'on':''}" data-a="theme" data-v="${k}" role="radio" aria-checked="${S.theme===k}"><span class="thp ${k}"><i></i><i></i><i></i><u></u></span><span class="tht"><b>${l}</b><small>${d}</small></span><span class="thk">${IC.check}</span></button>`).join('')}</div></div>
@@ -1055,6 +1092,8 @@ document.addEventListener('click',e=>{
   if(S.pop&&!e.target.closest('.pop')&&!(a&&a.dataset.a==='pop')){S.pop=false;render()}
   if(!a)return;const v=a.dataset.v;
   switch(a.dataset.a){
+   case 'gologi':S.ptab='logistics';doGo('profile');break;
+   case 'goref':S.ptab='references';doGo('profile');break;
    case 'ptab':S.ptab=v;S.err={};S.lgEdit=false;render();break;
    case 'medit':openModal(v);break;
    case 'madd':openModal('add',v);break;

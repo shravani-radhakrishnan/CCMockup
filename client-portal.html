@@ -7545,6 +7545,83 @@
       white-space: pre-line
     }
 
+    .sk2 .msg.user .ctx-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: -2px 0 6px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .16);
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: normal
+    }
+
+    .sk-ctx {
+      position: fixed;
+      z-index: 400;
+      min-width: 232px;
+      max-width: 300px;
+      padding: 6px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg)
+    }
+
+    .sk-ctx button {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      min-height: 36px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 8px;
+      background: none;
+      color: var(--ink);
+      font: 600 13px "DM Sans", sans-serif;
+      text-align: left;
+      cursor: pointer
+    }
+
+    .sk-ctx button:hover,
+    .sk-ctx button:focus-visible {
+      background: var(--slate-tint);
+      outline: none
+    }
+
+    .sk-ctx .ask {
+      color: var(--slate-dd)
+    }
+
+    .sk-ctx .ask i {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--slate-d), var(--slate));
+      color: #fff;
+      font-size: 11px;
+      font-style: normal;
+      flex: none
+    }
+
+    .sk-ctx hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 5px 4px
+    }
+
+    .sk-ctx small {
+      display: block;
+      padding: 4px 10px 2px;
+      color: var(--muted);
+      font-size: 11px
+    }
+
     .slotbox {
       width: min(560px, 100%);
       padding: 0;
@@ -10753,7 +10830,6 @@
     <div class="top"><div class="crumb">Client Portal / ${crumb()}</div></div>
     <div class="page" id="page" data-f="pg-${S.view}">${page()}</div>
   </main>
-  ${NOFAB.includes(S.view) ? '' : `<button class="fab" data-a="chat" aria-label="Ask Skai">${S.chat ? IC.up.replace(/.*/, '✕') : IC.chat}</button>`}
   <div id="extras">${modalHtml()}
   ${S.chat && !NOFAB.includes(S.view) ? `<div class="chat"><header>Ask Skai</header><div class="bd" id="cbd"><div class="msg">Hi ${esc(ORG.first)} 👋 Ask me anything about your job postings or candidates.</div></div><form id="cf"><input placeholder="Type a question…"><button class="btn p sm" style="padding:0 10px">${IC.send}</button></form></div>` : ''}</div>`);
       after();
@@ -11735,7 +11811,7 @@
       <header><div class="sk2-av">SK<i></i></div><div><b>Skai</b><small>${S.view === 'results' ? 'Online · here to help with your matches' : 'Online · fills your form as you chat'}</small></div><button class="sk2-min" data-skmin aria-label="Minimize Skai chat" title="Minimize"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button></header>
       <div class="sk2-msgs" id="chatScroll">
         ${NS.messages.length ? '' : `<div class="sk2-greet"><h2>Hi ${esc(ORG.name.split(' ')[0])}, I'm Skai <small>(pronounced “Sky”)</small></h2><p>Tell me what's going on with your technology — we'll figure out the rest together. Your Project Brief fills in as we talk.</p></div>`}
-        ${NS.messages.map(m => m.who === 'user' ? `<div class="msg user">${esc(m.text)}</div>` : `<div class="msg bot">${m.text}</div>`).join('')}
+        ${NS.messages.map(m => m.who === 'user' ? `<div class="msg user">${m.ctx ? `<div class="ctx-chip">✦ ${esc(m.ctx.id)} · ${m.ctx.match}% · ${esc(m.ctx.fit)}</div>` : ''}${esc(m.text)}</div>` : `<div class="msg bot">${m.text}</div>`).join('')}
         ${NS.typing ? skStatus(NS.statusLabels || ['Thinking…'], NS.statusStep || 0, 'Skai is working on it') : ''}
         ${S.view === 'results' ? '' : uploadBlock()}
       </div>
@@ -11941,6 +12017,59 @@
       const top = [...CANDIDATES].sort((a, b) => b.match - a.match)[0];
       return `<b>${top.id}</b> is your closest match at ${top.match}%. You can ask me to show only top matches, who is available now, or to compare the consultants side by side.`
     }
+    /* ---- Ask Skai (right-click on a consultant card) ---- */
+    function skaiContext(c, sel) {
+      const x = SEARCHES[S.pidx] || {};
+      return {
+        source: 'results-context-menu', searchId: x.id || null, jobTitle: (NS.jd && NS.jd.title) || x.title || '',
+        consultant: { id: c.id, role: c.role, fit: c.fit, match: c.match, availability: c.avail, experience: c.exp, region: c.region, rate: c.rate, skills: c.skills, certifications: c.certs, industries: c.industries, whyTheyFit: c.why, standout: c.standout },
+        selectedText: sel || ''
+      }
+    }
+    /* Hand-off point: the Skai chat is driven by the backend. Replace the body with the real call, e.g. fetch('/api/skai/context', { method: 'POST', body: JSON.stringify(payload) }). */
+    function sendSkaiContext(payload) { try { console.info('[skai] context sent to backend', payload) } catch (e) { } return payload }
+    function skCandReply(c, sel) {
+      const lead = sel ? `You highlighted “<b>${esc(sel.length > 90 ? sel.slice(0, 90) + '…' : sel)}</b>” on <b>${c.id}</b>. ` : '';
+      return `${lead}<b>${c.id}</b> is a <b>${esc(c.fit)}</b> at ${c.match}% — ${esc(c.role)}.<br><br>• ${c.why.slice(0, 3).map(esc).join('<br>• ')}<br><br>Available: ${esc(c.avail)} · ${esc(c.exp)} · ${esc(c.rate)}. Want me to compare ${c.id} with the others or help you request an interview?`
+    }
+    function askSkai(id, sel) {
+      const c = CANDIDATES.find(x => x.id === id); if (!c || !NS || NS.typing) return;
+      const ctx = skaiContext(c, sel); sendSkaiContext(ctx);
+      NS.min = false;
+      NS.messages.push({ who: 'user', text: sel ? `About “${sel.length > 140 ? sel.slice(0, 140) + '…' : sel}”: tell me more` : `Tell me more about ${c.id}`, ctx: { id: c.id, match: c.match, fit: c.fit } });
+      NS.typing = true; NS.statusStep = 0; NS.statusLabels = ['Reading ' + c.id + '’s profile', 'Comparing with your job posting', 'Preparing an answer'];
+      rerender(); scrollChatBottom();
+      const iv = setInterval(() => {
+        if (!NS || S.view !== 'results') { clearInterval(iv); return }
+        NS.statusStep++;
+        if (NS.statusStep < NS.statusLabels.length) { rerender(); scrollChatBottom(); return }
+        clearInterval(iv); NS.typing = false; NS.messages.push({ who: 'bot', text: skCandReply(c, sel) }); rerender(); scrollChatBottom();
+      }, 550);
+    }
+    function closeSkCtx() { const m = document.getElementById('skCtx'); if (m) m.remove() }
+    document.addEventListener('contextmenu', e => {
+      closeSkCtx();
+      if (S.view !== 'results' || !NS || NS.noMatch) return;
+      const card = e.target.closest('.cand-card[data-cand]'); if (!card) return;
+      e.preventDefault();
+      const id = card.dataset.cand, sel = (window.getSelection().toString() || '').trim().replace(/\s+/g, ' ').slice(0, 300);
+      const m = document.createElement('div'); m.id = 'skCtx'; m.className = 'sk-ctx'; m.setAttribute('role', 'menu');
+      m.innerHTML = `<button class="ask" role="menuitem" data-skask><i>✦</i><span>Ask Skai about ${sel ? '“' + esc(sel.length > 28 ? sel.slice(0, 28) + '…' : sel) + '”' : id}</span></button>`
+        + `<hr>`
+        + (sel ? `<button role="menuitem" data-skcopy>Copy</button>` : '')
+        + `<button role="menuitem" data-skprof>View profile</button>`;
+      document.body.appendChild(m);
+      const r = m.getBoundingClientRect();
+      m.style.left = Math.max(8, Math.min(e.clientX, innerWidth - r.width - 8)) + 'px';
+      m.style.top = Math.max(8, Math.min(e.clientY, innerHeight - r.height - 8)) + 'px';
+      m.querySelector('[data-skask]').addEventListener('click', () => { closeSkCtx(); askSkai(id, sel) });
+      const cp = m.querySelector('[data-skcopy]'); if (cp) cp.addEventListener('click', () => { try { navigator.clipboard.writeText(sel) } catch (x) { } closeSkCtx() });
+      m.querySelector('[data-skprof]').addEventListener('click', () => { closeSkCtx(); const b = card.querySelector('[data-viewprofile]'); b && b.click() });
+      m.querySelector('button').focus();
+    });
+    document.addEventListener('mousedown', e => { if (!e.target.closest('#skCtx')) closeSkCtx() });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSkCtx() });
+    window.addEventListener('scroll', closeSkCtx, true); window.addEventListener('resize', closeSkCtx);
     function sendMessage() {
       if (NS.typing) return;
       const input = document.getElementById('chatInput'), userText = input && input.value.trim();
