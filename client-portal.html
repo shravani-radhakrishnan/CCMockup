@@ -7268,6 +7268,20 @@
       }
     }
 
+.jd { margin-top: 14px; border-top: 1px solid var(--line); }
+    .jdt { display: flex; width: 100%; align-items: center; justify-content: flex-start; gap: 12px; padding: 12px 0 2px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; text-align: left; }
+    .jdt span { color: var(--slate); font-size: 12.5px; font-weight: 600; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); }
+    .jdb { padding: 6px 0 4px; }
+    .jdb h5 { margin: 14px 0 6px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+    .jdb p { margin: 0; color: var(--body); font-size: 13.5px; }
+    .jdl { margin: 0; padding-left: 18px; color: var(--body); font-size: 13.5px; }
+    .jdl li { margin: 3px 0; }
+    .jdnote { display: flex; gap: 10px; align-items: center; padding: 12px 14px; margin: 4px 0 6px; border-radius: 12px; background: var(--slate-tint); color: var(--body); font-size: 13.5px; }
+    .jdnote svg { flex: none; color: var(--slate); }
+    .jdkv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 24px; }
+    .jdkv small { display: block; color: var(--muted); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    .jdkv b { font-size: 14px; }
+    @media (max-width: 700px) { .jdkv { grid-template-columns: 1fr; } }
     .ivact {
       display: flex;
       align-items: center;
@@ -11409,6 +11423,16 @@
             const T = c[4] = c[4] || [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }]; return `<div class="ivt2"><small>Interviewers on this call</small><div class="ivp">${T.map((p, j) => `<span class="ivpp"><i>${ini(p.n.replace(' (you)', ''))}</i><span><b>${esc(p.n)}</b><em>${esc(p.e)}</em></span>${p.own ? '' : `<button data-a="ivrm" data-v="${i}:${j}" aria-label="Remove ${esc(p.n)}">×</button>`}</span>`).join('')}</div>
    ${S.ivAdd === i ? `<div class="ivf"><input class="in" id="ivn" placeholder="Full name" maxlength="60"><input class="in" id="ive" type="email" placeholder="Work email"><button class="btn p sm" data-a="ivsave" data-v="${i}">Add &amp; send invite</button><button class="btn sm" data-a="ivcancel">Cancel</button></div>` : T.length < 6 ? `<button class="btn sm" data-a="ivadd" data-v="${i}">${IC.plus} Add interviewer</button>` : '<small style="color:var(--muted)">Maximum of 6 interviewers reached.</small>'}</div>`
           })()}
+  ${(() => {
+            const o = S.ivJd && S.ivJd[i], L = a => `<ul class="jdl">${a.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`, T = a => `<div class="pills" style="display:flex;flex-wrap:wrap;gap:6px">${a.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>`, role = c[1];
+            return `<div class="jd"><button class="jdt" data-a="ivjd" data-v="${i}" aria-expanded="${!!o}"><b>Job description</b><span>${o ? 'Hide ▴' : 'View details ▾'}</span></button>${o ? `<div class="jdb">${ok ? '' : `<div class="jdnote">${IC.info} <span>Your company name and project specifics stay hidden from the consultant until they accept this interview.</span></div>`}
+  <h5>About the client</h5><p>${esc(ORG.name)} is a life-sciences company running its commercial and data operations on Salesforce and a cloud data platform. This role supports the next phase of that programme.</p>
+  <h5>Project overview</h5><p>Deliver the next phase of the platform roadmap as a ${esc(role)}, working alongside the in-house product and engineering teams from design through release and hypercare.</p>
+  <h5>Responsibilities</h5>${L(['Design and build solutions with the product and engineering teams', 'Review code and mentor other team members', 'Own technical documentation and hand over to the support team', 'Raise risks early and keep stakeholders informed'])}
+  <h5>Requirements</h5>${L(['5+ years of relevant experience', 'Strong Apex, integration and solution-design skills', 'Experience in a regulated industry', 'Clear written and spoken English'])}
+  <h5>Products / software</h5>${T(['Sales Cloud', 'Service Cloud', 'MuleSoft'])}<h5>Skills</h5>${T(['Apex', 'Integration / APIs', 'Solution architecture'])}
+  <h5>Engagement</h5><div class="jdkv">${[['Contract', '6 months'], ['Hours', 'Up to 40 hrs/week'], ['Work mode', 'Remote'], ['Team', '6 people, Agile sprints'], ['Overlap', '4 hours with US Eastern'], ['Start', 'Within 2 weeks of offer']].map(([k, v]) => `<div><small>${k}</small><b>${v}</b></div>`).join('')}</div></div>` : ''}</div>`
+          })()}
   <div class="ivact">${ok ? `<span class="ivlink">${link}</span><button class="btn sm" data-a="ivcopy" data-v="${link}">${IC.copy} Copy link</button><button class="btn p sm" data-a="ivjoin" data-v="${link}">Join interview</button>` : '<small style="color:var(--muted)">The video link, profile details and resume appear here once the consultant accepts the interview.</small>'}
    ${k ? `<button class="btn sm" data-a="ivresume" data-v="${c[0]}">View resume</button>` : ''}</div></div>`
       }).join('')}</div>`
@@ -12542,6 +12566,7 @@
         case 'signout': toast('Signing you out…'); setTimeout(() => { window.location.href = 'index.html' }, 700); break;
         case 'refsend': { const el = $('#refmail'), m = (el && el.value || '').trim(); if (!/^\S+@\S+\.\S+$/.test(m)) { toast('Enter a valid email address'); el && el.focus(); break } S.refs = S.refs || REFS.slice(); S.refs.unshift({ who: m, co: '—', d: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }), st: 'Invited', cr: 0, code: genRef() }); render(false); toast('Invitation sent to ' + m + ' with a one-time code'); break }
         case 'toast': toast(v); break;
+        case 'ivjd': S.ivJd = S.ivJd || {}; S.ivJd[+v] = !S.ivJd[+v]; render(false); break
         case 'ivadd': S.ivAdd = +v; render(false); setTimeout(() => $('#ivn')?.focus(), 0); break
         case 'ivcancel': S.ivAdd = null; render(false); break
         case 'ivsave': { const n = ($('#ivn')?.value || '').trim(), e = ($('#ive')?.value || '').trim(); if (!n) { toast('Enter the interviewer’s name'); $('#ivn')?.focus(); break } if (!/^\S+@\S+\.\S+$/.test(e)) { toast('Enter a valid work email'); $('#ive')?.focus(); break } const c = S.ivs[+v]; c[4].push({ n, e }); S.ivAdd = null; render(false); toast(n + ' added — invite sent to ' + e); break }
