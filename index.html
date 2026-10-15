@@ -764,6 +764,7 @@
     #appWrap input[type=password],
     #appWrap input[type=number],
     #appWrap input[type=date],
+    #appWrap input[type=month],
     #appWrap input[type=time],
     #appWrap select {
       min-height: 43px;
@@ -1729,6 +1730,7 @@
     input[type=password],
     input[type=number],
     input[type=date],
+    input[type=month],
     input[type=time],
     select,
     textarea {
@@ -3482,14 +3484,33 @@
     const ICON_CLOSE = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
     /* ---- parsed resume data (seeded when resume is uploaded) ---- */
     const PARSED_EXPERIENCES = [
-      { employer: 'Cloud Systems Inc', client: 'XYZ Financial', industry: 'Financial Services', type: 'Consulting engagement', start: '2022-01', end: '', role: 'Solution Architect', platforms: ['Salesforce', 'Financial Services Cloud'], skills: ['Solution Architecture', 'Data Modeling', 'Integration Design'], outcome: 'Led FSC rollout for 1,200 advisors; designed integration with core banking.' },
-      { employer: 'Cloud Systems Inc', client: 'Regional Health Network', industry: 'Healthcare', type: 'Consulting engagement', start: '2020-06', end: '2021-12', role: 'Technical Lead', platforms: ['Salesforce', 'MuleSoft'], skills: ['Apex', 'LWC', 'Integration Design'], outcome: 'Built patient service console; integrated 3 legacy systems.' },
-      { employer: 'Brightpath Solutions', client: '', industry: 'Technology', type: 'Full-time employee', start: '2017-08', end: '2020-05', role: 'Salesforce Developer', platforms: ['Salesforce'], skills: ['Apex', 'Solution Architecture'], outcome: 'Delivered CPQ; reduced quote cycle time 40%.' },
+      { employer: 'Cloud Systems Inc', client: 'XYZ Financial', industry: 'Financial Services', subindustry: 'Banking', project: 'Advisor platform on Financial Services Cloud', type: 'Consulting engagement', start: '2022-01', end: '', role: 'Solution Architect', platforms: ['Salesforce'], products: ['Financial Services Cloud (FSC)'], skills: ['Solution Architecture', 'Data Modeling', 'Integration Design'], outcome: 'Led FSC rollout for 1,200 advisors; designed integration with core banking.' },
+      { employer: 'Cloud Systems Inc', client: 'Regional Health Network', industry: 'Healthcare', subindustry: 'Providers', project: 'Patient service console', type: 'Consulting engagement', start: '2020-06', end: '2021-12', role: 'Technical Lead', platforms: ['Salesforce', 'MuleSoft'], products: ['Service Cloud', 'Anypoint Platform'], skills: ['Apex', 'LWC', 'Integration Design'], outcome: 'Built patient service console; integrated 3 legacy systems.' },
+      { employer: 'Brightpath Solutions', client: '', industry: 'Technology', subindustry: 'SaaS', project: 'CPQ implementation', type: 'Full-time employee', start: '2017-08', end: '2020-05', role: 'Salesforce Developer', platforms: ['Salesforce'], products: ['Salesforce CPQ'], skills: ['Apex', 'Solution Architecture'], outcome: 'Delivered CPQ; reduced quote cycle time 40%.' },
     ];
+    const fullDate = v => /^\d{4}-\d{2}$/.test(v || '') ? v + '-01' : (v || '');
+    const fmtExpDate = v => { if (!v) return ''; const [y, m, d] = v.split('-'); return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m - 1] + (d ? ' ' + (+d) + ',' : '') + ' ' + y; };
+    const EXP_INDS = { 'Financial Services': ['Banking', 'Lending', 'Insurance', 'Wealth Management', 'Payments'], 'Healthcare': ['Providers', 'Payers', 'Medical Devices'], 'Pharma & Life Sciences': ['Biotech', 'Pharma Manufacturing', 'Distribution'], 'Travel & Hospitality': ['Airlines', 'Car Rental', 'Hotels'], 'Retail': ['E-commerce', 'Grocery', 'Apparel'], 'Technology': ['SaaS', 'Hardware', 'Telecom'], 'Manufacturing': ['Industrial', 'Automotive', 'Consumer Goods'], 'Public Sector': ['Federal', 'State & Local', 'Education'], 'Professional Services': ['Consulting', 'Legal', 'Staffing'], 'Other': ['Other'] };
+    const roChips = list => list && list.length ? `<div class="chips">${list.map(o => `<span class="chip sel">${esc(o)}</span>`).join('')}</div>` : `<div class="hint" style="margin:0">Nothing was found in your resume for this role.</div>`;
+    /* same fields as Add / Edit work experience in the consultant dashboard; platforms, products and skills are read from the resume and not editable here */
+    function expFormFields(a) {
+      const subs = EXP_INDS[a.exp_industry] || [];
+      return `${text('exp_role', 'Role or title', { req: true, ph: 'Solution Architect' })}
+        ${text('exp_employer', 'Employer or consulting firm', { ph: 'Cloud Systems Inc' })}
+        ${text('exp_client', 'End client', { ph: 'XYZ Financial (if different)' })}
+        <div class="row">${sel('exp_industry', 'Client industry', Object.keys(EXP_INDS))}${a.exp_industry ? sel('exp_subindustry', 'Subindustry', subs) : `<div class="field"><label>Subindustry</label><select disabled><option>Pick an industry first</option></select></div>`}</div>
+        <div class="row">${sel('exp_type', 'Engagement type', ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'])}${text('exp_project', 'Project', { ph: 'e.g. Claims portal rollout' })}</div>
+        <div class="row">${text('exp_start', 'Start', { type: 'date' })}${text('exp_end', 'End', { type: 'date' })}</div>
+        <div class="field"><label>Software / platforms</label>${roChips(a.exp_platforms)}</div>
+        <div class="field"><label>Products / services</label>${roChips(a.exp_products)}</div>
+        <div class="field"><label>Skills & capabilities</label>${roChips(a.exp_skills)}</div>
+
+        <div class="field${ERRS.exp_outcome ? ' field-err' : ''}"><label>Responsibilities & outcomes<span class="req">*</span></label><textarea data-k="exp_outcome" placeholder="What did you do, and what was the result?">${esc(a.exp_outcome || '')}</textarea>${errMsg('exp_outcome')}</div>`;
+    }
     const EXP_PLATFORMS = ['Salesforce', 'Financial Services Cloud', 'Service Cloud', 'AWS', 'Microsoft Azure', 'Google Cloud', 'MuleSoft', 'ServiceNow', 'SAP', 'HubSpot', 'Other'];
     const EXP_SKILLS = ['Solution Architecture', 'Apex', 'LWC', 'Integration Design', 'Data Modeling', 'Project Management', 'Business Analysis', 'QA', 'Other'];
 
-    function clearExpDraft(a) { a.exp_employer = ''; a.exp_client = ''; a.exp_industry = ''; a.exp_type = ''; a.exp_start = ''; a.exp_end = ''; a.exp_role = ''; a.exp_platforms = []; a.exp_skills = []; a.exp_outcome = ''; }
+    function clearExpDraft(a) { a.exp_employer = ''; a.exp_client = ''; a.exp_industry = ''; a.exp_type = ''; a.exp_start = ''; a.exp_end = ''; a.exp_role = ''; a.exp_platforms = []; a.exp_products = []; a.exp_skills = []; a.exp_outcome = ''; a.exp_subindustry = ''; a.exp_project = ''; }
     function expManualBody() {
       const a = A();
       if (a.resume && !a.expSeeded) { a.experiences = PARSED_EXPERIENCES.map(e => ({ ...e })); a.expSeeded = true; a.expJustSeeded = true; }
@@ -3500,7 +3521,8 @@
         if (!a.exp_role && src) {
           const pre = (k, v) => { if (!a['exp_' + k]) a['exp_' + k] = v || ''; };
           pre('employer', src.employer); pre('client', src.client); pre('industry', src.industry); pre('type', src.type);
-          pre('start', src.start); pre('end', src.end); pre('role', src.role); pre('outcome', src.outcome);
+          pre('start', fullDate(src.start)); pre('end', fullDate(src.end)); pre('role', src.role); pre('outcome', src.outcome); pre('subindustry', src.subindustry); pre('project', src.project);
+          if (!a.exp_products || !a.exp_products.length) a.exp_products = (src.products || []).slice();
           if (!a.exp_platforms || !a.exp_platforms.length) a.exp_platforms = (src.platforms || []).slice();
           if (!a.exp_skills || !a.exp_skills.length) a.exp_skills = (src.skills || []).slice();
         }
@@ -3512,14 +3534,7 @@
         if (a.expEditIdx === i) {
           return `<div class="exp-modal-overlay" data-modalbackdrop><div class="icard exp-editing">
         <div class="exp-edit-hd"><span class="exp-edit-tag">Editing</span><button class="icon-btn" data-cancelexp title="Discard">${ICON_CLOSE}</button></div>
-        ${text('exp_role', 'Role or title', { req: true, ph: 'Solution Architect' })}
-        ${text('exp_employer', 'Employer or consulting firm', { req: true, ph: 'Cloud Systems Inc' })}
-        ${text('exp_client', 'End client', { ph: 'XYZ Financial (if different)' })}
-        <div class="row">${sel('exp_industry', 'Client industry', ['Financial Services', 'Healthcare', 'Technology', 'Manufacturing', 'Retail', 'Public Sector', 'Other'])}${sel('exp_type', 'Engagement type', ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'])}</div>
-        <div class="row">${text('exp_start', 'Start', { type: 'date' })}${text('exp_end', 'End', { type: 'date' })}</div>
-        <div class="field"><label>Platforms & products</label>${chipBlock('exp_platforms', EXP_PLATFORMS, { readOnly: true })}</div>
-        <div class="field"><label>Skills & capabilities</label>${chipBlock('exp_skills', EXP_SKILLS, { readOnly: true })}</div>
-        <div class="field"><label>Responsibilities & outcomes</label><textarea data-k="exp_outcome" placeholder="What did you do, and what was the result?">${esc(a.exp_outcome || '')}</textarea></div>
+        ${expFormFields(a)}
         <div class="exp-edit-foot">
           <button class="btn primary" data-saveexp="${i}" style="box-shadow:none;padding:10px 18px">Save changes</button>
           <button class="btn ghost" data-cancelexp>Cancel</button>
@@ -3527,7 +3542,7 @@
       </div></div>`;
         }
         const confirmed = e._ok;
-        const dates = `${esc(e.start || '—')}${e.end ? ' – ' + esc(e.end) : ' – Present'}`;
+        const dates = `${esc(fmtExpDate(e.start) || '—')}${e.end ? ' – ' + esc(fmtExpDate(e.end)) : ' – Present'}`;
         const titleOrg = e.client || e.employer || '';
         const subOrg = e.client && e.employer ? e.employer : '';
         return `<div class="icard exp-card ${confirmed ? 'exp-ok' : ''} ${a.expJustSeeded ? 'exp-enter' : ''}" style="--i:${i}">
@@ -3540,7 +3555,7 @@
           <button class="icon-btn warn" data-rmexp="${i}" title="Remove">${ICON_TRASH}</button>
         </div>
       </div>
-      <div class="metaline"><span><b>Dates</b> ${dates}</span></div>
+      <div class="metaline"><span><b>Dates</b> ${dates}</span>${e.industry ? `<span><b>Industry</b> ${esc(e.industry)}${e.subindustry ? ' › ' + esc(e.subindustry) : ''}</span>` : ''}${e.project ? `<span><b>Project</b> ${esc(e.project)}</span>` : ''}</div>
       ${confirmed ? `<div class="exp-badge">${ICON_CHECK_OK} Confirmed</div>` : ''}
     </div>`;
       }).join('');
@@ -3550,14 +3565,7 @@
       if (a.expFormOpen) {
         h += `<div class="exp-modal-overlay" data-modalbackdrop><div class="icard exp-editing">
       <div class="exp-edit-hd"><span class="exp-edit-tag">New experience</span><button class="icon-btn" data-cancelexp title="Discard">${ICON_CLOSE}</button></div>
-      ${text('exp_role', 'Role or title', { req: true, ph: 'Solution Architect' })}
-      ${text('exp_employer', 'Employer or consulting firm', { req: true, ph: 'Cloud Systems Inc' })}
-      ${text('exp_client', 'End client', { ph: 'XYZ Financial (if different)' })}
-      <div class="row">${sel('exp_industry', 'Client industry', ['Financial Services', 'Healthcare', 'Technology', 'Manufacturing', 'Retail', 'Public Sector', 'Other'])}${sel('exp_type', 'Engagement type', ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'])}</div>
-      <div class="row">${text('exp_start', 'Start', { type: 'date' })}${text('exp_end', 'End', { type: 'date' })}</div>
-      <div class="field"><label>Platforms & products</label>${chipBlock('exp_platforms', EXP_PLATFORMS, { readOnly: true })}</div>
-      <div class="field"><label>Skills & capabilities</label>${chipBlock('exp_skills', EXP_SKILLS, { readOnly: true })}</div>
-      <div class="field"><label>Responsibilities & outcomes</label><textarea data-k="exp_outcome" placeholder="What did you do, and what was the result?">${esc(a.exp_outcome || '')}</textarea></div>
+      ${expFormFields(a)}
       <div class="exp-edit-foot">
         <button class="btn primary" data-saveexp="" style="box-shadow:none;padding:10px 18px">Add experience</button>
         <button class="btn ghost" data-cancelexp>Cancel</button>
@@ -3784,7 +3792,7 @@
       clearErrs();
       let ok = true;
       if (!required(a.exp_role)) { addErr('exp_role', 'Role or title is required'); ok = false; }
-      if (!required(a.exp_employer)) { addErr('exp_employer', 'Employer is required'); ok = false; }
+      if (!required(a.exp_outcome)) { addErr('exp_outcome', 'Responsibilities & outcomes are required'); ok = false; }
       return ok;
     }
 
@@ -3892,7 +3900,7 @@
       const saveexp = e.target.closest('[data-saveexp]');
       if (saveexp) {
         if (!validateExpDrawer(a)) { render(); const first = document.querySelector('.exp-editing .field-err'); if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-        const rec = { employer: a.exp_employer, client: a.exp_client || '', industry: a.exp_industry || '', type: a.exp_type || '', start: a.exp_start || '', end: a.exp_end || '', role: a.exp_role, platforms: (a.exp_platforms || []).slice(), skills: (a.exp_skills || []).slice(), outcome: a.exp_outcome || '' };
+        const rec = { employer: a.exp_employer || '', client: a.exp_client || '', industry: a.exp_industry || '', subindustry: a.exp_subindustry || '', project: a.exp_project || '', type: a.exp_type || '', start: a.exp_start || '', end: a.exp_end || '', role: a.exp_role, platforms: (a.exp_platforms || []).slice(), products: (a.exp_products || []).slice(), skills: (a.exp_skills || []).slice(), outcome: a.exp_outcome || '' };
         const idx = saveexp.dataset.saveexp;
         if (idx !== '') { const i = Number(idx); rec._ok = a.experiences[i]._ok; a.experiences[i] = rec; }
         else { a.experiences = a.experiences || []; a.experiences.push(rec); }
@@ -3996,6 +4004,7 @@
     document.getElementById('stage').addEventListener('change', e => {
       const k = e.target.dataset.k; if (!k) return;
       A()[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+      if (k === 'exp_industry') { A().exp_subindustry = ''; render(); return; }
       const pd = e.target.closest('[data-phone-dial]');
       if (pd) {
         const phoneId = pd.dataset.phoneDial;
