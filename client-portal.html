@@ -10794,6 +10794,203 @@
       background: var(--ok-tint);
       color: var(--ok)
     }
+
+    /* =====================================================================
+       MOTION SYSTEM — one easing language, transform/opacity only,
+       calm enterprise timing (no overshoot), reduced-motion safe.
+       Appended last so it overrides the earlier per-component rules.
+       ===================================================================== */
+    :root {
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --ease-io: cubic-bezier(.65, 0, .35, 1);
+      --dur-1: .14s;
+      --dur-2: .22s;
+      --dur-3: .36s;
+      --lift: 0 14px 30px -14px rgba(44, 62, 76, .30)
+    }
+
+    /* every transition shares the same curve (old shorthands defaulted to "ease") */
+    *,
+    *::before,
+    *::after {
+      transition-timing-function: var(--ease-out) !important
+    }
+
+    /* keyframes: shorter travel, no bounce */
+    @keyframes up {
+      from { opacity: 0; transform: translate3d(0, 10px, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.96) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes slideL {
+      from { opacity: 0; transform: translate3d(18px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes slideR {
+      from { opacity: 0; transform: translate3d(-18px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes pageIn { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.97) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translate(-50%, -12px) }
+      to { opacity: 1; transform: translate(-50%, 0) }
+    }
+    @keyframes dockIn {
+      from { opacity: 0; transform: translate(-50%, 16px) }
+      to { opacity: 1; transform: translate(-50%, 0) }
+    }
+    @keyframes railIn {
+      from { opacity: 0; transform: scaleY(.3) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes labelIn { from { opacity: 0 } to { opacity: 1 } }
+
+    /* page change: new view fades in, its blocks rise in a tight cascade */
+    .page[data-f] { animation: pageIn .3s var(--ease-out) backwards }
+    .stagger>* { animation-duration: .5s; animation-timing-function: var(--ease-out) }
+    .stagger>*:nth-child(2) { animation-delay: .05s }
+    .stagger>*:nth-child(3) { animation-delay: .10s }
+    .stagger>*:nth-child(4) { animation-delay: .15s }
+    .stagger>*:nth-child(5) { animation-delay: .20s }
+    .stagger>*:nth-child(n+6) { animation-delay: .25s }
+    tbody tr { animation-duration: .4s }
+    tbody tr:nth-child(2) { animation-delay: .03s }
+    tbody tr:nth-child(3) { animation-delay: .06s }
+    tbody tr:nth-child(4) { animation-delay: .09s }
+    tbody tr:nth-child(5) { animation-delay: .12s }
+    tbody tr:nth-child(n+6) { animation-delay: .15s }
+    .rc:nth-child(2), .cand:nth-child(2) { animation-delay: .04s }
+    .rc:nth-child(3), .cand:nth-child(3) { animation-delay: .08s }
+    .rc:nth-child(n+4), .cand:nth-child(n+4) { animation-delay: .12s }
+
+    /* fixed/centred elements: the old `up` keyframe wiped their translateX(-50%) and made them jump */
+    .toast { animation: toastIn .38s var(--ease-out) both }
+    .selbar { animation: dockIn .38s var(--ease-out) both }
+
+    /* overlays & dialogs */
+    .mov { animation: fade .24s var(--ease-out) both; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px) }
+    .mbox, .skai .modal { animation: modalIn .34s var(--ease-out) both; will-change: transform, opacity }
+    .skai .modal-overlay { animation: fade .24s var(--ease-out) both }
+    .pop { animation: pop .22s var(--ease-out) both; transform-origin: bottom left }
+    .chat { animation: modalIn .32s var(--ease-out) both; transform-origin: bottom right }
+    .wbody.fwd { animation: slideL .38s var(--ease-out) both }
+    .wbody.bwd { animation: slideR .38s var(--ease-out) both }
+    .tpane { animation: fade .26s var(--ease-out) both }
+
+    /* interactive controls: animate only visual properties, never layout */
+    .btn, .cta, .chip, .tgl, .ni, .seg button, .seg3 button, .tabs button, .opt, .in, .sq, .cand,
+    .how, .day, .drop, .dz, .exo, .impr, .cbx, .fab, .swt, .swt i, .tsw, .thc, .slotb, .msb, .pcard,
+    .pcit, .pcch, .pring, .ib, .ilk, .ft, .so, .prof, .sqi, .hrb, .cmp-diff, .payf .fchip,
+    .skai .btn, .skai .cand-card, .skai .search-card, .skai .fchip, .skai .mth, .skai .eng-chip,
+    .skai .sit-opt, .skai .irad, .skai .iin, .skai .iup, .sk2-seg button, .sk2-in, .sk2-composer,
+    .sk2-suggest button, .sk2-launch, .gf .g-opt, .cview .seg button {
+      transition-property: background-color, border-color, color, box-shadow, transform, opacity, fill, stroke, filter;
+      transition-duration: var(--dur-2)
+    }
+    .card, .side, .top, .mbox, .pop {
+      transition: background-color .3s, border-color .3s, color .3s, box-shadow .3s, transform .3s
+    }
+
+    /* tactile feedback */
+    .btn:hover { box-shadow: 0 6px 16px -10px rgba(44, 62, 76, .35) }
+    .btn.p:hover { filter: brightness(1.07); box-shadow: 0 12px 24px -10px rgba(62, 86, 106, .75) }
+    .btn:active, .cta:active, .chip:active, .skai .btn:active { transform: translateY(0) scale(.97); transition-duration: .08s }
+    .sq:hover, .skai .cand-card:hover, .skai .search-card:hover, .rc>.card:hover, .how:hover {
+      transform: translateY(-2px); box-shadow: var(--lift)
+    }
+    .ni:hover { transform: translateX(2px) }
+    .ni.on:hover { transform: none }
+    .ni.on::before { animation: railIn .32s var(--ease-out) both }
+    .cand:hover { box-shadow: var(--lift) }
+    .chip:hover { transform: translateY(-1px) }
+    .in:hover { border-color: var(--line-2) }
+
+    /* sidebar: smoother width change, labels fade in on expand */
+    .side { transition: width .34s var(--ease-out), flex-basis .34s var(--ease-out), background-color .3s, border-color .3s }
+    .side:not(.c) .ni span, .side:not(.c) .brand, .side:not(.c) .cta span,
+    .side:not(.c) .who, .side:not(.c) .lbl, .side:not(.c) .cnt { animation: labelIn .3s .1s var(--ease-out) backwards }
+    .side.c .ni:hover { transform: none }
+    .tgl svg { transition: transform .34s var(--ease-out) }
+
+    /* keyboard focus: visible, soft, animated */
+    button:focus-visible, [data-a]:focus-visible, [data-go]:focus-visible, a:focus-visible, summary:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--slate) 70%, transparent);
+      outline-offset: 2px;
+      transition: outline-offset .15s var(--ease-out)
+    }
+
+    /* quiet, enterprise-style scrollbars */
+    * { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
+    *::-webkit-scrollbar { width: 10px; height: 10px }
+    *::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 99px; border: 3px solid transparent; background-clip: content-box }
+    *::-webkit-scrollbar-thumb:hover { background: var(--faint); background-clip: content-box; border: 3px solid transparent }
+    ::selection { background: color-mix(in srgb, var(--slate) 24%, transparent) }
+
+    /* profile-completeness ring: on hover two rings ripple outward and the dial lifts */
+    @keyframes ringRipple {
+      0% { opacity: .55; transform: scale(1) }
+      100% { opacity: 0; transform: scale(1.38) }
+    }
+    .pcard .ringw, .pring .ringw { transition: transform .35s var(--ease-out) }
+    .pcard .ringw::before, .pcard .ringw::after, .pring .ringw::before, .pring .ringw::after {
+      content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+      border: 2px solid var(--pcol, var(--accent)); opacity: 0
+    }
+    .pcard:hover .ringw, .pcard:focus-visible .ringw, .pring:hover .ringw, .pring:focus-visible .ringw { transform: scale(1.05) }
+    .pcard:hover .ringw::before, .pcard:focus-visible .ringw::before, .pring:hover .ringw::before, .pring:focus-visible .ringw::before { animation: ringRipple 1.6s var(--ease-out) infinite }
+    .pcard:hover .ringw::after, .pcard:focus-visible .ringw::after, .pring:hover .ringw::after, .pring:focus-visible .ringw::after { animation: ringRipple 1.6s .55s var(--ease-out) infinite }
+    .pcard:hover .ring-fg, .pring:hover .ring-fg { filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pcol, var(--accent)) 55%, transparent)) }
+    .ring-fg { transition: stroke-dashoffset 1.2s cubic-bezier(.2, .7, .2, 1), filter .3s }
+
+    /* ---- exit transitions (paired with _leave() in the DOM morph) ---- */
+    @keyframes fadeOut { to { opacity: 0 } }
+    @keyframes modalOut { to { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985) } }
+    @keyframes popOut { to { opacity: 0; transform: scale(.97) } }
+    @keyframes toastOut { to { opacity: 0; transform: translate(-50%, -8px) } }
+    @keyframes dockOut { to { opacity: 0; transform: translate(-50%, 10px) } }
+    .leaving { pointer-events: none !important; animation: fadeOut .18s var(--ease-out) both !important }
+    .mov.leaving, .skai .modal-overlay.leaving, .g-scrim.leaving { animation: fadeOut .2s var(--ease-out) both !important }
+    .mov.leaving .mbox, .skai .modal-overlay.leaving .modal { animation: modalOut .2s var(--ease-out) both !important }
+    .pop.leaving, .chat.leaving { animation: popOut .16s var(--ease-out) both !important }
+    .toast.leaving { animation: toastOut .22s var(--ease-out) both !important }
+    .selbar.leaving { animation: dockOut .22s var(--ease-out) both !important }
+
+    /* ---- restraint: no per-row table animation, quieter shadows/radii/gradients ---- */
+    tbody tr { animation: none !important }
+    :root { --r: 12px }
+    :root:not([data-theme=dark]) { --shadow: 0 1px 2px rgba(44, 62, 76, .05), 0 10px 28px -14px rgba(44, 62, 76, .14) }
+    .mbox { border-radius: 16px }
+    .btn.p { background: linear-gradient(180deg, var(--slate), var(--slate-d)); box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 6px 14px -8px rgba(62, 86, 106, .6) }
+    .btn.p:hover { box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 10px 20px -10px rgba(62, 86, 106, .65) }
+    .cta { box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 6px 14px -8px rgba(62, 86, 106, .55) }
+
+    /* ---- validation + loading feedback ---- */
+    @keyframes errIn { from { opacity: 0; transform: translate3d(0, -4px, 0) } to { opacity: 1; transform: none } }
+    .fld.err .em, .err-msg { animation: errIn .22s var(--ease-out) both }
+    .btn:disabled, .btn[disabled] { cursor: not-allowed }
+    .btn:disabled:hover, .btn[disabled]:hover { transform: none; filter: none }
+    .btn.loading, .btn[aria-busy=true] { position: relative; color: transparent !important; pointer-events: none }
+    .btn.loading::after, .btn[aria-busy=true]::after {
+      content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+      border-radius: 50%; border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff; animation: spin .7s linear infinite
+    }
+    .btn:not(.p).loading::after { border-color: var(--line-2); border-top-color: var(--slate) }
+
+    /* small screens: hero action buttons wrap instead of overflowing */
+    .hero .acts, .hero2 .acts { flex-wrap: wrap }
+
+    /* reduced motion: keep state changes, drop the movement */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important }
+    }
   </style>
 </head>
 
@@ -10880,7 +11077,7 @@
 
     /* ---------- shell ---------- */
     /* ---------------- DOM morph: update in place so nothing re-animates, loses focus or jumps ---------------- */
-    const _keyOf = n => n.nodeType === 1 ? (n.getAttribute('data-f') || n.id || null) : null;
+    const _keyOf = n => n.nodeType === 1 ? (n._leaving ? '\0leaving' + (n._leaving) : (n.getAttribute('data-f') || n.id || null)) : null;
     const _same = (a, b) => a.nodeType === b.nodeType && (a.nodeType !== 1 || a.tagName === b.tagName);
     function _patch(o, n) {
       if (o.nodeType !== 1) { if (o.nodeValue !== n.nodeValue) o.nodeValue = n.nodeValue; return; }
@@ -10893,6 +11090,21 @@
       else if (t === 'TEXTAREA') { if (o.value !== n.value) o.value = n.value; }
       else if (t === 'SELECT') { if (o.value !== n.value) o.value = n.value; }
     }
+    /* exit animations: overlays/popovers/toasts fade out instead of vanishing; the leaving copy is inert and id-free */
+    const _EXIT = 'mov,pop,toast,selbar,chat,sk2-launch,modal-overlay,g-scrim'.split(',');
+    let _leaveSeq = 0;
+    function _leave(from, o) {
+      if (o._leaving) return;
+      const exits = o.nodeType === 1 && !matchMedia('(prefers-reduced-motion:reduce)').matches && _EXIT.some(c => o.classList.contains(c));
+      if (!exits) { from.removeChild(o); return }
+      o._leaving = ++_leaveSeq;
+      o.classList.add('leaving'); o.setAttribute('aria-hidden', 'true'); o.removeAttribute('id');
+      o.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
+      o.querySelectorAll('button,input,select,textarea,a,[tabindex]').forEach(e => { e.tabIndex = -1 });
+      const done = () => { if (o.parentNode) o.parentNode.removeChild(o) };
+      o.addEventListener('animationend', e => { if (e.target === o) done() });
+      setTimeout(done, 400)
+    }
     function _morphKids(from, to) {
       const nw = [...to.childNodes], pool = new Map();
       [...from.childNodes].forEach(o => { const k = _keyOf(o); if (k) pool.set(k, o); });
@@ -10904,8 +11116,8 @@
         if (o) { if (o !== cur) from.insertBefore(o, cur); _patch(o, n); cur = o.nextSibling; }
         else from.insertBefore(n, cur);
       }
-      while (cur) { const nx = cur.nextSibling; from.removeChild(cur); cur = nx; }
-      pool.forEach(o => { if (o.parentNode === from) from.removeChild(o); });
+      while (cur) { const nx = cur.nextSibling; _leave(from, cur); cur = nx; }
+      pool.forEach(o => { if (o.parentNode === from) _leave(from, o); });
     }
     function morphHTML(root, html) { const t = document.createElement('div'); t.innerHTML = html; _morphKids(root, t); }
 
@@ -11002,7 +11214,7 @@
   <div class="mper-row" style="margin-bottom:12px"><span>${yr ? 'Showing ' + t0.getFullYear() : 'Showing ' + t0.toLocaleString('en-US', { month: 'long', year: 'numeric' })}</span><div class="seg" role="group" aria-label="Metrics period"><button class="${yr ? '' : 'on'}" data-a="mper" data-v="month" aria-pressed="${!yr}">Monthly</button><button class="${yr ? 'on' : ''}" data-a="mper" data-v="year" aria-pressed="${yr}">Yearly</button></div></div>
   <div class="grid g4 stagger" style="margin-bottom:20px">
     <div class="card pcard" role="button" tabindex="0" data-a="pcomp" aria-label="View what is missing from your profile" style="display:flex;gap:14px;align-items:center"><div class="ringw" style="--pcol:${pcol}"><svg width="96" height="96"><circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="8"/><circle class="ring-fg" cx="48" cy="48" r="42" fill="none" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg><b data-count="${pct}" data-suf="%" style="color:${pcol}">${pct}%</b></div><div><b style="font-family:Manrope">Profile completeness</b><div style="color:var(--muted);font-size:12px">${nextPc ? `Next: ${nextPc[2]} (+${nextPc[0]}%)` : 'Your profile is complete'}</div><span class="pcmore">${pct >= 100 ? 'View checklist' : 'See what\u2019s missing'} ›</span></div></div>
-    ${[['Job postings posted', inP.filter(x => x.posted).length, nDraft + ' draft' + (nDraft === 1 ? '' : 's') + ' not posted'], SEARCHES.length ? ['Candidates matched', yr ? 20 : 12, yr ? 'Across ' + SEARCHES.filter(x => x.posted).length + ' job posting' + (SEARCHES.filter(x => x.posted).length === 1 ? '' : 's') : '+8 this week'] : ['Candidates matched', 0, 'Post a job to get matches'], S.ivs.length ? ['Interviews booked', yr ? 5 : 2, yr ? 'Across all consultants' : 'Next: Thu 10:00'] : ['Interviews booked', 0, 'Request interviews from your matches']].map(s => `<div class="card stat"><small>${s[0]}${yr ? ' · year' : ' · month'}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
+    ${[['Jobs posted', inP.filter(x => x.posted).length, nDraft + ' draft' + (nDraft === 1 ? '' : 's') + ' not posted'], SEARCHES.length ? ['Consultants matched', yr ? 20 : 12, yr ? 'Across ' + SEARCHES.filter(x => x.posted).length + ' job posting' + (SEARCHES.filter(x => x.posted).length === 1 ? '' : 's') : '+8 this week'] : ['Consultants matched', 0, 'Post a job to get matches'], S.ivs.length ? ['Interviews booked', yr ? 5 : 2, yr ? 'Across all consultants' : 'Next: Thu 10:00'] : ['Interviews booked', 0, 'Request interviews from your matches']].map(s => `<div class="card stat"><small>${s[0]} per ${yr ? 'year' : 'month'}</small><b data-count="${s[1]}">${s[1]}</b><span class="tr">${s[2]}</span></div>`).join('')}</div>
   ${(() => { const posted = SEARCHES.some(x => x.posted), rev = posted && !!S.reviewed, st = [[!!p.website, 'Complete your company profile', 'Add your company website so we can recommend relevant consultants.', 'Edit profile', 'data-a="edit" data-v="co"'], [posted, 'Create your first job posting', 'Describe the consultant you need — with Skai or a short form.', 'Create a job posting', 'data-a="newoffer"'], [rev, 'Review your matched consultants', 'We show your best matches as soon as your job is posted.', 'View matches', 'data-go="searches"'], [!!S.ivReq, 'Request interviews', 'Pick your favourites and propose times — the consultant confirms.', 'Go to my searches', 'data-go="searches"']], dn = st.filter(x => x[0]).length, cur = st.findIndex(x => !x[0]); if (dn === st.length || !FRESH) return ''; return `<div class="card gs"><div class="gs-h"><h3>Get started with Cloud Club</h3><span>${dn} of ${st.length} done</span></div>${st.map((x, i) => `<div class="gs-i ${x[0] ? 'done' : ''}"><span class="gs-n">${x[0] ? IC.check : i + 1}</span><div class="gs-t"><b>${x[1]}</b><small>${x[2]}</small></div>${!x[0] && x[3] && (i === cur || i < 2) ? `<button class="btn ${i === cur ? 'p ' : ''}sm" ${x[4]}>${x[3]}</button>` : ''}</div>`).join('')}</div>` })()}
   <div class="grid g2" style="align-items:${e ? 'start' : 'stretch'}">
     <div class="card stagger" style="${e && S.pH ? `min-height:${S.pH}px` : ''}"><h3>${IC.building} About your company <span class="r">${e === 'co' ? `<button class="btn sm" data-a="canceledit">Cancel</button> <button class="btn p sm" data-a="saveedit">Save changes</button>` : `<button class="btn sm" data-a="edit" data-v="co">${IC.edit} Edit</button>`}</span></h3>
@@ -11076,10 +11288,10 @@
       const posted = SEARCHES.filter(x => x.posted && !x.closed && inMper(parseAnyDate(x.created))), withM = posted.filter(x => x.n > 0).length, noM = posted.filter(x => x.n === 0), needTeam = SEARCHES.filter(x => x.posted && !x.closed && x.n === 0 && !x.reach).length, tot = posted.reduce((a, x) => a + (x.n || 0), 0), perfect = withM * CANDIDATES.filter(c => c.fit === 'Top match').length, ivc = S.ivs.filter(v => v[3] === 'Confirmed').length, att = nD + needTeam;
       const mets = [['Active searches', posted.length, withM + ' with matches' + (noM.length ? ' · ' + noM.length + ' being sourced' : '')], ['Consultants matched', tot, perfect + ' top match' + (perfect === 1 ? '' : 'es') + ' to review'], ['Interviews booked', S.ivs.length + (S.mper === 'year' ? 3 : 0), ivc + ' confirmed · ' + (S.ivs.length - ivc) + ' awaiting reply'], ['Needs your attention', att, att ? (nD ? nD + ' draft' + (nD > 1 ? 's' : '') + ' to post' : '') + (nD && needTeam ? ' · ' : '') + (needTeam ? needTeam + ' to reach our team' : '') : 'You\u2019re all caught up', att > 0]];
       if (!SEARCHES.length && !DELETED.length) return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
-  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Active searches', 0, 'Post your first job to get started'], ['Consultants matched', 0, 'Matches appear once you post'], ['Interviews booked', 0, 'Request interviews from your matches'], ['Needs your attention', 0, 'You’re all caught up']].map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' · ' + mperTag() : ''}</small><b>${m[1]}</b><span class="tr">${m[2]}</span></div>`).join('')}</div>
+  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Active searches', 0, 'Post your first job to get started'], ['Consultants matched', 0, 'Matches appear once you post'], ['Interviews booked', 0, 'Request interviews from your matches'], ['Needs your attention', 0, 'You’re all caught up']].map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' per ' + mperTag() : ''}</small><b>${m[1]}</b><span class="tr">${m[2]}</span></div>`).join('')}</div>
   ${emptyCard(IC.search, 'Create your first job posting', 'Tell us the consultant you need. We’ll match you with vetted consultants — usually within minutes. Drafts are saved automatically, so you can finish later.', newPostBtns)}`;
       return `<div class="ph"><div><h1>Your Searches</h1><p>Post a job to see matched consultants. Drafts stay saved until you post them.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New job posting</button></div></div>
-  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${mets.map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' · ' + mperTag() : ''}</small><b data-count="${m[1]}">${m[1]}</b><span class="tr${m[3] ? ' warn' : ''}">${m[2]}</span></div>`).join('')}</div>
+  ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${mets.map((m, i) => `<div class="card stat"><small>${m[0]}${i < 3 ? ' per ' + mperTag() : ''}</small><b data-count="${m[1]}">${m[1]}</b><span class="tr${m[3] ? ' warn' : ''}">${m[2]}</span></div>`).join('')}</div>
   <div class="sqbar"><div class="sqtabs" role="tablist">${[['all', 'All', SEARCHES.length + DELETED.length], ['posted', 'Posted', nP], ['draft', 'Drafts', nD], ['closed', 'Closed', nC], ['deleted', 'Deleted', DELETED.length]].map(t => `<button class="${f === t[0] ? 'on' : ''}" role="tab" aria-selected="${f === t[0]}" data-a="sqf" data-v="${t[0]}">${t[1]} <em>${t[2]}</em></button>`).join('')}</div>
   <label class="sqsearch">${IC.search}<input type="search" data-sqsearch placeholder="Search by title or role" value="${esc(S.sq || '')}" aria-label="Search job postings"></label></div>
   <div class="sq-list stagger">${sqList(f)}</div>`
@@ -11548,7 +11760,7 @@
       let hrs = 0; perP.forEach(p => { if (p[7]) return; const f = pinfo(p[0]); f.cons.forEach(cid => { for (let d = new Date(rg[0]); d <= rg[1]; d.setDate(d.getDate() + 1)) hrs += tsHours(f, cid, d) }) });
       if (!all.length) return `<div class="ph"><div><h1>Projects</h1><p>Every engagement, from hiring to delivery — with timesheets for approval.</p></div></div>\n ${emptyCard(IC.brief, 'No projects yet', 'A project starts when you hire a consultant. You’ll track progress, hours and timesheets here.', newPostBtns)}`;
       return `<div class="ph"><div><h1>Projects</h1><p>Every engagement, from hiring to delivery — grouped by company, with timesheets for approval.</p></div></div>
- ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:18px">${[['Companies', coN], ['Projects', perP.length], ['In delivery', active], ['Hours delivered', hrs.toLocaleString('en-US')]].map(x => `<div class="card stat"><small>${x[0]} · ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:18px">${[['Companies', coN], ['Projects', perP.length], ['In delivery', active], ['Hours delivered', hrs.toLocaleString('en-US')]].map(x => `<div class="card stat"><small>${x[0]} per ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
  <div class="pgroups">${PROJ.filter(g => g.items.length).map(g => {
         const open = !(S.pcol || {})[g.co], n = g.items.length, avg = Math.round(g.items.reduce((a, p) => a + p[2], 0) / n), h = g.items.reduce((a, p) => a + p[3], 0), t = g.items.reduce((a, p) => a + p[4], 0);
         return `<section class="card pgrp ${open ? 'open' : ''}" data-f="pg-${esc(g.co)}">
@@ -11623,10 +11835,10 @@
       const P = S.pay = S.pay || { page: 0, per: 5, f: 'All' }, list = PAYS.filter(r => P.f === 'All' || r[7] === P.f), pages = Math.max(1, Math.ceil(list.length / P.per)); if (P.page >= pages) P.page = pages - 1; const rows = list.slice(P.page * P.per, P.page * P.per + P.per);
       const amt = r => r[4] * r[5], PP = PAYS.filter(r => inMper(parseAnyDate(r[3]))), sum = f => PP.filter(f).reduce((a, r) => a + amt(r), 0), hrs = PP.reduce((a, r) => a + r[4], 0);
       if (!PAYS.length) return `<div class="ph"><div><h1>Payments</h1><p>Billable hours and amounts due across all your projects.</p></div></div>
- ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid to date', money(0)], ['Outstanding', money(0)], ['Upcoming', money(0)], ['Billable hours', 0]].map(x => `<div class="card stat"><small>${x[0]} · ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid', money(0)], ['Outstanding', money(0)], ['Upcoming', money(0)], ['Billable hours', 0]].map(x => `<div class="card stat"><small>${x[0]} per ${mperTag()}</small><b>${x[1]}</b></div>`).join('')}</div>
  ${emptyCard(IC.dollar, 'No payments yet', 'Billable hours and invoices appear here once a consultant starts working on your project. You approve timesheets before anything is charged.')}`;
       return `<div class="ph"><div><h1>Payments</h1><p>Billable hours and amounts due across all your projects.</p></div></div>
- ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid to date', money(sum(r => r[7] === 'Paid'))], ['Outstanding', money(sum(r => r[7] === 'Due' || r[7] === 'Processing'))], ['Upcoming', money(sum(r => r[7] === 'Upcoming'))], ['Billable hours', hrs.toLocaleString('en-US')]].map(s => `<div class="card stat"><small>${s[0]} · ${mperTag()}</small><b>${s[1]}</b></div>`).join('')}</div>
+ ${mperRow()}<div class="grid g4 stagger" style="margin-bottom:20px">${[['Paid', money(sum(r => r[7] === 'Paid'))], ['Outstanding', money(sum(r => r[7] === 'Due' || r[7] === 'Processing'))], ['Upcoming', money(sum(r => r[7] === 'Upcoming'))], ['Billable hours', hrs.toLocaleString('en-US')]].map(s => `<div class="card stat"><small>${s[0]} per ${mperTag()}</small><b>${s[1]}</b></div>`).join('')}</div>
  <div class="card tw"><div class="payf">${['All', 'Upcoming', 'Processing', 'Due', 'Paid'].map(f => `<button class="fchip ${P.f === f ? 'active' : ''}" data-a="payf" data-v="${f}">${f}</button>`).join('')}</div>
  <table class="paytb"><thead><tr><th>Payment</th><th>Consultant</th><th>Project</th><th>Work period</th><th class="hl">Billable hours</th><th>Hourly rate</th><th>Amount due</th><th>Anticipated pay date</th><th>Status</th></tr></thead><tbody>${rows.length ? rows.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${r[0]}</b></td><td>${esc(cname(r[1]))}</td><td>${esc(r[2])}</td><td>${r[3]}</td><td class="hl">${r[4]} hrs</td><td>${money(r[5])}</td><td><b>${money(amt(r))}</b></td><td>${r[6]}</td><td><span class="pill ${PAY_ST[r[7]]}"><i></i>${r[7]}</span></td></tr>`).join('') : '<tr><td colspan="9"><div class="empty">No payments with this status.</div></td></tr>'}</tbody></table>
  <div class="payp"><label>Rows per page <select class="in" data-payper>${[5, 10].map(n => `<option ${P.per === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label><span>${list.length ? P.page * P.per + 1 : 0}–${Math.min(list.length, P.page * P.per + P.per)} of ${list.length}</span><button class="btn sm" data-a="paypg" data-v="-1" ${P.page <= 0 ? 'disabled' : ''} aria-label="Previous page">‹</button><button class="btn sm" data-a="paypg" data-v="1" ${P.page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">›</button></div></div>`

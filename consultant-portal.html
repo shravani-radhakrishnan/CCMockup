@@ -6147,6 +6147,203 @@
       gap: 2px;
       min-width: 0
     }
+
+    /* =====================================================================
+       MOTION SYSTEM — one easing language, transform/opacity only,
+       calm enterprise timing (no overshoot), reduced-motion safe.
+       Appended last so it overrides the earlier per-component rules.
+       ===================================================================== */
+    :root {
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --ease-io: cubic-bezier(.65, 0, .35, 1);
+      --dur-1: .14s;
+      --dur-2: .22s;
+      --dur-3: .36s;
+      --lift: 0 14px 30px -14px rgba(44, 62, 76, .30)
+    }
+
+    /* every transition shares the same curve (old shorthands defaulted to "ease") */
+    *,
+    *::before,
+    *::after {
+      transition-timing-function: var(--ease-out) !important
+    }
+
+    /* keyframes: shorter travel, no bounce */
+    @keyframes up {
+      from { opacity: 0; transform: translate3d(0, 10px, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.96) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes slideL {
+      from { opacity: 0; transform: translate3d(18px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes slideR {
+      from { opacity: 0; transform: translate3d(-18px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes pageIn { from { opacity: 0 } to { opacity: 1 } }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.97) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translate(-50%, -12px) }
+      to { opacity: 1; transform: translate(-50%, 0) }
+    }
+    @keyframes dockIn {
+      from { opacity: 0; transform: translate(-50%, 16px) }
+      to { opacity: 1; transform: translate(-50%, 0) }
+    }
+    @keyframes railIn {
+      from { opacity: 0; transform: scaleY(.3) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes labelIn { from { opacity: 0 } to { opacity: 1 } }
+
+    /* page change: new view fades in, its blocks rise in a tight cascade */
+    .page[data-f] { animation: pageIn .3s var(--ease-out) backwards }
+    .stagger>* { animation-duration: .5s; animation-timing-function: var(--ease-out) }
+    .stagger>*:nth-child(2) { animation-delay: .05s }
+    .stagger>*:nth-child(3) { animation-delay: .10s }
+    .stagger>*:nth-child(4) { animation-delay: .15s }
+    .stagger>*:nth-child(5) { animation-delay: .20s }
+    .stagger>*:nth-child(n+6) { animation-delay: .25s }
+    tbody tr { animation-duration: .4s }
+    tbody tr:nth-child(2) { animation-delay: .03s }
+    tbody tr:nth-child(3) { animation-delay: .06s }
+    tbody tr:nth-child(4) { animation-delay: .09s }
+    tbody tr:nth-child(5) { animation-delay: .12s }
+    tbody tr:nth-child(n+6) { animation-delay: .15s }
+    .rc:nth-child(2), .cand:nth-child(2) { animation-delay: .04s }
+    .rc:nth-child(3), .cand:nth-child(3) { animation-delay: .08s }
+    .rc:nth-child(n+4), .cand:nth-child(n+4) { animation-delay: .12s }
+
+    /* fixed/centred elements: the old `up` keyframe wiped their translateX(-50%) and made them jump */
+    .toast { animation: toastIn .38s var(--ease-out) both }
+    .selbar { animation: dockIn .38s var(--ease-out) both }
+
+    /* overlays & dialogs */
+    .mov { animation: fade .24s var(--ease-out) both; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px) }
+    .mbox, .skai .modal { animation: modalIn .34s var(--ease-out) both; will-change: transform, opacity }
+    .skai .modal-overlay { animation: fade .24s var(--ease-out) both }
+    .pop { animation: pop .22s var(--ease-out) both; transform-origin: bottom left }
+    .chat { animation: modalIn .32s var(--ease-out) both; transform-origin: bottom right }
+    .wbody.fwd { animation: slideL .38s var(--ease-out) both }
+    .wbody.bwd { animation: slideR .38s var(--ease-out) both }
+    .tpane { animation: fade .26s var(--ease-out) both }
+
+    /* interactive controls: animate only visual properties, never layout */
+    .btn, .cta, .chip, .tgl, .ni, .seg button, .seg3 button, .tabs button, .opt, .in, .sq, .cand,
+    .how, .day, .drop, .dz, .exo, .impr, .cbx, .fab, .swt, .swt i, .tsw, .thc, .slotb, .msb, .pcard,
+    .pcit, .pcch, .pring, .ib, .ilk, .ft, .so, .prof, .sqi, .hrb, .cmp-diff, .payf .fchip,
+    .skai .btn, .skai .cand-card, .skai .search-card, .skai .fchip, .skai .mth, .skai .eng-chip,
+    .skai .sit-opt, .skai .irad, .skai .iin, .skai .iup, .sk2-seg button, .sk2-in, .sk2-composer,
+    .sk2-suggest button, .sk2-launch, .gf .g-opt, .cview .seg button {
+      transition-property: background-color, border-color, color, box-shadow, transform, opacity, fill, stroke, filter;
+      transition-duration: var(--dur-2)
+    }
+    .card, .side, .top, .mbox, .pop {
+      transition: background-color .3s, border-color .3s, color .3s, box-shadow .3s, transform .3s
+    }
+
+    /* tactile feedback */
+    .btn:hover { box-shadow: 0 6px 16px -10px rgba(44, 62, 76, .35) }
+    .btn.p:hover { filter: brightness(1.07); box-shadow: 0 12px 24px -10px rgba(62, 86, 106, .75) }
+    .btn:active, .cta:active, .chip:active, .skai .btn:active { transform: translateY(0) scale(.97); transition-duration: .08s }
+    .sq:hover, .skai .cand-card:hover, .skai .search-card:hover, .rc>.card:hover, .how:hover {
+      transform: translateY(-2px); box-shadow: var(--lift)
+    }
+    .ni:hover { transform: translateX(2px) }
+    .ni.on:hover { transform: none }
+    .ni.on::before { animation: railIn .32s var(--ease-out) both }
+    .cand:hover { box-shadow: var(--lift) }
+    .chip:hover { transform: translateY(-1px) }
+    .in:hover { border-color: var(--line-2) }
+
+    /* sidebar: smoother width change, labels fade in on expand */
+    .side { transition: width .34s var(--ease-out), flex-basis .34s var(--ease-out), background-color .3s, border-color .3s }
+    .side:not(.c) .ni span, .side:not(.c) .brand, .side:not(.c) .cta span,
+    .side:not(.c) .who, .side:not(.c) .lbl, .side:not(.c) .cnt { animation: labelIn .3s .1s var(--ease-out) backwards }
+    .side.c .ni:hover { transform: none }
+    .tgl svg { transition: transform .34s var(--ease-out) }
+
+    /* keyboard focus: visible, soft, animated */
+    button:focus-visible, [data-a]:focus-visible, [data-go]:focus-visible, a:focus-visible, summary:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--slate) 70%, transparent);
+      outline-offset: 2px;
+      transition: outline-offset .15s var(--ease-out)
+    }
+
+    /* quiet, enterprise-style scrollbars */
+    * { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
+    *::-webkit-scrollbar { width: 10px; height: 10px }
+    *::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 99px; border: 3px solid transparent; background-clip: content-box }
+    *::-webkit-scrollbar-thumb:hover { background: var(--faint); background-clip: content-box; border: 3px solid transparent }
+    ::selection { background: color-mix(in srgb, var(--slate) 24%, transparent) }
+
+    /* profile-completeness ring: on hover two rings ripple outward and the dial lifts */
+    @keyframes ringRipple {
+      0% { opacity: .55; transform: scale(1) }
+      100% { opacity: 0; transform: scale(1.38) }
+    }
+    .pcard .ringw, .pring .ringw { transition: transform .35s var(--ease-out) }
+    .pcard .ringw::before, .pcard .ringw::after, .pring .ringw::before, .pring .ringw::after {
+      content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+      border: 2px solid var(--pcol, var(--accent)); opacity: 0
+    }
+    .pcard:hover .ringw, .pcard:focus-visible .ringw, .pring:hover .ringw, .pring:focus-visible .ringw { transform: scale(1.05) }
+    .pcard:hover .ringw::before, .pcard:focus-visible .ringw::before, .pring:hover .ringw::before, .pring:focus-visible .ringw::before { animation: ringRipple 1.6s var(--ease-out) infinite }
+    .pcard:hover .ringw::after, .pcard:focus-visible .ringw::after, .pring:hover .ringw::after, .pring:focus-visible .ringw::after { animation: ringRipple 1.6s .55s var(--ease-out) infinite }
+    .pcard:hover .ring-fg, .pring:hover .ring-fg { filter: drop-shadow(0 0 5px color-mix(in srgb, var(--pcol, var(--accent)) 55%, transparent)) }
+    .ring-fg { transition: stroke-dashoffset 1.2s cubic-bezier(.2, .7, .2, 1), filter .3s }
+
+    /* ---- exit transitions (paired with _leave() in the DOM morph) ---- */
+    @keyframes fadeOut { to { opacity: 0 } }
+    @keyframes modalOut { to { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985) } }
+    @keyframes popOut { to { opacity: 0; transform: scale(.97) } }
+    @keyframes toastOut { to { opacity: 0; transform: translate(-50%, -8px) } }
+    @keyframes dockOut { to { opacity: 0; transform: translate(-50%, 10px) } }
+    .leaving { pointer-events: none !important; animation: fadeOut .18s var(--ease-out) both !important }
+    .mov.leaving, .skai .modal-overlay.leaving, .g-scrim.leaving { animation: fadeOut .2s var(--ease-out) both !important }
+    .mov.leaving .mbox, .skai .modal-overlay.leaving .modal { animation: modalOut .2s var(--ease-out) both !important }
+    .pop.leaving, .chat.leaving { animation: popOut .16s var(--ease-out) both !important }
+    .toast.leaving { animation: toastOut .22s var(--ease-out) both !important }
+    .selbar.leaving { animation: dockOut .22s var(--ease-out) both !important }
+
+    /* ---- restraint: no per-row table animation, quieter shadows/radii/gradients ---- */
+    tbody tr { animation: none !important }
+    :root { --r: 12px }
+    :root:not([data-theme=dark]) { --shadow: 0 1px 2px rgba(44, 62, 76, .05), 0 10px 28px -14px rgba(44, 62, 76, .14) }
+    .mbox { border-radius: 16px }
+    .btn.p { background: linear-gradient(180deg, var(--slate), var(--slate-d)); box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 6px 14px -8px rgba(62, 86, 106, .6) }
+    .btn.p:hover { box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 10px 20px -10px rgba(62, 86, 106, .65) }
+    .cta { box-shadow: 0 1px 2px rgba(44, 62, 76, .25), 0 6px 14px -8px rgba(62, 86, 106, .55) }
+
+    /* ---- validation + loading feedback ---- */
+    @keyframes errIn { from { opacity: 0; transform: translate3d(0, -4px, 0) } to { opacity: 1; transform: none } }
+    .fld.err .em, .err-msg { animation: errIn .22s var(--ease-out) both }
+    .btn:disabled, .btn[disabled] { cursor: not-allowed }
+    .btn:disabled:hover, .btn[disabled]:hover { transform: none; filter: none }
+    .btn.loading, .btn[aria-busy=true] { position: relative; color: transparent !important; pointer-events: none }
+    .btn.loading::after, .btn[aria-busy=true]::after {
+      content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+      border-radius: 50%; border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff; animation: spin .7s linear infinite
+    }
+    .btn:not(.p).loading::after { border-color: var(--line-2); border-top-color: var(--slate) }
+
+    /* small screens: hero action buttons wrap instead of overflowing */
+    .hero .acts, .hero2 .acts { flex-wrap: wrap }
+
+    /* reduced motion: keep state changes, drop the movement */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important }
+    }
   </style>
 </head>
 
@@ -6466,7 +6663,7 @@
     const avCss = () => S.avatar ? `style="background:url(${S.avatar}) center/cover;color:transparent"` : '';
 
     /* ---------- shell ---------- */
-    const _keyOf = n => n.nodeType === 1 ? (n.getAttribute('data-f') || n.id || null) : null;
+    const _keyOf = n => n.nodeType === 1 ? (n._leaving ? '\0leaving' + (n._leaving) : (n.getAttribute('data-f') || n.id || null)) : null;
     const _same = (a, b) => a.nodeType === b.nodeType && (a.nodeType !== 1 || a.tagName === b.tagName);
     function _patch(o, n) {
       if (o.nodeType !== 1) { if (o.nodeValue !== n.nodeValue) o.nodeValue = n.nodeValue; return; }
@@ -6479,6 +6676,21 @@
       else if (t === 'TEXTAREA') { if (o.value !== n.value) o.value = n.value; }
       else if (t === 'SELECT') { if (o.value !== n.value) o.value = n.value; }
     }
+    /* exit animations: overlays/popovers/toasts fade out instead of vanishing; the leaving copy is inert and id-free */
+    const _EXIT = 'mov,pop,toast,selbar,chat,sk2-launch,modal-overlay,g-scrim'.split(',');
+    let _leaveSeq = 0;
+    function _leave(from, o) {
+      if (o._leaving) return;
+      const exits = o.nodeType === 1 && !matchMedia('(prefers-reduced-motion:reduce)').matches && _EXIT.some(c => o.classList.contains(c));
+      if (!exits) { from.removeChild(o); return }
+      o._leaving = ++_leaveSeq;
+      o.classList.add('leaving'); o.setAttribute('aria-hidden', 'true'); o.removeAttribute('id');
+      o.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
+      o.querySelectorAll('button,input,select,textarea,a,[tabindex]').forEach(e => { e.tabIndex = -1 });
+      const done = () => { if (o.parentNode) o.parentNode.removeChild(o) };
+      o.addEventListener('animationend', e => { if (e.target === o) done() });
+      setTimeout(done, 400)
+    }
     function _morphKids(from, to) {
       const nw = [...to.childNodes], pool = new Map();
       [...from.childNodes].forEach(o => { const k = _keyOf(o); if (k) pool.set(k, o); });
@@ -6490,8 +6702,8 @@
         if (o) { if (o !== cur) from.insertBefore(o, cur); _patch(o, n); cur = o.nextSibling; }
         else from.insertBefore(n, cur);
       }
-      while (cur) { const nx = cur.nextSibling; from.removeChild(cur); cur = nx; }
-      pool.forEach(o => { if (o.parentNode === from) from.removeChild(o); });
+      while (cur) { const nx = cur.nextSibling; _leave(from, cur); cur = nx; }
+      pool.forEach(o => { if (o.parentNode === from) _leave(from, o); });
     }
     function morphHTML(root, html) { const t = document.createElement('div'); t.innerHTML = html; _morphKids(root, t); }
 

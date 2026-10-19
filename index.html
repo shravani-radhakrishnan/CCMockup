@@ -2806,6 +2806,87 @@
         margin-bottom: 24px
       }
     }
+
+    /* =====================================================================
+       MOTION SYSTEM — shared easing, calm enterprise timing, no overshoot.
+       ===================================================================== */
+    :root {
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --dur-2: .22s
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition-timing-function: var(--ease-out) !important
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translate3d(0, 10px, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.94) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes picked {
+      0% { transform: scale(1) }
+      45% { transform: scale(1.012) }
+      100% { transform: scale(1) }
+    }
+    .stage.anim { animation: enter .4s var(--ease-out) both }
+    .opt.picked { animation: picked .3s var(--ease-out) }
+    .secstep.current .sc { animation: pop .32s var(--ease-out) }
+    .exp-card.exp-enter { animation-duration: .38s; animation-timing-function: var(--ease-out); animation-delay: calc(var(--i, 0) * 60ms) }
+    .legal-modal-overlay { animation-duration: .32s }
+
+    /* controls: animate visual properties only */
+    .btn {
+      transition: transform .16s, box-shadow .22s, background-color .22s, border-color .22s, color .22s, filter .22s, opacity .22s
+    }
+    .btn:not(:disabled):hover { filter: brightness(1.06) }
+    .btn:not(:disabled):active { transform: scale(.975) }
+    .opt, .path-tile, .chip, .icon-btn, .route, .upload {
+      transition-property: background-color, border-color, color, box-shadow, transform, opacity;
+      transition-duration: var(--dur-2)
+    }
+    .opt:active, .path-tile:active { transform: scale(.985) }
+    .secstep .sc, .secstep .st { transition-duration: .3s }
+    .up-bar span { transition: width .3s var(--ease-out) }
+
+    input[type=text]:hover, input[type=email]:hover, input[type=tel]:hover, input[type=password]:hover { border-color: var(--line-2) }
+    button:focus-visible, [tabindex]:focus-visible, a:focus-visible, summary:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--slate) 70%, transparent);
+      outline-offset: 2px
+    }
+    * { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
+    ::selection { background: color-mix(in srgb, var(--slate) 24%, transparent) }
+
+    /* ---- onboarding: directional step transitions, validation + loading feedback ---- */
+    @keyframes enter {
+      from { opacity: 0; transform: translate3d(16px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes enterBack {
+      from { opacity: 0; transform: translate3d(-16px, 0, 0) }
+      to { opacity: 1; transform: none }
+    }
+    @keyframes errIn { from { opacity: 0; transform: translate3d(0, -4px, 0) } to { opacity: 1; transform: none } }
+    .stage.anim { animation: enter .32s var(--ease-out) both }
+    .stage.anim.back { animation-name: enterBack }
+    .err-msg, .form-err-banner { animation: errIn .22s var(--ease-out) both }
+    .btn:disabled { cursor: not-allowed }
+    .btn:disabled:hover { transform: none; filter: none }
+    .btn.loading, .btn[aria-busy=true] { position: relative; color: transparent !important; pointer-events: none }
+    .btn.loading::after, .btn[aria-busy=true]::after {
+      content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+      border-radius: 50%; border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff; animation: spin .7s linear infinite
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important }
+    }
   </style>
 </head>
 
@@ -3717,17 +3798,45 @@
       if (state.flow !== 'candidate') return;
       try { const keep = Object.assign({}, A());['password', 'resume', 'uploadPct', 'resumeJustDone'].forEach(k => delete keep[k]); for (let i = 0; i < 6; i++) delete keep['code' + i]; localStorage.setItem('cc_consultant_answers', JSON.stringify(keep)); } catch (e) { }
     }
-    function render(transition) {
+    /* DOM morph: patch in place so hover/selected states transition instead of being rebuilt */
+    const _keyOf = n => n.nodeType === 1 ? (n.getAttribute('data-f') || n.id || null) : null;
+    const _same = (a, b) => a.nodeType === b.nodeType && (a.nodeType !== 1 || a.tagName === b.tagName);
+    function _patch(o, n) {
+      if (o.nodeType !== 1) { if (o.nodeValue !== n.nodeValue) o.nodeValue = n.nodeValue; return; }
+      for (const a of [...o.attributes]) if (!n.hasAttribute(a.name)) o.removeAttribute(a.name);
+      for (const a of [...n.attributes]) if (o.getAttribute(a.name) !== a.value) o.setAttribute(a.name, a.value);
+      _morphKids(o, n);
+      if (o === document.activeElement) return;
+      const t = o.tagName;
+      if (t === 'INPUT') { if (o.type === 'file') return; if (o.type === 'checkbox' || o.type === 'radio') o.checked = n.checked; else if (o.value !== n.value) o.value = n.value; }
+      else if (t === 'TEXTAREA' || t === 'SELECT') { if (o.value !== n.value) o.value = n.value; }
+    }
+    function _morphKids(from, to) {
+      const nw = [...to.childNodes], pool = new Map();
+      [...from.childNodes].forEach(o => { const k = _keyOf(o); if (k) pool.set(k, o); });
+      let cur = from.firstChild;
+      for (const n of nw) {
+        const k = _keyOf(n); let o = null;
+        if (k && pool.has(k)) { o = pool.get(k); pool.delete(k); }
+        else if (!k) { let c = cur; while (c && _keyOf(c)) c = c.nextSibling; if (c && _same(c, n)) o = c; }
+        if (o) { if (o !== cur) from.insertBefore(o, cur); _patch(o, n); cur = o.nextSibling; }
+        else from.insertBefore(n, cur);
+      }
+      while (cur) { const nx = cur.nextSibling; from.removeChild(cur); cur = nx; }
+      pool.forEach(o => { if (o.parentNode === from) from.removeChild(o); });
+    }
+    function morphHTML(root, html) { const t = document.createElement('div'); t.innerHTML = html; _morphKids(root, t); }
+    function render(transition, dir) {
       persistCandidate();
       const screens = getScreens(); if (state.idx >= screens.length) state.idx = screens.length - 1;
       const s = screens[state.idx]; const total = screens.length;
       const sideEl = document.getElementById('side');
       sideEl.classList.toggle('soft', !transition);
-      sideEl.innerHTML = livePanel(screens);
+      morphHTML(sideEl, livePanel(screens));
       document.getElementById('kick').textContent = (s.group === 'FirmBranch' ? (FIRM_SECTION_TITLE[A().firmtype] || 'Firm Services') : s.group) || '';
       document.getElementById('stepline').textContent = `Step ${state.idx + 1} of ${total}`;
       const pct = Math.round(state.idx / Math.max(1, total - 1) * 100);
-      document.getElementById('ring').innerHTML = ringSVG(pct);
+      morphHTML(document.getElementById('ring'), ringSVG(pct));
       // body
       let body = '';
       if (s.kind === 'form') body = s.body();
@@ -3743,10 +3852,11 @@
       const optsErrBanner = ERRS['_opts'] ? `<div class="form-err-banner" style="margin-bottom:12px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#b4462f" stroke-width="1.4"/><path d="M8 5v4M8 10.5v.5" stroke="#b4462f" stroke-width="1.5" stroke-linecap="round"/></svg>${esc(ERRS['_opts'])}</div>` : '';
       const prevOverlayScroll = document.querySelector('.exp-modal-overlay')?.scrollTop;
       const prevCardScroll = document.querySelector('.exp-modal-overlay .exp-editing')?.scrollTop;
-      st.innerHTML = `<div class="qh">${s.q}</div>${s.sub ? `<div class="qs">${esc(s.sub)}</div>` : ''}${capLine}${optsErrBanner}${body}${legalModalHtml()}`;
+      const stageHtml = `<div class="qh">${s.q}</div>${s.sub ? `<div class="qs">${esc(s.sub)}</div>` : ''}${capLine}${optsErrBanner}${body}${legalModalHtml()}`;
+      if (transition) st.innerHTML = stageHtml; else morphHTML(st, stageHtml);
       if (prevOverlayScroll !== undefined) { const mo = document.querySelector('.exp-modal-overlay'); if (mo) mo.scrollTop = prevOverlayScroll; }
       if (prevCardScroll !== undefined) { const mc = document.querySelector('.exp-modal-overlay .exp-editing'); if (mc) mc.scrollTop = prevCardScroll; }
-      if (transition) { st.classList.remove('anim'); void st.offsetWidth; st.classList.add('anim'); }
+      if (transition) { st.classList.remove('anim'); st.classList.toggle('back', dir < 0); void st.offsetWidth; st.classList.add('anim'); }
       // remove any stale overlay
       // footer
       document.querySelector('.cfoot').style.display = '';
@@ -3768,7 +3878,7 @@
       document.getElementById('hintfoot').textContent = '';
       if (transition) window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    function go(d) { Object.keys(ERRS).forEach(k => delete ERRS[k]); const screens = getScreens(); const n = state.idx + d; if (n < 0 || n >= screens.length) return; state.idx = n; render(true); }
+    function go(d) { Object.keys(ERRS).forEach(k => delete ERRS[k]); const screens = getScreens(); const n = state.idx + d; if (n < 0 || n >= screens.length) return; state.idx = n; render(true, d); }
 
     /* ═══════════════ VALIDATION ═══════════════ */
     const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
