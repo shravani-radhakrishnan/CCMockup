@@ -1316,11 +1316,35 @@
       transition: background .15s ease, border-color .15s ease
     }
 
-.login-err { margin: 0 0 12px; font-size: 13px; font-weight: 600; color: var(--danger, #b4462f); }
-    .login-err[hidden] { display: none; }
-    .recaptcha-note { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: var(--muted, #6b7882); }
-    .recaptcha-note a { color: var(--slate-d); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
-    .recaptcha-note a:hover { color: var(--slate); }
+    .login-err {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--danger, #b4462f);
+    }
+
+    .login-err[hidden] {
+      display: none;
+    }
+
+    .recaptcha-note {
+      margin: 14px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted, #6b7882);
+    }
+
+    .recaptcha-note a {
+      color: var(--slate-d);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .recaptcha-note a:hover {
+      color: var(--slate);
+    }
+
     .agree-text {
       display: inline-block;
       line-height: 19px
@@ -2593,6 +2617,7 @@
     }
 
     @media (max-width:1366px) and (min-width:1101px) {
+
       .landing-wrap .side,
       .login-wrap .side {
         flex-basis: 43%;
@@ -2631,6 +2656,7 @@
     }
 
     @media (max-width:1100px) {
+
       .landing-wrap,
       .login-wrap {
         flex-direction: column
@@ -2785,7 +2811,11 @@
 
 <body>
   <div class="chrome">
-    <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true"><path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor"/><path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cloud&nbsp;Club</span>
+    <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
+          <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor" />
+          <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></span>Cloud&nbsp;Club</span>
     <a class="backlink" href="#" onclick="return false">Back to Cloud Club</a>
   </div>
 
@@ -2799,10 +2829,17 @@
     </section>
     <div class="cardwrap">
       <div class="card">
-        <div class="clogo"><span class="wm" style="font-size:17px"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true"><path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor"/><path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cloud&nbsp;Club</span></div>
+        <div class="clogo"><span class="wm" style="font-size:17px"><span class="cloud-mark"><svg viewBox="0 0 36 28"
+                fill="none" aria-hidden="true">
+                <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
+                  fill="currentColor" />
+                <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>Cloud&nbsp;Club</span></div>
         <div class="eyebrow" style="margin-bottom:10px">Step 1 of 3 · Sign up</div>
         <h2 style="font-size:26px;letter-spacing:-.7px;margin:0 0 6px">Great things start here.</h2>
-        <p class="sub" style="margin-bottom:20px">Set up your account and tell us what you need. Fields marked <span style="color:var(--err,#b3261e)">*</span> are required.</p>
+        <p class="sub" style="margin-bottom:20px">Set up your account and tell us what you need. Fields marked <span
+            style="color:var(--err,#b3261e)">*</span> are required.</p>
         <div style="height:4px;background:var(--track);border-radius:3px;overflow:hidden;margin:0 0 24px">
           <div style="height:100%;width:33%;background:var(--slate);border-radius:3px"></div>
         </div>
@@ -2856,7 +2893,12 @@
     </section>
     <div class="cardwrap">
       <div class="login-card">
-        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true"><path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor"/><path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cloud&nbsp;Club</span>
+        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
+              <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
+                fill="currentColor" />
+              <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>Cloud&nbsp;Club</span>
         <div class="eyebrow login-kicker">Your next chapter awaits</div>
         <h1 class="login-title">Welcome back.</h1>
         <p class="login-sub">One login for clients and consultants.</p>
@@ -2900,7 +2942,12 @@
     </section>
     <div class="cardwrap">
       <div class="login-card">
-        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true"><path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor"/><path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Cloud&nbsp;Club</span>
+        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
+              <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
+                fill="currentColor" />
+              <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>Cloud&nbsp;Club</span>
         <div class="eyebrow login-kicker" id="resetKicker">Password reset</div>
         <h1 class="login-title" id="resetTitle">Forgot your password?</h1>
         <p class="login-sub" id="resetSub">Enter your email and we’ll send a verification code.</p>
@@ -2925,7 +2972,8 @@
             <label for="resetNewPassword">New password</label>
             <div class="password-wrap">
               <input id="resetNewPassword" type="password" placeholder="New password" autocomplete="new-password">
-              <button class="password-toggle" type="button" data-reset-toggle="resetNewPassword" aria-label="Show password">
+              <button class="password-toggle" type="button" data-reset-toggle="resetNewPassword"
+                aria-label="Show password">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z" />
@@ -2938,7 +2986,8 @@
             <label for="resetRepeatPassword">Repeat password</label>
             <div class="password-wrap">
               <input id="resetRepeatPassword" type="password" placeholder="Repeat password" autocomplete="new-password">
-              <button class="password-toggle" type="button" data-reset-toggle="resetRepeatPassword" aria-label="Show password">
+              <button class="password-toggle" type="button" data-reset-toggle="resetRepeatPassword"
+                aria-label="Show password">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z" />
@@ -2947,9 +2996,11 @@
               </button>
             </div>
           </div>
-          <p class="reset-requirements">Password requirements: At least 8 characters, one uppercase, one lowercase, one number, and one symbol.</p>
+          <p class="reset-requirements">Password requirements: At least 8 characters, one uppercase, one lowercase, one
+            number, and one symbol.</p>
           <button class="btn primary login-submit" type="button" id="resetPasswordBtn" disabled>Reset password</button>
-          <button class="verify-inline-btn" type="button" id="resendResetCodeBtn" style="align-self:center;margin-top:16px">Re-send code</button>
+          <button class="verify-inline-btn" type="button" id="resendResetCodeBtn"
+            style="align-self:center;margin-top:16px">Re-send code</button>
           <div class="reset-status" id="resetStatus" style="display:none">A new verification code has been sent.</div>
         </div>
         <div class="login-form" id="resetSuccessStep" style="display:none">
@@ -2962,7 +3013,8 @@
             </div>
           </div>
           <h2 class="login-title" style="text-align:center;margin-top:6px">Password updated.</h2>
-          <p class="login-sub" style="text-align:center;max-width:360px;margin:0 auto 16px">Your Cloud Club password has been reset successfully. You can now log in with your new password.</p>
+          <p class="login-sub" style="text-align:center;max-width:360px;margin:0 auto 16px">Your Cloud Club password has
+            been reset successfully. You can now log in with your new password.</p>
           <button class="btn primary login-submit" type="button" id="successLoginBtn">Back to login</button>
         </div>
         <p class="login-bottom">Remember your password? <a href="#" id="backToLoginLink">Log in</a></p>
@@ -3499,7 +3551,7 @@
         ${text('exp_employer', 'Employer or consulting firm', { ph: 'Cloud Systems Inc' })}
         ${text('exp_client', 'End client', { ph: 'XYZ Financial (if different)' })}
         <div class="row">${sel('exp_industry', 'Client industry', Object.keys(EXP_INDS))}${a.exp_industry ? sel('exp_subindustry', 'Subindustry', subs) : `<div class="field"><label>Subindustry</label><select disabled><option>Pick an industry first</option></select></div>`}</div>
-        <div class="row">${sel('exp_type', 'Engagement type', ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'])}${text('exp_project', 'Project', { ph: 'e.g. Claims portal rollout' })}</div>
+        <div class="row">${sel('exp_type', 'Employment Type', ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'])}${text('exp_project', 'Project', { ph: 'e.g. Claims portal rollout' })}</div>
         <div class="row">${text('exp_start', 'Start', { type: 'date' })}${text('exp_end', 'End', { type: 'date' })}</div>
         <div class="field"><label>Software / platforms</label>${roChips(a.exp_platforms)}</div>
         <div class="field"><label>Products / services</label>${roChips(a.exp_products)}</div>
@@ -3663,7 +3715,7 @@
 
     function persistCandidate() {
       if (state.flow !== 'candidate') return;
-      try { const keep = Object.assign({}, A()); ['password', 'resume', 'uploadPct', 'resumeJustDone'].forEach(k => delete keep[k]); for (let i = 0; i < 6; i++) delete keep['code' + i]; localStorage.setItem('cc_consultant_answers', JSON.stringify(keep)); } catch (e) { }
+      try { const keep = Object.assign({}, A());['password', 'resume', 'uploadPct', 'resumeJustDone'].forEach(k => delete keep[k]); for (let i = 0; i < 6; i++) delete keep['code' + i]; localStorage.setItem('cc_consultant_answers', JSON.stringify(keep)); } catch (e) { }
     }
     function render(transition) {
       persistCandidate();
@@ -3976,7 +4028,12 @@
     });
     document.getElementById('stage').addEventListener('focusout', e => {
       const cs = e.target.closest('[data-countrysearch]');
-      if (cs) setTimeout(() => { document.querySelector(`[data-countrydd="${cs.dataset.countrysearch}"]`)?.classList.remove('show'); }, 150);
+      if (cs) setTimeout(() => {
+        const id = cs.dataset.countrysearch;
+        /* a pick re-renders the field and refocuses it: keep the list open in that case */
+        if (document.activeElement && document.activeElement.dataset && document.activeElement.dataset.countrysearch === id) return;
+        document.querySelector(`[data-countrydd="${id}"]`)?.classList.remove('show');
+      }, 150);
     });
     document.getElementById('stage').addEventListener('mousedown', e => {
       const opt = e.target.closest('[data-countryopt]');

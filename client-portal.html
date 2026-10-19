@@ -7268,20 +7268,106 @@
       }
     }
 
-.jd { margin-top: 14px; border-top: 1px solid var(--line); }
-    .jdt { display: flex; width: 100%; align-items: center; justify-content: flex-start; gap: 12px; padding: 12px 0 2px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; text-align: left; }
-    .jdt span { color: var(--slate); font-size: 12.5px; font-weight: 600; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); }
-    .jdb { padding: 6px 0 4px; }
-    .jdb h5 { margin: 14px 0 6px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
-    .jdb p { margin: 0; color: var(--body); font-size: 13.5px; }
-    .jdl { margin: 0; padding-left: 18px; color: var(--body); font-size: 13.5px; }
-    .jdl li { margin: 3px 0; }
-    .jdnote { display: flex; gap: 10px; align-items: center; padding: 12px 14px; margin: 4px 0 6px; border-radius: 12px; background: var(--slate-tint); color: var(--body); font-size: 13.5px; }
-    .jdnote svg { flex: none; color: var(--slate); }
-    .jdkv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 24px; }
-    .jdkv small { display: block; color: var(--muted); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-    .jdkv b { font-size: 14px; }
-    @media (max-width: 700px) { .jdkv { grid-template-columns: 1fr; } }
+    .jd {
+      margin-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .jdt {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 12px 0 2px;
+      background: none;
+      border: 0;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .jdt span {
+      color: var(--slate);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--line);
+    }
+
+    .jdb {
+      padding: 6px 0 4px;
+    }
+
+    .jdb h5 {
+      margin: 14px 0 6px;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+
+    .jdb p {
+      margin: 0;
+      color: var(--body);
+      font-size: 13.5px;
+    }
+
+    .jdl {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--body);
+      font-size: 13.5px;
+    }
+
+    .jdl li {
+      margin: 3px 0;
+    }
+
+    .jdnote {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 14px;
+      margin: 4px 0 6px;
+      border-radius: 12px;
+      background: var(--slate-tint);
+      color: var(--body);
+      font-size: 13.5px;
+    }
+
+    .jdnote svg {
+      flex: none;
+      color: var(--slate);
+    }
+
+    .jdkv {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px 24px;
+    }
+
+    .jdkv small {
+      display: block;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .jdkv b {
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .jdkv {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .ivact {
       display: flex;
       align-items: center;
@@ -10936,6 +11022,7 @@
     const matchCount = d => (d.sw || []).includes('Other') || (d.prods || []).includes('Other') || (d.tech || []).includes('Other') || (d.nmSkills || []).length ? 0 : CANDIDATES.length;
     const stepsOf = x => x.wiz ? Math.min(x.wiz.step + 1, STEPS.length) : 1;
     function draftSnip(x) {
+      if (x.cloned) return `Duplicated job posting — open it to update the job description ${x.via === 'skai' ? 'with Skai' : 'in the job form'}.`;
       if (x.kind === 'wiz') return `Job form · step ${stepsOf(x)} of ${STEPS.length} — pick up where you left off.`;
       if (x.kind === 'guided') return `Skai conversation · ${gCount(x.g)} of ${GQ.length} details captured — pick up where you left off.`;
       if (x.kind === 'skai') return x.ns && x.ns.messages.some(m => m.who === 'user') ? `Skai brief ${x.ns.pct}% complete — post the job to see matched consultants.` : 'Paste your requirements to Skai to start filling the brief.';
@@ -10959,7 +11046,7 @@
       return { to: TALENT_EMAIL, cc: ORG.email, subject: 'Sourcing request ' + num + ' — ' + (x.role || x.title) + ' (' + (p.company || ORG.name) + ')', body };
     }
     const DELETED = [];
-    const sqActs = (x, i, del) => del ? `<span class="sq-act"><button class="sqi" disabled aria-label="Edit" data-tip="Deleted">${IC.edit}</button>${x.wasPosted ? `<button class="sqi" disabled aria-label="Close" data-tip="Deleted">${IC.arch}</button>` : ''}<button class="sqi del" disabled aria-label="Delete" data-tip="Deleted">${IC.trash}</button></span>` : `<span class="sq-act">${S.sqEdit === i ? '' : `<button class="sqi" data-tip="${x.closed ? 'Reopen to edit' : x.posted ? 'Edit job posting' : 'Continue draft'}" aria-label="Edit" data-a="opensearch" data-tab="job" data-v="${i}" ${x.closed ? 'disabled' : ''}>${IC.edit}</button>${x.posted ? `<button class="sqi" data-tip="${x.closed ? 'Reopen posting' : 'Close posting'}" aria-label="${x.closed ? 'Reopen' : 'Close'}" data-a="sqclose" data-v="${i}">${x.closed ? IC.undo : IC.arch}</button>` : ''}<button class="sqi del" data-tip="Delete" aria-label="Delete" data-a="delsearch" data-v="${i}">${IC.trash}</button>`}</span>`;
+    const sqActs = (x, i, del) => del ? `<span class="sq-act"><button class="sqi" disabled aria-label="Edit" data-tip="Deleted">${IC.edit}</button>${x.wasPosted ? `<button class="sqi" disabled aria-label="Close" data-tip="Deleted">${IC.arch}</button>` : ''}<button class="sqi del" disabled aria-label="Delete" data-tip="Deleted">${IC.trash}</button></span>` : `<span class="sq-act">${S.sqEdit === i ? '' : `<button class="sqi" data-tip="${x.closed ? 'Reopen to edit' : x.posted ? 'Edit job posting' : 'Continue draft'}" aria-label="Edit" data-a="opensearch" data-tab="job" data-v="${i}" ${x.closed ? 'disabled' : ''}>${IC.edit}</button>${x.posted ? `<button class="sqi" data-tip="Duplicate job posting" aria-label="Duplicate" data-a="cloneposting" data-v="${i}">${IC.copy}</button><button class="sqi" data-tip="${x.closed ? 'Reopen posting' : 'Close posting'}" aria-label="${x.closed ? 'Reopen' : 'Close'}" data-a="sqclose" data-v="${i}">${x.closed ? IC.undo : IC.arch}</button>` : ''}<button class="sqi del" data-tip="Delete" aria-label="Delete" data-a="delsearch" data-v="${i}">${IC.trash}</button>`}</span>`;
     const sqMatch = (x, q) => !q || `${x.title} ${x.role || ''} ${x.jt || ''}`.toLowerCase().includes(q);
     function sqCard(x, i, del) {
       const top = [...CANDIDATES].sort((a, b) => b.match - a.match);
@@ -11794,7 +11881,7 @@
       const section = (icon, title, sub, body) => `<section class="sk2-card"><header><i>${icon}</i><div><b>${title}</b><small>${sub}</small></div></header>${body}</section>`;
       const briefTab = `
     ${section(ICON.brief, 'Basics', 'What are we hiring for?', `<div class="sk2-grid">${fld('title', 'Job title', 'e.g. Senior Revenue Cloud Developer').replace('class="sk2-f"', 'class="sk2-f wide"')}
-      <div class="sk2-f"><span>Engagement type</span><div class="eng-chips">${['T&M (Time & Materials)', 'Fixed SOW', 'Managed Service'].map(e => `<button class="eng-chip ${jd.engagement === e ? 'on' : ''}" data-eng="${esc(e)}">${esc(e)}</button>`).join('')}</div></div>
+      <div class="sk2-f"><span>Employment Type</span><div class="eng-chips">${['T&M (Time & Materials)', 'Fixed SOW', 'Managed Service'].map(e => `<button class="eng-chip ${jd.engagement === e ? 'on' : ''}" data-eng="${esc(e)}">${esc(e)}</button>`).join('')}</div></div>
       ${fld('location', 'Location / remote', 'e.g. Remote, US time zones')}</div>`)}
     ${section(ICON.clock, 'Timeline & budget', 'When and how much', `<div class="sk2-grid">${fld('start', 'Estimated start date', 'MM-DD-YYYY')}${fld('end', 'End date / duration', 'MM-DD-YYYY')}${fld('hours', 'Hours per week', 'e.g. 40')}${fld('rate', 'Estimated rate', 'e.g. $120/hr')}</div>`)}
     ${section(ICON.users, 'Team & project', 'Context that helps Skai match the right fit', `<div class="sk2-grid">
@@ -12141,7 +12228,7 @@
     function startSearch() {
       const first = !NS.posted, it = SEARCHES.find(x => x.ns === NS), L = NS.lists || {}, miss = unmatchedSkills([].concat(L.required || [], L.preferred || [], L.integrations || [])), nm = miss.length > 0;
       NS.posted = true;
-      if (it) Object.assign(it, { posted: true, title: it.title || NS.jd.title, starts: NS.jd.start || '—', n: nm ? 0 : CANDIDATES.length, snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
+      if (it) Object.assign(it, { posted: true, via: 'skai', title: it.title || NS.jd.title, starts: NS.jd.start || '—', n: nm ? 0 : CANDIDATES.length, snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
       if (first && it) {
         const j = NS.jd, n0 = v => (String(v || '').match(/\d+/) || [])[0], ps = Date.parse(j.start), pe = Date.parse(j.end);
         skaiWiz(it, { title: j.title, hours: n0(j.hours), bamt: n0(j.rate), start: isoDate(new Date(ps)), end: isoDate(new Date(pe)), wloc: LIST.wloc.find(w => new RegExp('^' + w.replace('-', '.?'), 'i').test(j.location || '')) || '', must: L.required || [], pref: [].concat(L.preferred || [], L.integrations || []), notes: (L.resp || []).length ? 'Responsibilities: ' + L.resp.join('; ') : '' });
@@ -12373,7 +12460,7 @@
       gme('Post job & find matches');
       await gworking('Posting your job', ['Saving your job posting', 'Publishing to the Cloud Club network', 'Matching consultants to your requirements', 'Ranking the best fits']);
       const x = G.draft, A = G.A, top = [...CANDIDATES].sort((a, b) => b.match - a.match), miss = unmatchedSkills((A.skills || []).filter(t => !G.carryKnown.includes(t)), gq('skills').opts), nm = miss.length > 0;
-      Object.assign(x, { posted: true, kind: 'wiz', g: null, ns: null, wiz: null, jt: G.role || G.name, n: nm ? 0 : CANDIDATES.length, reach: false, starts: '—', snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
+      Object.assign(x, { posted: true, kind: 'wiz', via: 'skai', g: null, ns: null, wiz: null, jt: G.role || G.name, n: nm ? 0 : CANDIDATES.length, reach: false, starts: '—', snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
       const num = s => (String(s || '').match(/\d+/) || [])[0], dt = new Date(), addD = n => { const t = new Date(dt); t.setDate(t.getDate() + n); return t };
       const st = /2.4 weeks/.test(A.start) ? 21 : /1.2 months/.test(A.start) ? 45 : 7, mo = num(String(A.duration || '').split(/[–-]/).pop());
       const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? LIST.sen.find(s => s.startsWith(A.seniority.replace('Mid-level', 'Mid-Level'))) : '', why: A.why ? (LIST.why.find(r => r.split(' ')[0] === A.why.split(' ')[0]) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
@@ -12460,6 +12547,14 @@
       INTAKE.seed = A; S.modal = null; startGuided();
       toast('Switched to the Skai guided conversation')
     }
+    /* Duplicate a posted job: copy its details into a new draft and reopen it in the same workflow it was created with (manual form or Skai) */
+    function cloneSearch(i) {
+      const x = SEARCHES[i]; if (!x) return;
+      const via = x.via || (x.ns || x.g ? 'skai' : 'manual'), w = JSON.parse(JSON.stringify(postedWiz(x))), t = (x.title || 'Untitled job posting') + ' (copy)';
+      Object.assign(w, { step: 0, dir: '', err: {}, aiBusy: false, title: t, role: x.role || w.role, skai: false }); delete w.d.nmSkills;
+      SEARCHES.unshift({ id: Date.now(), title: t, role: x.role || '', created: 'Today', starts: '—', n: 0, posted: false, kind: 'wiz', via, cloned: true, wiz: w });
+      S.sqEdit = null; render(false); toast('Job duplicated — saved as a draft. Open it to update the job description.')
+    }
     function startWizard() { S.link = null; S.draft = null; if (S.view === 'results' || (S.view === 'wizard' && S.wiz.step > 0) || (S.view === 'sched' && !S.sch.sent)) { S.leaveTo = '__new'; S.modal = 'leave'; render(); return } resetWiz(); S.view = 'wizard'; S.pop = false; S.modal = null; window.scrollTo(0, 0); render() }
     function doGo(v) { S.view = v; S.pop = false; S.edit = null; S.modal = null; S.ms = null; window.scrollTo(0, 0); render() }
     function go(v) {
@@ -12492,7 +12587,7 @@
     function postSearch() {
       const d = S.wiz.d, t = d.sen.split(' ')[0].split('-')[0] + ' ' + (d.rtype === 'Multiple Roles' ? 'Team' : d.rtype === 'Other' && d.ortype ? d.ortype : d.rtype);
       let it = S.draft; if (!it) { it = { id: Date.now(), created: 'Today', title: t, role: t }; SEARCHES.unshift(it) }
-      Object.assign(it, { posted: true, kind: 'wiz', wiz: JSON.parse(JSON.stringify(S.wiz)), ns: null, jt: t, n: matchCount(d), reach: false, starts: d.start ? fmtDate(d.start) : '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' }); S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.draft = null;
+      Object.assign(it, { posted: true, kind: 'wiz', via: S.wiz.skai ? 'skai' : 'manual', wiz: JSON.parse(JSON.stringify(S.wiz)), ns: null, jt: t, n: matchCount(d), reach: false, starts: d.start ? fmtDate(d.start) : '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' }); S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.draft = null;
       S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: '$' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/month' : '/hour') });
       S.view = 'search'; render(); window.scrollTo(0, 0);
       const m = ['Scoring skills & certifications', 'Checking availability & time zones', 'Weighing your must-haves', 'Ranking your top matches']; let i = 0;
@@ -12524,7 +12619,8 @@
           const wantTab = a.dataset.tab === 'job' ? 'job' : 'cons';
           if (!x.posted) {
             S.draft = x;
-            if (x.kind === 'wiz') { S.wiz = x.wiz; S.wiz.aiBusy = false; if (S.wiz.skai) { NS = x.ns || (x.ns = freshNS(false)); NS.typing = false }; S.view = 'wizard' }
+            if (x.cloned && x.via === 'skai') { x.cloned = false; S.wiz = x.wiz; wizardToSkai(); break }
+            if (x.kind === 'wiz') { x.cloned = false; S.wiz = x.wiz; S.wiz.aiBusy = false; if (S.wiz.skai) { NS = x.ns || (x.ns = freshNS(false)); NS.typing = false }; S.view = 'wizard' }
             else if (x.kind === 'guided') { G = x.g; G.busy = false; G.drawer = false; S.view = 'guided' }
             else if (x.kind === 'skai') { NS = x.ns; NS.activeTab = 'jd'; NS.typing = false; S.view = 'skai' }
             else { INTAKE = Object.assign(freshIntake(), { name: x.title, role: x.role, stage: 'method', draft: x }); S.view = 'intake' }
@@ -12534,6 +12630,7 @@
           NS = x.ns || freshNS(true); S.view = 'skai'; render(); break
         }
         case 'sqf': S.sqf = v; S.sqEdit = null; render(false); break;
+        case 'cloneposting': cloneSearch(+v); break;
         case 'sqclose': { const x = SEARCHES[+v]; if (x) { x.closed = !x.closed; render(false); toast(x.closed ? 'Job posting closed' : 'Job posting reopened') } break }
         case 'delsearch': S.delIdx = +v; S.modal = 'delsearch'; render(); break;
         case 'yesdel': { const x = SEARCHES[S.delIdx]; S.modal = null; if (x) { SEARCHES.splice(S.delIdx, 1); DELETED.unshift(Object.assign(x, { wasPosted: !!x.posted, deletedOn: 'Today' })); S.sqEdit = null; toast(x.posted ? 'Job posting deleted — kept in Deleted as history' : 'Draft deleted') } S.delIdx = null; render(false); break }
@@ -12626,7 +12723,15 @@
         /* wizard */
         case 'opt': d[a.dataset.k] = v; delete S.wiz.err[a.dataset.k]; if (a.dataset.k === 'btype') delete S.wiz.err.bamt; S.wiz.dir = ''; stepRender(); break;
         case 'msopen': S.ms = S.ms === a.dataset.k ? null : a.dataset.k; stepRender(); break;
-        case 'msopt': { const k = a.dataset.k, i = d[k].indexOf(v); i < 0 ? d[k].push(v) : d[k].splice(i, 1); const gk = IMPG[k]; if (gk && i >= 0) delete d[gk][v]; if (k === 'sw') pruneProds(d); delete S.wiz.err[k]; stepRender(); break }
+        case 'msopt': {
+          const k = a.dataset.k, i = d[k].indexOf(v); i < 0 ? d[k].push(v) : d[k].splice(i, 1); const gk = IMPG[k]; if (gk && i >= 0) delete d[gk][v]; if (k === 'sw') pruneProds(d); delete S.wiz.err[k];
+          /* keep the menu open and exactly as it was (scroll position + search text) after each pick */
+          const m0 = document.querySelector('.msl'), top = m0 ? m0.scrollTop : 0, q0 = m0 && m0.querySelector('.msq') ? m0.querySelector('.msq').value : '';
+          stepRender();
+          const m1 = document.querySelector('.msl');
+          if (m1) { const qi = m1.querySelector('.msq'); if (qi && q0) { qi.value = q0; qi.dispatchEvent(new Event('input', { bubbles: true })) } m1.scrollTop = top; if (qi) qi.focus({ preventScroll: true }) }
+          break
+        }
         case 'imp': { const m = d[a.dataset.g], k = a.dataset.k; if (m[k] === v) delete m[k]; else m[k] = v; delete S.wiz.err[a.dataset.g + ':' + k]; stepRender(); break }
         case 'tagadd': { const k = a.dataset.k, el = document.getElementById('ti-' + k), t = (el && el.value || '').trim(); if (!t) { el && el.focus(); break } if (!d[k].some(x => x.toLowerCase() === t.toLowerCase())) d[k].push(t); if (el) el.value = ''; stepRender(); const ni = document.getElementById('ti-' + k); if (ni) { ni.value = ''; ni.focus() } break }
         case 'custadd': { const el = document.getElementById('cu-' + a.dataset.k), t = (el && el.value || '').trim(); if (!t) { el && el.focus(); break } addCust(a.dataset.k, t); delete S.wiz.err[a.dataset.k]; el.value = ''; stepRender(); const ni = document.getElementById('cu-' + a.dataset.k); if (ni) { ni.value = ''; ni.focus() } break }

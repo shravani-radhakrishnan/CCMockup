@@ -4793,17 +4793,83 @@
       align-items: end
     }
 
-    .terms { margin: 0; display: grid; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden }
-    .terms>div { display: flex; justify-content: space-between; gap: 16px; padding: 13px 16px; border-bottom: 1px solid var(--line) }
-    .terms>div:last-child { border: 0 }
-    .terms dt { color: var(--muted); font-size: 13px }
-    .terms dd { margin: 0; font-weight: 600; font-size: 13.5px; text-align: right }
-    .ilks { display: grid; gap: 8px; margin-bottom: 4px }
-    .ilk { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; font: inherit; color: inherit; transition: .15s }
-    .ilk:hover { border-color: var(--line-2) }
-    .ilk.on { border-color: var(--slate-d); background: var(--slate-tint-2) }
-    .ilk b { display: block; font-size: 13.5px; font-weight: 600 }
-    .ilk small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted) }
+    .terms {
+      margin: 0;
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    .terms>div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .terms>div:last-child {
+      border: 0
+    }
+
+    .terms dt {
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .terms dd {
+      margin: 0;
+      font-weight: 600;
+      font-size: 13.5px;
+      text-align: right
+    }
+
+    .ilks {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 4px
+    }
+
+    .ilk {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      transition: .15s
+    }
+
+    .ilk:hover {
+      border-color: var(--line-2)
+    }
+
+    .ilk.on {
+      border-color: var(--slate-d);
+      background: var(--slate-tint-2)
+    }
+
+    .ilk b {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600
+    }
+
+    .ilk small {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
     .isub {
       margin: 6px 0 14px;
       padding-top: 14px;
@@ -4815,35 +4881,218 @@
       color: var(--muted)
     }
 
-    .xs-k { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden }
-    .xs-k > div { padding: 16px 20px; border-left: 1px solid var(--line); min-width: 0 }
-    .xs-k > div:first-child { border-left: 0; background: var(--slate-tint) }
-    .xs-k small { display: block; color: var(--muted); font-size: 12.5px; font-weight: 600; white-space: nowrap }
-    .xs-k b { display: block; margin: 4px 0 2px; font-size: 28px; line-height: 1.1; letter-spacing: -.02em; color: var(--slate-dd) }
-    .xs-k em { display: block; font-style: normal; color: var(--faint, var(--muted)); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
-    .xs-h { margin: 0 0 6px; color: var(--muted); font-size: 13px }
-    .xs-r { display: grid; grid-template-columns: minmax(150px, 1.3fr) minmax(160px, 1.6fr) 205px 36px; align-items: center; gap: 18px; padding: 14px 4px; border-top: 1px solid var(--line) }
-    .xs-r:first-child { border-top: 0 }
-    .xs-r.nom { grid-template-columns: minmax(150px, 1.3fr) minmax(160px, 1.6fr) 36px }
-    .xs-n { display: flex; align-items: center; gap: 8px; flex-wrap: wrap }
-    .xs-n b { font-size: 14px }
-    .xs-y { display: flex; align-items: center; gap: 12px }
-    .xs-bar { flex: 1; height: 8px; border-radius: 99px; background: var(--slate-tint-2); overflow: hidden }
-    .xs-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--slate), var(--slate-dd)) }
-    .xs-y > span { min-width: 58px; text-align: right; font-weight: 700; font-size: 13.5px }
-    .xs-m { display: flex; gap: 8px }
-    .xs-m span { padding: 5px 11px; border-radius: 99px; background: var(--slate-tint); color: var(--body); font-size: 12.5px; white-space: nowrap }
-    .xs-m b { color: var(--slate-dd) }
-    @media (max-width: 800px) { .xs-k { grid-template-columns: repeat(2, 1fr) } .xs-k > div:nth-child(3) { border-left: 0 } .xs-k > div:nth-child(n+3) { border-top: 1px solid var(--line) } .xs-r { grid-template-columns: 1fr auto; gap: 10px } .xs-y, .xs-m { grid-column: 1 / -1 } }
-    .cdd-wrap { position: relative }
-    .cdd { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 28px rgba(0, 0, 0, .12); max-height: 210px; overflow-y: auto; z-index: 30; display: none }
-    .cdd.show { display: block }
-    .cdd-i { display: flex; justify-content: space-between; gap: 12px; padding: 9px 13px; font-size: 13.5px; color: var(--body); cursor: pointer }
-    .cdd-i small { color: var(--muted); font-size: 11.5px; white-space: nowrap }
-    .cdd-o { border-top: 1px solid var(--line); font-weight: 600; color: var(--slate-dd) }
-    .cdd.up { top: auto; bottom: calc(100% + 4px) }
-    .cdd-i:hover { background: var(--slate-tint) }
-    .cdd-e { padding: 9px 13px; font-size: 13px; color: var(--muted) }
+    .xs-k {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      overflow: hidden
+    }
+
+    .xs-k>div {
+      padding: 16px 20px;
+      border-left: 1px solid var(--line);
+      min-width: 0
+    }
+
+    .xs-k>div:first-child {
+      border-left: 0;
+      background: var(--slate-tint)
+    }
+
+    .xs-k small {
+      display: block;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap
+    }
+
+    .xs-k b {
+      display: block;
+      margin: 4px 0 2px;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      color: var(--slate-dd)
+    }
+
+    .xs-k em {
+      display: block;
+      font-style: normal;
+      color: var(--faint, var(--muted));
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .xs-h {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .xs-r {
+      display: grid;
+      grid-template-columns: minmax(150px, 1.3fr) minmax(160px, 1.6fr) 205px 36px;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 4px;
+      border-top: 1px solid var(--line)
+    }
+
+    .xs-r:first-child {
+      border-top: 0
+    }
+
+    .xs-r.nom {
+      grid-template-columns: minmax(150px, 1.3fr) minmax(160px, 1.6fr) 36px
+    }
+
+    .xs-n {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .xs-n b {
+      font-size: 14px
+    }
+
+    .xs-y {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .xs-bar {
+      flex: 1;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--slate-tint-2);
+      overflow: hidden
+    }
+
+    .xs-bar i {
+      display: block;
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--slate), var(--slate-dd))
+    }
+
+    .xs-y>span {
+      min-width: 58px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 13.5px
+    }
+
+    .xs-m {
+      display: flex;
+      gap: 8px
+    }
+
+    .xs-m span {
+      padding: 5px 11px;
+      border-radius: 99px;
+      background: var(--slate-tint);
+      color: var(--body);
+      font-size: 12.5px;
+      white-space: nowrap
+    }
+
+    .xs-m b {
+      color: var(--slate-dd)
+    }
+
+    @media (max-width: 800px) {
+      .xs-k {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .xs-k>div:nth-child(3) {
+        border-left: 0
+      }
+
+      .xs-k>div:nth-child(n+3) {
+        border-top: 1px solid var(--line)
+      }
+
+      .xs-r {
+        grid-template-columns: 1fr auto;
+        gap: 10px
+      }
+
+      .xs-y,
+      .xs-m {
+        grid-column: 1 / -1
+      }
+    }
+
+    .cdd-wrap {
+      position: relative
+    }
+
+    .cdd {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .12);
+      max-height: 210px;
+      overflow-y: auto;
+      z-index: 30;
+      display: none
+    }
+
+    .cdd.show {
+      display: block
+    }
+
+    .cdd-i {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 13px;
+      font-size: 13.5px;
+      color: var(--body);
+      cursor: pointer
+    }
+
+    .cdd-i small {
+      color: var(--muted);
+      font-size: 11.5px;
+      white-space: nowrap
+    }
+
+    .cdd-o {
+      border-top: 1px solid var(--line);
+      font-weight: 600;
+      color: var(--slate-dd)
+    }
+
+    .cdd.up {
+      top: auto;
+      bottom: calc(100% + 4px)
+    }
+
+    .cdd-i:hover {
+      background: var(--slate-tint)
+    }
+
+    .cdd-e {
+      padding: 9px 13px;
+      font-size: 13px;
+      color: var(--muted)
+    }
+
     .pickrow {
       display: flex;
       align-items: stretch;
@@ -6542,7 +6791,7 @@
           const dt = `<div class="row2">${fld('Start date', 'mf.start', { req: 1, type: 'date' })}${mf.cur ? `<div class="fld"><label>End date</label><input class="in" value="Present" readonly></div>` : fld('End date', 'mf.end', { req: 1, type: 'date', bad: 'End date must be after the start date' })}</div><button type="button" class="rad ${mf.cur ? 'on' : ''}" data-a="mset" data-k="cur" data-v="${mf.cur ? '' : '1'}" style="margin:-4px 0 14px"><i></i>I currently work here</button>`;
           return box(`<span class="etag">${ed ? 'Editing' : ik ? 'New industry' : 'New experience'}</span><h3 style="margin-top:12px">${ik && !ed ? 'Add an industry you have worked in' : ed ? 'Edit work experience' : 'Add work experience'}</h3><p>${ik ? 'Pick the industry, then tell us about one engagement in it: the client, your role, what you used and what you delivered. It is saved to your work experience, so you only enter it once.' : 'Fields marked * are required. One end client can have several projects, so add each one separately.'}</p><div class="scr">
   ${ik ? indF + '<div class="isub">First engagement in this industry</div>' : ''}${fld('Role or title', 'mf.role', { req: 1, ph: 'Solution Architect' })}${fld('Employer or consulting firm', 'mf.emp', { ph: 'Cloud Systems Inc' })}${fld('End client', 'mf.client', { ph: 'XYZ Financial (if different)' })}
-  ${ik ? '' : indF}<div class="row2">${fld('Engagement type', 'mf.type', { opts: ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'] })}${fld('Project', 'mf.proj', { ph: 'e.g. Claims portal rollout' })}</div>${dt}
+  ${ik ? '' : indF}<div class="row2">${fld('Employment Type', 'mf.type', { opts: ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'] })}${fld('Project', 'mf.proj', { ph: 'e.g. Claims portal rollout' })}</div>${dt}
   ${pick('Software / platforms', 'mf.plats', 'plats', 'Search software or platforms…', 1)}${pick('Products / services', 'mf.prods', 'prods', 'Search products or services…', 0, !(mf.plats || []).length)}${pick('Skills & capabilities', 'mf.skills', 'skills', 'Search skills…', 1)}
   ${fld('Responsibilities & outcomes', 'mf.resp', { req: 1, area: 1, max: 600, ph: 'What did you do, and what was the result?' })}<div class="bnr info" style="margin:4px 0 0">${IC.info}<div>For a confidential client, leave the end-client field blank — we’ll still show the industry, products, and skills on your profile.</div></div></div>${acts('msave', ed ? 'Save changes' : 'Add to profile')}`, 'w')
         }
@@ -6572,8 +6821,10 @@
           if (iv.method === 'gcal') return box(`<h3>Let’s set up your job interview</h3><p>Your interviewer has shared their Google Calendar for you to book the interview in one of the available days and time slots.</p><div class="mact"><button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="ivgcal" data-v="${iv.id}">${IC.cal} Open Google Calendar</button></div>`);
           return box(`<h3>Let’s set up your job interview</h3><p>Accept one of the proposed days and time slots.</p><div class="slotl">${iv.slots.map((s, i) => `<button class="slotb ${S.mf.slot === i ? 'on' : ''}" data-a="mset" data-k="slot" data-v="${i}"><b>${dFull(s[0])}</b><span>${s[1]} ART</span></button>`).join('')}</div>${acts('ivdo', 'Accept interview', { dis: S.mf.slot == null })}`)
         }
-        case 'jobdel': { const j = S.prof.jobs[+p]; if (!j) return '';
-          return box(`<div class="mic">${IC.warn}</div><h3>Remove this work experience?</h3><p><b>${esc(j.role || 'This role')}</b>${j.client || j.emp ? ' · ' + esc(j.client || j.emp) : ''}${j.proj ? ' · ' + esc(j.proj) : ''}<br>This also updates your experience summary (years, clients and projects). This can’t be undone.</p>${acts('jobdelok', 'Yes, remove', { cls: 'dgp' })}`) }
+        case 'jobdel': {
+          const j = S.prof.jobs[+p]; if (!j) return '';
+          return box(`<div class="mic">${IC.warn}</div><h3>Remove this work experience?</h3><p><b>${esc(j.role || 'This role')}</b>${j.client || j.emp ? ' · ' + esc(j.client || j.emp) : ''}${j.proj ? ' · ' + esc(j.proj) : ''}<br>This also updates your experience summary (years, clients and projects). This can’t be undone.</p>${acts('jobdelok', 'Yes, remove', { cls: 'dgp' })}`)
+        }
         case 'ivrej': return box(`<div class="mic">${IC.warn}</div><h3>Reject this interview?</h3><p>The client will be told you’re not available for this role.</p>${fld('Reason', 'mf.reason', { opts: ['Rate is too low', 'Schedule conflict', 'Role is not a fit', 'Already committed elsewhere'] })}${acts('ivno', 'Yes, reject interview', { cancel: 'Cancel', cls: 'dgp' })}`);
         case 'oacc': { const of = S.offers.find(z => z.id === +p); return box(`<h3>Accept this offer?</h3><p>${esc(of.role)} · ${esc(of.co)}</p><div class="bnr info">${IC.info}<div>Next, you’ll complete a short onboarding: confirm the project terms, your contract details and documents. The project starts once onboarding is done.</div></div>${acts('oaccok', 'Yes, accept offer')}`) }
         case 'decl': return box(`<h3>Are you sure you wish to decline this job offer?</h3><p>Once confirmed, this action can’t be undone.</p>${fld('Select a reason', 'mf.reason', { req: 1, opts: ['Rate is below my minimum', 'Schedule does not work', 'I accepted another offer', 'Role is not what I expected', 'Other'] })}${acts('declsave', 'Yes, decline offer', { cls: 'dgp' })}`);
@@ -6804,7 +7055,7 @@
       document.addEventListener('input', e => { if (e.target.dataset && e.target.dataset.csearch) show(e.target) });
       document.addEventListener('mousedown', e => {
         const it = e.target.closest && e.target.closest('[data-copt]');
-        if (it) { e.preventDefault(); const p = it.dataset.copt, l = getp(p); if (!l.includes(it.dataset.val)) l.push(it.dataset.val); delete S.err[p]; render(); const inp = document.querySelector('[data-csearch="' + p + '"]'); if (inp) inp.value = ''; return }
+        if (it) { e.preventDefault(); const p = it.dataset.copt, l = getp(p); if (!l.includes(it.dataset.val)) l.push(it.dataset.val); delete S.err[p]; render(); const inp = document.querySelector('[data-csearch="' + p + '"]'); if (inp) { inp.value = ''; inp.focus(); show(inp) } return }
         if (!(e.target.closest && e.target.closest('.cdd-wrap'))) document.querySelectorAll('.cdd.show').forEach(x => x.classList.remove('show'));
       });
       document.addEventListener('keydown', e => {
