@@ -5,8 +5,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Cloud Club · Onboarding mockups</title>
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23eef3f6'/%3E%3Cpath d='M18.5 45h27a11 11 0 0 0 1.3-21.9A16 16 0 0 0 17 18.6 13.3 13.3 0 0 0 18.5 45Z' fill='%23547691'/%3E%3Cpath d='M21.5 33.5h8.2l5.8-8 7.5 11.3' fill='none' stroke='%23eef3f6' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -2883,20 +2881,26 @@
       border-radius: 50%; border: 2px solid rgba(255, 255, 255, .45); border-top-color: #fff; animation: spin .7s linear infinite
     }
 
+    /* brand mark: plain slate cloud, no tile */
+    .wm .cloud-mark { width: 30px; height: 24px; background: none; color: var(--slate); display: inline-flex }
+    .login-card .wm .cloud-mark { width: 38px; height: 30px }
+
+    /* wordmark: "Cloud" + accent "Club", same as the portals */
+    .wm i { font-style: normal; color: var(--slate) }
+    .wm { gap: 0 }
+    .wm .cloud-mark { margin-right: 10px }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto }
       *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important }
     }
   </style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
 </head>
 
 <body>
   <div class="chrome">
-    <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
-          <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z" fill="currentColor" />
-          <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg></span>Cloud&nbsp;Club</span>
+    <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" aria-hidden="true"><path d="M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z" fill="currentColor"/><path d="M13.6 17.6l4.4-3.9 4.4 2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13.6" cy="17.6" r="1.7" fill="#fff"/><circle cx="18" cy="13.7" r="1.7" fill="#fff"/><circle cx="22.4" cy="16.1" r="1.7" fill="#fff"/></svg></span>Cloud<i>Club</i></span>
     <a class="backlink" href="#" onclick="return false">Back to Cloud Club</a>
   </div>
 
@@ -2910,13 +2914,7 @@
     </section>
     <div class="cardwrap">
       <div class="card">
-        <div class="clogo"><span class="wm" style="font-size:17px"><span class="cloud-mark"><svg viewBox="0 0 36 28"
-                fill="none" aria-hidden="true">
-                <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
-                  fill="currentColor" />
-                <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>Cloud&nbsp;Club</span></div>
+        <div class="clogo"><span class="wm" style="font-size:17px"><span class="cloud-mark"><svg viewBox="0 0 36 28" aria-hidden="true"><path d="M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z" fill="currentColor"/><path d="M13.6 17.6l4.4-3.9 4.4 2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13.6" cy="17.6" r="1.7" fill="#fff"/><circle cx="18" cy="13.7" r="1.7" fill="#fff"/><circle cx="22.4" cy="16.1" r="1.7" fill="#fff"/></svg></span>Cloud<i>Club</i></span></div>
         <div class="eyebrow" style="margin-bottom:10px">Step 1 of 3 · Sign up</div>
         <h2 style="font-size:26px;letter-spacing:-.7px;margin:0 0 6px">Great things start here.</h2>
         <p class="sub" style="margin-bottom:20px">Set up your account and tell us what you need. Fields marked <span
@@ -2974,12 +2972,7 @@
     </section>
     <div class="cardwrap">
       <div class="login-card">
-        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
-              <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
-                fill="currentColor" />
-              <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>Cloud&nbsp;Club</span>
+        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" aria-hidden="true"><path d="M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z" fill="currentColor"/><path d="M13.6 17.6l4.4-3.9 4.4 2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13.6" cy="17.6" r="1.7" fill="#fff"/><circle cx="18" cy="13.7" r="1.7" fill="#fff"/><circle cx="22.4" cy="16.1" r="1.7" fill="#fff"/></svg></span>Cloud<i>Club</i></span>
         <div class="eyebrow login-kicker">Your next chapter awaits</div>
         <h1 class="login-title">Welcome back.</h1>
         <p class="login-sub">One login for clients and consultants.</p>
@@ -3023,12 +3016,7 @@
     </section>
     <div class="cardwrap">
       <div class="login-card">
-        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" fill="none" aria-hidden="true">
-              <path d="M10.4 22.2h15.1a6.2 6.2 0 0 0 .7-12.4A9 9 0 0 0 9.4 7.3a7.5 7.5 0 0 0 1 14.9Z"
-                fill="currentColor" />
-              <path d="M11.8 15.9h4.5l3.2-4.4 4.1 6.2" stroke="#eef3f6" stroke-width="2.25" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>Cloud&nbsp;Club</span>
+        <span class="wm"><span class="cloud-mark"><svg viewBox="0 0 36 28" aria-hidden="true"><path d="M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z" fill="currentColor"/><path d="M13.6 17.6l4.4-3.9 4.4 2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13.6" cy="17.6" r="1.7" fill="#fff"/><circle cx="18" cy="13.7" r="1.7" fill="#fff"/><circle cx="22.4" cy="16.1" r="1.7" fill="#fff"/></svg></span>Cloud<i>Club</i></span>
         <div class="eyebrow login-kicker" id="resetKicker">Password reset</div>
         <h1 class="login-title" id="resetTitle">Forgot your password?</h1>
         <p class="login-sub" id="resetSub">Enter your email and we’ll send a verification code.</p>
