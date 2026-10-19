@@ -6769,7 +6769,7 @@
       const T = [['ind', 'Industries'], ['sub', 'Subindustries'], ['plat', 'Platforms'], ['prod', 'Products'], ['skill', 'Skills'], ['cross', 'Platform / product by industry']], t = S.sumtab || 'ind', rows = X[t], sk = t === 'skill', cr = t === 'cross', A = X.all, mx = Math.max(1, ...rows.map(r => r.m));
       const kp = [['Total experience', A.m ? fy(A.m) : '—', 'Overlaps counted once'], ['Employers', A.emp, 'Where you worked'], ['Clients', A.cl, 'Unique end clients'], ['Projects', A.pr, 'Across all roles']];
       const hint = { ind: 'Years, unique clients and projects in each industry.', sub: 'The same numbers for each subindustry, such as lending or insurance.', plat: 'How long you have worked with each software platform, and across how many clients and projects.', prod: 'The same for individual products and services, such as Sales Cloud or Bedrock.', skill: 'Years of hands-on experience with each skill.', cross: 'Projects delivered with a platform or product inside a specific industry. Calculated only.' }[t];
-      return `<div class="card xs"><div class="sech"><h3>Experience summary</h3><span class="r"><button class="btn sm" data-a="medit" data-v="sumadd">${IC.plus} Add</button></span></div>
+      return `<div class="card xs"><div class="sech"><h3>Experience summary</h3><span class="r"><button class="btn sm" ${t === 'prod' || t === 'skill' ? `data-a="xlink" data-v="${t}"` : 'data-a="medit" data-v="sumadd"'}>${IC.plus} ${t === 'prod' ? 'Add product' : t === 'skill' ? 'Add skill' : 'Add'}</button></span></div>
   <small style="color:var(--muted)">Calculated from your work experience. Overlapping projects are counted once. Edit any figure to correct it.</small>
   <div class="xs-k">${kp.map(([l, v, h]) => `<div><small>${l}</small><b>${v}</b><em>${h}</em></div>`).join('')}</div>
   <div class="ptabs" style="margin:18px 0 4px">${T.map(([k, l]) => `<button class="${t === k ? 'on' : ''}" data-a="sumtab" data-v="${k}">${l}</button>`).join('')}</div>
@@ -6998,7 +6998,7 @@
   <div class="row2" style="align-items:start">${fld('Client industry', 'mf.ind', { req: 1, opts: Object.keys(INDS), bad: 'Already on your profile from your roles. Tick those roles below instead.' })}${fld('Subindustry', 'mf.sub', { opts: subs, ph: mf.ind ? 'Select…' : 'Pick an industry first' })}</div>
   <div class="isub">Show us where you worked in this industry</div>
   ${J.length ? `<div class="ilks">${rows}</div>` : '<div class="bnr info" style="margin:0 0 12px">' + IC.info + '<div>You have no work experience added yet. Describe your experience below, or add a role from Work experience.</div></div>'}
-  ${none ? `<div class="isub" style="border:0;padding-top:0;margin-top:14px">${J.length ? 'Not in the list? Add the numbers instead' : 'Add your experience'}</div><div class="row2" style="grid-template-columns:repeat(3,1fr)">${fld('Years', 'mf.yrs', { req: 1, ph: 'e.g. 4', max: 4, bad: 'Enter 0 to 60' })}${fld('Number of clients', 'mf.cl', { req: 1, type: 'number', ph: '0', bad: 'Enter 0 or more' })}${fld('Number of projects', 'mf.pr', { req: 1, type: 'number', ph: '0', bad: 'Enter 0 or more' })}</div>${fld('Project context', 'mf.note', { req: 1, area: 1, max: 600, ph: 'Describe the project: the client or company, what you worked on, and what you delivered' })}` : ''}
+  ${none ? `<div class="isub" style="border:0;padding-top:0;margin-top:14px">${J.length ? 'Not in the list? Add the numbers instead' : 'Add your experience'}</div><div class="row2" style="grid-template-columns:repeat(3,1fr)">${fld('Years', 'mf.yrs', { req: 1, ph: 'e.g. 4', max: 4, bad: 'Enter 0 to 60' })}${fld('Number of clients', 'mf.cl', { type: 'number', ph: '0', bad: 'Enter 0 or more' })}${fld('Number of projects', 'mf.pr', { type: 'number', ph: '0', bad: 'Enter 0 or more' })}</div>${fld('Project context', 'mf.note', { req: 1, area: 1, max: 600, ph: 'Describe the project: the client or company, what you worked on, and what you delivered' })}` : ''}
   </div>${acts('msave', 'Add industry')}`, 'w')
         }
         case 'job': case 'ind': {
@@ -7008,9 +7008,21 @@
           const dt = `<div class="row2">${fld('Start date', 'mf.start', { req: 1, type: 'date' })}${mf.cur ? `<div class="fld"><label>End date</label><input class="in" value="Present" readonly></div>` : fld('End date', 'mf.end', { req: 1, type: 'date', bad: 'End date must be after the start date' })}</div><button type="button" class="rad ${mf.cur ? 'on' : ''}" data-a="mset" data-k="cur" data-v="${mf.cur ? '' : '1'}" style="margin:-4px 0 14px"><i></i>I currently work here</button>`;
           return box(`<span class="etag">${ed ? 'Editing' : ik ? 'New industry' : 'New experience'}</span><h3 style="margin-top:12px">${ik && !ed ? 'Add an industry you have worked in' : ed ? 'Edit work experience' : 'Add work experience'}</h3><p>${ik ? 'Pick the industry, then tell us about one engagement in it: the client, your role, what you used and what you delivered. It is saved to your work experience, so you only enter it once.' : 'Fields marked * are required. One end client can have several projects, so add each one separately.'}</p><div class="scr">
   ${ik ? indF + '<div class="isub">First engagement in this industry</div>' : ''}${fld('Role or title', 'mf.role', { req: 1, ph: 'Solution Architect' })}${fld('Employer or consulting firm', 'mf.emp', { ph: 'Cloud Systems Inc' })}${fld('End client', 'mf.client', { ph: 'XYZ Financial (if different)' })}
-  ${ik ? '' : indF}<div class="row2">${fld('Employment Type', 'mf.type', { opts: ['Full-time employee', 'Consulting engagement', 'Contract', 'Contract-to-hire'] })}${fld('Project', 'mf.proj', { ph: 'e.g. Claims portal rollout' })}</div>${dt}
+  ${ik ? '' : indF}<div class="row2">${fld('Employment Type', 'mf.type', { opts: ['Employee', 'Contractor'] })}${fld('Project Name', 'mf.proj', { ph: 'e.g. Claims portal rollout' })}</div>${dt}
   ${pick('Software / platforms', 'mf.plats', 'plats', 'Search software or platforms…', 1)}${pick('Products / services', 'mf.prods', 'prods', 'Search products or services…', 0, !(mf.plats || []).length)}${pick('Skills & capabilities', 'mf.skills', 'skills', 'Search skills…', 1)}
   ${fld('Responsibilities & outcomes', 'mf.resp', { req: 1, area: 1, max: 600, ph: 'What did you do, and what was the result?' })}<div class="bnr info" style="margin:4px 0 0">${IC.info}<div>For a confidential client, leave the end-client field blank — we’ll still show the industry, products, and skills on your profile.</div></div></div>${acts('msave', ed ? 'Save changes' : 'Add to profile')}`, 'w')
+        }
+        case 'xlink': {
+          const mf = S.mf, J = S.prof.jobs, sel = mf.sel || [], none = !sel.length, pk = p === 'prod', nm = pk ? 'product' : 'skill', Nm = pk ? 'Product' : 'Skill', fk = pk ? 'prods' : 'skills';
+          const rows = J.map((j, i) => { const on = sel.includes(i), who = j.client || j.emp || 'Confidential client', has = mf.names.filter(n => j[fk].includes(n)); return `<button type="button" class="ilk ${on ? 'on' : ''}" data-a="indsel" data-v="${i}"><span class="cbx ${on ? 'on' : ''}">${on ? IC.check : ''}</span><span><b>${esc(j.role)} at ${esc(who)}</b>${has.length ? '<small>Already lists ' + has.map(esc).join(', ') + '</small>' : ''}</span></button>` }).join('');
+          const mo = unionMonths(sel.map(i => J[i]).filter(j => j && j.start));
+          return box(`<span class="etag">New ${nm}</span><h3 style="margin-top:12px">Add ${pk ? 'products' : 'skills'} you have worked with</h3><p>Pick one or more ${pk ? 'products' : 'skills'}, then show us where you used it. We link it to those roles and work out your years from them, so you only enter it once.</p><div class="scr">
+  <div class="fld pk ${S.err['mf.names'] ? 'err' : ''}" data-f="f-mf.names"><label>${pk ? 'Products' : 'Skills'}<span class="rq">*</span></label>${mf.names.length ? `<div class="pills" style="gap:6px;margin-bottom:10px">${mf.names.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="lgtog" data-p="mf.names" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}<div class="cdd-wrap"><input class="in" type="text" data-csearch="mf.names" data-csrc="${pk ? 'allprods' : 'skills'}" placeholder="Search ${pk ? 'products, e.g. Data Cloud' : 'skills, e.g. Apex, LWC'}… add as many as you need" autocomplete="off"><div class="cdd" data-cdd="mf.names"></div></div><span class="em">${S.err['mf.names'] === 2 ? 'Already on your profile from your roles. Tick those roles below instead.' : 'Add at least one'}</span></div>
+  <div class="isub">Show us where you used it</div>
+  ${J.length ? `<div class="ilks">${rows}</div>` : '<div class="bnr info" style="margin:0 0 12px">' + IC.info + '<div>You have no work experience added yet. Enter your years below, or add a role from Work experience.</div></div>'}
+  ${none ? '' : `<div class="bnr info" style="margin:12px 0 0">${IC.info}<div>${mo ? 'Calculated from your selected roles: <b>' + fy(mo) + '</b>. Overlapping roles are counted once.' : 'The selected roles have no start date yet, so no years can be calculated.'}</div></div>`}
+  ${none ? `<div class="isub" style="border:0;padding-top:0;margin-top:14px">${J.length ? 'Not in the list? Add the numbers instead' : 'Add your experience'}</div><div class="row2" ${pk ? 'style="grid-template-columns:repeat(3,1fr)"' : ''}>${fld('Years' + (mf.names.length > 1 ? ' (for each)' : ''), 'mf.yrs', { req: 1, ph: 'e.g. 4', max: 4, bad: 'Enter 0 to 60' })}${pk ? fld('Number of clients', 'mf.cl', { type: 'number', ph: '0', bad: 'Enter 0 or more' }) + fld('Number of projects', 'mf.pr', { type: 'number', ph: '0', bad: 'Enter 0 or more' }) : ''}</div>${fld('Experience context', 'mf.note', { req: 1, area: 1, max: 600, ph: 'Describe where you used it and what you delivered' })}` : ''}
+  </div>${acts('msave', mf.names.length > 1 ? 'Add ' + mf.names.length + ' ' + (pk ? 'products' : 'skills') : 'Add ' + nm)}`, 'w')
         }
         case 'sumadd': case 'sumedit': {
           const ed = m.t === 'sumedit', sk = (ed ? m.p : '').startsWith('skill:') || S.mf.cat === 'Skill';
@@ -7085,6 +7097,7 @@
       else if (t === 'overview') S.mf = { about: P.about, sf: P.beganSF, sw: P.beganSW };
       else if (t === 'ind' && p == null) S.mf = { ind: '', sub: '', sel: [], yrs: '', cl: '', pr: '', note: '' };
       else if (t === 'job' || t === 'ind') { const j = p != null ? P.jobs[+p] : null; S.mf = j ? Object.assign({}, j, { start: padD(j.start), end: padD(j.end), plats: j.plats.slice(), prods: j.prods.slice(), skills: j.skills.slice(), cur: j.end ? '' : '1' }) : { emp: '', client: '', type: '', proj: '', ind: '', sub: '', role: '', start: '', end: '', plats: [], prods: [], skills: [], resp: '', cur: '' } }
+      else if (t === 'xlink') S.mf = { names: [], sel: [], yrs: '', cl: '', pr: '', note: '' };
       else if (t === 'sumadd') S.mf = { cat: { ind: 'Industry', sub: 'Subindustry', plat: 'Platform', prod: 'Product', skill: 'Skill' }[S.sumtab] || '', name: '', yrs: '', cl: '', pr: '' };
       else if (t === 'sumedit') { const X = expStats(), r = [].concat(X.ind, X.sub, X.plat, X.prod, X.skill).find(z => z.k === p) || { lab: p, m: 0 }; S.mf = { name: r.lab, yrs: String(Math.round(r.m / 12 * 10) / 10), cl: r.cl == null ? '' : String(r.cl), pr: r.pr == null ? '' : String(r.pr) } }
       else if (t === 'skills') S.sk = JSON.parse(JSON.stringify(P.skills));
@@ -7108,7 +7121,7 @@
         case 'ind': if (m.p == null) {
           const none = !(mf.sel || []).length, yr = parseFloat(mf.yrs);
           const dup = none && expStats().ind.some(r => r.k === 'ind:' + mf.ind && !r.man);
-          if (!need(none ? ['mf.ind', 'mf.yrs', 'mf.cl', 'mf.pr', 'mf.note'] : ['mf.ind'], { 'mf.yrs': () => yr >= 0 && yr <= 60, 'mf.cl': v => +v >= 0, 'mf.pr': v => +v >= 0, 'mf.ind': () => !dup })) return render();
+          if (!need(none ? ['mf.ind', 'mf.yrs', 'mf.note'] : ['mf.ind'], { 'mf.yrs': () => yr >= 0 && yr <= 60, 'mf.ind': () => !dup }) || (none && [['mf.cl', mf.cl], ['mf.pr', mf.pr]].some(([k, v]) => { const t = String(v ?? '').trim(); if (t && !(+t >= 0)) { S.err[k] = 2; return true } }))) return render();
           if (none) P.adj['ind:' + mf.ind] = { yrs: yr, cl: (mf.cl || '').trim(), pr: (mf.pr || '').trim(), man: true, lab: mf.ind, note: mf.note.trim() };
           else mf.sel.forEach(i => { const j = P.jobs[i]; if (j) { if (mf.sub) j.sub = mf.sub; else if (j.ind !== mf.ind) j.sub = ''; j.ind = mf.ind } });
           toast(none ? 'Industry added' : 'Industry linked to ' + mf.sel.length + ' role' + (mf.sel.length === 1 ? '' : 's') + '. Your experience summary has been recalculated'); break
@@ -7118,6 +7131,16 @@
           if (!need(ks, { 'mf.end': v => v >= mf.start })) return render();
           const j = { emp: (mf.emp || '').trim(), client: (mf.client || '').trim(), type: mf.type || '', proj: (mf.proj || '').trim(), ind: mf.ind, sub: mf.sub || '', role: mf.role.trim(), start: mf.start, end: mf.cur ? '' : mf.end, plats: mf.plats.slice(), prods: mf.prods.slice(), skills: mf.skills.slice(), resp: mf.resp.trim() };
           if (m.p != null) P.jobs[+m.p] = j; else P.jobs.unshift(j); toast(m.p != null ? 'Work experience updated' : 'Added. Your experience summary has been recalculated'); break
+        }
+        case 'xlink': {
+          const pk = m.p === 'prod', fk = pk ? 'prods' : 'skills', nm = pk ? 'product' : 'skill', names = mf.names, none = !(mf.sel || []).length, yr = parseFloat(mf.yrs);
+          const X = expStats()[m.p], dup = none && names.some(n => X.some(r => r.k === m.p + ':' + n && !r.man));
+          const bad = () => [['mf.cl', mf.cl], ['mf.pr', mf.pr]].some(([k, v]) => { const t = String(v ?? '').trim(); if (t && !(+t >= 0)) { S.err[k] = 2; return true } });
+          if (!need(none ? ['mf.names', 'mf.yrs', 'mf.note'] : ['mf.names'], { 'mf.yrs': () => yr >= 0 && yr <= 60 }) || (dup && (S.err['mf.names'] = 2)) || (none && pk && bad())) return render();
+          if (none) names.forEach(n => { P.adj[m.p + ':' + n] = { yrs: yr, cl: pk ? (mf.cl || '').trim() : '', pr: pk ? (mf.pr || '').trim() : '', man: true, lab: n, note: mf.note.trim() } });
+          else mf.sel.forEach(i => { const j = P.jobs[i]; if (j) names.forEach(n => { if (!j[fk].includes(n)) j[fk].push(n) }) });
+          const c = names.length === 1 ? names[0] : names.length + ' ' + nm + 's';
+          toast(none ? c + ' added' : c + ' linked to ' + mf.sel.length + ' role' + (mf.sel.length === 1 ? '' : 's') + '. Your experience summary has been recalculated'); break
         }
         case 'sumadd': case 'sumedit': {
           const ed = m.t === 'sumedit', yr = parseFloat(mf.yrs); if (!need(ed ? ['mf.yrs'] : ['mf.cat', 'mf.name', 'mf.yrs'], { 'mf.yrs': () => yr >= 0 && yr <= 60 })) return render();
@@ -7160,6 +7183,7 @@
         case 'madd': openModal('add', v); break;
         case 'jobedit': openModal('job', v); break;
         case 'sumedit': openModal('sumedit', v); break;
+        case 'xlink': openModal('xlink', v); break;
         case 'xtab': S.xtab = v; render(); break;
         case 'sumtab': S.sumtab = v; render(); break;
         case 'sumreset': delete S.prof.adj[v]; S.modal = null; render(); toast('Experience summary updated'); break;
@@ -7173,7 +7197,7 @@
         case 'jobdelok': { S.prof.jobs.splice(+S.modal.p, 1); S.modal = null; render(); toast('Work experience removed. Your experience summary has been recalculated'); break }
         case 'more': S.showMore[v] = !S.showMore[v]; render(); break;
         case 'unlink': S.prof.links[v] = ''; render(); toast('Account disconnected'); break;
-        case 'vreq': S.vreq = true; render(); toast('Verification interview requested'); break;
+        case 'vreq': window.open('https://calendly.com/huntersharf', '_blank', 'noopener'); S.vreq = true; render(); toast('Verification interview requested'); break;
         case 'vclose': S.vclosed = true; render(); break;
         case 'avail': S.open = !S.open; render(); toast(S.open ? 'You’re open to new work' : 'You’re marked as not available — clients won’t see you in new searches'); break;
         case 'skrm': { const [gi, ti] = v.split(':'); S.sk[+gi][1].splice(+ti, 1); render(); break }
@@ -7255,23 +7279,25 @@
         countries: () => COUNTRIES.map(c => [c, '']),
         plats: () => PLATS.map(p => [p, platGroup(p)]),
         skills: () => SKILLS.map(x => [x, skillGroup(x)]),
+        allprods: () => PRODS.map(x => [x, Object.keys(PROD_BY).find(k => PROD_BY[k].includes(x)) || '']),
         prods: () => { const sel = (S.mf && S.mf.plats) || []; const out = []; sel.forEach(pl => (PROD_BY[pl] || []).forEach(x => out.push([x, pl]))); return out }
       };
       const show = el => {
         const box = dd(el); if (!box) return;
-        const path = el.dataset.csearch, q = el.value.trim().toLowerCase(), L = getp(path).map(x => String(x).toLowerCase());
+        const path = el.dataset.csearch, q = el.dataset.csingle && el.value === getp(path) ? '' : el.value.trim().toLowerCase(), L = el.dataset.csingle ? [] : getp(path).map(x => String(x).toLowerCase());
         const all = (SRC[el.dataset.csrc || 'countries'] || SRC.countries)().filter(([c]) => !L.includes(c.toLowerCase()));
         let m = all.filter(([c]) => !q || c.toLowerCase().includes(q)).sort((a, b) => (b[0].toLowerCase().startsWith(q) ? 1 : 0) - (a[0].toLowerCase().startsWith(q) ? 1 : 0));
-        let h = m.map(([c, g]) => `<div class="cdd-i" data-copt="${path}" data-val="${esc(c)}"><span>${esc(c)}</span>${g ? `<small>${esc(g)}</small>` : ''}</div>`).join('');
+        let h = m.map(([c, g]) => `<div class="cdd-i" data-copt="${path}" ${el.dataset.csingle ? 'data-single="1" ' : ''}data-val="${esc(c)}"><span>${esc(c)}</span>${g ? `<small>${esc(g)}</small>` : ''}</div>`).join('');
         if (el.dataset.cother && q && !all.some(([c]) => c.toLowerCase() === q) && !L.includes(q)) h += `<div class="cdd-i cdd-o" data-copt="${path}" data-val="${esc(el.value.trim())}"><span>Add “${esc(el.value.trim())}” as other</span><small>Other</small></div>`;
         box.innerHTML = h || '<div class="cdd-e">No matches</div>';
         box.classList.remove('up'); box.classList.add('show');
         const r = el.getBoundingClientRect(); if (r.bottom + 240 > window.innerHeight && r.top > 260) box.classList.add('up');
       };
       document.addEventListener('focusin', e => { if (e.target.dataset && e.target.dataset.csearch) show(e.target) });
-      document.addEventListener('input', e => { if (e.target.dataset && e.target.dataset.csearch) show(e.target) });
+      document.addEventListener('input', e => { if (e.target.dataset && e.target.dataset.csearch) { if (e.target.dataset.csingle) setp(e.target.dataset.csearch, ''); show(e.target) } });
       document.addEventListener('mousedown', e => {
         const it = e.target.closest && e.target.closest('[data-copt]');
+        if (it && it.dataset.single) { e.preventDefault(); setp(it.dataset.copt, it.dataset.val); delete S.err[it.dataset.copt]; render(); return }
         if (it) { e.preventDefault(); const p = it.dataset.copt, l = getp(p); if (!l.includes(it.dataset.val)) l.push(it.dataset.val); delete S.err[p]; render(); const inp = document.querySelector('[data-csearch="' + p + '"]'); if (inp) { inp.value = ''; inp.focus(); show(inp) } return }
         if (!(e.target.closest && e.target.closest('.cdd-wrap'))) document.querySelectorAll('.cdd.show').forEach(x => x.classList.remove('show'));
       });
