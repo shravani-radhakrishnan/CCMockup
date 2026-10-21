@@ -2912,6 +2912,14 @@
       transition: .15s
     }
 
+    .tgw .tgs {
+      display: none
+    }
+
+    .tgw.open .tgs {
+      display: block
+    }
+
     .mso[data-a=sgpick].on {
       background: var(--slate-tint-2);
       color: var(--slate-dd);
@@ -11357,7 +11365,7 @@
     }
     function tagin(k, list, ph) {
       const v = S.wiz.d[k];
-      return `<div class="cu"><div class="cur"><div class="ms tgw" style="flex:1"><input class="in" id="ti-${k}" placeholder="${ph}" autocomplete="off"><div class="msl tgl" hidden>${list.filter(o => !v.includes(o)).map(o => `<button type="button" class="mso" data-a="tagpick" data-k="${k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div></div><button type="button" class="btn" data-a="tagadd" data-k="${k}">Add</button></div>${v.length ? `<div class="cut">${v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}</div>`
+      return `<div class="cu"><div class="cur"><div class="ms tgw" style="flex:1"><input class="in" id="ti-${k}" placeholder="${ph}" autocomplete="off"><div class="msl tgs">${list.filter(o => !v.includes(o)).map(o => `<button type="button" class="mso" data-a="tagpick" data-k="${k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div></div><button type="button" class="btn" data-a="tagadd" data-k="${k}">Add</button></div>${v.length ? `<div class="cut">${v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}</div>`
     }
     function cust(k, label, ph) {
       const a = custList(S.wiz.d[k]);
@@ -12313,12 +12321,12 @@
     const HR_BUCKET = h => h < 10 ? 'Under 10' : h <= 20 ? '10–20' : h <= 30 ? '20–30' : h < 40 ? '30–40' : 'Full-time (40+)';
     /* tag-input suggestions: styled list instead of the browser's native datalist popup */
     (function () {
-      const tl = el => el.closest && el.closest('.tgw') && el.closest('.tgw').querySelector('.tgl');
-      const filt = el => { const l = tl(el); if (!l) return; const q = el.value.trim().toLowerCase(); let n = 0; l.querySelectorAll('.mso').forEach(b => { const ok = !q || b.textContent.toLowerCase().includes(q); b.style.display = ok ? '' : 'none'; if (ok) n++ }); l.hidden = !n };
+      const tl = el => el.closest && el.closest('.tgw') && el.closest('.tgw').querySelector('.tgs');
+      const filt = el => { const l = tl(el); if (!l) return; const q = el.value.trim().toLowerCase(); let n = 0; l.querySelectorAll('.mso').forEach(b => { const ok = !q || b.textContent.toLowerCase().includes(q); b.style.display = ok ? '' : 'none'; if (ok) n++ }); l.parentElement.classList.toggle('open', !!n) };
       document.addEventListener('focusin', e => { if (e.target.id && e.target.id.startsWith('ti-')) filt(e.target) });
       document.addEventListener('input', e => { if (e.target.id && e.target.id.startsWith('ti-')) filt(e.target) });
-      document.addEventListener('mousedown', e => { if (!(e.target.closest && e.target.closest('.tgw'))) document.querySelectorAll('.tgl').forEach(l => { l.hidden = true }) });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.tgl').forEach(l => { l.hidden = true }) });
+      document.addEventListener('mousedown', e => { if (!(e.target.closest && e.target.closest('.tgw'))) document.querySelectorAll('.tgs').forEach(l => { l.parentElement.classList.remove('open') }) });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.tgs').forEach(l => { l.parentElement.classList.remove('open') }) });
     })();
     document.addEventListener('input', e => {
       const el = e.target; if (!el.classList || !el.classList.contains('msq')) return;
