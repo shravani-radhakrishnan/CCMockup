@@ -2874,6 +2874,15 @@
       margin-top: 10px
     }
 
+    .mso.msa i {
+      display: none
+    }
+
+    .mso.msa {
+      color: var(--slate);
+      font-weight: 600
+    }
+
     .mso {
       display: flex;
       align-items: center;
@@ -2901,6 +2910,12 @@
       display: grid;
       place-items: center;
       transition: .15s
+    }
+
+    .mso[data-a=sgpick].on {
+      background: var(--slate-tint-2);
+      color: var(--slate-dd);
+      font-weight: 600
     }
 
     .mso.on i {
@@ -11319,7 +11334,7 @@
       rtype: ['Architect', 'Developer / Engineer', 'AI / Data Specialist', 'QA Tester', 'Administrator', 'Business Analyst', 'Project Manager / Product Owner', 'Security / DevOps Specialist', 'Multiple Roles', 'Other'],
       hours: ['Under 10', '10–20', '20–30', '30–40', 'Full-time (40+)'],
       sen: ['Junior (1–2 years of experience)', 'Mid-Level (3–5 years of experience)', 'Senior-Level (6–9 years of experience)', 'Principal (10+ years of experience)'],
-      sw: ["#CRM & Enterprise Applications", "Salesforce", "Microsoft Dynamics 365", "HubSpot", "ServiceNow", "#Cloud", "AWS", "Microsoft Azure", "Google Cloud", "#AI & Machine Learning", "OpenAI", "Anthropic Claude", "Google Gemini", "#Data & Analytics", "Databricks", "Snowflake", "Microsoft Fabric", "#ERP", "SAP", "Oracle", "NetSuite", "Workday", "#Integration & Automation", "MuleSoft", "Boomi", "Workato", "#Development & DevOps", "GitHub", "GitLab", "Kubernetes", "Other", "Not Sure — Need Guidance"],
+      sw: ["#CRM & Enterprise Applications", "Salesforce", "Microsoft Dynamics 365", "HubSpot", "ServiceNow", "#Cloud", "AWS", "Microsoft Azure", "Google Cloud", "#AI & Machine Learning", "OpenAI", "Anthropic Claude", "Google Gemini", "#Data & Analytics", "Databricks", "Snowflake", "Microsoft Fabric", "#ERP", "SAP", "Oracle", "NetSuite", "Workday", "#Integration & Automation", "MuleSoft", "Boomi", "Workato", "#Development & DevOps", "GitHub", "GitLab", "Kubernetes", "Not Sure — Need Guidance"],
       certs: ['Cloud Practitioner / Associate', 'Cloud Architect (Professional)', 'Data Engineer / Analytics', 'Security', 'Kubernetes / DevOps', 'Vendor platform certification'],
       ind: ['Yes, need experience', 'Nice to have', 'No preference'],
       orgs: ['Startup', 'Small Business', 'Mid-Market', 'Enterprise', 'Fortune 500', 'Non-profit', 'Government'],
@@ -11330,17 +11345,19 @@
       sign: ['Me', 'Hiring manager', 'Department head', 'C-level / Executive', 'Procurement / Finance']
     };
     const NSURE = "Not Sure — Need Guidance", PRODS = { "Salesforce": ["Sales Cloud", "Service Cloud", "Revenue Cloud", "Salesforce CPQ", "Salesforce Billing", "Data Cloud", "Agentforce", "Marketing Cloud Engagement", "Marketing Cloud Account Engagement (Pardot)", "Experience Cloud", "Field Service", "Financial Services Cloud (FSC)", "Health Cloud", "Nonprofit Cloud", "Nonprofit Success Pack (NPSP)", "Education Cloud", "B2B Commerce (CloudCraze)", "B2C Commerce", "CRM Analytics (Tableau CRM)", "OmniStudio", "Salesforce Industries (Vlocity)", "Manufacturing Cloud", "Energy & Utilities Cloud", "Loyalty Management", "Salesforce Maps", "Salesforce Shield", "Salesforce Platform", "Heroku"], "AWS": ["EC2", "Lambda", "S3", "RDS", "Redshift", "Glue", "Bedrock", "SageMaker", "IAM", "ECS/EKS"], "Microsoft Azure": ["Azure Functions", "Azure SQL", "Data Factory", "Azure OpenAI", "AKS", "Blob Storage", "Azure AI Foundry"], "Google Cloud": ["BigQuery", "Vertex AI", "Cloud Run", "Cloud Storage", "GKE"], "Databricks": ["Unity Catalog", "Delta Lake", "Lakeflow", "Databricks SQL", "MLflow", "Mosaic AI"], "Snowflake": ["Snowpark", "Cortex AI", "Streams & Tasks", "Data Sharing"], "Microsoft Dynamics 365": ["Dynamics 365 Sales", "Dynamics 365 Customer Service", "Dynamics 365 Finance", "Supply Chain Management", "Business Central"], "ServiceNow": ["ITSM", "ITOM", "HRSD", "CSM", "App Engine"], "SAP": ["S/4HANA", "SuccessFactors", "Ariba", "BTP"], "Oracle": ["Fusion Cloud ERP", "Oracle APEX", "Oracle Database", "OCI"], "NetSuite": ["NetSuite ERP", "NetSuite CRM", "SuiteCommerce", "SuiteAnalytics"], "HubSpot": ["Sales Hub", "Marketing Hub", "Service Hub", "Operations Hub"], "OpenAI": ["GPT Models", "Responses API", "Realtime API", "Embeddings"], "Anthropic Claude": ["Claude API", "Claude Code"], "Google Gemini": ["Gemini API", "Gemini Models"], "MuleSoft": ["Anypoint Platform", "API Manager", "CloudHub"], "Boomi": ["Integration Platform", "API Management", "Master Data Hub"], "Workato": ["Workato Integration", "Workflow Automation", "AI Agents"] }, SKG = [["Salesforce", ["Apex", "Lightning Web Components (LWC)", "Flow", "SOQL", "OmniStudio", "CPQ Configuration", "Data Migration", "Salesforce Integrations"]], ["AI / ML", ["AI Agent Development", "Generative AI", "RAG", "Prompt Engineering", "Fine-Tuning", "Machine Learning", "MLOps"]], ["Software Development", ["Python", "Java", "JavaScript", "TypeScript", "C#/.NET", "React", "Angular", "Node.js", "API Development"]], ["Data", ["SQL", "PySpark", "Spark", "ETL/ELT", "Data Engineering", "Data Modeling", "Data Architecture", "Data Governance", "Business Intelligence"]], ["Cloud / DevOps", ["Cloud Architecture", "Terraform", "Kubernetes", "Docker", "CI/CD", "DevOps", "Serverless Architecture"]], ["Security", ["IAM", "Cloud Security", "Security Assessments", "Data Security", "Compliance", "Vulnerability Management"]], ["Consulting", ["Solution Architecture", "Business Analysis", "Requirements Gathering", "Project Management", "Product Management", "QA", "Test Automation", "Systems Integration"]]], SKSUG = { "Salesforce": "Salesforce", "OpenAI": "AI / ML", "Anthropic Claude": "AI / ML", "Google Gemini": "AI / ML", "AWS": "Cloud / DevOps", "Microsoft Azure": "Cloud / DevOps", "Google Cloud": "Cloud / DevOps", "GitHub": "Cloud / DevOps", "GitLab": "Cloud / DevOps", "Kubernetes": "Cloud / DevOps", "Databricks": "Data", "Snowflake": "Data", "Microsoft Fabric": "Data", "MuleSoft": "Software Development", "Boomi": "Software Development", "Workato": "Software Development", "Microsoft Dynamics 365": "Consulting", "HubSpot": "Consulting", "ServiceNow": "Consulting", "SAP": "Consulting", "Oracle": "Consulting", "NetSuite": "Consulting", "Workday": "Consulting" };
-    const prodList = d => { const o = []; (d.sw || []).forEach(x => { if (PRODS[x]) o.push('#' + x, ...PRODS[x]) }); if (!o.length) return ['!Select a software or platform above to see its products & services']; o.push('Other'); return o };
-    const skillList = d => { const sg = new Set((d.sw || []).map(x => SKSUG[x]).filter(Boolean)), o = [];[...SKG.filter(g => sg.has(g[0])).map(g => [g[0] + ' · suggested', g[1]]), ...SKG.filter(g => !sg.has(g[0]))].forEach(g => o.push('#' + g[0], ...g[1])); o.push('Other', NSURE); return o };
-    const pruneProds = d => { const ok = prodList(d); d.prods = d.prods.filter(x => ok.includes(x)); Object.keys(d.pimp).forEach(x => { if (!d.prods.includes(x)) delete d.pimp[x] }) };
+    const prodList = d => { const o = []; (d.sw || []).forEach(x => { if (PRODS[x]) o.push('#' + x, ...PRODS[x]) }); if (!o.length) return ['!Select a software or platform above to see its products & services']; return o };
+    const skillList = d => { const sg = new Set((d.sw || []).map(x => SKSUG[x]).filter(Boolean)), o = [];[...SKG.filter(g => sg.has(g[0])).map(g => [g[0] + ' · suggested', g[1]]), ...SKG.filter(g => !sg.has(g[0]))].forEach(g => o.push('#' + g[0], ...g[1])); o.push(NSURE); return o };
+    const pruneProds = d => { const ok = prodList(d); d.prods = d.prods.filter(x => ok.includes(x) && x !== 'Other'); syncOther(d); Object.keys(d.pimp).forEach(x => { if (!d.prods.includes(x)) delete d.pimp[x] }) };
     const custList = v => String(v || '').split(',').map(t => t.trim()).filter(Boolean);
+    /* single-select with a searchable, scrolling panel (replaces the browser's native select popup for long lists) */
     function selg(k, list, ph) {
-      let o = '', open = false; list.forEach(x => { if (x[0] === '#') { if (open) o += '</optgroup>'; o += `<optgroup label="${esc(x.slice(1))}">`; open = true } else o += `<option ${S.wiz.d[k] === x ? 'selected' : ''}>${esc(x)}</option>` });
-      return `<select class="in" data-w="${k}"><option value="">${ph}</option>${o}${open ? '</optgroup>' : ''}</select>`
+      const v = S.wiz.d[k], open = S.ms === k;
+      return `<div class="ms ${open ? 'open' : ''}"><div class="msb" data-a="msopen" data-k="${k}">${v ? `<span>${esc(v)}</span>` : `<span class="ph2">${ph}</span>`}<span class="car"></span></div>
+ ${open ? `<div class="msl"><input class="in msq" placeholder="Search…" aria-label="Search options">${list.map(o => o[0] === '#' ? `<div class="mhd">${esc(o.slice(1))}</div>` : `<button type="button" class="mso ${v === o ? 'on' : ''}" data-a="sgpick" data-k="${k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>` : ''}</div>`
     }
     function tagin(k, list, ph) {
       const v = S.wiz.d[k];
-      return `<div class="cu"><div class="cur"><input class="in" id="ti-${k}" list="dl-${k}" placeholder="${ph}" autocomplete="off"><button type="button" class="btn" data-a="tagadd" data-k="${k}">Add</button></div><datalist id="dl-${k}">${list.map(o => `<option value="${esc(o)}">`).join('')}</datalist>${v.length ? `<div class="cut">${v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}</div>`
+      return `<div class="cu"><div class="cur"><div class="ms tgw" style="flex:1"><input class="in" id="ti-${k}" placeholder="${ph}" autocomplete="off"><div class="msl tgl" hidden>${list.filter(o => !v.includes(o)).map(o => `<button type="button" class="mso" data-a="tagpick" data-k="${k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div></div><button type="button" class="btn" data-a="tagadd" data-k="${k}">Add</button></div>${v.length ? `<div class="cut">${v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}</div>`
     }
     function cust(k, label, ph) {
       const a = custList(S.wiz.d[k]);
@@ -11355,13 +11372,14 @@
     function tx(k, ph, t = 'text') { return `<input class="in" type="${t}" data-w="${k}" placeholder="${ph}" value="${esc(S.wiz.d[k])}">` }
     const notSure = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>Not sure yet</button>`;
     function wf(k, label, body, opt) { return `<div class="fld ${S.wiz.err[k] ? 'err' : ''} ${S.wiz.ai && S.wiz.ai[k] ? 'aif' : ''}" data-f="${k}"><label>${label}${opt ? '' : '<span class="rq">*</span>'}</label>${body}${opt ? '' : '<span class="em">This field is required</span>'}</div>` }
+    const CUSTK = { sw: 'osw', prods: 'oprod', tech: 'otech' };
     function ms(k, list, ph) {
-      const v = S.wiz.d[k], open = S.ms === k;
-      return `<div class="ms ${open ? 'open' : ''}"><div class="msb" data-a="msopen" data-k="${k}">${v.length ? v.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('') : `<span class="ph2">${ph}</span>`}<span class="car"></span></div>
- ${open ? `<div class="msl">${list.length > 10 ? '<input class="in msq" placeholder="Search…" aria-label="Search options">' : ''}${list.map(o => o[0] === '#' ? `<div class="mhd">${esc(o.slice(1))}</div>` : o[0] === '!' ? `<div class="msh">${esc(o.slice(1))}</div>` : `<button type="button" class="mso ${v.includes(o) ? 'on' : ''}" data-a="msopt" data-k="${k}" data-v="${esc(o)}"><i></i>${o}</button>`).join('')}</div>` : ''}</div>`
+      const v = S.wiz.d[k], open = S.ms === k, cu = CUSTK[k] ? custList(S.wiz.d[CUSTK[k]]) : [];
+      return `<div class="ms ${open ? 'open' : ''}"><div class="msb" data-a="msopen" data-k="${k}">${v.filter(x => x !== 'Other').length || cu.length ? v.filter(x => x !== 'Other').map(x => `<span class="tag">${esc(x)}<button type="button" data-a="msopt" data-k="${k}" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('') + cu.map((x, i) => `<span class="tag">${esc(x)}<button type="button" data-a="custrm" data-k="${CUSTK[k]}" data-v="${i}" aria-label="Remove ${esc(x)}">×</button></span>`).join('') : `<span class="ph2">${ph}</span>`}<span class="car"></span></div>
+ ${open ? `<div class="msl">${list.length > 10 || CUSTK[k] ? `<input class="in msq" data-k="${k}" placeholder="${CUSTK[k] ? 'Search, or type your own…' : 'Search…'}" aria-label="Search options">` : ''}${CUSTK[k] ? `<button type="button" class="mso msa" data-a="msadd" data-k="${k}" style="display:none"><i></i><span></span></button>` : ''}${list.map(o => o[0] === '#' ? `<div class="mhd">${esc(o.slice(1))}</div>` : o[0] === '!' ? `<div class="msh">${esc(o.slice(1))}</div>` : `<button type="button" class="mso ${v.includes(o) ? 'on' : ''}" data-a="msopt" data-k="${k}" data-v="${esc(o)}"><i></i>${o}</button>`).join('')}</div>` : ''}</div>`
     }
     function imp(k, note) {
-      const g = IMPG[k], items = S.wiz.d[k].filter(x => x !== 'Other' && x !== NSURE), m = S.wiz.d[g]; if (!items.length) return '';
+      const g = IMPG[k], items = S.wiz.d[k].filter(x => x !== 'Other' && x !== NSURE).concat(CUSTK[k] ? custList(S.wiz.d[CUSTK[k]]) : []), m = S.wiz.d[g]; if (!items.length) return '';
       return `<div class="impb fu"><b>Please specify the importance of ${items.length > 1 ? 'each requirement' : 'this requirement'}</b>${note ? `<small style="color:var(--muted)">${note}</small>` : ''}
   ${items.map(x => { const er = S.wiz.err[g + ':' + x]; return `<div class="impr ${er ? 'err' : ''}"><span class="tag">${esc(x)}</span><div class="seg3">${['Must have', 'Preferred', 'Bonus'].map(l => `<button type="button" class="${m[x] === l ? 'on' : ''}" data-a="imp" data-g="${g}" data-k="${esc(x)}" data-v="${l}">${l}</button>`).join('')}</div></div>` }).join('')}</div>`
     }
@@ -11479,12 +11497,9 @@
         }
         case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like — and how much each requirement matters.</p>
   ${wf('sw', 'Which software or platforms should the consultant have experience with?', ms('sw', LIST.sw, 'Select software & platforms'))}
-  ${d.sw.includes('Other') ? cust('osw', 'What other software or platform are you looking for?', 'e.g., Epic, Adobe Experience Manager, IBM Cloud') : ''}
   ${wf('prods', 'Which products or services should the consultant have experience with?', ms('prods', prodList(d), 'Select products & services'), 1)}
-  ${d.prods.includes('Other') ? cust('oprod', 'What other products or services are you looking for?', 'e.g., Salesforce Nonprofit Cloud, AWS Step Functions, Azure Cosmos DB') : ''}
   ${imp('prods')}
   ${wf('tech', 'Which skills should the consultant have?', ms('tech', skillList(d), 'Search & select skills'))}
-  ${d.tech.includes('Other') ? cust('otech', 'What other skills are you looking for?', 'e.g., API Integration, Data Migration, Performance Optimization') : ''}
   ${imp('tech')}
   ${wf('certs', 'Preferred certifications', tagin('certs', LIST.certs, 'Type a certification and press Enter, e.g. AWS Solutions Architect – Professional'), 1)}
   <div class="fld"><label>Please provide any additional and relevant information</label><textarea class="in" maxlength="250" data-w="extra" placeholder="Anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/250</div></div>`;
@@ -12296,18 +12311,28 @@
 
     const SAMPLE_REQ = 'Senior AWS & Snowflake data engineer for a cloud migration, 40 hrs/week, remote, around $150/hr, starting in 2 weeks. Python and Terraform required, Databricks is a plus.';
     const HR_BUCKET = h => h < 10 ? 'Under 10' : h <= 20 ? '10–20' : h <= 30 ? '20–30' : h < 40 ? '30–40' : 'Full-time (40+)';
+    /* tag-input suggestions: styled list instead of the browser's native datalist popup */
+    (function () {
+      const tl = el => el.closest && el.closest('.tgw') && el.closest('.tgw').querySelector('.tgl');
+      const filt = el => { const l = tl(el); if (!l) return; const q = el.value.trim().toLowerCase(); let n = 0; l.querySelectorAll('.mso').forEach(b => { const ok = !q || b.textContent.toLowerCase().includes(q); b.style.display = ok ? '' : 'none'; if (ok) n++ }); l.hidden = !n };
+      document.addEventListener('focusin', e => { if (e.target.id && e.target.id.startsWith('ti-')) filt(e.target) });
+      document.addEventListener('input', e => { if (e.target.id && e.target.id.startsWith('ti-')) filt(e.target) });
+      document.addEventListener('mousedown', e => { if (!(e.target.closest && e.target.closest('.tgw'))) document.querySelectorAll('.tgl').forEach(l => { l.hidden = true }) });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.tgl').forEach(l => { l.hidden = true }) });
+    })();
     document.addEventListener('input', e => {
       const el = e.target; if (!el.classList || !el.classList.contains('msq')) return;
       const q = el.value.trim().toLowerCase(), box = el.parentElement; let head = null, n = 0;
       const close = () => { if (head) head.style.display = n ? '' : 'none' };
       [...box.children].forEach(c => {
-        if (c === el) return;
+        if (c === el || c.classList.contains('msa')) return;
         if (c.classList.contains('mhd')) { close(); head = c; n = 0; return }
         if (c.classList.contains('mso')) { const ok = !q || c.textContent.toLowerCase().includes(q); c.style.display = ok ? '' : 'none'; if (ok) n++ }
         else if (c.classList.contains('msh')) c.style.display = q ? 'none' : ''
       });
       close();
-      let em = box.querySelector('.mse'); const any = [...box.querySelectorAll('.mso')].some(c => c.style.display !== 'none');
+      let em = box.querySelector('.mse'); const any = [...box.querySelectorAll('.mso:not(.msa)')].some(c => c.style.display !== 'none');
+      const ad = box.querySelector('.msa'); if (ad) { const raw = el.value.trim(), have = [...box.querySelectorAll('.mso:not(.msa)')].some(c => c.textContent.trim().toLowerCase() === raw.toLowerCase()); ad.style.display = raw && !have ? '' : 'none'; ad.lastChild.textContent = 'Add “' + raw + '” (not in the list)'; ad.dataset.v = raw }
       if (!any) { if (!em) { em = document.createElement('div'); em.className = 'msh mse'; em.textContent = 'No matches'; box.appendChild(em) } } else if (em) em.remove()
     });
     const SK_Q = [['why', d => !d.why, 'Why are you hiring a consultant — a new technology implementation, extra capacity, specialist skills, a replacement, or rescuing a project?'], ['rtype', d => !d.rtype, 'What type of role do you need — Developer, Architect, Data Engineer, Administrator, Business Analyst or Project Manager?'], ['sen', d => !d.sen, 'What seniority do you need — Junior, Mid-Level, Senior or Principal?'], ['hours', d => !d.hours, 'How many hours per week do you need?'], ['start', d => !d.start && !d.startNo, 'When would you like the consultant to start?'], ['budget', d => !d.bamt, 'What hourly rate or budget are you working with?'], ['wloc', d => !d.wloc, 'Will the work be remote, hybrid or on-site?'], ['prods', d => !d.prods.length && !d.tech.length, 'Which products or technologies are must-haves?']];
@@ -12781,13 +12806,15 @@
       if (leaving && v !== S.view) { S.leaveTo = v; S.modal = 'leave'; render(); return }
       doGo(v)
     }
+    /* typed (custom) entries live in osw / oprod / otech; keep the legacy 'Other' marker in step so matching still treats them as unmatched */
+    function syncOther(d) { Object.entries(CUSTK).forEach(([k, ck]) => { const has = custList(d[ck]).length > 0, i = d[k].indexOf('Other'); if (has && i < 0) d[k].push('Other'); else if (!has && i >= 0) d[k].splice(i, 1) }) }
     function addCust(k, t) { const d = S.wiz.d, a = custList(d[k]); t.split(',').map(x => x.trim()).filter(Boolean).forEach(x => { if (!a.some(y => y.toLowerCase() === x.toLowerCase())) a.push(x) }); d[k] = a.join(', ') }
     function validate() {
       const d = S.wiz.d, st = S.wiz.step, e = {}; if (st >= 2) ['osw', 'oprod', 'otech', 'oreg'].forEach(k => { const el = document.getElementById('cu-' + k); if (el && el.value.trim()) addCust(k, el.value) }); const ti = document.getElementById('ti-certs'); if (st === 2 && ti && ti.value.trim() && !d.certs.some(x => x.toLowerCase() === ti.value.trim().toLowerCase())) d.certs.push(ti.value.trim()); const need = k => { const v = d[k]; if (!v || (Array.isArray(v) && !v.length)) e[k] = 1 };
       const imps = (l, g) => d[l].forEach(x => { if (!d[g][x]) e[g + ':' + x] = 1 });
       if (st === 0) { ['why', 'rtype', 'sen'].forEach(need); if (d.rtype === 'Multiple Roles') need('qty'); if (d.rtype === 'Other') need('ortype') }
       if (st === 1) { need('hours'); need('start'); if (!d.endNo) need('end'); if (!d.endNo && d.start && d.end && d.end < d.start) e.end = 1; if (d.budgetOk === 'Yes' && d.btype) need('bamt') }
-      if (st === 2) { ['sw', 'tech'].forEach(need); if (d.sw.includes('Other')) need('osw'); if (d.prods.includes('Other')) need('oprod'); if (d.tech.includes('Other')) need('otech') }
+      if (st === 2) { ['sw', 'tech'].forEach(need) }
       if (st === 3) { ['wloc', 'meet'].forEach(need); if (d.wloc === 'Remote') { ['regions', 'tzs'].forEach(need); if (d.regions.includes('Other')) need('oreg') } else if (d.wloc) { need('sloc'); need('onsite') } }
       S.wiz.err = e; return !Object.keys(e).length
     }
@@ -12940,6 +12967,13 @@
         /* wizard */
         case 'opt': d[a.dataset.k] = v; delete S.wiz.err[a.dataset.k]; if (a.dataset.k === 'btype') delete S.wiz.err.bamt; S.wiz.dir = ''; stepRender(); break;
         case 'msopen': S.ms = S.ms === a.dataset.k ? null : a.dataset.k; stepRender(); break;
+        case 'sgpick': d[a.dataset.k] = v; S.ms = null; delete S.wiz.err[a.dataset.k]; stepRender(); break;
+        case 'msadd': {
+          const k = a.dataset.k, ck = CUSTK[k], t = (a.dataset.v || '').trim(); if (!ck || !t) break;
+          addCust(ck, t); syncOther(d); delete S.wiz.err[k]; stepRender();
+          const m1 = document.querySelector('.msl'); if (m1) { const qi = m1.querySelector('.msq'); if (qi) qi.focus({ preventScroll: true }) }
+          break
+        }
         case 'msopt': {
           const k = a.dataset.k, i = d[k].indexOf(v); i < 0 ? d[k].push(v) : d[k].splice(i, 1); const gk = IMPG[k]; if (gk && i >= 0) delete d[gk][v]; if (k === 'sw') pruneProds(d); delete S.wiz.err[k];
           /* keep the menu open and exactly as it was (scroll position + search text) after each pick */
@@ -12950,9 +12984,10 @@
           break
         }
         case 'imp': { const m = d[a.dataset.g], k = a.dataset.k; if (m[k] === v) delete m[k]; else m[k] = v; delete S.wiz.err[a.dataset.g + ':' + k]; stepRender(); break }
+        case 'tagpick': { const k = a.dataset.k; if (!d[k].includes(v)) d[k].push(v); stepRender(); const ni = document.getElementById('ti-' + k); if (ni) ni.focus(); break }
         case 'tagadd': { const k = a.dataset.k, el = document.getElementById('ti-' + k), t = (el && el.value || '').trim(); if (!t) { el && el.focus(); break } if (!d[k].some(x => x.toLowerCase() === t.toLowerCase())) d[k].push(t); if (el) el.value = ''; stepRender(); const ni = document.getElementById('ti-' + k); if (ni) { ni.value = ''; ni.focus() } break }
         case 'custadd': { const el = document.getElementById('cu-' + a.dataset.k), t = (el && el.value || '').trim(); if (!t) { el && el.focus(); break } addCust(a.dataset.k, t); delete S.wiz.err[a.dataset.k]; el.value = ''; stepRender(); const ni = document.getElementById('cu-' + a.dataset.k); if (ni) { ni.value = ''; ni.focus() } break }
-        case 'custrm': { const k = a.dataset.k, l = custList(d[k]); l.splice(+v, 1); d[k] = l.join(', '); stepRender(); break }
+        case 'custrm': { const k = a.dataset.k, l = custList(d[k]); const gone = l.splice(+v, 1)[0], pk = Object.keys(CUSTK).find(z => CUSTK[z] === k), ig = pk && IMPG[pk]; if (ig && gone && !d[pk].includes(gone)) delete d[ig][gone]; d[k] = l.join(', '); syncOther(d); stepRender(); break }
         case 'subadd': { const el = $('#subin'), t = (el && el.value || '').trim(); if (!t) { el && el.focus(); break } d.subs = d.subs || []; if (!d.subs.some(x => x.toLowerCase() === t.toLowerCase())) d.subs.push(t); stepRender(); $('#subin')?.focus(); break }
         case 'subrm': d.subs.splice(+v, 1); stepRender(); break;
         case 'addh': d.holders.push({ n: '', p: '' }); stepRender(); break;
