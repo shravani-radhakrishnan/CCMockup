@@ -5957,7 +5957,7 @@
     .sk2-left {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 18px;
+      gap: 12px;
       min-width: 0
     }
 
@@ -7978,6 +7978,128 @@
     }
 
     /* ===== candidate comparison table ===== */
+    .sk2-left>.ph {
+      margin-bottom: 0
+    }
+
+    .sk2-left>.mhead,
+    .sk2-left>.sqtabs {
+      margin: 0
+    }
+
+    .mhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 0 0 14px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--slate-dd), var(--slate));
+      color: #fff;
+      box-shadow: 0 14px 30px -16px rgba(44, 62, 76, .55)
+    }
+
+    .mh-ic {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .18)
+    }
+
+    .mh-ic svg {
+      width: 18px;
+      height: 18px
+    }
+
+    .mh-t {
+      display: grid;
+      gap: 2px;
+      flex: 1;
+      min-width: 220px
+    }
+
+    .mh-t b {
+      font-size: 17px;
+      color: #fff
+    }
+
+    .mh-t span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .8)
+    }
+
+    .mh-c {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .mh-i {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 12px 0 6px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600
+    }
+
+    .mh-i b {
+      display: grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      border-radius: 99px;
+      background: #fff;
+      color: var(--slate-dd);
+      font-size: 12px
+    }
+
+    .mh-i:hover {
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .mh-i.active {
+      background: #fff;
+      color: var(--slate-dd);
+      border-color: #fff
+    }
+
+    .mh-i.active b {
+      background: var(--slate-dd);
+      color: #fff
+    }
+
+    .mpager {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 14px 0 6px;
+      padding: 16px 18px;
+      border: 1px dashed var(--line-2);
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: 13.5px
+    }
+
+    .mpager .mp-a {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
     .cview {
       display: flex;
       justify-content: flex-end;
@@ -11548,7 +11670,7 @@
     const ini = n => /^CC-/.test(n) ? 'CC' : n.split(' ').map(x => x[0]).join('');
     const extCache = {};
     function extC(id) {
-      if (extCache[id]) return extCache[id]; const c = CANDIDATES.find(x => x.id === id), rate = parseInt((String(c.rate).match(/\d+/) || [0])[0]) || 0;
+      if (extCache[id]) return extCache[id]; const c = ALLC.find(x => x.id === id), rate = parseInt((String(c.rate).match(/\d+/) || [0])[0]) || 0;
       return extCache[id] = { id: c.id, n: c.id, r: c.role, y: c.exp + ' of experience', tz: c.region, rate, bw: 40, av: c.avail, m: c.match, spec: c.standout[0], proj: c.why[0], sk: [...new Set(c.skills)], ind: c.industries, ver: 1, pc: 0, fit: [['Must have', c.match], ['Preferred', Math.max(60, c.match - 8)], ['Bonus', Math.max(50, c.match - 20)]], lang: [['English', 'Fluent']], edu: EDU_SAMPLES[(parseInt(String(c.id).replace(/\D/g, ''), 10) || 0) % EDU_SAMPLES.length], certs: c.certs, exp: c.standout.map((s, i) => [i ? 'Earlier' : 'Recent', s, 'Cloud Club vetted engagement']), jobs: workHistory(c) }
     }
     const getC = i => typeof i === 'string' ? extC(i) : CONS[i];
@@ -11625,13 +11747,14 @@
     function vResults() {
       const c = S.cur, x = SEARCHES[S.pidx] || { title: c.t, role: '' }, d = postedWiz(x).d, tab = S.rtab || 'cons';
       const nm = matchCount(d); if (x.posted) x.n = nm; if (x.posted && nm > 0 && (S.rtab || 'cons') === 'cons') S.reviewed = true;
-      NS = x.resNS || (x.resNS = Object.assign(freshNS(true), { candJustEntered: false })); NS.noMatch = nm === 0;
+      NS = x.resNS || (x.resNS = Object.assign(freshNS(true), { candJustEntered: false })); NS.noMatch = nm === 0; if (x.posted && nm > 0 && NS.moreLoaded) x.n = nm + EXTRA_CANDS.length;
       if (nm === 0 && NS.kind !== 'none' && NS.messages.length <= 1) { NS.messages = [{ who: 'bot', text: `Thanks for posting <b>${esc(x.title)}</b>. I couldn’t find consultants in our network with this skill set yet.<br><br>Our talent team can source candidates for you — use <b>Contact our team</b> and tell them what you need. You can also adjust the requirements in the Job posting tab.` }]; NS.kind = 'none' }
       else if (nm > 0 && NS.kind === 'none') { NS.messages = []; NS.kind = 'ok' }
       if (!NS.messages.length) { const top = [...CANDIDATES].sort((a, b) => b.match - a.match).slice(0, 2); NS.messages.push({ who: 'bot', text: `Good news — I found <b>${CANDIDATES.length} consultants</b> matching <b>${esc(x.title)}</b>.<br><br>Your closest matches are <b>${top[0].id}</b> (${top[0].match}%) and <b>${top[1].id}</b> (${top[1].match}%). Ask me to narrow the list, compare consultants, or help you book interviews.` }) }
       const mo = d.start && d.end ? Math.max(1, Math.round((new Date(d.end) - new Date(d.start)) / 2.63e9)) : 6;
       const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · No matches yet</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
- <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
+ ${tab === 'cons' && nm > 0 ? matchBanner() : ''}
+ <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm + (nm > 0 && NS.moreLoaded ? EXTRA_CANDS.length : 0)}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
  ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
  <div class="skai">${candidatesBody()}</div>`}`
       return `<div class="sk2${NS.min ? ' min' : ''}"><div class="sk2-left">${main}</div><div class="skai sk2-host">${skChat()}</div></div>${slotsModal()}`
@@ -11961,6 +12084,13 @@
         standout: ['Delivered 20+ internal tools for a retailer', 'Automated order routing with serverless workflows']
       }
     ];
+    /* extra profiles revealed by "Ask Cloud Club for more profiles": broader criteria, so lower fit */
+    const EXTRA_CANDS = [
+      Object.assign({}, CANDIDATES[1], { id: 'CC-174', fit: 'Potential match', match: 68, role: 'Cloud Data Platform Engineer', avail: 'Available in ~3 weeks', availLater: true, exp: '9 years', rate: '$130–150/hr', extra: true }),
+      Object.assign({}, CANDIDATES[3], { id: 'CC-182', fit: 'Potential match', match: 65, role: 'Data Integration Engineer (Snowflake / dbt)', avail: 'Available in ~4 weeks', availLater: true, exp: '8 years', rate: '$125–145/hr', extra: true }),
+      Object.assign({}, CANDIDATES[4], { id: 'CC-190', fit: 'Potential match', match: 61, role: 'Analytics Engineer & Cloud Migration Lead', avail: 'Available in ~6 weeks', availLater: true, exp: '7 years', rate: '$120–140/hr', extra: true })
+    ];
+    const ALLC = CANDIDATES.concat(EXTRA_CANDS), pool = () => NS && NS.moreLoaded ? ALLC : CANDIDATES;
 
     const TIPS = [
       'Consultants who respond to a brief within 24 hours are matched 2x faster.',
@@ -12247,26 +12377,38 @@
       <tr class="cmp-act"><th></th>${list.map(c => `<td><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button> <button class="btn primary sm" data-bookinterview="${c.id}">Request interview</button></td>`).join('')}</tr></tbody>
   </table></div>`;
     }
+    function matchBanner() {
+      if (!NS.posted || NS.stage !== 'results') return '';
+      const P = pool();
+      return `<div class="mhead"><span class="mh-ic">${IC.check}</span><div class="mh-t"><b>We found ${P.length} consultant${P.length === 1 ? '' : 's'} that fit${P.length === 1 ? 's' : ''} your search</b><span>Ranked by fit with your requirements. Scroll down to review each profile, then view it or book an interview.</span></div></div>`
+    }
     function candidatesBody() {
       if (!NS.posted) return `<div class="lockpanel"><span class="lk"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><h3>Post your job to see matched consultants</h3><p>Skai only matches consultants once your job is posted. Finish your brief, then post it — your shortlist appears here in seconds.</p><button class="btn primary" data-search-matches ${NS.pct >= 10 ? '' : 'disabled'}>${ICON.users} Post job &amp; find matches</button>${NS.pct >= 10 ? '' : '<small>Add a few details to your brief first.</small>'}</div>`;
       if (NS.stage !== 'results') return `<div class="empty">Run a search to see matched candidates here.</div>`;
-      let list = CANDIDATES.filter(c => {
+      let list = pool().filter(c => {
         if (NS.filter.fit && c.fit !== NS.filter.fit) return false;
         if (NS.filter.avail === 'Now' && c.availLater) return false;
         if (NS.filter.avail === '≤2 weeks' && c.availLater) return false;
         return true;
       });
-      const cardsHtml = list.map((c, i) => candCard(c, i)).join('') || `<div class="empty">No candidates match these filters.</div>`;
+      const vis = list, nx = list.filter(c => c.extra).length;
+      const cardsHtml = vis.map((c, i) => candCard(c, i)).join('') || `<div class="empty">No candidates match these filters.</div>`;
+      const filt = NS.filter.fit || NS.filter.avail;
+      const pager = NS.cview === 'table' || !list.length ? '' : filt
+        ? `<div class="mpager end"><span>Showing ${list.length} consultant${list.length === 1 ? '' : 's'} for these filters.</span></div>`
+        : NS.moreLoaded
+          ? `<div class="mpager end"><span><b>That's everyone available right now.</b> Showing all ${list.length} consultants, including ${nx} added from broader criteria. We'll let you know when new consultants match this search.</span><div class="mp-a"><button class="btn" data-a="toast" data-v="Done. We'll notify you when new consultants match this search">Notify me of new matches</button></div></div>`
+          : `<div class="mpager end"><span>Showing all ${list.length} matched consultants. Need more options?</span><div class="mp-a"><button class="btn p" data-loadmore="1">View more profiles</button></div></div>`;
       NS.candJustEntered = false;
       return `
   <div class="ctool">
     <div class="filter-row">
       <div class="fgrp"><span class="flabel">Available</span><div class="fchips">${['Now', '≤2 weeks'].map(v => `<button class="fchip ${NS.filter.avail === v ? 'active' : ''}" data-filter="avail:${v}">${v}</button>`).join('')}</div></div>
-      <div class="fgrp"><span class="flabel">Fit</span><div class="fchips">${['Top match', 'Strong match', 'Potential match'].map(v => `<button class="fchip ${NS.filter.fit === v ? 'active' : ''}" data-filter="fit:${v}">${v}</button>`).join('')}</div></div>
     </div>
   <div class="cview"><div class="seg"><button class="${NS.cview !== 'table' ? 'on' : ''}" data-cview="cards">Cards</button><button class="${NS.cview === 'table' ? 'on' : ''}" data-cview="table">Compare table</button></div></div>
   </div>
   ${NS.cview === 'table' ? cmpTable(list) : cardsHtml}
+  ${pager}
   <div style="text-align:center;font-size:11px;color:var(--faint);margin-top:6px">* Rates are estimates only. Final rates subject to Cloud Club pricing approval.</div>
   `;
     }
@@ -12278,7 +12420,7 @@
     <div class="cand-top">
       <div class="cand-id">
         <div class="cand-avatar">CC</div>
-        <div><div class="cand-name">${c.id} <span class="badge ${fitCls(c.fit)}">${c.fit}</span></div><div class="cand-role">${esc(c.role)}</div></div>
+        <div><div class="cand-name">${c.id} <span class="badge ${fitCls(c.fit)}">${c.fit}</span>${c.extra ? '<span class="badge fit-o" style="margin-left:6px">Broader match</span>' : ''}</div><div class="cand-role">${esc(c.role)}</div></div>
       </div>
       <div class="match-ring" data-match="${c.match}" data-color="${matchColor(c.match)}">${ringSVG(c.match, 46, 5, matchColor(c.match))}<div class="num">${c.match}</div></div>
     </div>
@@ -12394,7 +12536,7 @@
       return `${lead}<b>${c.id}</b> is a <b>${esc(c.fit)}</b> at ${c.match}% — ${esc(c.role)}.<br><br>• ${c.why.slice(0, 3).map(esc).join('<br>• ')}<br><br>Available: ${esc(c.avail)} · ${esc(c.exp)} · ${esc(c.rate)}. Want me to compare ${c.id} with the others or help you request an interview?`
     }
     function askSkai(id, sel) {
-      const c = CANDIDATES.find(x => x.id === id); if (!c || !NS || NS.typing) return;
+      const c = ALLC.find(x => x.id === id); if (!c || !NS || NS.typing) return;
       const ctx = skaiContext(c, sel); sendSkaiContext(ctx);
       NS.min = false;
       NS.messages.push({ who: 'user', text: sel ? `About “${sel.length > 140 ? sel.slice(0, 140) + '…' : sel}”: tell me more` : `Tell me more about ${c.id}`, ctx: { id: c.id, match: c.match, fit: c.fit } });
@@ -12528,6 +12670,7 @@
       { const el = q('[data-tab]'); if (el) { NS.activeTab = el.dataset.tab; rerender(); return } }
       if (q('[data-search-matches]')) { startSearch(); return }
       { const el = q('[data-expand]'); if (el) { NS.expanded[el.dataset.expand] = NS.expanded[el.dataset.expand] !== true; rerender(); return } }
+      if (q('[data-loadmore]')) { NS.moreLoaded = true; rerender(); toast(EXTRA_CANDS.length + ' more profiles added from broader criteria'); return }
       { const el = q('[data-filter]'); if (el) { const [k, v] = el.dataset.filter.split(':'); NS.filter[k] = NS.filter[k] === v ? null : v; rerender(); return } }
       { const el = q('[data-bookinterview]'); if (el) { bookExt(el.dataset.bookinterview); return } }
       { const el = q('[data-viewprofile]'); if (el) { profileExt(el.dataset.viewprofile); return } }
