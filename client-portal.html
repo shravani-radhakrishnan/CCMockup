@@ -9718,6 +9718,69 @@
       color: var(--amber)
     }
 
+    .nmx-st {
+      margin: 8px 0 4px
+    }
+
+    .nmx-eta {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--slate-tint-2);
+      color: var(--slate-dd);
+      font-size: 13.5px;
+      line-height: 1.5
+    }
+
+    .nmx-how {
+      margin-top: 16px
+    }
+
+    .nmx-how h4 {
+      margin: 0 0 6px;
+      font-size: 17px
+    }
+
+    .nmx-steps {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin: 16px 0 0;
+      padding: 0
+    }
+
+    .nmx-steps li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .nmx-steps li>span {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--slate-dd);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700
+    }
+
+    .nmx-steps b {
+      display: block;
+      font-size: 14px
+    }
+
+    .nmx-steps small {
+      color: var(--muted);
+      font-size: 13px
+    }
+
     .nmx-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
@@ -11413,12 +11476,12 @@
     function sqCard(x, i, del) {
       const top = [...CANDIDATES].sort((a, b) => b.match - a.match);
       let side = !x.posted ? `<aside class="sqa dr"><small>Draft</small><b class="sqa-t">${x.kind === 'wiz' ? 'Step ' + stepsOf(x) + ' of ' + STEPS.length : x.kind === 'guided' ? gCount(x.g) + ' of ' + GQ.length + ' details' : 'Not started'}</b><span class="sqa-s">Matches unlock once you post</span><button type="button" class="btn sm" data-a="opensearch" data-v="${i}">Continue draft ›</button></aside>`
-        : x.n === 0 ? `<aside class="sqa none"><div class="sqa-row"><span class="sqa-ic">${IC.users}</span><b class="sqa-t">No matches yet</b></div><span class="sqa-s">${x.reach ? 'Request sent — our team will reach out shortly.' : 'Our team can help find candidates for this role.'}</span>${x.reach ? `<span class="sqa-done">${IC.check} Request sent</span>` : `<button type="button" class="btn p sm" data-a="reachlist" data-v="${i}" ${x.closed ? 'disabled' : ''}>${IC.chat} Contact our team</button>`}</aside>`
+        : x.n === 0 ? `<aside class="sqa none"><div class="sqa-row"><span class="sqa-ic">${IC.users}</span><b class="sqa-t">Sourcing in progress</b></div><span class="sqa-s">Our talent team is on it. Shortlist in 24–48 hours.</span><span class="sqa-done">${IC.check} Talent team notified</span></aside>`
           : `<aside class="sqa ok"><small>Matched consultants</small><b class="sqa-t">${x.n} consultant${x.n === 1 ? '' : 's'}</b><span class="sqa-av" aria-hidden="true">${Array.from({ length: Math.min(x.n, 5) }, (_, k) => `<i style="background:${['#8fb2cb', '#e0a24a', '#7fc4a8', '#c9a3d6', '#e08f7a'][k % 5]}">${CONS_AV[k % 5]}<img src="https://i.pravatar.cc/56?img=${[12, 32, 47, 5, 68][k % 5]}" alt="" loading="lazy" onerror="this.remove()"></i>`).join('')}</span><span class="sqa-s">Top match ${top[0].match}% · ready to review</span><button type="button" class="btn light sm" data-a="opensearch" data-v="${i}" ${x.closed ? 'disabled title="Reopen this posting to view matches"' : ''}>View matches ›</button></aside>`;
       if (del) side = side.replace(/ data-a="[^"]*"| data-v="[^"]*"/g, '').replace(/<button /g, '<button disabled ');
       const ed = !del && S.sqEdit === i;
       return `<div class="card sq${del ? ' dr dl' : x.posted ? '' : ' dr'}${!del && x.closed ? ' cl' : ''}${ed ? ' ed' : ''}"><div class="sqm"><div class="sqm-l">
-    <div class="sq-meta">${del ? `<span class="pill rd"><i></i>${x.wasPosted ? 'Deleted posting' : 'Deleted draft'}</span>` : x.closed ? '<span class="pill cd"><i></i>Closed</span>' : x.posted ? (x.n === 0 ? `<span class="pill am"><i></i>Posted · No matches yet</span>` : `<span class="pill ok"><i></i>Posted · Matches ready</span>`) : '<span class="pill am"><i></i>Draft · not posted</span>'}<span>· created ${x.created}${del ? ' · deleted ' + x.deletedOn : ''}</span></div>
+    <div class="sq-meta">${del ? `<span class="pill rd"><i></i>${x.wasPosted ? 'Deleted posting' : 'Deleted draft'}</span>` : x.closed ? '<span class="pill cd"><i></i>Closed</span>' : x.posted ? (x.n === 0 ? `<span class="pill am"><i></i>Posted · Sourcing in progress</span>` : `<span class="pill ok"><i></i>Posted · Matches ready</span>`) : '<span class="pill am"><i></i>Draft · not posted</span>'}<span>· created ${x.created}${del ? ' · deleted ' + x.deletedOn : ''}</span></div>
     ${ed ? `<div class="sq-form"><label class="sq-fld"><span>Project name</span><input class="in" data-sqin value="${esc(x.title)}" maxlength="120" placeholder="e.g. Senior Cloud Data Engineer — Migration" aria-label="Project name"></label><label class="sq-fld"><span>Role</span><input class="in" data-sqrole value="${esc(x.role || '')}" maxlength="80" placeholder="e.g. Senior Cloud Data Engineer" aria-label="Role"></label><div class="sq-fa"><button class="btn p sm" data-a="sqsave" data-v="${i}" ${x.title.trim() ? '' : 'disabled'}>Save changes</button><button class="btn sm" data-a="sqcancel">Cancel</button></div></div>` : (x.closed || del) ? `<div class="sq-ttl"><h3>${esc(x.title)}</h3></div><div class="sq-role">${esc(x.role)}</div>` : `<div class="sq-ttl"><button type="button" class="sq-ef" data-a="sqedit" data-v="${i}" title="Click to edit project name" aria-label="Edit project name"><h3>${esc(x.title)}</h3></button><span class="sq-info" tabindex="0" role="note" aria-label="Click the project name or role to edit them" data-note="Tip: click the project name or the role to edit them."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span></div><button type="button" class="sq-ef sq-ef-r" data-a="sqedit" data-v="${i}" title="Click to edit role" aria-label="Edit role"><span class="sq-role">${esc(x.role)}</span></button>`}
     <p class="sq-snip">${del ? (x.wasPosted ? 'This posting was deleted and its matches were removed. Kept here as history.' : 'This draft was deleted before it was posted.') : x.posted ? (x.n === 0 ? 'We don’t have consultants with this skill set yet. Our team can source candidates for you.' : esc(x.snippet || 'Job posted — your matched consultants are ready to review.')) : esc(draftSnip(x))}</p><div class="sq-foot">${(() => {
           if (x.posted) { const d = postedWiz(x).d, ch = [[IC.pin, d.wloc || 'Remote'], [IC.clock, (d.hours || '40') + ' hrs/week']]; if (d.bamt) ch.push([IC.card || '', '$' + d.bamt + (d.btype === 'Monthly budget' ? '/month' : '/hour')]); return `<div class="sq-facts">${ch.map(c => `<span class="sq-f">${c[0]}${esc(c[1])}</span>`).join('')}</div>` }
@@ -11449,7 +11512,7 @@
 
     function vOffers() {
       const posted = SEARCHES.filter(x => x.posted), drafts = SEARCHES.length - posted.length, pipe = posted.reduce((a, x) => a + (x.n || 0), 0);
-      const st = x => !x.posted ? ['', 'Draft'] : x.n === 0 ? ['am', x.reach ? 'Team sourcing' : 'No matches yet'] : ['ok', 'Matches ready'];
+      const st = x => !x.posted ? ['', 'Draft'] : x.n === 0 ? ['am', 'Sourcing in progress'] : ['ok', 'Matches ready'];
       const bud = x => { const d = x.wiz && x.wiz.d || (x.posted ? postedWiz(x).d : null); if (!d || !d.bamt) return '—'; const u = { 'Monthly budget': '/month', 'Fixed project budget': ' total' }[d.btype] || '/hour'; return '$' + esc(d.bamt) + u };
       return `<div class="ph"><div><h1>Job postings</h1><p>Every job posting from your Searches, with its current status.</p></div><div class="r"><button class="btn p" data-a="newoffer">${IC.plus} New Job Posting</button></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Open offers', posted.length], ['Candidates in pipeline', pipe], ['Drafts not posted', drafts]].map(s => `<div class="card stat"><small>${s[0]}</small><b data-count="${s[1]}">${s[1]}</b></div>`).join('')}</div>
@@ -11724,38 +11787,42 @@
       JP_OPT = false; w.step = keep;
       return `<div class="jp stagger"><div class="jpnote">${IC.edit} Edit any field below and click <b>Save changes</b>.</div>${secs}<div class="jpsave"><button class="btn p" data-a="jpsave">${IC.check} Save changes</button></div></div>`
     }
+    /* zero matches: the talent team is notified automatically, the client never has to ask */
+    const CAL_URL = 'https://calendly.com/huntersharf';
+    function ensureSourcing(x) {
+      if (!x || !x.posted || x.n !== 0 || x.sourcing) return;
+      x.sourcing = { id: '#NM-' + (1000 + SEARCHES.indexOf(x) * 7 + 21), at: 'Today' }; x.reach = true;
+      const L = S.notifs = S.notifs || NOTIFS.map(n => ({ ...n }));
+      L.unshift({ k: 's', t: 'Sourcing in progress', s: 'Our talent team is finding consultants for ' + (x.title || 'your job'), w: 'Just now', go: 'searches', u: 1 })
+    }
     function noMatchPanel(x, d) {
+      ensureSourcing(x);
       const typed = [].concat(String(d.osw || '').split(','), String(d.oprod || '').split(','), String(d.otech || '').split(',')).map(t => t.trim()).filter(Boolean);
       const miss = (d.nmSkills && d.nmSkills.length) ? d.nmSkills : typed;
       const have = [...(d.sw || []), ...(d.prods || []), ...(d.tech || [])].filter(t => t !== 'Other' && !miss.includes(t));
       const chips = (l, c) => l.map(t => `<span class="nmx-chip ${c}">${esc(t)}</span>`).join('');
-      const r = x.reachInfo, num = '#NM-' + (1000 + SEARCHES.indexOf(x) * 7 + 21);
-      const sum = [['Role', x.role || x.title], ['Hours', (d.hours || '40') + ' hours/week'], ['Budget', d.bamt ? '$' + esc(d.bamt) + (d.btype === 'Monthly budget' ? '/month' : '/hour') : '—'], ['Start', d.start ? fmtDate(d.start) : (x.starts || '—')]];
-      const req = x.reach ? `<div class="nmx-done"><span class="nmx-ok">${IC.check}</span><div><h4>Request sent to our team</h4><p>Thanks — we’ve received your request <b>${num}</b>. A member of our talent team will reach out to you within <b>1–2 business days</b> to go through your requirements and start sourcing consultants for this role.</p></div></div>`
-        : x.nmOpen ? `<h4>Tell our team what you need</h4><p class="nmx-sub">We’ll source candidates for this role. Your posting details are included automatically.</p>
-     <div class="nmx-sum">${sum.map(k => `<div><small>${k[0]}</small><b>${esc(k[1])}</b></div>`).join('')}</div>
-     <div class="row2"><div class="fld"><label>Urgency</label><select class="in" id="nmUrg"><option>Immediately</option><option selected>Within a month</option><option>Flexible</option></select></div><div class="fld"><label>Preferred contact</label><select class="in" id="nmCh"><option>Email</option><option>Phone call</option></select></div></div>
-     <div class="fld"><label>Anything our team should know?</label><textarea class="in" id="nmNote" maxlength="250" placeholder="e.g. Flexible on seniority, must know our core banking system…"></textarea></div>
-     <div class="nmx-act"><button class="btn p" data-a="reachsend">${IC.send} Send to our team</button><button class="btn" data-a="reachcancel">Cancel</button></div>`
-          : `<h4>Let our team find the right person</h4><p class="nmx-sub">Our talent team sources consultants beyond our current network and sends you a vetted shortlist — usually within a few business days.</p>
-     <div class="nmx-act"><button class="btn p" data-a="reachteam">${IC.chat} Contact our team</button></div>`;
-      return `<div class="nmx stagger"><div class="card nmx-top"><span class="nm-ic">${IC.users}</span><div><h3>No matching consultants yet</h3>
-   <p>Your job is posted and saved. We don’t currently have consultants with ${miss.length ? 'this skill set' : 'this combination of skills'} — but we can still help you find someone.</p>
-   ${miss.length || have.length ? `<div class="nmx-sk">${miss.length ? `<span class="nmx-l">Not in our network</span>${chips(miss, 'miss')}` : ''}${have.length ? `<span class="nmx-l">Requested</span>${chips(have, '')}` : ''}</div>` : ''}</div></div>
-   <div class="nmx-grid" style="grid-template-columns:1fr"><div class="card nmx-req">${req}</div></div></div>`
+      const steps = [['Our trusted network first', 'Technical leads and consultants we’ve worked with, plus their referrals.'], ['Qualification and human screening', 'Every new candidate is qualified and personally screened by our team.'], ['Technical review', 'Candidates are technically reviewed before we recommend them to you.']];
+      return `<div class="nmx stagger"><div class="card nmx-top"><span class="nm-ic">${IC.users}</span><div><h3>No immediate matches. We’re on it.</h3>
+   <span class="pill am nmx-st"><i></i>Sourcing in progress</span>
+   <p>Our platform is new. Our network and expertise aren’t. Not every consultant in our extended network is onboarded yet, but our talent team has made 1,000+ placements and is already sourcing for your job.</p>
+   <div class="nmx-eta">${IC.clock || ''}<span><b>Our goal is to deliver a vetted shortlist within 24–48 hours.</b> Your talent team was notified automatically (request ${x.sourcing ? x.sourcing.id : ''}). New consultants appear here with their match scores and why they’re a fit, and we’ll notify you.</span></div>
+   ${miss.length || have.length ? `<div class="nmx-sk">${miss.length ? `<span class="nmx-l">Not onboarded yet</span>${chips(miss, 'miss')}` : ''}${have.length ? `<span class="nmx-l">Requested</span>${chips(have, '')}` : ''}</div>` : ''}
+   <div class="nmx-act" style="margin-top:18px"><button class="btn p" data-a="schedcall">${IC.phone} Schedule a Call</button><button class="btn" data-a="editreq">${IC.edit} Edit Requirements</button></div></div></div>
+   <div class="card nmx-how"><h4>How We Find Your Experts</h4><p class="nmx-sub">We tap trusted technical leads, consultants we’ve worked with, and their referrals. New candidates undergo qualification, human screening, and technical review before being recommended.</p>
+   <ol class="nmx-steps">${steps.map((st, k) => `<li><span>${k + 1}</span><div><b>${st[0]}</b><small>${st[1]}</small></div></li>`).join('')}</ol></div></div>`
     }
     function vResults() {
       const c = S.cur, x = SEARCHES[S.pidx] || { title: c.t, role: '' }, d = postedWiz(x).d, tab = S.rtab || 'cons';
       const nm = matchCount(d); if (x.posted) x.n = nm; if (x.posted && nm > 0 && (S.rtab || 'cons') === 'cons') S.reviewed = true;
       NS = x.resNS || (x.resNS = Object.assign(freshNS(true), { candJustEntered: false })); NS.noMatch = nm === 0; if (x.posted && nm > 0 && NS.moreLoaded) x.n = nm + EXTRA_CANDS.length;
-      if (nm === 0 && NS.kind !== 'none' && NS.messages.length <= 1) { NS.messages = [{ who: 'bot', text: `Thanks for posting <b>${esc(x.title)}</b>. I couldn’t find consultants in our network with this skill set yet.<br><br>Our talent team can source candidates for you — use <b>Contact our team</b> and tell them what you need. You can also adjust the requirements in the Job posting tab.` }]; NS.kind = 'none' }
+      if (nm === 0 && NS.kind !== 'none' && NS.messages.length <= 1) { NS.messages = [{ who: 'bot', text: `Thanks for posting <b>${esc(x.title)}</b>. There are no immediate matches in our network yet, but our talent team has been notified and is already sourcing for you.<br><br>Our goal is to deliver a vetted shortlist within <b>24–48 hours</b>. New consultants will appear here with their match scores and why they’re a fit, and I’ll let you know when they arrive. In the meantime I can explain how sourcing works, or you can edit your requirements or schedule a call.` }]; NS.kind = 'none' }
       else if (nm > 0 && NS.kind === 'none') { NS.messages = []; NS.kind = 'ok' }
       if (!NS.messages.length) { const top = [...CANDIDATES].sort((a, b) => b.match - a.match).slice(0, 2); NS.messages.push({ who: 'bot', text: `Good news — I found <b>${CANDIDATES.length} consultants</b> matching <b>${esc(x.title)}</b>.<br><br>Your closest matches are <b>${top[0].id}</b> (${top[0].match}%) and <b>${top[1].id}</b> (${top[1].match}%). Ask me to narrow the list, compare consultants, or help you book interviews.` }) }
       const mo = d.start && d.end ? Math.max(1, Math.round((new Date(d.end) - new Date(d.start)) / 2.63e9)) : 6;
-      const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · No matches yet</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
+      const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · Sourcing in progress</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
  ${tab === 'cons' && nm > 0 ? matchBanner() : ''}
  <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm + (nm > 0 && NS.moreLoaded ? EXTRA_CANDS.length : 0)}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
- ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="toast" data-v="Call request sent — we'll be in touch">${IC.phone} Need help? Schedule a call</button></div>
+ ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="schedcall">${IC.phone} Need help? Schedule a call</button></div>
  <div class="skai">${candidatesBody()}</div>`}`
       return `<div class="sk2${NS.min ? ' min' : ''}"><div class="sk2-left">${main}</div><div class="skai sk2-host">${skChat()}</div></div>${slotsModal()}`
     }
@@ -12497,16 +12564,18 @@
       applyAiToForm(p);
       return [...new Set(Object.keys(p).map(k => SK_LBL[k]).filter(Boolean))]
     }
-    const RES_NONE = ['Contact our team', 'What can I change to get matches?'];
+    const RES_NONE = ['How does sourcing work?', 'When will I get my shortlist?', 'Edit my requirements', 'Schedule a call'];
     const RES_SUG = ['Show only top matches', 'Who is available now?', 'Compare them side by side'];
     const candVisible = () => CANDIDATES.filter(c => (!NS.filter.fit || c.fit === NS.filter.fit) && (!NS.filter.avail || !c.availLater));
     function skResultsReply(t) {
       const q = t.toLowerCase();
       if (NS.noMatch) {
         const x = SEARCHES[S.pidx];
-        if (/reach|team|contact|source|help|talk/.test(q)) { if (x && x.reach) return `Your request is already with our talent team — they’ll email <b>${esc(ORG.email)}</b> within 1–2 business days.`; if (x) { x.nmOpen = true; setTimeout(() => { render(false); document.querySelector('.nmx-req')?.scrollIntoView({ block: 'center' }) }, 0) } return `I’ve opened a short request form next to your posting. Add anything the team should know and press <b>Send to our team</b> — they’ll email <b>${esc(ORG.email)}</b> within 1–2 business days.` }
-        if (/change|broaden|adjust|why|match|edit/.test(q)) return `Try removing the “Other” products or skills, or marking niche skills as <b>Preferred</b> instead of <b>Must have</b>. Edit them in the <b>Job posting</b> tab and I’ll check for matches again.`
-        return `I couldn’t find matches for this role yet. Ask me to <b>reach out to our team</b>, or edit the requirements in the Job posting tab.`
+        if (/call|schedule|talk|meet|book/.test(q)) { window.open(CAL_URL, '_blank', 'noopener'); return `I’ve opened our scheduling calendar in a new tab so you can pick a time with our talent team.` }
+        if (/edit|change|requirement|adjust|broaden|update/.test(q)) { setTimeout(() => { S.rtab = 'job'; render(false); window.scrollTo(0, 0) }, 0); return `Opening the <b>Job posting</b> tab. You can edit any field there and save, no need to start over. Sourcing keeps going and we’ll adjust it to your changes.` }
+        if (/when|long|how soon|hours|shortlist|status|notify|update|wait/.test(q)) return `Our goal is a vetted shortlist within <b>24–48 hours</b>. Our talent team already has your request${x && x.sourcing ? ' (<b>' + x.sourcing.id + '</b>)' : ''}. New consultants are added to this job with their match scores and why they’re a fit, and you’ll get a notification when they arrive.`
+        if (/how|work|source|find|process|sourcing/.test(q)) return `Our talent team starts with trusted technical leads, consultants we’ve worked with, and their referrals. Every new candidate goes through qualification, human screening and a technical review before we recommend them to you.`
+        return `Sourcing is underway for this role, and your shortlist should arrive within <b>24–48 hours</b>. Ask me how sourcing works, when to expect candidates, or have me open your requirements or our scheduling calendar.`
       }
       const f = NS.filter, n = () => candVisible().length, pl = k => `${k} consultant${k === 1 ? '' : 's'}`;
       if (/perfect|top/.test(q)) { f.fit = 'Top match'; return `Filtered to <b>Top match</b> — showing ${pl(n())}. Say “show all” to clear the filters.` }
@@ -13166,6 +13235,8 @@
         case 'cprof': S.from = 'results'; S.pid = +v; S.view = 'cprofile'; window.scrollTo(0, 0); render(); break;
         case 'backres': S.view = S.from === 'skai' ? 'skai' : S.from === 'interviews' ? 'interviews' : 'results'; window.scrollTo(0, 0); render(); break;
         case 'reachlist': { const x = SEARCHES[+v]; if (x) { x.nmOpen = !x.reach; S.pidx = +v; S.rtab = 'cons'; S.cur = { t: x.jt || x.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; window.scrollTo(0, 0); render() } break }
+        case 'schedcall': window.open(CAL_URL, '_blank', 'noopener'); break;
+        case 'editreq': S.rtab = 'job'; render(false); window.scrollTo(0, 0); break;
         case 'reachteam': { const x = SEARCHES[S.pidx]; if (x) { x.nmOpen = true; render(false); document.querySelector('.nmx-req')?.scrollIntoView({ block: 'center' }) } break }
         case 'reachcancel': { const x = SEARCHES[S.pidx]; if (x) { x.nmOpen = false; render(false) } break }
         case 'reachsend': { const x = SEARCHES[S.pidx]; if (x) { const g = id => (document.getElementById(id) || {}).value || ''; x.reachInfo = { urg: g('nmUrg'), ch: g('nmCh'), note: g('nmNote') }; x.reach = true; x.nmOpen = false; x.reachMail = reachEmail(x); S.modal = 'reachmail'; render(false); toast('Request sent — our team will reach out within 1–2 business days') } break }
