@@ -7978,12 +7978,23 @@
     }
 
     /* ===== candidate comparison table ===== */
-    .sk2-left>.ph {
+    /* title, match banner and tabs stay in view while the list below scrolls */
+    .sk2-fix {
+      position: sticky;
+      top: 64px;
+      z-index: 15;
+      display: grid;
+      gap: 12px;
+      padding: 12px 0 10px;
+      background: var(--bg)
+    }
+
+    .sk2-fix>.ph {
       margin-bottom: 0
     }
 
-    .sk2-left>.mhead,
-    .sk2-left>.sqtabs {
+    .sk2-fix>.mhead,
+    .sk2-fix>.sqtabs {
       margin: 0
     }
 
@@ -11819,9 +11830,9 @@
       else if (nm > 0 && NS.kind === 'none') { NS.messages = []; NS.kind = 'ok' }
       if (!NS.messages.length) { const top = [...CANDIDATES].sort((a, b) => b.match - a.match).slice(0, 2); NS.messages.push({ who: 'bot', text: `Good news — I found <b>${CANDIDATES.length} consultants</b> matching <b>${esc(x.title)}</b>.<br><br>Your closest matches are <b>${top[0].id}</b> (${top[0].match}%) and <b>${top[1].id}</b> (${top[1].match}%). Ask me to narrow the list, compare consultants, or help you book interviews.` }) }
       const mo = d.start && d.end ? Math.max(1, Math.round((new Date(d.end) - new Date(d.start)) / 2.63e9)) : 6;
-      const main = `<div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · Sourcing in progress</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
+      const main = `<div class="sk2-fix"><div class="ph"><div><button class="tsback" data-go="searches">‹ Searches</button><h1>${esc(x.title)}</h1><p>${esc(x.role)} ${nm === 0 ? '<span class="pill am" style="margin-left:8px"><i></i>Posted · Sourcing in progress</span>' : '<span class="pill ok" style="margin-left:8px"><i></i>Posted</span>'}</p></div></div>
  ${tab === 'cons' && nm > 0 ? matchBanner() : ''}
- <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm + (nm > 0 && NS.moreLoaded ? EXTRA_CANDS.length : 0)}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div>
+ <div class="sqtabs" role="tablist"><button class="${tab === 'cons' ? 'on' : ''}" role="tab" data-a="rtab" data-v="cons">Matched consultants <em>${nm + (nm > 0 && NS.moreLoaded ? EXTRA_CANDS.length : 0)}</em></button><button class="${tab === 'job' ? 'on' : ''}" role="tab" data-a="rtab" data-v="job">Job posting</button></div></div>
  ${tab === 'job' ? jobTab(x) : nm === 0 ? noMatchPanel(x, d) : `<div class="card jsum stagger"><div style="flex:1;min-width:220px"><small style="color:var(--muted)">Review your matched consultants, then view a profile or book an interview.</small><div class="meta" style="margin-top:8px"><span class="pill">${IC.pin} ${esc(d.wloc || 'Remote')}</span><span class="pill">${esc(d.hours || '40')} hrs/week</span><span class="pill">$${esc(d.bamt || 90)}${d.btype === 'Monthly budget' ? '/month' : '/hour'}</span><span class="pill">${mo} months contract</span></div></div><button class="btn sm" data-a="schedcall">${IC.phone} Need help? Schedule a call</button></div>
  <div class="skai">${candidatesBody()}</div>`}`
       return `<div class="sk2${NS.min ? ' min' : ''}"><div class="sk2-left">${main}</div><div class="skai sk2-host">${skChat()}</div></div>${slotsModal()}`
