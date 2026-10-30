@@ -12458,7 +12458,7 @@
     function matchBanner() {
       if (!NS.posted || NS.stage !== 'results') return '';
       const P = pool();
-      return `<div class="mhead"><span class="mh-ic">${IC.check}</span><div class="mh-t"><b>We found ${P.length} consultant${P.length === 1 ? '' : 's'} that fit${P.length === 1 ? 's' : ''} your search</b><span>Ranked by fit with your requirements. Scroll down to review each profile, then view it or book an interview.</span></div></div>`
+      return `<div class="mhead"><span class="mh-ic">${IC.check}</span><div class="mh-t"><b>We found ${P.length} consultant${P.length === 1 ? '' : 's'} that fit${P.length === 1 ? 's' : ''} your search</b><span>Ranked by how well they match your requirements. Scroll down to review each consultant, view their full profile and resume, and book an interview.</span></div></div>`
     }
     function candidatesBody() {
       if (!NS.posted) return `<div class="lockpanel"><span class="lk"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><h3>Post your job to see matched consultants</h3><p>Skai only matches consultants once your job is posted. Finish your brief, then post it — your shortlist appears here in seconds.</p><button class="btn primary" data-search-matches ${NS.pct >= 10 ? '' : 'disabled'}>${ICON.users} Post job &amp; find matches</button>${NS.pct >= 10 ? '' : '<small>Add a few details to your brief first.</small>'}</div>`;
