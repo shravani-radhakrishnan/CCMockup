@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <title>Your CloudClub verification code</title>
+  <!-- Fonts are a progressive enhancement: clients that block web fonts fall back to Helvetica/Arial -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    @media only screen and (max-width: 520px) {
+      .wrap { padding: 20px 12px !important; }
+      .hd-pad { padding: 26px 22px 24px 22px !important; }
+      .bd-pad { padding: 28px 22px 26px 22px !important; }
+      .code { font-size: 30px !important; letter-spacing: 8px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#f8fafb;">
+  <!-- Inbox preview text -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#f8fafb;">Your CloudClub code is {{code}}. It expires in {{expires_minutes}} minutes.</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafb;">
+    <tr>
+      <td class="wrap" align="center" style="padding:40px 16px;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:560px;">
+          <tr>
+            <td style="background:#ffffff;border:1px solid #dfe4e8;border-radius:18px;overflow:hidden;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+
+                <!-- Brand header: slate gradient (solid fallback) -->
+                <tr>
+                  <td class="hd-pad" align="center" style="padding:32px 40px 30px 40px;background:#3e566a;background-image:linear-gradient(135deg,#2c3e4c,#547691);">
+                    <div style="font-family:Manrope,'DM Sans',Helvetica,Arial,sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.2px;color:#ffffff;">Cloud<span style="color:#b9cddc;">Club</span></div>
+                    <h1 style="margin:16px 0 0 0;font-family:Manrope,'DM Sans',Helvetica,Arial,sans-serif;font-size:26px;line-height:1.25;font-weight:800;letter-spacing:-0.3px;color:#ffffff;">Here&rsquo;s your verification code</h1>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="bd-pad" style="padding:34px 40px 30px 40px;font-family:'DM Sans',Helvetica,Arial,sans-serif;">
+                    <p style="margin:0 0 24px 0;font-size:15px;line-height:1.65;color:#495259;">Enter this code to finish verifying your email address.</p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="center" style="background:#eef2f5;border:1px solid #dfe4e8;border-radius:14px;padding:22px 12px;">
+                          <div class="code" style="font-family:Manrope,'DM Sans',Helvetica,Arial,sans-serif;font-size:36px;line-height:1.1;font-weight:800;letter-spacing:12px;color:#2c3e4c;padding-left:12px;">{{code}}</div>
+                        </td>
+                      </tr>
+                    </table>
+                    <p style="margin:24px 0 0 0;font-size:14px;line-height:1.6;color:#68727a;">
+                      This code expires in <strong style="color:#262b2f;">{{expires_minutes}} minutes</strong>.
+                      If you didn&rsquo;t request it, you can ignore this email &mdash; nothing will change.
+                    </p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:26px;">
+                      <tr><td style="border-top:1px solid #dfe4e8;font-size:0;line-height:0;height:1px;">&nbsp;</td></tr>
+                    </table>
+                    <p style="margin:18px 0 0 0;font-size:13px;line-height:1.6;color:#68727a;">
+                      Need help? Contact
+                      <a href="mailto:{{support_email}}" style="color:#547691;font-weight:600;text-decoration:none;">{{support_email}}</a>.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" style="padding:22px 12px 0 12px;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:12px;line-height:1.7;color:#8a949b;">
+              Sent by CloudClub &middot; Please do not reply to this automated message.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
