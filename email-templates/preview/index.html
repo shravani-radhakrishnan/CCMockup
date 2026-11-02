@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudClub email designs</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f8fafb;--surface:#fff;--ink:#262b2f;--body:#495259;--muted:#68727a;--line:#dfe4e8;--slate:#547691;--slate-dd:#2c3e4c}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--body);font:15px/1.6 'DM Sans',Helvetica,Arial,sans-serif}
+  .wrap{max-width:1240px;margin:0 auto;padding:40px 24px 72px}
+  h1{margin:0 0 6px;font:800 30px/1.2 Manrope,'DM Sans',Arial,sans-serif;letter-spacing:-.4px;color:var(--ink)}
+  .lead{margin:0 0 8px;color:var(--muted);max-width:720px}
+  .note{margin:0 0 30px;font-size:13px;color:var(--muted)}
+  .note code{background:#eef2f5;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:24px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .card header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 14px}
+  .card h2{margin:0 0 2px;font:800 17px/1.3 Manrope,'DM Sans',Arial,sans-serif;color:var(--ink)}
+  .card p{margin:0;font-size:13px;color:var(--muted)}
+  .open{flex:none;font-size:13px;font-weight:700;color:var(--slate);text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+  .open:hover{border-color:var(--slate)}
+  .frame{height:640px;border-top:1px solid var(--line);background:var(--bg)}
+  iframe{width:100%;height:100%;border:0;display:block}
+  @media (max-width:600px){.grid{grid-template-columns:1fr}.wrap{padding:28px 14px 56px}}
+</style></head>
+<body><div class="wrap">
+  <h1>CloudClub email designs</h1>
+  <p class="lead">Mockups of all six transactional emails with sample data filled in, so you can check the design in a browser. Click a card to open it full size.</p>
+  <p class="note">Production versions with placeholders such as <code>{{code}}</code> and <code>{{invite_url}}</code> are in the parent folder; these preview files only differ by the sample values.</p>
+  <div class="grid">
+    <section class="card">
+      <header><div><h2>Verification code</h2><p>Sent when someone requests a new code to verify their email.</p></div><a class="open" href="verification-code.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="verification-code.html" title="Verification code" loading="lazy"></iframe></div>
+    </section>
+    <section class="card">
+      <header><div><h2>Sign-up verification</h2><p>Sent at registration with the code and the address being verified.</p></div><a class="open" href="signup-verification.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="signup-verification.html" title="Sign-up verification" loading="lazy"></iframe></div>
+    </section>
+    <section class="card">
+      <header><div><h2>Team invitation</h2><p>A teammate invites someone to join their organization.</p></div><a class="open" href="team-invitation.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="team-invitation.html" title="Team invitation" loading="lazy"></iframe></div>
+    </section>
+    <section class="card">
+      <header><div><h2>Referral invite (client to consultant)</h2><p>Invites a consultant with a one-time referral code.</p></div><a class="open" href="referral-invite.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="referral-invite.html" title="Referral invite (client to consultant)" loading="lazy"></iframe></div>
+    </section>
+    <section class="card">
+      <header><div><h2>Consultant referral</h2><p>A consultant invites a peer, with an optional personal note.</p></div><a class="open" href="consultant-referral.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="consultant-referral.html" title="Consultant referral" loading="lazy"></iframe></div>
+    </section>
+    <section class="card">
+      <header><div><h2>Reference request</h2><p>Asks a referee to write a reference for a consultant.</p></div><a class="open" href="reference-request.html" target="_blank" rel="noopener">Open full size &#8599;</a></header>
+      <div class="frame"><iframe src="reference-request.html" title="Reference request" loading="lazy"></iframe></div>
+    </section>
+  </div>
+</div></body></html>

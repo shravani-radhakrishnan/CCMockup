@@ -6540,7 +6540,7 @@
       logs: {}, wk: {}, ts: null, pay: { f: 'All', proj: 'All', page: 0, per: 5 },
       payd: { bank: 'Banco Galicia', addr: 'Av. Corrientes 456, Buenos Aires', acct: '•••• •••• 3122', route: '•••• 5521' },
       prefs: { o: 1, i: 1, h: 1, p: 1, r: 1, tfa: 0 },
-      refcode: 'JOHN-CLUB-2026', rl: [{ who: 'aisha.bello@gmail.com', type: 'Consultant', code: 'CC-7KQ2-M9XA', d: 'Aug 12, 2026', st: 'Signed up' }, { who: 'ops@northwind.com', type: 'Client', code: 'CC-4TRN-8HWB', d: 'Jul 03, 2026', st: 'Invited' }]
+      rl: [{ who: 'aisha.bello@gmail.com', type: 'Consultant', code: 'CC-7KQ2-M9XA', d: 'Aug 12, 2026', st: 'Signed up' }, { who: 'ops@northwind.com', type: 'Client', code: 'CC-4TRN-8HWB', d: 'Jul 03, 2026', st: 'Invited' }]
     };
     try { S.avatar = localStorage.getItem('ccc_av') || ''; S.collapsed = localStorage.getItem('ccc_c') === '1'; S.theme = localStorage.getItem('ccc_t') || 'light' } catch (e) { }
     document.documentElement.dataset.theme = S.theme;
@@ -6554,7 +6554,7 @@
         skills: [], links: { linkedin: '', github: '', trail: '' }
       });
       (o.profiles || []).forEach(x => { const t = (x.type || '').toLowerCase(), k = /linkedin/.test(t) ? 'linkedin' : /github/.test(t) ? 'github' : /trail/.test(t) ? 'trail' : ''; if (k) P.links[k] = (x.url || '').replace(/^https?:\/\//, '') });
-      S.refs = []; S.ivs = []; S.offers = []; S.c2c = []; S.rl = []; S.payd = { bank: '', addr: '', acct: '', route: '' }; S.refcode = ME.first.toUpperCase() + '-CLUB-2026';
+      S.refs = []; S.ivs = []; S.offers = []; S.c2c = []; S.rl = []; S.payd = { bank: '', addr: '', acct: '', route: '' };
       S.notifs = [{ t: 'Welcome to Cloud Club', s: 'Complete your profile to start getting matched', w: 'Just now', go: 'profile', u: 1 }]
     })();
 
@@ -6942,13 +6942,15 @@
     }
 
     /* ================= REFERRALS ================= */
+    /* CC-<first 4 letters of the first name, topped up from the last name if shorter>-<4 random>, e.g. CC-OLIV-7KQ2 */
+    const genRef = () => { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', r = n => Array.from({ length: n }, () => A[Math.floor(Math.random() * A.length)]).join(''), az = v => String(v || '').normalize('NFD').replace(/[^A-Za-z]/g, '').toUpperCase(), f = (az(ME.first) + az(ME.last)).slice(0, 4); return 'CC-' + (f + r(4 - f.length)) + '-' + r(4) };
     function vReferrals() {
-      const R = S.rl;
-      return `<div class="ph"><div><h1>Earn Rewards with Cloud Club Referrals</h1><p>That’s why we’re offering attractive referral rewards when you help grow our network.</p></div><div class="r"><button class="btn p" data-a="mopen" data-v="refer">${IC.plus} Refer now</button></div></div>
-  <div class="grid g2 stagger" style="grid-template-columns:1fr">
-   <div class="card"><h3>Your referral code</h3><div style="display:flex;gap:10px"><input class="in" readonly value="${S.refcode}" style="font-weight:700;letter-spacing:.06em"><button class="btn p" data-a="copy" data-v="${S.refcode}">${IC.copy} Copy</button></div><p style="color:var(--muted)">Share this code when a peer or a client signs up.</p></div></div>
-  <div class="grid g3 stagger" style="margin:20px 0">${[['Referrals sent', R.length], ['Signed up', R.filter(r => r.st !== 'Invited').length], ['Hired', R.filter(r => r.st === 'Hired').length]].map(x => `<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
-  <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code || '—')}</td><td>${r.d}</td><td><span class="pill ${r.st === 'Hired' ? 'ok' : r.st === 'Signed up' ? 'am' : ''}"><i></i>${r.st}</span></td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">No referrals yet. Share your code or invite someone by email — each invite is listed here.</div></td></tr>'}</tbody></table></div>`
+      const R = S.rl; S.refcode = S.refcode || genRef();
+      return `<div class="ph"><div><h1>Earn Rewards with Cloud Club Referrals</h1><p>That’s why we’re offering attractive referral rewards when you help grow our network.</p></div></div>
+  <div class="grid g2 stagger"><div class="card"><h3>Your one-time referral code</h3><div style="display:flex;gap:10px"><input class="in" readonly value="${S.refcode}" style="font-weight:700;letter-spacing:.08em;font-family:ui-monospace,Menlo,monospace"><button class="btn p" data-a="refcopy">${IC.copy} Copy</button></div><p style="color:var(--muted);margin:10px 0 12px">${S.refShared ? '<b>Shared</b> — this code is now reserved for one person and can be used only once.' : 'Unique to this invite — it works for <b>one person only</b> and can be used once.'}</p><button class="btn sm" data-a="refnew">${S.refShared ? 'Generate a new code for someone else' : 'Generate a different code'}</button></div>
+   <div class="card"><h3>Invite by email</h3><div style="display:flex;gap:10px"><input class="in" id="refmail" placeholder="Gmail or company email, e.g. name@gmail.com"><button class="btn" data-a="refsend">Send</button></div><p style="color:var(--muted);margin:10px 0 0">Each invitation is sent with its own one-time code.</p></div></div>
+  <div class="grid g3 stagger" style="margin:20px 0">${[['Invites sent', R.length], ['Signed up', R.filter(r => r.st !== 'Invited').length], ['Hired', R.filter(r => r.st === 'Hired').length]].map(x => `<div class="card stat"><small>${x[0]}</small><b>${x[1]}</b></div>`).join('')}</div>
+  <div class="card tw"><h3 style="padding:18px 18px 0">Referral history</h3><table><thead><tr><th>Referred</th><th>One-time code</th><th>Date invited</th><th>Status</th></tr></thead><tbody>${R.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(r.who)}</b></td><td style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px">${esc(r.code || '—')}</td><td>${r.d}</td><td><span class="pill ${r.st === 'Hired' ? 'ok' : r.st === 'Signed up' ? 'am' : ''}"><i></i>${r.st}</span></td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">No referrals yet — share your one-time code or invite someone by email.</div></td></tr>'}</tbody></table></div>`
     }
 
     /* ================= SETTINGS ================= */
@@ -7245,6 +7247,9 @@
         case 'avpick': $('#avfile')?.click(); break;
         case 'avrm': S.avatar = ''; try { localStorage.removeItem('ccc_av') } catch (e) { } render(); toast('Photo removed'); break;
         case 'pref': S.prefs[v] = S.prefs[v] ? 0 : 1; render(); toast(S.prefs[v] ? 'Turned on' : 'Turned off'); break;
+        case 'refcopy': { try { navigator.clipboard.writeText(S.refcode) } catch (e) { } if (!S.refShared) { S.refShared = true; S.rl.unshift({ who: 'Shared by code — awaiting sign-up', type: '', code: S.refcode, d: dLong(D(0)), st: 'Invited' }) } render(false); toast('Code copied — it works for one person only'); break }
+        case 'refnew': S.refcode = genRef(); S.refShared = false; render(false); toast('New one-time code generated'); break;
+        case 'refsend': { const el = document.getElementById('refmail'), m = (el && el.value || '').trim(); if (!isMail(m)) { toast('Enter a valid email address'); el && el.focus(); break } S.rl.unshift({ who: m, type: '', code: genRef(), d: dLong(D(0)), st: 'Invited' }); render(false); toast('Invitation sent to ' + m + ' with a one-time code'); break }
         case 'copy': { try { navigator.clipboard.writeText(v) } catch (e) { } toast('Copied to clipboard'); break }
         case 'closeacct': toast('Your account has been closed'); setTimeout(() => { window.location.href = 'index.html' }, 900); break;
         case 'signout': toast('Signing you out…'); setTimeout(() => { window.location.href = 'index.html' }, 700); break;
