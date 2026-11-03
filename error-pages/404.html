@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found · CloudClub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#262b2f;--body:#495259;--mute:#68727a;--line:#dfe4e8;--bg:#f8fafb;--tint:#eef2f5;--s1:#2c3e4c;--s2:#3e566a;--s3:#547691;--s4:#b9cddc}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);font-family:'DM Sans',Helvetica,Arial,sans-serif;color:var(--body);
+background-image:radial-gradient(circle at 15% 10%,#e6edf2 0,transparent 45%),radial-gradient(circle at 85% 90%,#e6edf2 0,transparent 45%)}
+header{padding:22px 32px}
+.logo{font-family:Manrope,'DM Sans',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.2px;color:var(--s1);text-decoration:none}
+.logo span{color:var(--s3)}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 16px 56px}
+.card{width:100%;max-width:560px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:44px 40px 36px;text-align:center;box-shadow:0 12px 40px rgba(44,62,76,.08)}
+.art{width:220px;height:150px;margin:0 auto 6px;display:block}
+.code{font-family:Manrope,sans-serif;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--s3);margin:0 0 10px}
+h1{font-family:Manrope,sans-serif;font-weight:800;font-size:30px;line-height:1.2;letter-spacing:-.4px;color:var(--s1);margin:0 0 12px}
+p.lead{font-size:15.5px;line-height:1.65;margin:0 auto 26px;max-width:420px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{font:600 14.5px 'DM Sans',sans-serif;padding:12px 22px;border-radius:10px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.15s}
+.pri{background:linear-gradient(135deg,var(--s1),var(--s3));color:#fff}
+.pri:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.sec{background:#fff;color:var(--s1);border-color:var(--line)}
+.sec:hover{background:var(--tint)}
+.links{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--mute)}
+.links a{color:var(--s3);font-weight:600;text-decoration:none;margin:0 8px}
+.in-only{display:none}html.in .in-only{display:inline-block}html.in .out-only{display:none}.help{margin-top:12px;font-size:13px}.help a{margin:0}.links a:hover{text-decoration:underline}
+.ref{display:inline-flex;gap:8px;align-items:center;margin:0 0 24px;padding:8px 12px;background:var(--tint);border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--mute)}
+.ref b{font-family:ui-monospace,Menlo,monospace;color:var(--s1);font-weight:600}
+.ref button{border:0;background:none;color:var(--s3);font:600 13px 'DM Sans',sans-serif;cursor:pointer;padding:0}
+.float{animation:fl 5s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){.float{animation:none}}
+@media(max-width:520px){.card{padding:32px 22px 28px}h1{font-size:25px}header{padding:18px 20px}.btn{flex:1 1 100%;text-align:center}}
+</style></head><body>
+<header><a class="logo" href="#">Cloud<span>Club</span></a></header><main><div class="card">
+<svg class="art float" viewBox="0 0 220 150" fill="none" aria-hidden="true">
+<ellipse cx="110" cy="136" rx="62" ry="6" fill="#e3e9ee"/>
+<path d="M62 112h96a30 30 0 0 0 4-59.7A42 42 0 0 0 80 44a34 34 0 0 0-18 68z" fill="#eef2f5" stroke="#b9cddc" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="110" y="97" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="40" fill="#3e566a">404</text>
+<circle cx="176" cy="34" r="4" fill="#b9cddc"/><circle cx="40" cy="58" r="3" fill="#b9cddc"/><circle cx="188" cy="86" r="2.5" fill="#547691"/>
+</svg>
+<p class="code">Error 404</p>
+<h1>We can&rsquo;t find that page</h1>
+<p class="lead">The page you&rsquo;re looking for may have moved, been removed, or the link might be mistyped. Let&rsquo;s get you back on track.</p>
+<div class="btns"><a class="btn pri out-only" href="#">Go to home page</a><a class="btn pri in-only" href="#">Go to dashboard</a><a class="btn sec" href="javascript:history.back()">Go back</a></div>
+<div class="links"><a class="out-only" href="#">Log in again</a></div>
+</div></main><script>if(/[?&]loggedin=1/.test(location.search))document.documentElement.className="in"</script></body></html>
