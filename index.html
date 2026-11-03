@@ -3413,15 +3413,17 @@
       S.push({
         kind: 'form', group: 'Resume and Professional Profiles', q: 'Add your resume.', sub: 'So clients can see your background. You’ll add your experience details next.',
         body: () => {
-          const parseLabels = ['Reading document…', 'Extracting experience…', 'Identifying certifications…', 'Finalizing your profile…'];
+          const parseLabels = [['Extracting text and layout', 'Understanding your resume structure'], ['Identifying roles and employers', 'Analyzing your career journey'], ['Mapping clients and projects', 'Connecting your project experience'], ['Recognizing skills and tools', 'Mapping your technical expertise'], ['Identifying industries', 'Understanding your domain expertise'], ['Calculating experience', 'Evaluating your experience and proficiency'], ['Matching skills to taxonomy', 'Aligning skills with Cloud Club’s talent taxonomy'], ['Checking missing details', 'Validating your professional information'], ['Preparing your profile', 'Building your AI-powered talent profile']];
           let up;
           if (a.resume) {
             const enter = a.resumeJustDone ? ' upload-enter' : '';
             up = `<div class="upload filled${enter}" data-noop><span class="up-ic">${CHECK}</span><div class="up-main"><div class="up-t">Ramesh_Kumar_Resume.pdf</div><div class="up-s">Uploaded</div></div><div class="up-actions"><button type="button" class="up-btn" data-upload>Replace</button><button type="button" class="up-btn up-rm" data-rmresume aria-label="Remove resume" title="Remove resume">${ICON_TRASH}</button></div></div>`;
             a.resumeJustDone = false;
           } else if (a.uploadPct !== undefined) {
-            const idx = Math.min(parseLabels.length - 1, Math.floor(a.uploadPct / (100 / parseLabels.length)));
-            up = `<div class="upload parsing" data-noop>${uploadRingSVG(a.uploadPct)}<div class="up-main"><div class="up-t">${parseLabels[idx]}</div><div class="up-s parsing-status">${a.uploadPct.toFixed(2)}% complete</div><div class="up-bar"><span style="width:${a.uploadPct.toFixed(2)}%"></span></div></div><button type="button" class="up-btn" data-cancelupload>Cancel</button></div>`;
+            /* quick resumes show fewer stages, long ones show all of them (evenly spaced, first and last always kept) */
+            const n = Math.min(parseLabels.length, a.parseN || parseLabels.length), lbls = Array.from({ length: n }, (_, k) => parseLabels[Math.round(k * (parseLabels.length - 1) / Math.max(1, n - 1))]);
+            const idx = Math.min(n - 1, Math.floor(a.uploadPct / (100 / n)));
+            up = `<div class="upload parsing" data-noop>${uploadRingSVG(a.uploadPct)}<div class="up-main"><div class="up-t">${lbls[idx][0]}…</div><div class="up-s parsing-status">${lbls[idx][1]} · ${a.uploadPct.toFixed(2)}% complete</div><div class="up-bar"><span style="width:${a.uploadPct.toFixed(2)}%"></span></div></div><button type="button" class="up-btn" data-cancelupload>Cancel</button></div>`;
           } else {
             up = `<div class="upload" data-upload><div class="up-ic">⤒</div><div class="up-t">Upload your resume</div><div class="up-s">PDF or Word</div></div>`;
           }
@@ -4015,8 +4017,11 @@
       if (e.target.closest('[data-upload]')) {
         clearInterval(uploadTimer);
         a.uploadPct = 0; render();
+        /* resumes vary: a random speed per upload makes some finish in ~7s and others take 20s+ */
+        const spd = 0.45 + Math.random() * 1.3;
+        a.parseN = Math.round(5 + (1.75 - spd) / 1.3 * 4); /* fast parse: ~5 stages, slow parse: all 9 */
         const iv = uploadTimer = setInterval(() => {
-          a.uploadPct = Math.min(100, a.uploadPct + (10 + Math.random() * 12));
+          a.uploadPct = Math.min(100, a.uploadPct + (1.2 + Math.random() * 3.2) * spd);
           if (a.uploadPct >= 100) {
             clearInterval(iv);
             delete a.uploadPct;
@@ -4026,7 +4031,7 @@
             return;
           }
           render();
-        }, 260);
+        }, 300);
         return;
       }
       if (e.target.closest('[data-addprofile]')) { if (a.ptype && a.purl) { a.profiles = a.profiles || []; a.profiles.push({ type: a.ptype, url: a.purl }); a.purl = ''; render(); } return; }
