@@ -2175,6 +2175,20 @@
       .wiz {
         grid-template-columns: 1fr
       }
+
+      /* stacked layout: keep the vertical stepper look, but let it scroll away with the page instead of sticking over the form */
+      .wiz:not(.wiz-sk) .stepper {
+        position: static
+      }
+    }
+
+    /* side-by-side layout on short screens: keep the stepper sticky, but let it scroll inside its own column so nothing is cut off or covers the form */
+    @media(min-width:1001px) and (max-height:820px) {
+      .wiz:not(.wiz-sk) .stepper {
+        max-height: calc(100vh - 110px);
+        overflow-y: auto;
+        scrollbar-width: thin
+      }
     }
 
     .stepper {
@@ -7411,6 +7425,144 @@
       margin-left: auto
     }
 
+    /* multi-round interview tracker: inline timeline */
+    .rnd {
+      margin: 12px 0 2px;
+      padding: 12px 0 2px;
+      border-top: 1px dashed var(--line-2)
+    }
+
+    .rntl {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .rncount {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 4px
+    }
+
+    .rn {
+      display: flex;
+      gap: 9px;
+      align-items: center
+    }
+
+    .rn i {
+      flex: 0 0 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 700 12px Manrope;
+      font-style: normal;
+      border: 2px solid var(--line-2);
+      color: var(--muted);
+      background: var(--surface)
+    }
+
+    .rn i svg {
+      width: 12px;
+      height: 12px
+    }
+
+    .rn b {
+      display: block;
+      font-size: 12.5px;
+      color: var(--ink);
+      line-height: 1.25
+    }
+
+    .rn small {
+      display: block;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.25
+    }
+
+    .rn.ok i {
+      background: var(--ok);
+      border-color: var(--ok);
+      color: #fff
+    }
+
+    .rn.on i {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-tint)
+    }
+
+    .rn.x {
+      opacity: .55
+    }
+
+    .rn.lk b {
+      color: var(--muted)
+    }
+
+    .rnc {
+      flex: 1 1 28px;
+      min-width: 24px;
+      max-width: 90px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--line-2)
+    }
+
+    .rnc.ok {
+      background: var(--ok)
+    }
+
+    .rnact {
+      margin-left: auto
+    }
+
+    .rnp {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px 14px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .rnp>div:first-child {
+      flex: 1 1 200px
+    }
+
+    .rnp b {
+      font-family: Manrope;
+      font-size: 13.5px;
+      color: var(--ink)
+    }
+
+    .rnp p {
+      margin: 1px 0 0;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .rnp .rr {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .rnn {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
     .thm {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -11229,6 +11381,7 @@
       '<circle cx="12" cy="9" r="3.6"/><path d="M8.4 8.2c2 0 3.6-.8 4.6-2.2 1 1.4 2 2 2.6 2.2M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>',
       '<circle cx="12" cy="9" r="3.6"/><path d="M8.5 7.5h7M5 20c.8-4 3.6-6 7-6s6.2 2 7 6"/>'].map(p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`);
     const IC = {
+      info: I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
       cloud: I('<path d="M6 18a4 4 0 010-8 5 5 0 019.5-1.8A4.5 4.5 0 0118 18H6z"/>', 20, 2),
       building: I('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M10 21v-4h4v4"/>'),
       offer: I('<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
@@ -11460,7 +11613,7 @@
     function draftSnip(x) {
       if (x.cloned) return `Duplicated job posting — open it to update the job description ${x.via === 'skai' ? 'with Skai' : 'in the job form'}.`;
       if (x.kind === 'wiz') return `Job form · step ${stepsOf(x)} of ${STEPS.length} — pick up where you left off.`;
-      if (x.kind === 'guided') return `Skai conversation · ${gCount(x.g)} of ${GQ.length} details captured — pick up where you left off.`;
+      if (x.kind === 'guided') return `Skai conversation · ${gCount(x.g)} of ${gTot(x.g.A)} details captured — pick up where you left off.`;
       if (x.kind === 'skai') return x.ns && x.ns.messages.some(m => m.who === 'user') ? `Skai brief ${x.ns.pct}% complete — post the job to see matched consultants.` : 'Paste your requirements to Skai to start filling the brief.';
       return 'Choose how to fill in this job posting — with Skai or manually.'
     }
@@ -11486,7 +11639,7 @@
     const sqMatch = (x, q) => !q || `${x.title} ${x.role || ''} ${x.jt || ''}`.toLowerCase().includes(q);
     function sqCard(x, i, del) {
       const top = [...CANDIDATES].sort((a, b) => b.match - a.match);
-      let side = !x.posted ? `<aside class="sqa dr"><small>Draft</small><b class="sqa-t">${x.kind === 'wiz' ? 'Step ' + stepsOf(x) + ' of ' + STEPS.length : x.kind === 'guided' ? gCount(x.g) + ' of ' + GQ.length + ' details' : 'Not started'}</b><span class="sqa-s">Matches unlock once you post</span><button type="button" class="btn sm" data-a="opensearch" data-v="${i}">Continue draft ›</button></aside>`
+      let side = !x.posted ? `<aside class="sqa dr"><small>Draft</small><b class="sqa-t">${x.kind === 'wiz' ? 'Step ' + stepsOf(x) + ' of ' + STEPS.length : x.kind === 'guided' ? gCount(x.g) + ' of ' + gTot(x.g.A) + ' details' : 'Not started'}</b><span class="sqa-s">Matches unlock once you post</span><button type="button" class="btn sm" data-a="opensearch" data-v="${i}">Continue draft ›</button></aside>`
         : x.n === 0 ? `<aside class="sqa none"><div class="sqa-row"><span class="sqa-ic">${IC.users}</span><b class="sqa-t">Sourcing in progress</b></div><span class="sqa-s">Our talent team is on it. Shortlist in 24–48 hours.</span><span class="sqa-done">${IC.check} Talent team notified</span></aside>`
           : `<aside class="sqa ok"><small>Matched consultants</small><b class="sqa-t">${x.n} consultant${x.n === 1 ? '' : 's'}</b><span class="sqa-av" aria-hidden="true">${Array.from({ length: Math.min(x.n, 5) }, (_, k) => `<i style="background:${['#8fb2cb', '#e0a24a', '#7fc4a8', '#c9a3d6', '#e08f7a'][k % 5]}">${CONS_AV[k % 5]}<img src="https://i.pravatar.cc/56?img=${[12, 32, 47, 5, 68][k % 5]}" alt="" loading="lazy" onerror="this.remove()"></i>`).join('')}</span><span class="sqa-s">Top match ${top[0].match}% · ready to review</span><button type="button" class="btn light sm" data-a="opensearch" data-v="${i}" ${x.closed ? 'disabled title="Reopen this posting to view matches"' : ''}>View matches ›</button></aside>`;
       if (del) side = side.replace(/ data-a="[^"]*"| data-v="[^"]*"/g, '').replace(/<button /g, '<button disabled ');
@@ -11496,7 +11649,7 @@
     ${ed ? `<div class="sq-form"><label class="sq-fld"><span>Project name</span><input class="in" data-sqin value="${esc(x.title)}" maxlength="120" placeholder="e.g. Senior Cloud Data Engineer — Migration" aria-label="Project name"></label><label class="sq-fld"><span>Role</span><input class="in" data-sqrole value="${esc(x.role || '')}" maxlength="80" placeholder="e.g. Senior Cloud Data Engineer" aria-label="Role"></label><div class="sq-fa"><button class="btn p sm" data-a="sqsave" data-v="${i}" ${x.title.trim() ? '' : 'disabled'}>Save changes</button><button class="btn sm" data-a="sqcancel">Cancel</button></div></div>` : (x.closed || del) ? `<div class="sq-ttl"><h3>${esc(x.title)}</h3></div><div class="sq-role">${esc(x.role)}</div>` : `<div class="sq-ttl"><button type="button" class="sq-ef" data-a="sqedit" data-v="${i}" title="Click to edit project name" aria-label="Edit project name"><h3>${esc(x.title)}</h3></button><span class="sq-info" tabindex="0" role="note" aria-label="Click the project name or role to edit them" data-note="Tip: click the project name or the role to edit them."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span></div><button type="button" class="sq-ef sq-ef-r" data-a="sqedit" data-v="${i}" title="Click to edit role" aria-label="Edit role"><span class="sq-role">${esc(x.role)}</span></button>`}
     <p class="sq-snip">${del ? (x.wasPosted ? 'This posting was deleted and its matches were removed. Kept here as history.' : 'This draft was deleted before it was posted.') : x.posted ? (x.n === 0 ? 'We don’t have consultants with this skill set yet. Our team can source candidates for you.' : esc(x.snippet || 'Job posted — your matched consultants are ready to review.')) : esc(draftSnip(x))}</p><div class="sq-foot">${(() => {
           if (x.posted) { const d = postedWiz(x).d, ch = [[IC.pin, d.wloc || 'Remote'], [IC.clock, (d.hours || '40') + ' hrs/week']]; if (d.bamt) ch.push([IC.card || '', '$' + d.bamt + (d.btype === 'Monthly budget' ? '/month' : '/hour')]); return `<div class="sq-facts">${ch.map(c => `<span class="sq-f">${c[0]}${esc(c[1])}</span>`).join('')}</div>` }
-          const tot = x.kind === 'wiz' ? STEPS.length : x.kind === 'guided' ? GQ.length : 0, dn = x.kind === 'wiz' ? stepsOf(x) : x.kind === 'guided' ? gCount(x.g) : 0;
+          const tot = x.kind === 'wiz' ? STEPS.length : x.kind === 'guided' ? gTot(x.g.A) : 0, dn = x.kind === 'wiz' ? stepsOf(x) : x.kind === 'guided' ? gCount(x.g) : 0;
           return tot ? `<div class="sq-prog" aria-label="Draft progress"><div>${Array.from({ length: tot }, (_, k) => `<i class="${k < dn ? 'on' : ''}"></i>`).join('')}</div><small>${x.kind === 'wiz' ? 'Step ' + dn + ' of ' + tot : dn + ' of ' + tot + ' details'}</small></div>` : ''
         })()}${sqActs(x, i, del)}</div></div>${side}</div></div>`
     }
@@ -11879,8 +12032,8 @@
       const side = `<div class="card"><h3>Inviting ${pick.length} consultant${pick.length > 1 ? 's' : ''}</h3>${pick.map(c => `<div class="cand" style="margin-top:8px"><span class="av">${ini(c.n)}</span><div><b>${c.n}</b><div style="color:var(--muted);font-size:12px">${c.r}</div></div></div>`).join('')}
   <h3 style="margin-top:18px">${IC.offer} ${esc(S.cur?.t || '')}</h3><small style="color:var(--muted)">PROPOSED DATES</small>${S.sel.map(id => { const c = scd(String(id)); return `<div style="margin-top:10px"><b style="font-size:12.5px">${getC(id).n}</b>${c.dates.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${c.dates.map(k => `<span class="tag">${fmtD(k)}${hasT(c)(k) ? ' · ' + fmtHrs(c.tfs[k]) : ''}${String(id) === sk() ? `<button data-a="day" data-v="${k}" aria-label="Remove">×</button>` : ''}</span>`).join('')}</div>` : '<div style="color:var(--muted);font-size:12.5px;margin-top:4px">No dates chosen yet.</div>'}</div>` }).join('')}</div>`;
       const f = (k, l, b) => `<div class="fld ${E[k] ? 'err' : ''}"><label>${l}<span class="rq">*</span></label>${b}<span class="em">This field is required</span></div>`;
-      const step0 = `<h2>Set up your interview</h2><p>Decide the format and who joins from your side.</p>
-  ${f('n', 'How many interviews do you wish to run?', `<select class="in" data-sv="n">${['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'].map(o => `<option value="${o}" ${s.n === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}
+      const step0 = `<h2>${s.rnd ? 'Set up round ' + s.rnd.r : 'Set up your interview'}</h2><p>Decide the format and who joins from your side.</p>
+  ${s.rnd ? '' : f('n', 'How many interviews do you wish to run?', `<select class="in" data-sv="n">${['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'].map(o => `<option value="${o}" ${s.n === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}
   ${f('it', 'What type of interview is this?', `<div class="opts">${ITYPES.map(([t, x]) => `<button type="button" class="opt ${s.it === t ? 'on' : ''}" data-a="sit" data-v="${esc(t)}"><b>${t}</b><span>${x}</span></button>`).join('')}</div>`)}
   <div class="fld"><label>Choose an interview format<span class="rq">*</span></label><div class="opts">${FMT.map(([t, x]) => `<button class="opt ${s.fmt === t ? 'on' : ''}" data-a="sfmt" data-v="${t}"><b>${t}</b><span>${x}</span></button>`).join('')}</div></div>
   <div class="fld"><label>Specify team members who will be involved in the interview process</label>
@@ -11892,7 +12045,7 @@
   <div class="fld ${E['c' + S.sel[s.cur || 0]] ? 'err' : ''}">${cal()}<span class="em">Select at least two dates for ${getC(S.sel[s.cur || 0]).n}</span></div>
   ${(() => { const c = scd(sk()); return c.dates.length ? `<div class="dtrows"><label class="dtl">Time frame for each date${S.sel.length > 1 ? ' · ' + getC(S.sel[s.cur || 0]).n : ''}<span class="rq">*</span></label>${(() => { const act = c.dates.includes(s.tfd) ? s.tfd : (c.dates.find(d => !hasT(c)(d)) || c.dates[0]), sel = c.tfs[act] || [], bad = c.dates.some(d => E['tf:' + sk() + ':' + d]); return `<div class="dtr dth ${bad ? 'err' : ''}"><div class="dthead"><label class="dtpick"><span>Select a date</span><select class="in" data-dsel>${c.dates.map(k => `<option value="${k}" ${k === act ? 'selected' : ''}>${fmtD(k)} — ${hasT(c)(k) ? fmtHrs(c.tfs[k]) : 'choose a time'}</option>`).join('')}</select></label></div><div class="dtq" style="margin-bottom:10px"><button type="button" data-a="hrset" data-d="${act}" data-v="am">Morning</button><button type="button" data-a="hrset" data-d="${act}" data-v="pm">Afternoon</button><button type="button" data-a="hrset" data-d="${act}" data-v="day">Full day</button><button type="button" data-a="hrset" data-d="${act}" data-v="clear">Clear</button></div><div class="hrw"><button type="button" class="hra l" data-a="hrscroll" data-v="-1" aria-label="Earlier times">&#8249;</button><div class="hrs">${HRS.map(h => `<button type="button" class="hrb ${sel.includes(h) ? 'on' : ''}" data-a="hr" data-d="${act}" data-v="${h}" aria-pressed="${sel.includes(h)}">${hl(h)}</button>`).join('')}</div><button type="button" class="hra r" data-a="hrscroll" data-v="1" aria-label="Later times">&#8250;</button></div><small class="dtsel">${bad ? 'Choose at least one time slot for every date.' : sel.length ? `${hrsTxt(sel.length)} on ${fmtD(act)} · ${fmtHrs(sel)}` : 'Tap the 30-minute slots you are free — use the arrows to see more times.'}</small></div>` })()}</div>` : '' })()}
   <div style="margin-top:16px">${f('tz', 'Your time zone', `<select class="in" data-sv="tz">${['', 'US Eastern (ET)', 'US Central (CT)', 'US Pacific (PT)', 'GMT / UTC', 'CET'].map(o => `<option value="${o}" ${s.tz === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}</div>`;
-      return `<div class="ph"><div><h1>Schedule Your Interviews</h1><p>Two quick steps and your invites are on their way.</p></div></div>
+      return `<div class="ph"><div><h1>${s.rnd ? 'Schedule round ' + s.rnd.r : 'Schedule Your Interviews'}</h1><p>${s.rnd ? 'We reused your details from round ' + (s.rnd.r - 1) + ' — change anything you like, then pick new dates.' : 'Two quick steps and your invites are on their way.'}</p></div></div>
  <div class="sg"><div class="card wcard"><div class="wbar"><i style="transform:scaleX(${(s.step + 1) / 2})"></i></div><div class="wbody ${s.dir || ''}" id="sb" data-f="sb${s.step}"><div style="font-size:12px;color:var(--muted);margin-bottom:8px"><b>Step ${s.step + 1}</b> of 2 · Fields marked * are mandatory</div>${s.step ? step1 : step0}</div>
   <div class="wfoot"><button class="btn" data-a="${s.step ? 'sback' : 'backres'}">‹ ${s.step ? 'Go back' : 'Back to results'}</button><span class="sp"></span><button class="btn p" data-a="snext">${s.step ? 'Send invites ' + IC.send : 'Continue'}</button></div></div><div class="stagger" style="display:grid;gap:20px">${side}</div></div>`
     }
@@ -11931,10 +12084,33 @@
       }
       if (m === 'delsearch') { const x = SEARCHES[S.delIdx]; if (!x) return ''; return box(`<div class="mic">${IC.trash}</div><h3>Delete this ${x.posted ? 'job posting' : 'draft'}?</h3><p>${x.posted ? '“' + esc(x.title) + '” is posted, so its matches will be removed. It will be kept under Deleted as history.' : 'Delete the draft “' + esc(x.title) + '”? It hasn’t been posted. It will appear under Deleted.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">No, keep it</button><button class="btn p" data-a="yesdel">Yes, delete</button></div>`) }
       if (m === 'cancel') return box(`<div class="mic">${IC.edit}</div><h3>Are you sure?</h3><p>By cancelling, your changes won't be saved.</p><div class="mact" style="margin-top:0"><button class="btn" data-a="closem">No, go back</button><button class="btn p" data-a="yescancel">Yes, cancel</button></div>`);
-      if (m === 'sent') return box(`<div class="mic ok">${IC.send}</div><h3>Your interview invite has been sent!</h3><p>Consultants have two working days to confirm and pick a slot. We'll notify you as soon as they respond.</p><div class="mact" style="margin-top:0"><button class="btn" data-go="profile">Back to my profile</button><button class="btn p" data-go="interviews">See interviews</button></div>`);
+      if (m === 'sent') return box(`<div class="mic ok">${IC.send}</div><h3>${S.sch && S.sch.rnd ? 'Your round ' + S.sch.rnd.r + ' invite has been sent!' : 'Your interview invite has been sent!'}</h3><p>${S.sch && S.sch.rnd ? 'The consultant has two working days to confirm and pick a slot for round ' + S.sch.rnd.r + '. We\'ll notify you as soon as they respond.' : 'Consultants have two working days to confirm and pick a slot. We\'ll notify you as soon as they respond.'}</p><div class="mact" style="margin-top:0"><button class="btn" data-go="profile">Back to my profile</button><button class="btn p" data-go="interviews">See interviews</button></div>`);
       return ''
     }
 
+    /* ---------- multi-round tracker ---------- */
+    const NOFIT = ['Skills not a match', 'Rate too high', 'Availability does not fit', 'Chose another candidate', 'Role no longer open'];
+    function rndBlock(c, i) {
+      const m = c[6]; if (!m || m.total < 2) return '';
+      const cur = m.cur, steps = m.rs.map((st0, k) => {
+        const r = k + 1; let st = st0; if (r === cur && (st === 'invited' || st === 'confirmed')) st = c[3] === 'Confirmed' ? 'confirmed' : 'invited';
+        const ty = m.it[k] || (r === 1 ? 'Interview' : 'Next round'); let cl = 'lk', sub = 'Pending round ' + (r - 1), ic = r;
+        if (m.closed && st !== 'done') { cl = 'x'; sub = 'Not continuing' }
+        else if (st === 'done') { cl = 'ok'; sub = 'Completed'; ic = IC.check }
+        else if (st === 'confirmed') { cl = 'on'; sub = 'Scheduled' + (c[2] && !/^Proposed|Pending/.test(c[2]) ? ' · ' + c[2] : '') }
+        else if (st === 'invited') { cl = 'on'; sub = 'Awaiting consultant' }
+        else if (st === 'unsched') { cl = 'on'; sub = m.hold ? 'On hold' : 'Not scheduled yet' }
+        return { r, ty, cl, sub, ic, st }
+      }), curSt = steps[cur - 1] ? steps[cur - 1].st : '', doneN = steps.filter(x => x.st === 'done').length;
+      let act = '', inl = '';
+      if (m.closed) act = `<div class="rnn">${IC.info}<span>Interview process closed${m.reason ? ' · ' + esc(m.reason) : ''}. Thanks — this helps us improve your matches.</span></div>`;
+      else if (m.complete) act = `<div class="rnn">${IC.check}<span>All ${m.total} rounds completed. Ready to make a decision?</span></div>`;
+      else if (m.nofit) act = `<div class="rnp"><div><b>What was the main reason?</b><p>One tap — it helps improve your matches.</p></div><div class="rr">${NOFIT.map(x => `<button class="btn sm" data-a="ivnofit" data-v="${i}:${esc(x)}">${esc(x)}</button>`).join('')}<button class="btn sm" data-a="ivnofitx" data-v="${i}">Cancel</button></div></div>`;
+      else if (m.hold) inl = `<span class="rnact"><button class="btn sm" data-a="ivresumeh" data-v="${i}">Resume</button></span>`;
+      else if (m.prompt) act = `<div class="rnp"><div><b>How did round ${cur} go?</b><p>Round ${cur + 1} reuses the interviewers and format from round ${cur}.</p></div><div class="rr"><button class="btn p sm" data-a="ivnext" data-v="${i}">Move to round ${cur + 1}</button><button class="btn sm" data-a="ivhold" data-v="${i}">Hold</button><button class="btn sm" data-a="ivnofitq" data-v="${i}">Not a fit</button></div></div>`;
+      else if (curSt === 'confirmed') inl = `<span class="rnact"><button class="btn sm" data-a="ivdone" data-v="${i}">Mark round ${cur} completed</button></span>`;
+      return `<div class="rnd"><div class="rntl"><span class="rncount">${doneN}/${m.total} rounds</span>${steps.map((x, k) => `${k ? `<span class="rnc ${steps[k - 1].st === 'done' ? 'ok' : ''}"></span>` : ''}<div class="rn ${x.cl}"><i>${x.ic}</i><div><b>Round ${x.r} · ${esc(x.ty)}</b><small>${esc(x.sub)}</small></div></div>`).join('')}${inl}</div>${act}</div>`
+    }
     /* ---------- interviews list ---------- */
     function vInterviews() {
       if (!S.ivs.length) return `<div class="ph"><div><h1>Interviews</h1><p>Join your interviews and review each consultant’s details before you meet.</p></div></div>
@@ -11944,6 +12120,7 @@
         const ok = c[3] === 'Confirmed', k = ok ? CONS.find(x => x.n === c[0]) : null, link = 'meet.cloudclub.com/iv/' + c[0].toLowerCase().replace('-', '');
         return `<div class="card iv"><div class="ivh"><span class="av">${ini(c[0])}</span><div class="ivt"><b>${c[0]}</b><small>${c[1]}</small></div><span class="pill ${ok ? 'ok' : 'am'}"><i></i>${c[3]}</span></div>
   <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? '$' + k.rate + '/hour' : ''}</span>` : ''}</div>
+  ${rndBlock(c, i)}
   ${k ? `<div class="ivs"><p>${esc(k.spec)}</p><div class="ivk"><div><small>Experience</small><b>${esc(k.y.split(' · ')[0])}</b></div><div><small>Availability</small><b>From ${esc(k.av)}</b></div><div><small>Languages</small><b>${k.lang.map(l => l[0]).join(', ')}</b></div></div>
    <div class="ivc">${k.sk.slice(0, 6).map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>
    <small class="ivcert">Certifications: ${k.certs.map(esc).join(' · ')}</small></div>` : ''}
@@ -12111,7 +12288,7 @@
     function confetti() { const cols = ['#547691', '#3e566a', '#c98a2e', '#8fb2cb', '#2c3e4c']; for (let i = 0; i < 70; i++) { const e = document.createElement('i'); e.className = 'cf'; e.style.cssText = `left:${Math.random() * 100}vw;background:${cols[i % 5]};animation-duration:${1.6 + Math.random() * 1.8}s;animation-delay:${Math.random() * .4}s;border-radius:${Math.random() > .5 ? '50%' : '2px'}`; document.body.appendChild(e); setTimeout(() => e.remove(), 4200) } }
     Object.assign(S, {
       modal: null, ms: null, file: null, sel: [], tab: {}, more: {}, sort: 'Best match', vf: 'All', pid: 0, cur: null, leaveTo: null,
-      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed'], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed'], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting'], ['CC-136', 'Technical Lead', 'Mon, Oct 7 · 11:00 AM', 'Confirmed'], ['CC-131', 'Software Developer', 'Pending reply', 'Awaiting']]
+      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed', undefined, 'Technical interview', { total: 2, cur: 1, rs: ['confirmed', 'locked'], it: ['Technical interview', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)' }], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed', undefined, 'Initial screening', { total: 2, cur: 1, rs: ['done', 'unsched'], it: ['Initial screening', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)', prompt: true }], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting'], ['CC-136', 'Technical Lead', 'Mon, Oct 7 · 11:00 AM', 'Confirmed'], ['CC-131', 'Software Developer', 'Pending reply', 'Awaiting']]
     });
     S.profile.type = 'Enterprise (end client)';
     if (FRESH) { SEARCHES.length = 0; PAYS.length = 0; REFS.length = 0; PROJ.length = 0; S.ivs = []; S.offers = []; NOTIFS.splice(0, NOTIFS.length, { k: 'm', t: 'Welcome to Cloud Club', s: 'Create your first job posting to get matches', w: 'Just now', go: 'searches', u: 1 }) }
@@ -12564,13 +12741,41 @@
       const ad = box.querySelector('.msa'); if (ad) { const raw = el.value.trim(), have = [...box.querySelectorAll('.mso:not(.msa)')].some(c => c.textContent.trim().toLowerCase() === raw.toLowerCase()); ad.style.display = raw && !have ? '' : 'none'; ad.lastChild.textContent = 'Add “' + raw + '” (not in the list)'; ad.dataset.v = raw }
       if (!any) { if (!em) { em = document.createElement('div'); em.className = 'msh mse'; em.textContent = 'No matches'; box.appendChild(em) } } else if (em) em.remove()
     });
-    const SK_Q = [['why', d => !d.why, 'Why are you hiring a consultant — a new technology implementation, extra capacity, specialist skills, a replacement, or rescuing a project?'], ['rtype', d => !d.rtype, 'What type of role do you need — Developer, Architect, Data Engineer, Administrator, Business Analyst or Project Manager?'], ['sen', d => !d.sen, 'What seniority do you need — Junior, Mid-Level, Senior or Principal?'], ['hours', d => !d.hours, 'How many hours per week do you need?'], ['start', d => !d.start && !d.startNo, 'When would you like the consultant to start?'], ['budget', d => !d.bamt, 'What hourly rate or budget are you working with?'], ['wloc', d => !d.wloc, 'Will the work be remote, hybrid or on-site?'], ['prods', d => !d.prods.length && !d.tech.length, 'Which products or technologies are must-haves?']];
-    const SK_LBL = { why: 'hiring reason', urgency: 'urgency', rtype: 'role type', sen: 'seniority', hours: 'hours per week', start: 'start date', budgetOk: 'budget', btype: 'budget', bamt: 'budget', prods: 'products', sw: 'platforms', tech: 'technologies', otech: 'technologies', certs: 'certifications', wloc: 'work location', extra: 'additional information' };
-    const skMissing = () => SK_Q.filter(q => q[1](S.wiz.d));
+    /* Skai follow-up questions mirror the manual form: same wording, order and answer options */
+    const ol = k => LIST[k].join(', ').replace(/, ([^,]*)$/, ' or $1');
+    const SK_Q = [
+      ['why', d => !d.why, 'Why are you hiring a consultant? (' + ol('why') + ')'],
+      ['rtype', d => !d.rtype, 'What type(s) of resource(s) are needed? (' + ol('rtype') + ')'],
+      ['sen', d => !d.sen, 'What seniority level do you prefer? (Junior, Mid-Level, Senior-Level or Principal)'],
+      ['hours', d => !d.hours, 'How many hours per week? (' + ol('hours') + ')'],
+      ['start', d => !d.start && !d.startNo, 'What is your ideal start date?'],
+      ['end', d => !d.end && !d.endNo, 'What is your ideal end date? (or say “not sure yet”)'],
+      ['budgetOk', d => !d.budgetOk, 'Has budget been discussed? (Yes, Pending approval or Not yet)'],
+      ['btype', d => d.budgetOk && !d.btype, 'Choose your desired budget type — Fixed project budget, Monthly budget or Target hourly rate.'],
+      ['budget', d => d.budgetOk === 'Yes' && d.btype && !d.bamt, d => `What is your ${(BT.find(b => b[0] === d.btype) || ['', '', 'hourly'])[2]} budget?`],
+      ['sw', d => !d.sw.length && !custList(d.osw).length, 'Which software or platforms should the consultant have experience with? (e.g. Salesforce, AWS, Microsoft Azure, Snowflake, SAP)'],
+      ['prods', d => d.sw.length && !d.prods.length && !custList(d.oprod).length, 'Which products or services should the consultant have experience with?'],
+      ['tech', d => !d.tech.length && !custList(d.otech).length, 'Which skills should the consultant have?'],
+      ['certs', d => !d.certs.length, 'Any preferred certifications? (' + ol('certs') + ')'],
+      ['wloc', d => !d.wloc, 'What is the work location? (Remote, Hybrid or On-site)'],
+      ['sloc', d => d.wloc && d.wloc !== 'Remote' && !d.sloc, 'What is the address of the office?'],
+      ['onsite', d => d.wloc && d.wloc !== 'Remote' && !d.onsite, 'How many days per week are needed onsite?'],
+      ['regions', d => d.wloc === 'Remote' && !(d.regions || []).length, 'Which are your preferred hiring regions? (' + ol('regions') + ')'],
+      ['meet', d => !d.meet, 'How often will meetings be required? (' + ol('meet') + ')']
+    ];
+    const SK_LBL = { why: 'hiring reason', urgency: 'urgency', rtype: 'role type', sen: 'seniority', hours: 'hours per week', start: 'start date', budgetOk: 'budget', btype: 'budget type', bamt: 'budget', end: 'end date', sloc: 'office address', onsite: 'onsite days', regions: 'hiring regions', meet: 'meeting frequency', prods: 'products', sw: 'platforms', tech: 'technologies', otech: 'technologies', certs: 'certifications', wloc: 'work location', extra: 'additional information' };
+    const skMissing = () => SK_Q.filter(q => q[1](S.wiz.d) && !(NS.askedQ || []).includes(q[0])).map(q => typeof q[2] === 'function' ? [q[0], q[1], q[2](S.wiz.d)] : q);
     function skApply(text) {
       const d = S.wiz.d, t = text.trim(), bare = t.match(/^\$?\s?(\d[\d,.]*)\s*(?:\/?\s*h(?:r|rs|ours?)?|an hour|per hour)?$/i), ask = NS.asked, p = aiParse(text);
       if (bare && ask === 'hours' && !/\$/.test(t)) p.hours = String(Math.min(80, parseInt(bare[1], 10)));
-      else if (bare && ask === 'budget') Object.assign(p, { budgetOk: 'Yes', btype: 'Target hourly rate', bamt: bare[1].replace(/,/g, '') });
+      else if (bare && ask === 'budget') Object.assign(p, { budgetOk: 'Yes', btype: d.btype || 'Target hourly rate', bamt: bare[1].replace(/,/g, '') });
+      if (ask === 'budgetOk') { const m = t.match(/pending|not yet|haven.?t|no\b|yes|approved|discussed/i); if (m) p.budgetOk = /pending/i.test(m[0]) ? 'Pending approval' : /not yet|haven.?t|^no/i.test(m[0]) ? 'Not yet' : 'Yes' }
+      if (ask === 'btype') { const m = /fixed|total|project/i.test(t) ? 'Fixed project budget' : /month/i.test(t) ? 'Monthly budget' : /hour|rate/i.test(t) ? 'Target hourly rate' : ''; if (m) p.btype = m }
+      if (ask === 'end') { if (/not sure|unsure|open|ongoing|tbd|don.?t know/i.test(t)) d.endNo = true, d.end = ''; else { const dt = new Date(t); if (!isNaN(dt)) p.end = iso(dt) } }
+      if (ask === 'meet') { const m = /bi-?weekly|every (two|2) weeks/i.test(t) ? 'Bi-weekly' : /several|few times/i.test(t) ? 'Several times a week' : /daily|every day/i.test(t) ? 'Daily' : /weekly|once a week/i.test(t) ? 'Weekly' : /need/i.test(t) ? 'As needed' : ''; if (m) p.meet = m }
+      if (ask === 'sloc' && t) p.sloc = t.slice(0, 120);
+      if (ask === 'onsite' && bare) p.onsite = String(Math.min(5, parseInt(bare[1], 10)));
+      if (ask === 'regions') { const r = LIST.regions.filter(x => t.toLowerCase().includes(x.toLowerCase().split(' ')[0])); if (r.length) p.regions = r }
       if (p.extra && d.extra && !/^Role: /.test(d.extra)) delete p.extra;
       Object.keys(p).forEach(k => { if (!p[k] || (Array.isArray(p[k]) && !p[k].length)) delete p[k] });
       applyAiToForm(p);
@@ -12669,7 +12874,7 @@
         clearInterval(iv);
         if (res) { NS.typing = false; NS.messages.push({ who: 'bot', text: skResultsReply(userText) }); rerender(); scrollChatBottom(); return }
         const got = skApply(userText), miss = skMissing(), nx = miss[0];
-        NS.typing = false; NS.asked = nx ? nx[0] : null;
+        NS.typing = false; if (NS.asked) (NS.askedQ = NS.askedQ || []).push(NS.asked); NS.asked = nx ? nx[0] : null;
         NS.messages.push({ who: 'bot', text: (got.length ? `Thanks — I've filled in <b>${got.join(', ')}</b> in the form.` : `Thanks — I've noted that, but couldn't pull out specifics yet.`) + (nx ? `<br><br><b>${nx[2]}</b>${miss.length > 1 ? `<br><small>${miss.length - 1} more detail${miss.length > 2 ? 's' : ''} after this — or skip ahead and fill them in on the form.</small>` : ''}` : `<br><br>The main details are in. Go through each step on the left — a few items like stakeholders and sign-off are for you to confirm — then click <b>Post job &amp; search</b> on the last step.`) });
         rerender(); scrollChatBottom();
       }, 550);
@@ -12780,44 +12985,55 @@
     /* ---- Guided Skai job posting: one conversation, one question at a time ---- */
     const GCHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>';
     const GSAMPLE = 'Senior AWS & Snowflake data engineer for a cloud migration, 40 hrs/week, remote, around $150/hr, starting in 2 weeks for about 6 months. Python and Terraform required, Databricks is a plus.';
+    /* Same questions, wording and options as the manual job-posting form */
+    const gOpts = l => l.filter(o => o[0] !== '#' && o[0] !== '!' && o !== NSURE);
+    const gRateQ = { hourly: ['What is your target hourly rate?', ['$80–100 / hr', '$100–130 / hr', '$130–160 / hr', '$160+ / hr']], monthly: ['What is your monthly budget?', ['Under $10,000 / month', '$10,000–$20,000 / month', '$20,000–$40,000 / month', '$40,000+ / month']], project: ['What is your total project budget?', ['Under $50,000 total', '$50,000–$100,000 total', '$100,000–$250,000 total', '$250,000+ total']] };
+    const gBt = A => A.btype === 'Monthly budget' ? 'monthly' : A.btype === 'Fixed project budget' ? 'project' : 'hourly';
+    const gOpen = v => !v || v === 'To be confirmed' || (Array.isArray(v) && (!v.length || v[0] === 'To be confirmed'));
     const GQ = [
-      { k: 'why', label: 'Reason for hiring', q: 'Why are you hiring a consultant?', opts: ['New technology implementation', 'Add capacity to my team', 'Specialist skills we lack', 'Replace a departing consultant', 'Rescue a project'] },
-      { k: 'seniority', label: 'Seniority', q: 'What seniority level do you need?', s: 'Junior 1–2 yrs · Mid-level 3–5 · Senior 6–9 · Principal 10+', opts: ['Junior', 'Mid-level', 'Senior', 'Principal'] },
-      { k: 'hours', label: 'Hours per week', q: 'How many hours per week do you need?', opts: ['10', '20', '30', '40'], unit: ' hrs / week', custom: { type: 'number', ph: 'Other (hours)' } },
-      { k: 'start', label: 'Ideal start', q: 'When would you like them to start?', opts: ['As soon as possible', 'In 2–4 weeks', 'In 1–2 months'] },
-      { k: 'duration', label: 'Engagement length', q: 'How long do you expect the engagement to run?', opts: ['1–3 months', '3–6 months', '6–12 months', '12+ months', 'Not sure yet'] },
-      { k: 'rate', label: 'Budget', q: 'What hourly budget are you working with?', s: 'An estimate is fine — you can refine it later.', opts: ['$80–100 / hr', '$100–130 / hr', '$130–160 / hr', '$160+ / hr'], custom: { type: 'text', ph: 'Or type your own' } },
-      { k: 'location', label: 'Work location', q: 'Where will the work happen?', opts: ['Remote', 'Hybrid', 'On-site'] },
-      { k: 'skills', label: 'Must-have skills', q: 'Which skills or technologies are must-haves?', s: 'Pick all that apply, or add your own.', multi: true, opts: ['AWS', 'Azure', 'Snowflake', 'Databricks', 'Python', 'SQL', 'Terraform', 'Kubernetes', 'Salesforce', 'MuleSoft'] }
+      { k: 'why', label: 'Reason for hiring', q: 'Why are you hiring a consultant?', opts: LIST.why },
+      { k: 'rtype', label: 'Resource type', q: 'What type(s) of resource(s) are needed?', opts: LIST.rtype },
+      { k: 'seniority', label: 'Seniority', q: 'What seniority level do you prefer?', opts: LIST.sen },
+      { k: 'hours', label: 'Hours per week', q: 'How many hours per week?', opts: ['10', '20', '30', '40'], unit: ' hrs / week', custom: { type: 'number', ph: 'Other (hours)' } },
+      { k: 'start', label: 'Ideal start date', q: 'What is your ideal start date?', opts: ['As soon as possible', 'In 2–4 weeks', 'In 1–2 months'] },
+      { k: 'duration', label: 'Ideal end date', q: 'What is your ideal end date? Pick how long the engagement should run.', opts: ['1–3 months', '3–6 months', '6–12 months', '12+ months', 'Not sure yet'] },
+      { k: 'budgetOk', label: 'Budget discussed', q: 'Has budget been discussed?', opts: ['Yes', 'Pending approval', 'Not yet'] },
+      { k: 'btype', label: 'Budget type', q: 'Choose your desired budget type', opts: ['Fixed project budget', 'Monthly budget', 'Target hourly rate'], skip: A => gOpen(A.budgetOk) },
+      { k: 'rate', label: 'Budget amount', q: A => gRateQ[gBt(A)][0], s: 'An estimate is fine — you can refine it later.', opts: A => gRateQ[gBt(A)][1], custom: { type: 'text', ph: 'Or type your own' }, skip: A => A.budgetOk !== 'Yes' },
+      { k: 'sw', label: 'Software / platforms', q: 'Which software or platforms should the consultant have experience with?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another platform', opts: gOpts(LIST.sw) },
+      { k: 'prods', label: 'Products / services', q: 'Which products or services should the consultant have experience with?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another product', opts: A => gOpts(prodList({ sw: A.sw || [] })).slice(0, 18), skip: A => gOpen(A.sw) },
+      { k: 'skills', label: 'Skills', q: 'Which skills should the consultant have?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another skill', opts: ['Python', 'SQL', 'Terraform', 'Kubernetes', 'Docker', 'CI/CD', 'API Development', 'JavaScript', 'TypeScript', 'React', 'Node.js', 'DevOps'] },
+      { k: 'certs', label: 'Preferred certifications', q: 'Do you have any preferred certifications?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another certification', opts: LIST.certs },
+      { k: 'location', label: 'Work location', q: 'What is the work location?', opts: LIST.wloc },
+      { k: 'sloc', label: 'Office address', q: 'What is the address of the office?', opts: [], custom: { type: 'text', ph: 'Street, City, State / Country' }, skip: A => gOpen(A.location) || A.location === 'Remote' },
+      { k: 'onsite', label: 'Onsite days / week', q: 'How many days per week are needed onsite?', opts: ['1', '2', '3', '4', '5'], unit: ' days / week', custom: { type: 'number', ph: 'Other (days)' }, skip: A => gOpen(A.location) || A.location === 'Remote' },
+      { k: 'regions', label: 'Hiring regions', q: 'Which are your preferred hiring regions?', s: 'Pick all that apply.', multi: true, add: 'Add another region', opts: LIST.regions, skip: A => A.location !== 'Remote' },
+      { k: 'tzs', label: 'Working time zones', q: 'Which working time zones are acceptable?', opts: gOpts(LIST.tzs).filter(o => /Eastern Time|Central Time \(US|Pacific Time|Mountain Time|London|Paris|Berlin|India|Singapore|Sydney/.test(o)), skip: A => A.location !== 'Remote' },
+      { k: 'meet', label: 'Meeting frequency', q: 'How often will meetings be required?', opts: LIST.meet }
     ];
-    const GGROUPS = [['Why & who', ['why', 'seniority']], ['The engagement', ['hours', 'start', 'duration', 'rate']], ['Skills & location', ['skills', 'location']]];
+    const GGROUPS = [['Why & who', ['why', 'rtype', 'seniority']], ['The engagement', ['hours', 'start', 'duration', 'budgetOk', 'btype', 'rate']], ['Skills & location', ['sw', 'prods', 'skills', 'certs', 'location', 'sloc', 'onsite', 'regions', 'tzs', 'meet']]];
+    const gva = (v, A) => typeof v === 'function' ? v(A) : v;
+    const gAct = A => GQ.filter(q => !(q.skip && q.skip(A)));
+    const gTot = A => gAct(A).length;
     let G = null;
     const gsleep = ms => new Promise(r => setTimeout(r, ms));
     const gq = k => GQ.find(x => x.k === k);
     const gHas = k => G.A[k] && G.A[k].length;
     const gval = k => Array.isArray(G.A[k]) ? G.A[k].join(', ') : G.A[k];
     const gunit = k => { const q = gq(k), v = gval(k); return v && q.unit && /^\d+$/.test(v) ? v + q.unit : v };
-    const gCount = g => GQ.filter(q => g.A[q.k] && g.A[q.k].length).length;
+    const gCount = g => gAct(g.A).filter(q => g.A[q.k] && g.A[q.k].length).length;
     const gFeed = () => document.getElementById('gfFeed');
-    const gSegs = () => GQ.map(q => `<i class="${gHas(q.k) ? 'on' : ''}"></i>`).join('');
+    const gSegs = () => gAct(G.A).map(q => `<i class="${gHas(q.k) ? 'on' : ''}"></i>`).join('');
     const gExtra = () => {
       const d = G.carry; if (!d) return []; const cl = custList, j = a => (a || []).filter(t => t !== 'Other' && t !== NSURE).join(', '), rows = [];
       const add = (l, v) => { if (v) rows.push([l, v]) };
-      add('Resource type', d.rtype === 'Other' ? (d.ortype || 'Other') : d.rtype === 'Multiple Roles' ? 'Multiple roles' + (d.qty ? ' — ' + d.qty : '') : d.rtype);
-      add('Software / platforms', [j(d.sw), ...cl(d.osw)].filter(Boolean).join(', '));
-      add('Products / services', [j(d.prods), ...cl(d.oprod)].filter(Boolean).join(', '));
-      add('Skills', [j(d.tech), ...cl(d.otech)].filter(Boolean).join(', '));
-      add('Budget discussed', d.budgetOk); add('Budget type', d.btype);
-      add('Certifications', (d.certs || []).join(', '));
-      add('Office address', d.sloc); add('Onsite days / week', d.onsite);
-      add('Hiring regions', [j(d.regions), ...cl(d.oreg)].filter(Boolean).join(', '));
-      add('Time zone', d.tzs); add('Meetings', d.meet); add('Additional notes', d.extra);
+      if (d.rtype === 'Other' && d.ortype) add('Other resource type', d.ortype); if (d.rtype === 'Multiple Roles' && d.qty) add('Quantity per role', d.qty); add('Additional notes', d.extra);
       return rows
     };
-    const gDrawer = () => GQ.map(q => `<div class="g-di"><small>${q.label}</small><b class="${gHas(q.k) ? '' : 'empty'}">${gHas(q.k) ? esc(gunit(q.k)) : 'Not answered yet'}</b>${gHas(q.k) ? `<button class="g-link" data-gchange="${q.k}">Change</button>` : ''}</div>`).join('') + (gExtra().length ? `<div class="g-dsec">From your form</div>` + gExtra().map(([l, v]) => `<div class="g-di"><small>${l}</small><b>${esc(v)}</b></div>`).join('') : '');
+    const gDrawer = () => gAct(G.A).map(q => `<div class="g-di"><small>${q.label}</small><b class="${gHas(q.k) ? '' : 'empty'}">${gHas(q.k) ? esc(gunit(q.k)) : 'Not answered yet'}</b>${gHas(q.k) ? `<button class="g-link" data-gchange="${q.k}">Change</button>` : ''}</div>`).join('') + (gExtra().length ? `<div class="g-dsec">From your form</div>` + gExtra().map(([l, v]) => `<div class="g-di"><small>${l}</small><b>${esc(v)}</b></div>`).join('') : '');
     function gprog() {
       const n = gCount(G), set = (id, h, t) => { const el = document.getElementById(id); if (el) t ? el.textContent = h : el.innerHTML = h };
-      set('gfProg', n + ' of ' + GQ.length + ' details captured', 1); set('gfDrSub', n + ' of ' + GQ.length + ' details captured', 1); set('gfSegs', gSegs()); set('gfDrBody', gDrawer());
+      set('gfProg', n + ' of ' + gTot(G.A) + ' details captured', 1); set('gfDrSub', n + ' of ' + gTot(G.A) + ' details captured', 1); set('gfSegs', gSegs()); set('gfDrBody', gDrawer());
     }
     function gsync() { const f = gFeed(); if (f) G.html = f.innerHTML; gprog() }
     function gscroll() { setTimeout(() => { const f = gFeed(); if (f) f.scrollTo({ top: f.scrollHeight, behavior: 'smooth' }) }, 60) }
@@ -12843,23 +13059,25 @@
       const n = gCount(G);
       return `<div class="gf" data-f="gf">
   <div class="g-head card"><div class="g-ht"><span class="g-chip">${IC.sparkle} Skai</span><div class="g-title"><small>New job posting${G.draft && G.draft.posted ? '' : ' · Draft'}</small><b>${esc(G.name)}</b></div><button class="btn sm" data-go="searches">Back to searches</button></div>
-   <div class="g-prow"><span id="gfProg">${n} of ${GQ.length} details captured</span><button class="g-link" data-gopen>View job summary</button></div><div class="g-segs" id="gfSegs">${gSegs()}</div></div>
+   <div class="g-prow"><span id="gfProg">${n} of ${gTot(G.A)} details captured</span><button class="g-link" data-gopen>View job summary</button></div><div class="g-segs" id="gfSegs">${gSegs()}</div></div>
   <div class="g-feed" id="gfFeed" aria-live="polite">${G.html}</div>
   <div class="g-dock"><form class="g-dockin" id="gfForm" autocomplete="off"><input id="gfMsg" type="text" placeholder="Type your answer, or paste the job description…" aria-label="Message Skai"><button class="g-send" aria-label="Send">${IC.send}</button></form><div class="g-hint">Skai fills in your job posting as you go. Nothing is posted until you review and confirm.</div></div>
   <div class="g-scrim ${G.drawer ? 'on' : ''}" data-gclose></div>
-  <aside class="g-drawer ${G.drawer ? 'on' : ''}" aria-label="Job summary"><div class="g-dh"><div><h3>Your job posting so far</h3><small id="gfDrSub">${n} of ${GQ.length} details captured</small></div><button class="g-x" data-gclose aria-label="Close">×</button></div><div class="g-db" id="gfDrBody">${gDrawer()}</div></aside>
+  <aside class="g-drawer ${G.drawer ? 'on' : ''}" aria-label="Job summary"><div class="g-dh"><div><h3>Your job posting so far</h3><small id="gfDrSub">${n} of ${gTot(G.A)} details captured</small></div><button class="g-x" data-gclose aria-label="Close">×</button></div><div class="g-db" id="gfDrBody">${gDrawer()}</div></aside>
 </div>`;
     }
     function gparse(t) {
       const x = t.toLowerCase(), p = {};
-      const sen = x.match(/principal|staff|senior|sr\.|mid[- ]?level|junior|entry/); if (sen) p.seniority = /principal|staff/.test(sen[0]) ? 'Principal' : /senior|sr\./.test(sen[0]) ? 'Senior' : /mid/.test(sen[0]) ? 'Mid-level' : 'Junior';
+      const sen = x.match(/principal|staff|senior|sr\.|mid[- ]?level|junior|entry/); if (sen) p.seniority = LIST.sen[/principal|staff/.test(sen[0]) ? 3 : /senior|sr\./.test(sen[0]) ? 2 : /mid/.test(sen[0]) ? 1 : 0];
       const h = x.match(/(\d{1,2})\s*(?:hrs?|hours?)\b/); if (h) p.hours = String(Math.min(80, +h[1])); else if (/full[- ]?time/.test(x)) p.hours = '40';
-      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour';
+      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) { p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour'; p.budgetOk = 'Yes'; p.btype = 'Target hourly rate' }
       if (/remote/.test(x)) p.location = 'Remote'; else if (/hybrid/.test(x)) p.location = 'Hybrid'; else if (/on[- ]?site/.test(x)) p.location = 'On-site';
       const w = x.match(/in (\d+)\s*weeks?/); if (w) p.start = +w[1] <= 1 ? 'As soon as possible' : +w[1] <= 4 ? 'In 2–4 weeks' : 'In 1–2 months'; else if (/asap|immediately|right away/.test(x)) p.start = 'As soon as possible'; else if (/next month/.test(x)) p.start = 'In 2–4 weeks';
       const d = x.match(/(\d+)\s*(?:-|to|–)?\s*(\d+)?\s*months?/); if (d) { const n = +(d[2] || d[1]); p.duration = n <= 3 ? '1–3 months' : n <= 6 ? '3–6 months' : n <= 12 ? '6–12 months' : '12+ months' }
-      if (/replac/.test(x)) p.why = 'Replace a departing consultant'; else if (/rescue|stabili[sz]e|troubleshoot/.test(x)) p.why = 'Rescue a project'; else if (/capacity|extra hands|augment/.test(x)) p.why = 'Add capacity to my team'; else if (/migrat|implement|new platform|build/.test(x)) p.why = 'New technology implementation';
-      const sk = gq('skills').opts.filter(s => x.includes(s.toLowerCase())); if (sk.length) p.skills = sk;
+      if (/replac/.test(x)) p.why = LIST.why[3]; else if (/rescue|stabili[sz]e|troubleshoot/.test(x)) p.why = LIST.why[4]; else if (/capacity|extra hands|augment/.test(x)) p.why = LIST.why[1]; else if (/specialist|expertise we lack/.test(x)) p.why = LIST.why[2]; else if (/migrat|implement|new platform|build/.test(x)) p.why = LIST.why[0];
+      if (/data engineer/.test(x)) p.rtype = 'AI / Data Specialist'; else if (/architect/.test(x)) p.rtype = 'Architect'; else if (/\bqa\b|tester/.test(x)) p.rtype = 'QA Tester'; else if (/developer|engineer|programmer/.test(x)) p.rtype = 'Developer / Engineer'; else if (/admin/.test(x)) p.rtype = 'Administrator'; else if (/analyst/.test(x)) p.rtype = 'Business Analyst'; else if (/project manager|product owner/.test(x)) p.rtype = 'Project Manager / Product Owner';
+      const sw = Object.keys(SKMAP.sw).filter(k => SKMAP.sw[k].test(x) && gOpts(LIST.sw).includes(k)); if (sw.length) p.sw = sw;
+      const sk = gq('skills').opts.filter(k => SKMAP.tech[k] ? SKMAP.tech[k].test(x) : x.includes(k.toLowerCase())); if (sk.length) p.skills = sk;
       return p
     }
     async function gworking(title, steps, ms = 520) {
@@ -12879,14 +13097,14 @@
       else gbot('<p>I couldn’t pick out specific details from that — no problem, I’ll just ask you a few quick questions.</p>');
       G.busy = false; gnext()
     }
-    function gnext() { const q = GQ.find(x => !gHas(x.k)); if (!q) return greview(); gask(q.k) }
+    function gnext() { const q = gAct(G.A).find(x => !gHas(x.k)); if (!q) return greview(); gask(q.k) }
     function gask(k, isEdit) {
       const q = gq(k); G.cur = k; G.editing = !!isEdit;
       const n = gCount(G) + 1, sel = Array.isArray(G.A[k]) ? G.A[k] : [];
-      gbot(`<div class="g-qh">${isEdit ? 'Update' : 'Question ' + Math.min(n, GQ.length) + ' of ' + GQ.length}</div><div class="g-qt">${q.q}</div>${q.s ? `<div class="g-qs">${q.s}</div>` : ''}
-    <div class="g-opts" data-q="${k}">${q.opts.map(o => `<button class="g-opt ${sel.includes(o) ? 'on' : ''}" data-gopt="${esc(o)}">${esc(o)}${q.unit && /^\d+$/.test(o) ? q.unit : ''}</button>`).join('')}</div>
+      gbot(`<div class="g-qh">${isEdit ? 'Update' : 'Question ' + Math.min(n, gTot(G.A)) + ' of ' + gTot(G.A)}</div><div class="g-qt">${gva(q.q, G.A)}</div>${q.s ? `<div class="g-qs">${q.s}</div>` : ''}
+    <div class="g-opts" data-q="${k}">${gva(q.opts, G.A).map(o => `<button class="g-opt ${sel.includes(o) ? 'on' : ''}" data-gopt="${esc(o)}">${esc(o)}${q.unit && /^\d+$/.test(o) ? q.unit : ''}</button>`).join('')}</div>
     ${q.custom ? `<div class="g-cust"><input type="${q.custom.type}" ${q.custom.type === 'number' ? 'min="1" max="80"' : ''} placeholder="${q.custom.ph}"><button class="btn sm" data-gusecust="${k}">Use this</button></div>` : ''}
-    ${q.multi ? `<div class="g-cust"><input type="text" placeholder="Add another skill" data-gaddskill><button class="btn sm" data-gaddskillbtn>Add</button></div><div class="g-row"><button class="btn p" data-gmultidone>Continue</button></div>` : ''}`)
+    ${q.multi ? `<div class="g-cust"><input type="text" placeholder="${q.add || 'Add another'}" data-gaddskill><button class="btn sm" data-gaddskillbtn>Add</button></div><div class="g-row"><button class="btn p" data-gmultidone>Continue</button></div>` : ''}`)
     }
     const GACK = {
       why: v => `Thanks — <b>${esc(v)}</b>. That helps me understand how urgent and how specialised this hire is.`,
@@ -12897,6 +13115,8 @@
       rate: v => `<b>${esc(v)}</b> — thanks. That gives me a clear budget to match against.`,
       location: v => `<b>${esc(v)}</b> — noted.`,
       skills: v => `Got it — I’ll treat <b>${esc(v)}</b> as must-haves when ranking consultants.`,
+      rtype: v => `<b>${esc(v)}</b> — noted.`, budgetOk: v => `<b>${esc(v)}</b> — thanks, that helps me set expectations.`, btype: v => `<b>${esc(v)}</b> — noted.`,
+      sw: v => `Got it — I’ll look for experience with <b>${esc(v)}</b>.`, prods: v => `<b>${esc(v)}</b> — noted.`, certs: v => `<b>${esc(v)}</b> — I’ll factor those in.`, sloc: v => `<b>${esc(v)}</b> — noted.`, onsite: v => `<b>${esc(v)}</b> — noted.`, regions: v => `<b>${esc(v)}</b> — noted.`, tzs: v => `<b>${esc(v)}</b> — noted.`, meet: v => `<b>${esc(v)}</b> — noted.`,
       signoff: v => `<b>${esc(v)}</b> will make the final call — noted.`
     };
     const gunsure = t => /\b(not sure|unsure|don.?t know|dont know|no idea|idk|not certain|haven.?t decided|undecided|decide later|skip|later|n\/a|not yet)\b/i.test(t);
@@ -12923,9 +13143,9 @@
     }
     function greview(again) {
       G.reviewShown = true; G.cur = null;
-      const row = k => { const q = gq(k), has = gHas(k); return `<div class="g-ri"><small>${q.label}</small>${k === 'skills' && has ? `<div class="g-tags">${G.A[k].map(s => `<span class="g-tag">${esc(s)}</span>`).join('')}</div>` : `<b>${has ? esc(gunit(k)) : '—'}</b>`}<button class="g-link" data-gchange="${k}">Change</button></div>` };
+      const row = k => { const q = gq(k), has = gHas(k); return `<div class="g-ri"><small>${q.label}</small>${Array.isArray(G.A[k]) && has ? `<div class="g-tags">${G.A[k].map(s => `<span class="g-tag">${esc(s)}</span>`).join('')}</div>` : `<b>${has ? esc(gunit(k)) : '—'}</b>`}<button class="g-link" data-gchange="${k}">Change</button></div>` };
       gbot(`<p><b>${again ? 'Updated — here’s your job posting.' : 'That’s everything I need.'}</b> Please review your job posting for <b>${esc(G.name)}</b> before it goes live.</p>
-    <div class="g-rv">${GGROUPS.map(([t, ks]) => `<div class="g-rg"><h4>${t}</h4>${ks.map(row).join('')}</div>`).join('')}</div>
+    <div class="g-rv">${GGROUPS.map(([t, ks]) => `<div class="g-rg"><h4>${t}</h4>${ks.filter(k => gAct(G.A).some(q => q.k === k)).map(row).join('')}</div>`).join('')}</div>
     <div class="g-row"><button class="btn p" data-gpost>Post job &amp; find matches</button><button class="btn" data-gdraft>Save as draft</button></div>
     <p class="g-note">Matched consultants appear once the job is posted. You can still edit the posting afterwards.</p>`, true)
     }
@@ -12935,11 +13155,22 @@
       await gworking('Posting your job', ['Saving your job posting', 'Publishing to the Cloud Club network', 'Matching consultants to your requirements', 'Ranking the best fits']);
       const x = G.draft, A = G.A, top = [...CANDIDATES].sort((a, b) => b.match - a.match), miss = unmatchedSkills((A.skills || []).filter(t => !G.carryKnown.includes(t)), gq('skills').opts), nm = miss.length > 0;
       Object.assign(x, { posted: true, kind: 'wiz', via: 'skai', g: null, ns: null, wiz: null, jt: G.role || G.name, n: nm ? 0 : CANDIDATES.length, reach: false, starts: '—', snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
-      const num = s => (String(s || '').match(/\d+/) || [])[0], dt = new Date(), addD = n => { const t = new Date(dt); t.setDate(t.getDate() + n); return t };
+      const num = s => (String(s || '').replace(/,/g, '').match(/\d+/) || [])[0], dt = new Date(), addD = n => { const t = new Date(dt); t.setDate(t.getDate() + n); return t };
       const st = /2.4 weeks/.test(A.start) ? 21 : /1.2 months/.test(A.start) ? 45 : 7, mo = num(String(A.duration || '').split(/[–-]/).pop());
-      const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? LIST.sen.find(s => s.startsWith(A.seniority.replace('Mid-level', 'Mid-Level'))) : '', why: A.why ? (LIST.why.find(r => r.split(' ')[0] === A.why.split(' ')[0]) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
+      const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? (LIST.sen.find(s => s === A.seniority) || '') : '', why: A.why ? (LIST.why.find(r => r === A.why) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
+      w.d.sw = w.d.sw || []; 
+      { const d = w.d, ok = v => !gOpen(v);
+        if (ok(A.rtype)) d.rtype = A.rtype;
+        if (ok(A.budgetOk)) d.budgetOk = A.budgetOk; if (ok(A.btype)) d.btype = A.btype;
+        if (A.budgetOk === 'Yes' && num(A.rate)) { d.bamt = num(A.rate); d.btype = A.btype || 'Target hourly rate' } else if (A.budgetOk && A.budgetOk !== 'Yes') { d.bamt = '' }
+        if (ok(A.sw)) A.sw.forEach(v => { if (LIST.sw.includes(v)) { if (!d.sw.includes(v)) d.sw.push(v) } else d.osw = [...custList(d.osw), v].join(', ') });
+        if (ok(A.prods)) { const all = new Set(gOpts(prodList({ sw: d.sw }))); A.prods.forEach(v => { if (all.has(v)) { if (!d.prods.includes(v)) { d.prods.push(v); d.pimp[v] = 'Must have' } } else d.oprod = [...custList(d.oprod), v].join(', ') }) }
+        if (ok(A.certs)) A.certs.forEach(v => { if (!d.certs.includes(v)) { d.certs.push(v); d.cimp[v] = 'Preferred' } });
+        if (A.location !== 'Remote') { if (ok(A.sloc)) d.sloc = A.sloc; if (ok(A.onsite)) d.onsite = num(A.onsite) } else { if (ok(A.regions)) d.regions = A.regions.filter(v => LIST.regions.includes(v)); if (ok(A.tzs)) d.tzs = A.tzs }
+        if (ok(A.meet)) d.meet = A.meet;
+        syncOther(d) }
       if (G.carry) {
-        const C = G.carry, map = { why: ['why'], seniority: ['sen'], hours: ['hours'], start: ['start'], duration: ['end', 'endNo'], rate: ['bamt', 'btype', 'budgetOk'], location: ['wloc'], skills: ['sw', 'prods', 'tech', 'pimp', 'timp', 'osw', 'oprod', 'otech'] }, used = new Set(Object.values(map).flat());
+        const C = G.carry, map = { why: ['why'], seniority: ['sen'], hours: ['hours'], start: ['start'], duration: ['end', 'endNo'], rate: ['bamt', 'btype', 'budgetOk'], location: ['wloc'], skills: ['tech', 'timp', 'otech'], rtype: ['rtype'], budgetOk: ['budgetOk'], btype: ['btype'], sw: ['sw', 'osw'], prods: ['prods', 'pimp', 'oprod'], certs: ['certs', 'cimp'], sloc: ['sloc'], onsite: ['onsite'], regions: ['regions', 'oreg'], tzs: ['tzs'], meet: ['meet'] }, used = new Set(Object.values(map).flat());
         Object.keys(map).forEach(k => { if (JSON.stringify(G.A[k]) === JSON.stringify(G.seed[k])) map[k].forEach(f => { if (C[f] !== undefined) w.d[f] = C[f] }) });
         Object.keys(C).forEach(f => { if (used.has(f) || f === 'sign') return; const v = C[f], e = w.d[f]; if (v && (!e || (Array.isArray(e) && !e.length) || (typeof e === 'object' && !Array.isArray(e) && !Object.keys(e).length))) w.d[f] = v })
       }
@@ -12965,7 +13196,7 @@
       if ((el = c('[data-gopt]'))) { const k = el.closest('.g-opts').dataset.q; if (gq(k).multi) { el.classList.toggle('on'); gsync(); return } ganswer(k, el.dataset.gopt); return }
       if ((el = c('[data-gusecust]'))) { const k = el.dataset.gusecust, i = el.closest('.g-cust').querySelector('input'), v = i.value.trim(); if (!v) { i.focus(); return } ganswer(k, v, gq(k).unit && /^\d+$/.test(v) ? v + gq(k).unit : v); return }
       if (c('[data-gaddskillbtn]')) { const i = c('.g-bub').querySelector('[data-gaddskill]'), v = i.value.trim(); if (!v) return; const b = document.createElement('button'); b.className = 'g-opt on'; b.dataset.gopt = v; b.textContent = v; c('.g-bub').querySelector('.g-opts').appendChild(b); i.value = ''; gsync(); return }
-      if (c('[data-gmultidone]')) { const sel = [...c('.g-bub').querySelectorAll('.g-opt.on')].map(b => b.dataset.gopt); if (!sel.length) { toast('Pick at least one skill'); return } ganswer('skills', sel); return }
+      if (c('[data-gmultidone]')) { const sel = [...c('.g-bub').querySelectorAll('.g-opt.on')].map(b => b.dataset.gopt); if (!sel.length) { toast('Pick at least one option'); return } ganswer(G.cur, sel); return }
       if ((el = c('[data-gchange]'))) { G.drawer = false; gdrawer(); const k = el.dataset.gchange; gme('Change ' + gq(k).label.toLowerCase()); gbot('<p>Sure — let’s update that.</p>'); gask(k, true); return }
       if ((el = c('[data-gleave]'))) { if (G.busy) return; const k = el.dataset.gleave; el.closest('.g-bub').classList.add('done-card'); document.querySelectorAll('.g-opts[data-q="' + k + '"]').forEach(o => o.closest('.g-bub').classList.add('done-card')); G.cur = null; G.A[k] = gq(k).multi ? ['To be confirmed'] : 'To be confirmed'; gprog(); gme('Leave it open for now'); G.busy = true; gsay('<p>Done — I’ve marked <b>' + gq(k).label.toLowerCase() + '</b> as “to be confirmed”. You can fill it in any time from the job summary.</p>').then(async () => { await gsleep(450); G.busy = false; gnext() }); return }
       if (c('[data-gagain]')) { c('.g-bub').classList.add('done-card'); gme('I’ll answer it'); gsay('<p>Great — pick an option above or type your answer below.</p>'); document.querySelectorAll('.g-bub.done-card').forEach(b => { if (b.querySelector('.g-opts') && G.cur) b.classList.remove('done-card') }); return }
@@ -13008,15 +13239,21 @@
       const A = {}, cl = custList, num = v => /^\d+$/.test(v || '');
       /* carry over everything already filled in on the form */
       if (d.why) A.why = d.why;
-      if (d.sen) A.seniority = /^Junior/.test(d.sen) ? 'Junior' : /^Mid/.test(d.sen) ? 'Mid-level' : /^Senior/.test(d.sen) ? 'Senior' : 'Principal';
+      if (d.sen) A.seniority = d.sen;
+      if (d.rtype) A.rtype = d.rtype;
+      if (d.budgetOk) A.budgetOk = d.budgetOk; if (d.btype) A.btype = d.btype;
       if (num(d.hours)) A.hours = d.hours;
       if (d.start) A.start = fmtDate(d.start);
       if (d.endNo) A.duration = 'Not sure yet';
       else if (d.start && d.end) { const m = (new Date(d.end) - new Date(d.start)) / (30.4 * 864e5); if (m > 0) A.duration = m <= 3 ? '1–3 months' : m <= 6 ? '3–6 months' : m <= 12 ? '6–12 months' : '12+ months' }
       if (d.bamt && num(d.bamt)) { const n = +d.bamt; A.rate = d.btype === 'Monthly budget' ? '$' + n.toLocaleString() + ' / month' : d.btype === 'Fixed project budget' ? '$' + n.toLocaleString() + ' total' : n >= 160 ? '$160+ / hr' : n >= 130 ? '$130–160 / hr' : n >= 100 ? '$100–130 / hr' : '$80–100 / hr' }
       if (d.wloc) A.location = d.wloc;
-      const known = [...(d.sw || []), ...(d.prods || []), ...(d.tech || [])].filter(t => t !== 'Other' && t !== NSURE), typed = [...cl(d.osw), ...cl(d.oprod), ...cl(d.otech)];
-      if (known.length || typed.length) A.skills = [...new Set([...known, ...typed])];
+      const nz = l => (l || []).filter(t => t !== 'Other' && t !== NSURE), known = [...nz(d.sw), ...nz(d.prods), ...nz(d.tech)];
+      const swv = [...nz(d.sw), ...cl(d.osw)], prv = [...nz(d.prods), ...cl(d.oprod)], tev = [...nz(d.tech), ...cl(d.otech)];
+      if (swv.length) A.sw = swv; if (prv.length) A.prods = prv; if (tev.length) A.skills = tev;
+      if (nz(d.certs).length) A.certs = nz(d.certs);
+      if (d.sloc) A.sloc = d.sloc; if (num(d.onsite)) A.onsite = d.onsite;
+      if (nz(d.regions).length) A.regions = nz(d.regions); if (d.tzs) A.tzs = d.tzs; if (d.meet) A.meet = d.meet;
       INTAKE.carry = JSON.parse(JSON.stringify(d)); INTAKE.carryKnown = known; INTAKE.carrySeed = Object.assign({}, A);
       INTAKE.seed = A; S.modal = null; startGuided();
       toast('Switched to the Skai guided conversation')
@@ -13070,7 +13307,11 @@
       const t2 = setInterval(() => { const el = $('#mt'); if (!el || S.view !== 'search') { clearInterval(t2); return } el.textContent = m[i++ % m.length] }, 1100);
       setTimeout(() => { if (S.view === 'search') { clearInterval(t2); S.view = 'results'; render(); window.scrollTo(0, 0) } }, 4800)
     }
-    function startSched(ids) { S.sel = ids; resetSch(); S.view = 'sched'; window.scrollTo(0, 0); render() }
+    function startSched(ids, rnd) {
+      S.sel = ids; resetSch();
+      if (rnd) { const c = S.ivs[rnd.i], m = c[6], s = S.sch; s.rnd = { i: rnd.i, r: m.cur + 1 }; s.n = ['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'][m.total]; s.it = m.it[m.cur - 1] || ''; s.fmt = m.fmt || s.fmt; s.tz = m.tz || ''; const oth = (c[4] || []).filter(p => !p.own); if (oth.length) s.iv = oth.map(p => ({ n: p.n, e: p.e })) }
+      S.view = 'sched'; window.scrollTo(0, 0); render()
+    }
     function schValid() {
       const s = S.sch, e = {};
       if (s.step === 0) { if (!s.n) e.n = 1; if (!s.it) e.it = 1; s.iv.forEach((p, i) => { if (!p.n.trim() && !p.e.trim()) return; if (!p.n.trim()) e['i' + i + 'n'] = 1; if (!/^\S+@\S+\.\S+$/.test(p.e)) e['i' + i + 'e'] = 1 }) }
@@ -13143,6 +13384,13 @@
         case 'ivadd': S.ivAdd = +v; render(false); setTimeout(() => $('#ivn')?.focus(), 0); break
         case 'ivcancel': S.ivAdd = null; render(false); break
         case 'ivsave': { const n = ($('#ivn')?.value || '').trim(), e = ($('#ive')?.value || '').trim(); if (!n) { toast('Enter the interviewer’s name'); $('#ivn')?.focus(); break } if (!/^\S+@\S+\.\S+$/.test(e)) { toast('Enter a valid work email'); $('#ive')?.focus(); break } const c = S.ivs[+v]; c[4].push({ n, e }); S.ivAdd = null; render(false); toast(n + ' added — invite sent to ' + e); break }
+        case 'ivdone': { const m = S.ivs[+v][6]; m.rs[m.cur - 1] = 'done'; if (m.cur < m.total) { m.rs[m.cur] = 'unsched'; m.prompt = true } else m.complete = true; render(false); toast('Round ' + m.cur + ' marked as completed'); break }
+        case 'ivnext': S.from = 'interviews'; S.cur = { t: S.ivs[+v][1] }; { const ix = CONS.findIndex(x => x.n === S.ivs[+v][0]); startSched([ix >= 0 ? ix : S.ivs[+v][0]], { i: +v }) } break;
+        case 'ivhold': { const m = S.ivs[+v][6]; m.hold = true; m.prompt = false; render(false); toast('Put on hold — resume any time'); break }
+        case 'ivresumeh': { const m = S.ivs[+v][6]; m.hold = false; m.prompt = true; render(false); break }
+        case 'ivnofitq': { const m = S.ivs[+v][6]; m.nofit = true; render(false); break }
+        case 'ivnofitx': { const m = S.ivs[+v][6]; m.nofit = false; render(false); break }
+        case 'ivnofit': { const [a, ...rs] = v.split(':'), m = S.ivs[+a][6]; m.reason = rs.join(':'); m.closed = true; m.nofit = false; m.prompt = false; render(false); toast('Interview process closed'); break }
         case 'ivrm': { const [a, b] = v.split(':').map(Number), T = S.ivs[a][4], p = T[b]; T.splice(b, 1); render(false); toast(p.n + ' removed from this call'); break }
         case 'ivcopy': navigator.clipboard?.writeText('https://' + v); toast('Interview link copied'); break;
         case 'ivjoin': window.open('https://' + v, '_blank'); toast('Opening your video interview…'); break;
@@ -13287,7 +13535,12 @@
         case 'snext':
           if (!schValid()) { stepRender(); toast('Please complete the required fields'); break }
           if (S.sch.step === 0) { S.sch.step = 1; S.sch.dir = 'fwd'; render(); window.scrollTo(0, 0) }
-          else { S.sch.sent = true; S.ivReq = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))], S.sch.it]) }); S.modal = 'sent'; render(); confetti() }
+          else if (S.sch.rnd) {
+            const { i: ri, r } = S.sch.rnd, c = S.ivs[ri], m = c[6], cd = scd(String(S.sel[0])); S.sch.sent = true;
+            c[2] = 'Proposed: ' + cd.dates.map(k => fmtD(k) + ' (' + fmtHrs(cd.tfs[k]) + ')').join(' / '); c[3] = 'Awaiting'; c[5] = S.sch.it; c[4] = [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))];
+            m.it[r - 1] = S.sch.it; m.rs[r - 1] = 'invited'; m.cur = r; m.prompt = false; m.hold = false; m.fmt = S.sch.fmt; m.tz = S.sch.tz; S.modal = 'sent'; render(); confetti()
+          }
+          else { S.sch.sent = true; S.ivReq = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))], S.sch.it, (parseInt(S.sch.n, 10) > 1 ? { total: parseInt(S.sch.n, 10), cur: 1, rs: Array.from({ length: parseInt(S.sch.n, 10) }, (_, k) => k ? 'locked' : 'invited'), it: [S.sch.it, ...Array(parseInt(S.sch.n, 10) - 1).fill('')], fmt: S.sch.fmt, tz: S.sch.tz } : null)]) }); S.modal = 'sent'; render(); confetti() }
           break
       }
     });
