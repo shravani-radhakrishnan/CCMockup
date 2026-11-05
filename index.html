@@ -3807,7 +3807,7 @@
       let cur = from.firstChild;
       for (const n of nw) {
         const k = _keyOf(n); let o = null;
-        if (k && pool.has(k)) { o = pool.get(k); pool.delete(k); }
+        if (k && pool.has(k) && pool.get(k).tagName === n.tagName) { o = pool.get(k); pool.delete(k); }
         else if (!k) { let c = cur; while (c && _keyOf(c)) c = c.nextSibling; if (c && _same(c, n)) o = c; }
         if (o) { if (o !== cur) from.insertBefore(o, cur); _patch(o, n); cur = o.nextSibling; }
         else from.insertBefore(n, cur);

@@ -6483,7 +6483,7 @@
       if (FRESH) Object.assign(g, { engage: [], authc: [], sponsor: '', country: '', state: '', city: '', tz: '', roles: [], rate: '', min: '', minhrs: '', maxhrs: '', looking: [], days: '', stime: '', etime: '', start: '' });
       const mp = { country: 'country', state: 'state', city: 'city', tz: 'tz', startdate: 'start', minhrs: 'minhrs', maxhrs: 'maxhrs', days: 'days', stime: 'stime', etime: 'etime', minrate: 'min', desrate: 'rate', sponsor: 'sponsor' };
       Object.keys(mp).forEach(k => { if (o[k]) g[mp[k]] = String(o[k]) });
-      [['looking', 'looking'], ['engage', 'engage'], ['authcountries', 'authc']].forEach(([a, b]) => { if (Array.isArray(o[a]) && o[a].length) g[b] = o[a].slice() });
+      [['looking', 'looking'], ['engage', 'engage'], ['authcountries', 'authc']].forEach(([a, b]) => { if (Array.isArray(o[a]) && o[a].length) g[b] = o[a].slice() }); g.engage = g.engage.slice(0, 1);
       return lgSync(g)
     }
     function lgValid(P, g, ob) {
@@ -6496,7 +6496,7 @@
     }
     function lgForm(P, g, ob) {
       const er = k => S.err[P + k] ? 'err' : '', stO = stOpts(g.country), ctO = ctOpts(g.country, g.state);
-      const chips = (k, opts, label, req) => `<div class="fld ${er(k)}"><label>${label}${req ? '<span class="rq">*</span>' : ''}</label><div class="pills">${opts.map(o => `<button type="button" class="chip ${g[k].includes(o) ? 'on' : ''}" data-a="lgtog" data-p="${P + k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><span class="em">Select at least one</span></div>`;
+      const chips = (k, opts, label, req, one) => `<div class="fld ${er(k)}"><label>${label}${req ? '<span class="rq">*</span>' : ''}<span style="font-weight:500;color:var(--muted);font-size:12px;margin-left:8px">${one ? 'Select one' : 'Select all that apply'}</span></label><div class="pills">${opts.map(o => `<button type="button" class="chip ${g[k].includes(o) ? 'on' : ''}" data-a="${one ? 'lgone' : 'lgtog'}" data-p="${P + k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><span class="em">Select at least one</span></div>`;
       const ctry = `<div class="fld ${er('authc')}"><label>Authorized countries<span class="rq">*</span></label><div class="cdd-wrap"><input class="in" type="text" data-csearch="${P}authc" placeholder="Search countries…" autocomplete="off"><div class="cdd" data-cdd="${P}authc"></div></div>${g.authc.length ? `<div class="pills" style="margin-top:10px">${g.authc.map(c => `<span class="tag">${esc(c)}<button type="button" data-a="lgrm" data-p="${P}authc" data-v="${esc(c)}" aria-label="Remove ${esc(c)}">×</button></span>`).join('')}</div>` : ''}<span class="em">Select at least one country</span></div>`;
       const sp = `<div class="fld"><label>Will you need sponsorship?</label><div class="pills">${SPON_OPTS.map(o => `<button type="button" class="chip ${g.sponsor === o ? 'on' : ''}" data-a="lgset" data-p="${P}sponsor" data-v="${o}">${o}</button>`).join('')}</div></div>`;
       return `<div class="row2">${fld('Country', P + 'country', { req: 1, opts: COUNTRIES })}${stO ? fld('State', P + 'state', { req: 1, opts: stO }) : fld('State / region', P + 'state', { req: 1, ph: 'State or region' })}</div>
@@ -6507,7 +6507,7 @@
   ${ob ? '' : chips('looking', LOOK_OPTS, 'What are you looking for through Cloud Club?')}
   <div class="row2">${fld('Earliest start date', P + 'start', { req: 1, type: 'date' })}${fld('Normally available', P + 'days', { opts: DAY_OPTS, ph: 'Days' })}</div>
   <div class="row2">${fld('Available from', P + 'stime', { type: 'time' })}${fld('Available until', P + 'etime', { type: 'time' })}</div>
-  ${chips('engage', ENG_OPTS, 'How can you engage for contract work?', 1)}
+  ${chips('engage', ENG_OPTS, 'How can you engage for contract work?', 1, 1)}
   ${ctry}${sp}`
     }
     const S = {
@@ -6558,7 +6558,7 @@
       S.notifs = [{ t: 'Welcome to Cloud Club', s: 'Complete your profile to start getting matched', w: 'Just now', go: 'profile', u: 1 }]
     })();
 
-    /* ---------- job descriptions for interviews and offers (client identity stays hidden until the interview is accepted) ---------- */
+    /* ---------- job descriptions for interviews and offers (client identity stays hidden until the interview is scheduled and confirmed) ---------- */
     const JD = {
       1: { ind: 'Pharma & Life Sciences', ctx: 'A multi-region pharmaceutical distributor serving 2,000+ pharmacies and hospital networks, consolidating its order and partner management onto Salesforce.', ov: 'Extend Sales Cloud and Commerce Cloud so pharmacies can reorder, track shipments and manage contracts online, and connect the portal to the distributor’s ERP.', resp: ['Design and build Apex services and Lightning components for the reorder flow', 'Integrate Salesforce with the ERP through REST APIs', 'Lead code reviews and mentor two junior developers', 'Write technical documentation and hand over to the support team'], req: ['5+ years on Salesforce, including Commerce Cloud', 'Strong Apex and LWC', 'Experience in a regulated industry', 'Clear written English'], eng: [['Team', '6 people, 2 Salesforce developers'], ['Working style', 'Agile, 2-week sprints'], ['Overlap', '4 hours with US Eastern']], exp: ['Own delivery of the reorder module from design to release', 'Join daily stand-ups and sprint demos', 'Flag risks early and document decisions'], terms: [['Contract', 'Corp-to-Corp or 1099'], ['Payment', 'Weekly timesheets, invoiced weekly, paid Net 30'], ['Notice', '2 weeks written notice by either side'], ['Confidentiality', 'NDA and IP assignment apply']] },
       2: { ind: 'Financial Services', ctx: 'A global insurance group modernising claims and policy service on Salesforce Financial Services Cloud across three business lines.', ov: 'Define the target architecture for a claims intake and case-management platform, and guide two delivery teams through the first release.', resp: ['Own the solution architecture and integration design', 'Run design reviews and set coding standards', 'Partner with business analysts on the roadmap', 'Support go-live and hypercare'], req: ['Salesforce Application or System Architect certification', 'Insurance or financial services background', 'MuleSoft or similar integration experience'], eng: [['Team', '12 people across 2 time zones'], ['Working style', 'SAFe, quarterly planning'], ['Overlap', '3 hours with US Central']], exp: ['Present architecture decisions to client leadership', 'Keep the architecture decision log up to date'], terms: [['Contract', 'Corp-to-Corp'], ['Payment', 'Monthly invoicing, paid Net 45'], ['Notice', '30 days written notice'], ['Confidentiality', 'NDA and IP assignment apply']] },
@@ -6568,7 +6568,7 @@
     const ul = a => `<ul class="jdl">${a.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`, tg = a => `<div class="pills" style="gap:6px">${a.map(x => `<span class="tag" style="padding-right:11px">${esc(x)}</span>`).join('')}</div>`, kvs = a => `<div class="kvl">${a.map(([k, v]) => `<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`;
     function jdBox(key, d, o = {}) {
       const open = S.jd[key];
-      return `<div class="jd"><button class="jdt" data-a="jdtog" data-v="${key}" aria-expanded="${!!open}"><b>${o.title || 'Job description'}</b><span>${open ? 'Hide ▴' : 'View details ▾'}</span></button>${open ? `<div class="jdb">${o.masked ? `<div class="bnr info">${IC.info}<div>The client’s name and project specifics stay confidential until you accept this interview.</div></div>` : ''}
+      return `<div class="jd"><button class="jdt" data-a="jdtog" data-v="${key}" aria-expanded="${!!open}"><b>${o.title || 'Job description'}</b><span>${open ? 'Hide ▴' : 'View details ▾'}</span></button>${open ? `<div class="jdb">${o.masked ? `<div class="bnr info">${IC.info}<div>The client’s name and project specifics stay confidential until you schedule and confirm your interview.</div></div>` : ''}
   ${o.masked ? '' : `<h5>About the client</h5><p>${esc(d.ctx)}</p>`}<h5>Project overview</h5><p>${esc(d.ov)}</p><h5>Responsibilities</h5>${ul(d.resp)}<h5>Requirements</h5>${ul(d.req)}
   <h5>Products / software</h5>${tg(d.prods)}<h5>Skills</h5>${tg(d.skills)}
   ${o.offer ? `<h5>Expectations</h5>${ul(d.exp)}<h5>Engagement terms</h5>${kvs(o.terms)}` : `<h5>Engagement</h5>${kvs(d.eng)}`}</div>` : ''}</div>`
@@ -6864,7 +6864,7 @@
   ${S.ivs.length ? '' : emptyCard(IC.chat, 'No interview requests yet', 'When a client likes your profile they send you an interview request here. Keep your profile and logistics complete to get matched faster.', `<button class="btn p" data-a="gologi">Complete my logistics</button><button class="btn" data-go="profile">View my profile</button>`)}
   <div class="ivl stagger">${S.ivs.map(iv => {
         const st = { invited: ['am', 'Awaiting your reply'], accepted: ['ok', 'Interview accepted'], rejected: ['dg', 'Declined'] }[iv.st];
-        const jd = JD[iv.id] || JD[1], mk = iv.st !== 'accepted', co = mk ? 'Confidential · ' + jd.ind + ' client' : iv.co;
+        const jd = JD[iv.id] || JD[1], mk = iv.st !== 'accepted', co = mk ? 'Confidential · ' + jd.ind + ' company' : iv.co;
         return `<div class="card offc"><div class="offh"><span class="av">${mk ? IC.shield : ini(iv.co)}</span><div class="t"><h3>${esc(iv.role)}</h3><small>${esc(co)}</small></div><span class="pill ${st[0]}"><i></i>${st[1]}</span></div>
    <div class="meta"><span>${IC.pin} Time zone <b>${iv.loc}</b></span><span><b>${iv.hpw}</b> hrs/week</span><span><b>$${iv.rate}</b>/hr</span><span><b>${iv.len}</b> contract length</span><span><b>${iv.mode}</b></span></div>
    <div class="exg"><div><small>Salesforce clouds experience</small><div class="pills" style="gap:6px">${iv.clouds.map(x => `<span class="tag" style="padding-right:11px">${x}</span>`).join('')}</div></div><div><small>Technologies</small><div class="pills" style="gap:6px">${iv.tech.map(x => `<span class="tag" style="padding-right:11px">${x}</span>`).join('')}</div></div></div>
@@ -7208,6 +7208,7 @@
         case 'lgcancel': S.lgEdit = false; S.err = {}; render(); break;
         case 'lgsave': { const d = S.lgDraft; if (!lgValid('lgDraft.', d, 0)) { render(); break } S.lg = lgSync(d); S.lgEdit = false; S.err = {}; render(); toast('Logistics saved'); break }
         case 'indsel': { const l = S.mf.sel || (S.mf.sel = []), i = +v, k = l.indexOf(i); k < 0 ? l.push(i) : l.splice(k, 1); render(); break }
+        case 'lgone': { const l = getp(a_p(a)), i = l.indexOf(v); l.length = 0; if (i < 0) l.push(v); delete S.err[a_p(a)]; render(); break }
         case 'lgtog': { const l = getp(a_p(a)), i = l.indexOf(v); i < 0 ? l.push(v) : l.splice(i, 1); delete S.err[a_p(a)]; render(); break }
         case 'lgrm': { const l = getp(a_p(a)), i = l.indexOf(v); if (i >= 0) l.splice(i, 1); render(); break }
         case 'lgset': { setp(a_p(a), getp(a_p(a)) === v ? '' : v); render(); break }
