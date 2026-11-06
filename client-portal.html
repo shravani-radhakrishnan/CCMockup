@@ -6555,6 +6555,81 @@
       cursor: not-allowed
     }
 
+    .ivadd { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center }
+    @media (max-width: 640px) { .ivadd { grid-template-columns: 1fr } }
+    .ivch { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px }
+    .ivchip, .ivpc { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; border: 1px solid var(--line-2); background: var(--slate-tint); border-radius: 99px; padding: 3px 8px 3px 3px; font: inherit; text-align: left }
+    .ivchip .av, .ivpc .av { width: 26px; height: 26px; flex: 0 0 26px; font-size: 10.5px; text-transform: uppercase }
+    .ivchip-t { min-width: 0; display: flex; align-items: baseline; gap: 6px }
+    .ivchip-t b, .ivpc b { font-size: 12.5px; font-weight: 600; color: var(--ink); white-space: nowrap }
+    .ivchip-t em { font-style: normal; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 190px }
+    .ivchip button { flex: 0 0 20px; border: 0; background: rgba(0, 0, 0, .06); width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; padding: 0; font-size: 13px; line-height: 1; color: var(--muted); cursor: pointer } .ivchip button:hover { background: rgba(0, 0, 0, .12) }
+    .ivpc { background: var(--surface); cursor: pointer; transition: .12s } .ivpc:hover { border-color: var(--slate) }
+    .ivpc.on { border-color: var(--slate-d); background: var(--slate-tint) }
+    .ivpc>i { font-style: normal; display: inline-flex; align-items: center; gap: 3px; font-size: 11.5px; font-weight: 700; color: var(--slate-d); flex: none } .ivpc>i svg { width: 11px; height: 11px }
+    .ivprev { margin-bottom: 10px } .ivprev-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px }
+    .ivprev-h b { font-size: 13px } .ivprev-h small { display: block; color: var(--muted); font-size: 12px; margin-top: 1px }
+    .ivprev-l { display: flex; flex-wrap: wrap; gap: 8px }
+    .ivrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+    .ivhint { display: block; margin: 8px 0 4px; color: var(--muted); font-size: 12px }
+    .dtw { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start }
+    .dtw>.dtl-col { flex: 1 1 240px; max-width: 320px; min-width: 0 }
+    .dtw>.dtp { flex: 1 1 230px; min-width: 0 }
+    .dtw .calg { gap: 4px } .dtw .day { height: 36px }
+    .dtl-col { min-width: 0 }
+    .dtz { margin-top: 14px }
+    .dsync { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 14px }
+    .dsync small { color: var(--muted); font-size: 12px }
+    .dtts { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 8px; max-height: 192px; overflow-y: auto; padding: 2px 4px 2px 0; box-sizing: border-box; scrollbar-width: thin; overscroll-behavior: contain }
+    .dterr { display: flex; gap: 8px; align-items: flex-start; padding: 9px 12px; border: 1px solid #e3b4b0; background: #fbefee; color: #8f2f28; border-radius: 10px; font-size: 12.5px; line-height: 1.45 }
+    .dterr b { font-weight: 700 }
+    .dtt { height: 56px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; position: relative; border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); padding: 8px 28px 8px 10px; cursor: pointer; min-width: 0; transition: .12s }
+    .dtt b { display: block; font-size: 13px; color: var(--ink) }
+    .dtt small { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .dtt:hover { border-color: var(--slate) }
+    .dtt.ok { border-left: 3px solid #2f8f5b }
+    .dtt.on { border-color: var(--slate-d); box-shadow: 0 0 0 3px rgba(84, 118, 145, .14); background: var(--slate-tint) }
+    .dtt.err { border-color: #b4423a } .dtt.err small { color: #b4423a }
+    .dtt-x { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border: 0; background: none; color: var(--muted); font-size: 15px; line-height: 1; border-radius: 6px; cursor: pointer }
+    .dtt-x:hover { background: rgba(0, 0, 0, .06) }
+    .dtb { border: 1px solid var(--line-2); border-radius: 12px; padding: 12px; background: var(--surface) }
+    .dtb-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px }
+    .dtb-h b { font-family: Manrope; font-size: 14px; color: var(--ink) }
+    .dtl2 { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; margin-top: 12px }
+    .dtl2-k { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted) }
+    .dtl2-k span { display: inline-flex; align-items: center; gap: 6px }
+    .dtl2 .k { width: 12px; height: 12px; border-radius: 4px; background: var(--slate-tint) }
+    .dtl2 .k.on { background: var(--slate-d) } .dtl2 .k.x { background: none; border: 1px dashed var(--line-2) }
+    .dtl2 small { color: var(--muted); font-size: 12px }
+    .dtp { display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+    .dtp-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px }
+    .dtp-h b { font-family: Manrope; font-size: 14px; color: var(--ink) }
+    .dtp-h small { color: var(--muted); font-size: 12px }
+    .dtp-e { align-items: center; text-align: center; padding: 34px 20px; border: 1.5px dashed var(--line-2); border-radius: 14px; color: var(--muted) }
+    .dtp-e b { color: var(--ink); font-family: Manrope } .dtp-e p { margin: 0; font-size: 13px; max-width: 300px }
+    .dtp-ic { width: 38px; height: 38px; border-radius: 50%; background: var(--slate-tint); display: grid; place-items: center; color: var(--slate-d) }
+    .dtp-ic svg { width: 18px; height: 18px }
+    .dti { border: 1px solid var(--line-2); border-radius: 12px; background: var(--surface); transition: .15s }
+    .dti.on { border-color: var(--slate-d); box-shadow: 0 0 0 3px rgba(84, 118, 145, .12) }
+    .dti.err { border-color: #b4423a }
+    .dti-h { display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer }
+    .dti-h>i { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; flex: none; color: #fff }
+    .dti.ok .dti-h>i { background: #2f8f5b; border-color: #2f8f5b }
+    .dti-h>i svg { width: 12px; height: 12px }
+    .dti-h>div { flex: 1; min-width: 0 }
+    .dti-h b { display: block; font-size: 13.5px; color: var(--ink) }
+    .dti-h small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .dti.err .dti-h small { color: #b4423a }
+    .dti-c { color: var(--muted); font-size: 12px; flex: none }
+    .dti-x { border: 0; background: none; font-size: 18px; line-height: 1; color: var(--muted); cursor: pointer; padding: 2px 6px; border-radius: 6px }
+    .dti-x:hover { background: var(--slate-tint) }
+    .dti-b { padding: 2px 12px 12px; border-top: 1px solid var(--line-2) }
+    .dti-b .dtq { margin: 10px 0 8px }
+    .tsg-l { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 10px 0 6px }
+    .tsg { display: grid; grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px }
+    .tslot { height: 30px; padding: 0 4px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); font-size: 12.5px; color: var(--body); cursor: pointer; transition: .12s }
+    .tslot:hover { border-color: var(--slate) }
+    .tslot.on { background: var(--slate-d); border-color: var(--slate-d); color: #fff }
     .dtrows {
       display: grid;
       gap: 8px;
@@ -7608,6 +7683,29 @@
     .pass>b { font-family: Manrope; font-size: 13.5px; color: var(--ink) }
     .pass>p { margin: -6px 0 0; font-size: 12px; color: var(--muted) }
     .pass .rr { display: flex; gap: 6px; flex-wrap: wrap }
+    .svb.sv-on { color: var(--slate-d); border-color: var(--slate-d); background: var(--slate-tint) }
+    .svb { display: inline-flex; align-items: center; justify-content: center; gap: 7px }
+    .svb svg { width: 15px; height: 15px; flex: none } .svb.sv-on svg { fill: currentColor }
+    .ph .r { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+    .svf { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px }
+    .svg { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px }
+    .svc { display: flex; flex-direction: column; gap: 10px }
+    .svc-h { display: flex; align-items: center; gap: 10px } .svc-t { flex: 1; min-width: 0 } .svc-t b { display: block } .svc-t small { color: var(--muted) } .svc-r { font-weight: 700; font-size: 13px }
+    .ivsv { margin: 2px 0 8px }
+    .ivh .svb { margin-left: 8px }
+    .svc-pen { width: 30px; height: 30px; border: 1px solid var(--line-2); background: var(--surface); border-radius: 8px; display: grid; place-items: center; color: var(--muted); cursor: pointer; flex: none }
+    .svc-pen:hover { color: var(--slate-d); border-color: var(--slate-d); background: var(--slate-tint) }
+    .svc-pen svg { width: 14px; height: 14px }
+    .svc-sk { display: flex; gap: 6px; flex-wrap: wrap }
+    .svc-l { display: flex; gap: 6px; flex-wrap: wrap; align-items: center } .svc-l small { color: var(--muted); font-size: 12px; margin-right: 2px }
+    .svc-e { border: 0; background: none; color: var(--slate-d); font-size: 12px; font-weight: 600; cursor: pointer; padding: 0 4px } .svc-e:hover { text-decoration: underline }
+    .svc-a { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; padding-top: 4px }
+    .svl { display: grid; gap: 8px; margin: 0 0 14px; max-height: 280px; overflow: auto }
+    .svr { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 14px; cursor: pointer }
+    .svr i { width: 20px; height: 20px; border: 1.5px solid var(--line-2); border-radius: 6px; display: grid; place-items: center; flex: none; color: #fff } .svr i svg { width: 12px; height: 12px }
+    .svr span { flex: 1 } .svr em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--slate-d); background: var(--slate-tint); border-radius: 99px; padding: 2px 8px }
+    .svr.on { border-color: var(--slate-d); background: var(--slate-tint) } .svr.on i { background: var(--slate-d); border-color: var(--slate-d) }
+    .svn { display: flex; gap: 8px; margin-bottom: 4px } .svn .in { flex: 1 }
     .pass { gap: 10px; padding: 0; margin: 0; border: 0; background: none }
     .pmbox { width: min(640px, 94vw); max-height: 90vh; display: flex; flex-direction: column; padding: 22px 24px 0; overflow: hidden }
     .pmbox .pass { display: flex; flex-direction: column; min-height: 0; flex: 1 }
@@ -11459,6 +11557,7 @@
       info: I('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
       cloud: I('<path d="M6 18a4 4 0 010-8 5 5 0 019.5-1.8A4.5 4.5 0 0118 18H6z"/>', 20, 2),
       building: I('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h2M13 8h2M9 12h2M13 12h2M10 21v-4h4v4"/>'),
+      bookmark: I('<path d="M6 3.5h12v17l-6-4.2-6 4.2z"/>'),
       offer: I('<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'),
       chat: I('<path d="M21 11.5a8.5 8.5 0 01-12.4 7.55L3 20l1.1-4.2A8.5 8.5 0 1121 11.5z"/>'),
       brief: I('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/>'),
@@ -11506,7 +11605,40 @@
       clouds: ONB ? ((ONB.techareas || []).map(v => TECH_AREA_LABELS[v] || v)) : ['CRM & Customer Platforms', 'Data, Analytics & AI']
     };
     const NOFAB = ['guided', 'searches', 'intake', 'skai', 'wizard', 'search', 'results', 'cprofile', 'sched'];
-    const NAV = [['profile', 'Profile', IC.building], ['searches', 'Searches', IC.search], ['interviews', 'Interviews', IC.chat], ['projects', 'Projects', IC.brief], ['payments', 'Payments', IC.dollar], ['referrals', 'Referrals', IC.users]];
+    const NAV = [['profile', 'Profile', IC.building], ['searches', 'Searches', IC.search], ['saved', 'Saved talent', IC.bookmark], ['interviews', 'Interviews', IC.chat], ['projects', 'Projects', IC.brief], ['payments', 'Payments', IC.dollar], ['referrals', 'Referrals', IC.users]];
+    /* ---------- saved talent: save consultants into technology lists, reuse them for other positions ---------- */
+    const TL = [{ n: 'Salesforce', kw: ['salesforce', 'apex', 'lwc', 'marketing cloud', 'service cloud', 'sales cloud', 'cpq'] }, { n: 'AWS & Cloud', kw: ['aws', 'azure', 'gcp', 'cloud', 'terraform', 'kubernetes'] }, { n: 'Data & Analytics', kw: ['snowflake', 'databricks', 'data', 'sql', 'tableau', 'analytics', 'python'] }, { n: 'Integration', kw: ['mulesoft', 'integration', 'api', 'boomi'] }, { n: 'Security', kw: ['security', 'iam', 'soc'] }];
+    const SAVED = [{ k: 'CC-128', lists: ['AWS & Cloud', 'Data & Analytics'], pos: [] }, { k: 'CC-117', lists: ['Salesforce'], pos: [] }];
+    const SV = { f: 'All', k: null, sel: [], pk: null };
+    const cOf = k => { const i = CONS.findIndex(x => x.n === k); return i >= 0 ? CONS[i] : extC(k) };
+    const svGet = k => SAVED.find(x => x.k === k);
+    const svSuggest = (c, l) => { const t = (c.r + ' ' + (c.sk || []).join(' ')).toLowerCase(); return l.kw.some(w => t.includes(w)) };
+    const svBtn = (k, cls = 'ghost sm') => `<button class="btn ${cls} svb${svGet(k) ? ' sv-on' : ''}" data-a="savec" data-v="${esc(k)}" aria-pressed="${!!svGet(k)}">${IC.bookmark} ${svGet(k) ? 'Saved' : 'Save'}</button>`;
+    function vSaved() {
+      const f = SV.f, rows = SAVED.filter(x => f === 'All' || x.lists.includes(f));
+      const chip = (n, c) => `<button class="chip ${f === n ? 'on' : ''}" data-a="sfilt" data-v="${esc(n)}">${esc(n)} <em style="font-style:normal;opacity:.7">${c}</em></button>`;
+      const lists = TL.filter(l => SAVED.some(x => x.lists.includes(l.n)) || true);
+      const head = `<div class="ph"><div><h1>Saved talent</h1><p>Save consultants by technology and bring them back whenever a new position opens.</p></div><div class="r"><button class="btn" data-a="slnew">${IC.plus} New list</button></div></div>`;
+      if (!SAVED.length) return head + emptyCard(IC.bookmark, 'No saved talent yet', 'Tap Save on any consultant to keep them in a technology list, then reuse them for future job postings.', `<button class="btn p" data-go="searches">Browse your searches</button>`);
+      return head + `<div class="svf">${chip('All', SAVED.length)}${lists.map(l => chip(l.n, SAVED.filter(x => x.lists.includes(l.n)).length)).join('')}</div>
+  ${rows.length ? `<div class="svg stagger">${rows.map(x => { const c = cOf(x.k); return `<div class="card svc"><div class="svc-h"><span class="av">${ini(c.n)}</span><div class="svc-t"><b>${esc(c.n)}</b><small>${esc(c.r)}</small></div><span class="svc-r">${c.rate ? '$' + c.rate + '/hr' : ''}</span><button class="svc-pen" data-a="savec" data-v="${esc(x.k)}" aria-label="Edit lists for ${esc(c.n)}" title="Edit lists">${IC.edit}</button></div>
+   <div class="svc-sk">${(c.sk || []).slice(0, 5).map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+   <div class="svc-l"><small>Saved in</small>${x.lists.map(l => `<span class="pill"><i></i>${esc(l)}</span>`).join('')}</div>
+   ${x.pos.length ? `<div class="svc-l"><small>Considered for</small>${x.pos.map(p => `<span class="pill ok"><i></i>${esc(p)}</span>`).join('')}</div>` : ''}
+   <div class="svc-a"><button class="btn p sm" data-a="spos" data-v="${esc(x.k)}">Use for a position</button><button class="btn sm" data-a="sview" data-v="${esc(x.k)}">View profile</button><button class="btn sm ghost" data-a="srm" data-v="${esc(x.k)}">Remove</button></div></div>` }).join('')}</div>` : `<div class="card"><div class="empty">Nobody saved in “${esc(f)}” yet.</div></div>`}`
+    }
+    function svModal(box, x) {
+      const m = S.modal;
+      if (m === 'savel') { const c = cOf(SV.k); return box(`${x}<h3>Save ${esc(c.n)}</h3><p>Choose the technology lists to keep this consultant in. You can reuse them for other positions later.</p>
+   <div class="svl">${TL.map(l => `<button type="button" class="svr ${SV.sel.includes(l.n) ? 'on' : ''}" data-a="svtog" data-v="${esc(l.n)}"><i>${SV.sel.includes(l.n) ? IC.check : ''}</i><span>${esc(l.n)}</span>${svSuggest(c, l) ? '<em>Suggested</em>' : ''}</button>`).join('')}</div>
+   <div class="svn"><input class="in" id="svnew" placeholder="New technology list, e.g. Tableau" maxlength="40"><button class="btn sm" data-a="svadd">${IC.plus} Add</button></div>
+   <div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="svok">${svGet(SV.k) ? 'Update' : 'Save consultant'}</button></div>`) }
+      if (m === 'slnew') return box(`${x}<h3>New technology list</h3><p>For example “Tableau” or “ServiceNow”.</p><div class="fld"><input class="in" id="slname" placeholder="List name" maxlength="40"></div><div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="slnewok">Create list</button></div>`);
+      if (m === 'savepos') { const c = cOf(SV.pk), ps = SEARCHES.filter(p => p.posted && !p.closed), cur = (svGet(SV.pk) || { pos: [] }).pos; return box(`${x}<h3>Use ${esc(c.n)} for a position</h3><p>Pick one of your open job postings, or start a new one.</p>
+   <div class="svl">${ps.length ? ps.map((p, i) => `<button type="button" class="svr ${cur.includes(p.title) ? 'on' : ''}" data-a="sposok" data-v="${SEARCHES.indexOf(p)}"><i>${cur.includes(p.title) ? IC.check : ''}</i><span>${esc(p.title)}</span></button>`).join('') : '<div class="empty">No open job postings yet.</div>'}</div>
+   <div class="mact"><button class="btn" data-a="closem">Close</button><button class="btn p" data-a="sposnew">${IC.plus} New job posting</button></div>`) }
+      return null
+    }
     const NARROW = window.matchMedia('(max-width:1024px)');
     const S = {
       view: 'welcome', expAll: false, sqEdit: null, collapsed: false, theme: 'light', pop: false, chat: false, edit: null,
@@ -11620,9 +11752,9 @@
       return `<div class="pop fx ${S.collapsed || NARROW.matches ? 'c' : ''}" role="dialog" aria-label="Notifications"><h4>Notifications<button class="pmark" data-a="notifall" ${unread() ? '' : 'disabled'}>Mark all as read</button></h4>
   <div class="pl">${L.map((n, i) => `<button class="it" data-a="notif" data-v="${i}"><i class="dot ${n.u ? '' : 'rd'}"></i><div><b>${n.t}</b><span>${n.s}</span><small>${n.w}</small></div></button>`).join('')}</div></div>`
     }
-    function title() { return { guided: 'Create with Skai', intake: 'New Job Posting (Skai)', skai: 'Skai', welcome: 'Welcome', profile: 'Profile', searches: 'Searches', offers: 'Job postings', wizard: 'New Job Posting', search: 'AI Search', results: 'Consultant Search Results', cprofile: 'Consultant Profile', sched: 'Schedule Interviews', interviews: 'Interviews', projects: 'Projects', payments: 'Payments', referrals: 'Referrals', timesheet: 'Timesheet', settings: 'Settings' }[S.view] }
+    function title() { return { guided: 'Create with Skai', intake: 'New Job Posting (Skai)', skai: 'Skai', welcome: 'Welcome', profile: 'Profile', searches: 'Searches', offers: 'Job postings', wizard: 'New Job Posting', search: 'AI Search', results: 'Consultant Search Results', cprofile: 'Consultant Profile', sched: 'Schedule Interviews', interviews: 'Interviews', saved: 'Saved talent', projects: 'Projects', payments: 'Payments', referrals: 'Referrals', timesheet: 'Timesheet', settings: 'Settings' }[S.view] }
     function crumb() { const m = { guided: 'Searches / <b>Create with Skai</b>', wizard: 'Searches / <b>New Job Posting</b>', search: 'Searches / <b>Finding matches</b>', results: 'Searches / <b>' + esc((SEARCHES[S.pidx] || {}).title || 'Matched consultants') + '</b>', cprofile: 'Searches / <b>Consultant Profile</b>', sched: 'Searches / <b>Schedule an Interview</b>' }; return m[S.view] || (S.view === 'timesheet' ? 'Projects / <b>Timesheet</b>' : `<b>${title()}</b>`) }
-    function page() { return ({ welcome: vWelcome, profile: vProfile, searches: vSearches, offers: vOffers, guided: vGuided, intake: vIntake, skai: vSkai, wizard: vWizard, search: vSearch, results: vResults, cprofile: vCProfile, sched: vSched, interviews: vInterviews, projects: vProjects, payments: vPayments, referrals: vReferrals, timesheet: vTimesheet, settings: vSettings })[S.view]() }
+    function page() { return ({ welcome: vWelcome, profile: vProfile, searches: vSearches, offers: vOffers, guided: vGuided, intake: vIntake, skai: vSkai, wizard: vWizard, search: vSearch, results: vResults, cprofile: vCProfile, sched: vSched, interviews: vInterviews, saved: vSaved, projects: vProjects, payments: vPayments, referrals: vReferrals, timesheet: vTimesheet, settings: vSettings })[S.view]() }
 
     /* ---------- views ---------- */
     function vWelcome() {
@@ -12070,7 +12202,7 @@
     function vCProfile() {
       const c = getC(S.pid), ext = typeof c.id === 'string'; const jobs = c.jobs || c.exp.map((e, i) => ({ t: e[1], co: e[2], p: e[0], b: i === 0 && c.proj ? [c.proj] : [] }));
       const tags = a => `<div class="t2">${a.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
-      return `<div class="ph"><div><h1>${esc(c.r)}</h1><p>${IC.pin} ${c.tz} · ${c.y}</p></div><div class="r"><button class="btn" data-a="backres">‹ Back</button><button class="btn p" data-a="${ext ? 'bookext' : 'invite1'}" data-v="${c.id}">Book interview ${IC.chat}</button></div></div>
+      return `<div class="ph"><div><h1>${esc(c.r)}</h1><p>${IC.pin} ${c.tz} · ${c.y}</p></div><div class="r"><button class="btn" data-a="backres">‹ Back</button>${svBtn(c.n, '')}<button class="btn p" data-a="${ext ? 'bookext' : 'invite1'}" data-v="${c.id}">Book interview ${IC.chat}</button></div></div>
  <div class="cpg stagger"><div class="card side2 sec"><div style="display:flex;gap:14px;align-items:center"><span class="av bigav">${ini(c.n)}</span><div><b style="font:700 17px Manrope">${esc(c.n)}</b><div style="color:var(--muted)">$${c.rate}/hour · ${c.bw} hours/week</div></div></div>
   <div style="display:flex;align-items:center;gap:14px;margin-top:16px">${mring(c.m, 64)}<div><b>Role match</b><div style="color:var(--muted);font-size:12.5px">against your job posting</div></div></div>
   <h4>Cloud Club relationship</h4><span class="vb ${c.pc ? 'pc' : ''}" title="${c.pc ? 'Has completed at least one engagement through Cloud Club with positive client feedback.' : 'Not yet engaged through Cloud Club.'}">${c.pc ? 'Proven consultant' : 'New consultant'}</span>${c.ver ? ` <span class="vb" style="margin-top:6px" title="Technical skills confirmed through Cloud Club’s skills assessment and certification checks.">${IC.check} Verified skills</span>` : ''}
@@ -12087,7 +12219,7 @@
 
     /* ---------- schedule interviews (Client 9.1 / 9.2) ---------- */
     const ITYPES = [['Initial screening', 'Intro call on background, availability and expectations.'], ['Technical interview', 'Deep dive into skills, architecture and past projects.'], ['Coding / live assessment', 'Hands-on exercise or live coding session.'], ['System design review', 'Walk through designing a solution end to end.'], ['Final / stakeholder round', 'Final conversation with decision makers.']];
-    function resetSch() { S.sch = { step: 0, n: '', it: '', fmt: 'Small team interview', iv: [{ n: '', e: '' }], cd: {}, cur: 0, tz: '', g: false, m: 0, err: {}, sent: false } }
+    function resetSch() { S.sch = { me: false, prev: [], pinc: [], step: 0, n: '', it: '', fmt: 'Small team interview', iv: [], nn: '', ne: '', cd: {}, cur: 0, tz: '', g: false, m: 0, err: {}, sent: false } }
     const FMT = [['One-on-one', '1 interviewer, 1 candidate.'], ['Small team interview', '2–3 interviewers.'], ['Panel interview', '4+ interviewers.']];
     const sk = () => String(S.sel[S.sch.cur || 0]), scd = k => S.sch.cd[k] || (S.sch.cd[k] = { dates: [], tfs: {} }), HRS = Array.from({ length: 20 }, (_, k) => 8 + k / 2), hl = h => { const m = h % 1 ? ':30' : '', H = Math.floor(h); return (H % 12 || 12) + m + (H < 12 ? ' AM' : ' PM') }, hrsTxt = n => { const h = n / 2; return '<b>' + h + ' hr' + (h === 1 ? '' : 's') + '</b>' }, hasT = c => d => c.tfs[d] && c.tfs[d].length, cOk = c => c.dates.length >= 2 && c.dates.every(hasT(c));
     function fmtHrs(a) { if (!a || !a.length) return ''; const v = [...a].sort((x, y) => x - y), r = []; let st = v[0], pv = v[0]; for (let i = 1; i <= v.length; i++) { if (v[i] === pv + .5) { pv = v[i]; continue } r.push([st, pv + .5]); st = v[i]; pv = v[i] } return r.map(([x, y]) => hl(x) + ' – ' + hl(y)).join(', ') }
@@ -12102,6 +12234,24 @@
       return h + '</div>'
     }
     const fmtD = k => new Date(k + 'T00:00').toLocaleDateString('en', { weekday: 'short', month: 'short', day: 'numeric' });
+    function dtLegend() {
+      return `<div class="dtl2"><div class="dtl2-k"><span><i class="k on"></i>Selected</span><span><i class="k"></i>Available</span><span><i class="k x"></i>Unavailable</span></div>
+  <small>Offer at least two days, three or more get faster replies.</small></div>`
+    }
+    function dtPanel(s, E) {
+      const c = scd(sk());
+      if (!c.dates.length) return `<div class="dtp dtp-e"><div class="dtp-ic">${IC.clock}</div><b>Pick your dates</b><p>Choose at least two business days on the calendar. Then set the times you’re free for each one.</p></div>`;
+      const act = c.dates.includes(s.tfd) ? s.tfd : (c.dates.find(d => !hasT(c)(d)) || c.dates[0]), sel = c.tfs[act] || [];
+      const slot = (d, h) => `<button type="button" class="tslot ${sel.includes(h) ? 'on' : ''}" data-a="hr" data-d="${d}" data-v="${h}" aria-pressed="${sel.includes(h)}">${hl(h)}</button>`;
+      const tab = d => { const t = c.tfs[d] || [], bad = E['tf:' + sk() + ':' + d] || (E['c' + sk()] && !hasT(c)(d)); return `<div class="dtt ${d === act ? 'on' : ''} ${bad ? 'err' : ''} ${hasT(c)(d) ? 'ok' : ''}" data-a="dact" data-v="${d}" role="tab" tabindex="0" aria-selected="${d === act}"><b>${fmtD(d)}</b><small>${t.length ? fmtHrs(t) : 'Add times'}</small><button type="button" class="dtt-x" data-a="day" data-v="${d}" aria-label="Remove ${fmtD(d)}">×</button></div>` };
+      const miss = c.dates.filter(d => !hasT(c)(d) && E['tf:' + sk() + ':' + d]);
+      return `<div class="dtp"><div class="dtp-h"><b>Your availability</b><small>${c.dates.filter(hasT(c)).length} of ${c.dates.length} dates have times</small></div>
+  ${miss.length ? `<div class="dterr" role="alert"><span>!</span><div><b>Add times to continue.</b> ${miss.length === 1 ? 'You picked' : 'You picked these dates but haven’t chosen a time for'} ${miss.map(fmtD).join(', ')}${miss.length === 1 ? ' but haven’t chosen a time.' : '.'}</div></div>` : ''}
+  <div class="dtts" role="tablist">${c.dates.map(tab).join('')}</div>
+  <div class="dtb"><div class="dtb-h"><b>${fmtD(act)}</b><div class="dtq"><button type="button" data-a="hrset" data-d="${act}" data-v="am">Morning</button><button type="button" data-a="hrset" data-d="${act}" data-v="pm">Afternoon</button><button type="button" data-a="hrset" data-d="${act}" data-v="day">Full day</button><button type="button" data-a="hrset" data-d="${act}" data-v="clear">Clear</button></div></div>
+   <div class="tsg-l">Morning</div><div class="tsg">${HRS.filter(h => h < 12).map(h => slot(act, h)).join('')}</div><div class="tsg-l">Afternoon</div><div class="tsg">${HRS.filter(h => h >= 12).map(h => slot(act, h)).join('')}</div>
+   <small class="dtsel">${sel.length ? `${hrsTxt(sel.length)} selected` : 'Tap the 30-minute slots you are free.'}</small></div></div>`
+    }
     function vSched() {
       const s = S.sch, E = s.err, pick = S.sel.map(getC);
       const side = `<div class="card"><h3>Inviting ${pick.length} consultant${pick.length > 1 ? 's' : ''}</h3>${pick.map(c => `<div class="cand" style="margin-top:8px"><span class="av">${ini(c.n)}</span><div><b>${c.n}</b><div style="color:var(--muted);font-size:12px">${c.r}</div></div></div>`).join('')}
@@ -12111,15 +12261,19 @@
   ${s.rnd ? '' : f('n', 'How many interviews do you wish to run?', `<select class="in" data-sv="n">${['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'].map(o => `<option value="${o}" ${s.n === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}
   ${f('it', 'What type of interview is this?', `<div class="opts">${ITYPES.map(([t, x]) => `<button type="button" class="opt ${s.it === t ? 'on' : ''}" data-a="sit" data-v="${esc(t)}"><b>${t}</b><span>${x}</span></button>`).join('')}</div>`)}
   <div class="fld"><label>Choose an interview format<span class="rq">*</span></label><div class="opts">${FMT.map(([t, x]) => `<button class="opt ${s.fmt === t ? 'on' : ''}" data-a="sfmt" data-v="${t}"><b>${t}</b><span>${x}</span></button>`).join('')}</div></div>
-  <div class="fld"><label>Specify team members who will be involved in the interview process</label>
-  ${s.iv.map((p, i) => `<div class="hold"><div class="hh"><b>${i + 1}${['st', 'nd', 'rd'][i] || 'th'} interviewer information</b>${i ? `<button class="btn sm" data-a="rmiv" data-v="${i}" aria-label="Remove">${IC.trash}</button>` : ''}</div><div class="row2"><div class="fld ${E['i' + i + 'n'] ? 'err' : ''}"><input class="in" data-iv="${i}:n" placeholder="Full name" value="${esc(p.n)}"><span class="em">Enter a name</span></div><div class="fld ${E['i' + i + 'e'] ? 'err' : ''}"><input class="in" data-iv="${i}:e" placeholder="Work email" value="${esc(p.e)}"><span class="em">Enter a valid email</span></div></div></div>`).join('')}
-  ${s.iv.length < 6 ? `<button class="btn sm" data-a="addiv">${IC.plus} Add interviewer</button>` : ''}</div>`;
+  <div class="fld ${E.ivany ? 'err' : ''}"><label>Who will join the interview from your side?<span class="rq">*</span></label>
+  ${s.prev && s.prev.length ? `<div class="ivprev"><div class="ivprev-h"><div><b>From round ${s.rnd ? s.rnd.r - 1 : 1}</b><small>Do you want to include them again? Tap a person to add them to this call.</small></div><button type="button" class="svc-e" data-a="sprevall">${s.prev.every(p => s.pinc.includes(p.e)) ? 'Clear all' : 'Include all'}</button></div><div class="ivprev-l">${s.prev.map(p => { const on = s.pinc.includes(p.e); return `<button type="button" class="ivpc ${on ? 'on' : ''}" data-a="sprev" data-v="${esc(p.e)}" aria-pressed="${on}" title="${esc(p.e)}"><span class="av">${ini(p.n)}</span><b>${esc(p.n)}</b><i>${on ? IC.check + ' Included' : IC.plus + ' Include'}</i></button>` }).join('')}</div></div>` : ''}
+  <div class="ivrow"><button type="button" class="ivpc ${s.me ? 'on' : ''}" data-a="sme" aria-pressed="${!!s.me}" title="${esc(ORG.email)}"><span class="av">${ini(ORG.first)}</span><b>${esc(ORG.first)} (you)</b><i>${s.me ? IC.check + ' Included' : IC.plus + ' Include me'}</i></button></div>
+  <small class="ivhint">${s.me ? 'You’ll get the invite and join the call.' : 'You’re not on this call yet. Tap “Include me” to join, or add other team members below.'}</small>
+  <span class="em">Include yourself or add at least one interviewer</span></div>
+  <div class="fld ${E.add ? 'err' : ''}"><label>Add other team members <span style="font-weight:500;color:var(--muted)">(optional)</span></label>
+  <div class="ivadd"><input class="in" data-ni="nn" placeholder="Full name" value="${esc(s.nn)}" maxlength="60"><input class="in" type="email" data-ni="ne" placeholder="Work email" value="${esc(s.ne)}"><button type="button" class="btn sm" data-a="addiv" ${s.iv.length >= 6 ? 'disabled' : ''}>${IC.plus} Add</button></div>
+  <span class="em">Enter a name and a valid email, then tap Add</span>
+  ${s.iv.length ? `<div class="ivch">${s.iv.map((p, i) => `<span class="ivchip" title="${esc(p.e)}"><span class="av">${ini(p.n)}</span><span class="ivchip-t"><b>${esc(p.n)}</b><em>${esc(p.e)}</em></span><button type="button" data-a="rmiv" data-v="${i}" aria-label="Remove ${esc(p.n)}">×</button></span>`).join('')}</div>` : ''}</div>`;
       const step1 = `<h2>Choose dates & time frame for each consultant</h2><p>Pick at least two business days per consultant. A day offered to one consultant is reserved, so every interview gets its own time.</p>
   ${S.sel.length > 1 ? `<div class="ctabs">${S.sel.map((id, i) => { const c = scd(String(id)), ok = cOk(c); return `<button class="ctab ${i === (s.cur || 0) ? 'on' : ''} ${E['c' + id] ? 'err' : ''}" data-a="stab" data-v="${i}">${getC(id).n}<i class="${ok ? 'ok' : ''}">${ok ? '✓' : c.dates.length}</i></button>` }).join('')}</div>` : ''}
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><button class="btn sm ${s.g ? 'p' : ''}" data-a="gcal" ${s.gc ? 'disabled' : ''}>${IC.clock} ${s.gc ? 'Connecting…' : s.g ? 'Google Calendar synced' : 'Sync Google Calendar'}</button><small style="color:var(--muted)">${s.gc ? 'Checking your calendar for busy days…' : s.g ? 'Busy days are struck out and can’t be picked. Click again to disconnect.' : 'Hide days you are already booked.'}</small></div>
-  <div class="fld ${E['c' + S.sel[s.cur || 0]] ? 'err' : ''}">${cal()}<span class="em">Select at least two dates for ${getC(S.sel[s.cur || 0]).n}</span></div>
-  ${(() => { const c = scd(sk()); return c.dates.length ? `<div class="dtrows"><label class="dtl">Time frame for each date${S.sel.length > 1 ? ' · ' + getC(S.sel[s.cur || 0]).n : ''}<span class="rq">*</span></label>${(() => { const act = c.dates.includes(s.tfd) ? s.tfd : (c.dates.find(d => !hasT(c)(d)) || c.dates[0]), sel = c.tfs[act] || [], bad = c.dates.some(d => E['tf:' + sk() + ':' + d]); return `<div class="dtr dth ${bad ? 'err' : ''}"><div class="dthead"><label class="dtpick"><span>Select a date</span><select class="in" data-dsel>${c.dates.map(k => `<option value="${k}" ${k === act ? 'selected' : ''}>${fmtD(k)} — ${hasT(c)(k) ? fmtHrs(c.tfs[k]) : 'choose a time'}</option>`).join('')}</select></label></div><div class="dtq" style="margin-bottom:10px"><button type="button" data-a="hrset" data-d="${act}" data-v="am">Morning</button><button type="button" data-a="hrset" data-d="${act}" data-v="pm">Afternoon</button><button type="button" data-a="hrset" data-d="${act}" data-v="day">Full day</button><button type="button" data-a="hrset" data-d="${act}" data-v="clear">Clear</button></div><div class="hrw"><button type="button" class="hra l" data-a="hrscroll" data-v="-1" aria-label="Earlier times">&#8249;</button><div class="hrs">${HRS.map(h => `<button type="button" class="hrb ${sel.includes(h) ? 'on' : ''}" data-a="hr" data-d="${act}" data-v="${h}" aria-pressed="${sel.includes(h)}">${hl(h)}</button>`).join('')}</div><button type="button" class="hra r" data-a="hrscroll" data-v="1" aria-label="Later times">&#8250;</button></div><small class="dtsel">${bad ? 'Choose at least one time slot for every date.' : sel.length ? `${hrsTxt(sel.length)} on ${fmtD(act)} · ${fmtHrs(sel)}` : 'Tap the 30-minute slots you are free — use the arrows to see more times.'}</small></div>` })()}</div>` : '' })()}
-  <div style="margin-top:16px">${f('tz', 'Your time zone', `<select class="in" data-sv="tz">${['', 'US Eastern (ET)', 'US Central (CT)', 'US Mountain (MT)', 'US Pacific (PT)', 'GMT / UTC', 'Central European (CET)', 'India (IST)', 'Other'].map(o => `<option value="${o}" ${s.tz === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}</div>`;
+  <div class="dtw"><div class="dtl-col"><div class="dsync"><button class="btn sm ${s.g ? 'p' : ''}" data-a="gcal" ${s.gc ? 'disabled' : ''}>${IC.clock} ${s.gc ? 'Connecting…' : s.g ? 'Google Calendar synced' : 'Sync Google Calendar'}</button><small style="color:var(--muted)">${s.gc ? 'Checking your calendar for busy days…' : s.g ? 'Busy days are struck out and can’t be picked. Click again to disconnect.' : 'Hide days you are already booked.'}</small></div><div class="fld ${E['c' + S.sel[s.cur || 0]] ? 'err' : ''}">${cal()}<span class="em">Select at least two dates for ${getC(S.sel[s.cur || 0]).n}</span></div>${dtLegend(s)}<div class="dtz">${f('tz', 'Your time zone', `<select class="in" data-sv="tz">${['', 'US Eastern (ET)', 'US Central (CT)', 'US Mountain (MT)', 'US Pacific (PT)', 'GMT / UTC', 'Central European (CET)', 'India (IST)', 'Other'].map(o => `<option value="${o}" ${s.tz === o ? 'selected' : ''}>${o || 'Select…'}</option>`).join('')}</select>`)}</div></div>
+  ${dtPanel(s, E)}</div>`;
       return `<div class="ph"><div><h1>${s.rnd ? 'Schedule round ' + s.rnd.r : 'Schedule Your Interviews'}</h1><p>${s.rnd ? 'We reused your details from round ' + (s.rnd.r - 1) + ' — change anything you like, then pick new dates.' : 'Two quick steps and your invites are on their way.'}</p></div></div>
  <div class="sg"><div class="card wcard"><div class="wbar"><i style="transform:scaleX(${(s.step + 1) / 2})"></i></div><div class="wbody ${s.dir || ''}" id="sb" data-f="sb${s.step}"><div style="font-size:12px;color:var(--muted);margin-bottom:8px"><b>Step ${s.step + 1}</b> of 2 · Fields marked * are mandatory</div>${s.step ? step1 : step0}</div>
   <div class="wfoot"><button class="btn" data-a="${s.step ? 'sback' : 'backres'}">‹ ${s.step ? 'Go back' : 'Back to results'}</button><span class="sp"></span><button class="btn p" data-a="snext">${s.step ? 'Send invites ' + IC.send : 'Continue'}</button></div></div><div class="stagger" style="display:grid;gap:20px">${side}</div></div>`
@@ -12130,6 +12284,7 @@
       const m = S.modal; if (!m) return '';
       const box = b => `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" role="dialog" aria-modal="true">${b}</div></div>`, x = `<button class="x" data-a="closem" aria-label="Close">×</button>`;
       if (m === 'pass' && S.ivs[S.passI] && S.ivs[S.passI][6].pass) return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox pmbox" role="dialog" aria-modal="true">${x}${passPanel(S.passI, S.ivs[S.passI][6])}</div></div>`;
+      if (m === 'savel' || m === 'slnew' || m === 'savepos') return svModal(box, x);
       if (m === 'upload') {
         const f = S.file; return box(`${x}<h3>Upload a job posting</h3><p>We'll read it and pre-fill the form for you.</p>
   <label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/, 'width="34" height="34"')}<div><u>Browse</u> or drag and drop your job posting here</div><small>PDF, MS Word (max. 3MB)</small><input type="file" id="fi" accept=".pdf,.doc,.docx" hidden></label>
@@ -12213,7 +12368,8 @@
       return `<div class="ph"><div><h1>Interviews</h1><p>Join your interviews and review each consultant’s details before you meet.</p></div></div>
  <div class="ivl stagger">${S.ivs.map((c, i) => {
         const ok = c[3] === 'Confirmed', k = ok ? CONS.find(x => x.n === c[0]) : null, link = 'meet.cloudclub.com/iv/' + c[0].toLowerCase().replace('-', '');
-        return `<div class="card iv"><div class="ivh"><span class="av">${ini(c[0])}</span><div class="ivt"><b>${c[0]}</b><small>${c[1]}</small></div><span class="pill ${ok ? 'ok' : 'am'}"><i></i>${c[3]}</span></div>
+        return `<div class="card iv"><div class="ivh"><span class="av">${ini(c[0])}</span><div class="ivt"><b>${c[0]}</b><small>${c[1]}</small></div><span class="pill ${ok ? 'ok' : 'am'}"><i></i>${c[3]}</span>${svBtn(c[0], 'sm')}</div>
+  ${svGet(c[0]) ? `<div class="svc-l ivsv"><small>Saved in</small>${svGet(c[0]).lists.map(l => `<span class="pill"><i></i>${esc(l)}</span>`).join('')}</div>` : ''}
   <div class="ivm"><span>${IC.clock} ${esc(c[2])}</span>${c[5] ? `<span>${esc(c[5])}</span>` : ''}${k ? `<span>${esc(k.tz)}</span><span>${k.rate ? '$' + k.rate + '/hour' : ''}</span>` : ''}</div>
   ${rndBlock(c, i)}
   ${k ? `<div class="ivs"><p>${esc(k.spec)}</p><div class="ivk"><div><small>Experience</small><b>${esc(k.y.split(' · ')[0])}</b></div><div><small>Availability</small><b>From ${esc(k.av)}</b></div><div><small>Languages</small><b>${k.lang.map(l => l[0]).join(', ')}</b></div></div>
@@ -12383,10 +12539,10 @@
     function confetti() { const cols = ['#547691', '#3e566a', '#c98a2e', '#8fb2cb', '#2c3e4c']; for (let i = 0; i < 70; i++) { const e = document.createElement('i'); e.className = 'cf'; e.style.cssText = `left:${Math.random() * 100}vw;background:${cols[i % 5]};animation-duration:${1.6 + Math.random() * 1.8}s;animation-delay:${Math.random() * .4}s;border-radius:${Math.random() > .5 ? '50%' : '2px'}`; document.body.appendChild(e); setTimeout(() => e.remove(), 4200) } }
     Object.assign(S, {
       modal: null, ms: null, file: null, sel: [], tab: {}, more: {}, sort: 'Best match', vf: 'All', pid: 0, cur: null, leaveTo: null,
-      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed', undefined, 'Technical interview', { total: 2, cur: 1, rs: ['confirmed', 'locked'], it: ['Technical interview', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)' }], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed', undefined, 'Initial screening', { total: 2, cur: 1, rs: ['done', 'unsched'], it: ['Initial screening', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)', prompt: true }], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting'], ['CC-136', 'Technical Lead', 'Mon, Oct 7 · 11:00 AM', 'Confirmed', undefined, 'Technical interview', { total: 1, cur: 1, rs: ['done'], it: ['Technical interview'], fmt: 'Small team interview', tz: 'US Eastern (ET)', prompt: true }], ['CC-131', 'Software Developer', 'Pending reply', 'Awaiting']]
+      ivs: [['CC-104', 'Cloud Architect', 'Thu, Oct 3 · 10:00 AM', 'Confirmed', undefined, 'Technical interview', { total: 2, cur: 1, rs: ['confirmed', 'locked'], it: ['Technical interview', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)' }], ['CC-117', 'Senior Full-Stack Developer', 'Fri, Oct 4 · 2:30 PM', 'Confirmed', undefined, 'Initial screening', { total: 2, cur: 1, rs: ['done', 'unsched'], it: ['Initial screening', ''], fmt: 'Small team interview', tz: 'US Eastern (ET)', prompt: true }], ['CC-122', 'Solution Architect', 'Pending reply', 'Awaiting'], ['CC-136', 'Technical Lead', 'Mon, Oct 7 · 11:00 AM', 'Confirmed', undefined, 'Technical interview', { total: 1, cur: 1, rs: ['done'], it: ['Technical interview'], fmt: 'Small team interview', tz: 'US Eastern (ET)', prompt: true }], ['CC-131', 'Software Developer', 'Pending reply', 'Awaiting'], ['CC-128', 'Principal Cloud & Data Architect', 'Tue, Oct 8 · 11:00 AM', 'Confirmed', [{ n: ORG.first + ' (you)', e: ORG.email, own: 1 }, { n: 'Raj Patel', e: 'raj.patel@' + ORG.email.split('@')[1] }, { n: 'Mia Chen', e: 'mia.chen@' + ORG.email.split('@')[1] }, { n: 'Sam Ortiz', e: 'sam.ortiz@' + ORG.email.split('@')[1] }], 'Technical interview', { total: 2, cur: 1, rs: ['done', 'unsched'], it: ['Technical interview', ''], fmt: 'Panel interview', tz: 'US Eastern (ET)', prompt: true }]]
     });
     S.profile.type = 'Enterprise (end client)';
-    if (FRESH) { SEARCHES.length = 0; PAYS.length = 0; REFS.length = 0; PROJ.length = 0; S.ivs = []; S.offers = []; NOTIFS.splice(0, NOTIFS.length, { k: 'm', t: 'Welcome to Cloud Club', s: 'Create your first job posting to get matches', w: 'Just now', go: 'searches', u: 1 }) }
+    if (FRESH) { SEARCHES.length = 0; PAYS.length = 0; REFS.length = 0; PROJ.length = 0; SAVED.length = 0; S.ivs = []; S.offers = []; NOTIFS.splice(0, NOTIFS.length, { k: 'm', t: 'Welcome to Cloud Club', s: 'Create your first job posting to get matches', w: 'Just now', go: 'searches', u: 1 }) }
     /* ================= Skai job posting (merged from existing app) ================= */
     const CANDIDATES = [
       {
@@ -12789,7 +12945,7 @@
     `: ''}
     <div class="cand-foot">
       <button class="view-more" data-expand="${c.id}">${ex ? 'View less ▲' : 'View more ▼'}</button>
-      <div class="cand-actions"><button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button><button class="btn primary sm" data-bookinterview="${c.id}">Request interview</button></div>
+      <div class="cand-actions">${svBtn(c.id)}<button class="btn ghost sm" data-viewprofile="${c.id}">View Profile</button><button class="btn primary sm" data-bookinterview="${c.id}">Request interview</button></div>
     </div>
   </div>`;
     }
@@ -13404,13 +13560,18 @@
     }
     function startSched(ids, rnd) {
       S.sel = ids; resetSch();
-      if (rnd) { const c = S.ivs[rnd.i], m = c[6], s = S.sch; s.rnd = { i: rnd.i, r: m.cur + 1 }; s.n = ['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'][Math.max(m.total, m.cur + 1)] || (m.cur + 1) + ' interviews'; s.it = m.it[m.cur - 1] || ''; s.fmt = m.fmt || s.fmt; s.tz = m.tz || ''; const oth = (c[4] || []).filter(p => !p.own); if (oth.length) s.iv = oth.map(p => ({ n: p.n, e: p.e })) }
+      if (rnd) { const c = S.ivs[rnd.i], m = c[6], s = S.sch; s.rnd = { i: rnd.i, r: m.cur + 1 }; s.n = ['', '1 interview', '2 interviews (two rounds)', '3 interviews (three rounds)'][Math.max(m.total, m.cur + 1)] || (m.cur + 1) + ' interviews'; s.it = m.it[m.cur - 1] || ''; s.fmt = m.fmt || s.fmt; s.tz = m.tz || ''; s.prev = (c[4] || []).filter(p => !p.own).map(p => ({ n: p.n, e: p.e })); s.me = !c[4] || c[4].some(p => p.own) }
       S.view = 'sched'; window.scrollTo(0, 0); render()
+    }
+    function schPeople() {
+      const s = S.sch, out = [], seen = new Set(); if (s.me) { out.push({ n: ORG.first + ' (you)', e: ORG.email, own: 1 }); seen.add(ORG.email.toLowerCase()) }
+      const add = p => { const k = p.e.trim().toLowerCase(); if (!k || seen.has(k)) return; seen.add(k); out.push({ n: p.n.trim(), e: p.e.trim() }) };
+      (s.prev || []).filter(p => (s.pinc || []).includes(p.e)).forEach(add); s.iv.filter(p => p.n.trim()).forEach(add); return out
     }
     function schValid() {
       const s = S.sch, e = {};
-      if (s.step === 0) { if (!s.n) e.n = 1; if (!s.it) e.it = 1; s.iv.forEach((p, i) => { if (!p.n.trim() && !p.e.trim()) return; if (!p.n.trim()) e['i' + i + 'n'] = 1; if (!/^\S+@\S+\.\S+$/.test(p.e)) e['i' + i + 'e'] = 1 }) }
-      else { let first = -1; S.sel.forEach((id, i) => { const c = scd(String(id)); if (!cOk(c)) { e['c' + id] = 1; if (first < 0) first = i } c.dates.forEach(d => { if (!hasT(c)(d)) e['tf:' + id + ':' + d] = 1 }) }); if (first >= 0) { s.cur = first; const c = scd(sk()); if (c.dates.length >= 2) delete e['c' + sk()] } if (!s.tz) e.tz = 1 }
+      if (s.step === 0) { if (!s.n) e.n = 1; if (!s.it) e.it = 1; if (s.nn.trim() || s.ne.trim()) { if (s.nn.trim() && /^\S+@\S+\.\S+$/.test(s.ne.trim())) { s.iv.push({ n: s.nn.trim(), e: s.ne.trim() }); s.nn = ''; s.ne = '' } else e.add = 1 } if (!schPeople().length) e.ivany = 1 }
+      else { let first = -1; S.sel.forEach((id, i) => { const c = scd(String(id)); if (!cOk(c)) { e['c' + id] = 1; if (first < 0) first = i } c.dates.forEach(d => { if (!hasT(c)(d)) e['tf:' + id + ':' + d] = 1 }) }); if (first >= 0) { s.cur = first; const c = scd(sk()); if (c.dates.length >= 2) delete e['c' + sk()] } if (!s.tz) e.tz = 1; { const cc = scd(sk()), mi = cc.dates.find(d => !hasT(cc)(d)); if (mi) s.tfd = mi } }
       s.err = e; return !Object.keys(e).length
     }
 
@@ -13592,10 +13753,22 @@
         case 'selclear': S.sel = []; stepRender(); break;
         case 'ctab': { const [i, j] = v.split(':'); S.tab[i] = +j; stepRender(); break }
         case 'more': S.more[v] = !S.more[v]; stepRender(); break;
+        case 'savec': { SV.k = v; const e = svGet(v); SV.sel = e ? e.lists.slice() : []; if (!e) { const c = cOf(v); TL.forEach(l => { if (svSuggest(c, l) && SV.sel.length < 2) SV.sel.push(l.n) }) } S.modal = 'savel'; render(false); break }
+        case 'svtog': { const i = SV.sel.indexOf(v); i < 0 ? SV.sel.push(v) : SV.sel.splice(i, 1); render(false); break }
+        case 'svadd': { const el = document.getElementById('svnew'), n = el ? el.value.trim() : ''; if (!n) break; if (!TL.some(l => l.n.toLowerCase() === n.toLowerCase())) TL.push({ n, kw: [n.toLowerCase()] }); const nm = TL.find(l => l.n.toLowerCase() === n.toLowerCase()).n; if (!SV.sel.includes(nm)) SV.sel.push(nm); render(false); break }
+        case 'svok': { const e = svGet(SV.k); if (!SV.sel.length) { if (e) { SAVED.splice(SAVED.indexOf(e), 1); S.modal = null; render(false); toast('Removed from saved talent'); } else toast('Pick at least one list'); break } if (e) e.lists = SV.sel.slice(); else SAVED.unshift({ k: SV.k, lists: SV.sel.slice(), pos: [] }); S.modal = null; render(false); toast('Saved to ' + SV.sel.join(', ')); break }
+        case 'sfilt': SV.f = v; render(false); break
+        case 'slnew': S.modal = 'slnew'; render(false); break
+        case 'slnewok': { const el = document.getElementById('slname'), n = el ? el.value.trim() : ''; if (!n) break; if (!TL.some(l => l.n.toLowerCase() === n.toLowerCase())) TL.push({ n, kw: [n.toLowerCase()] }); SV.f = TL.find(l => l.n.toLowerCase() === n.toLowerCase()).n; S.modal = null; render(false); toast('List created'); break }
+        case 'spos': SV.pk = v; S.modal = 'savepos'; render(false); break
+        case 'sposok': { const p = SEARCHES[+v], e = svGet(SV.pk); if (!p || !e) break; const i = e.pos.indexOf(p.title); i < 0 ? e.pos.push(p.title) : e.pos.splice(i, 1); render(false); toast(i < 0 ? 'Added to “' + p.title + '”' : 'Removed from “' + p.title + '”'); break }
+        case 'sposnew': S.modal = null; startIntake(); break
+        case 'srm': { const e = svGet(v); if (e) { SAVED.splice(SAVED.indexOf(e), 1); render(false); toast('Removed from saved talent') } break }
+        case 'sview': { const i = CONS.findIndex(x => x.n === v); S.pid = i >= 0 ? i : v; S.from = 'saved'; S.view = 'cprofile'; window.scrollTo(0, 0); render(); break }
         case 'invite1': S.from = 'results'; startSched([+v]); break;
         case 'invite': S.from = 'results'; startSched([...S.sel]); break;
         case 'cprof': S.from = 'results'; S.pid = +v; S.view = 'cprofile'; window.scrollTo(0, 0); render(); break;
-        case 'backres': S.view = S.from === 'skai' ? 'skai' : S.from === 'interviews' ? 'interviews' : 'results'; window.scrollTo(0, 0); render(); break;
+        case 'backres': S.view = S.from === 'saved' ? 'saved' : S.from === 'skai' ? 'skai' : S.from === 'interviews' ? 'interviews' : 'results'; window.scrollTo(0, 0); render(); break;
         case 'reachlist': { const x = SEARCHES[+v]; if (x) { x.nmOpen = !x.reach; S.pidx = +v; S.rtab = 'cons'; S.cur = { t: x.jt || x.title }; S.sel = []; S.tab = {}; S.more = {}; S.view = 'results'; window.scrollTo(0, 0); render() } break }
         case 'schedcall': window.open(CAL_URL, '_blank', 'noopener'); break;
         case 'editreq': S.rtab = 'job'; render(false); window.scrollTo(0, 0); break;
@@ -13618,8 +13791,12 @@
           c.tfs[d2] = arr; S.sch.tfd = d2; delete S.sch.err['tf:' + sk() + ':' + d2]; if (cOk(c)) delete S.sch.err['c' + sk()]; stepRender(); { const w = $('.hrs'); if (w) w.scrollTo({ left: sl, behavior: 'instant' }) } break
         }
         case 'nextdate': { const c = scd(sk()), i = c.dates.indexOf(S.sch.tfd), nx = c.dates.slice(i + 1).concat(c.dates.slice(0, i + 1)).find(d => !hasT(c)(d)) || c.dates[(i + 1) % c.dates.length]; S.sch.tfd = nx; stepRender(); break }
+        case 'sme': S.sch.me = !S.sch.me; delete S.sch.err.ivany; render(); break;
+        case 'sprev': { const p = S.sch.pinc, i = p.indexOf(v); i < 0 ? p.push(v) : p.splice(i, 1); delete S.sch.err.ivany; render(); break }
+        case 'sprevall': { const all = S.sch.prev.map(p => p.e); S.sch.pinc = all.every(x => S.sch.pinc.includes(x)) ? [] : all.slice(); delete S.sch.err.ivany; render(); break }
+        case 'dact': { S.sch.tfd = v; stepRender(); break }
         case 'sit': S.sch.it = v; delete S.sch.err.it; render(); break;
-        case 'addiv': S.sch.iv.push({ n: '', e: '' }); render(); break;
+        case 'addiv': { const q = S.sch, n = q.nn.trim(), m = q.ne.trim(); if (!n || !/^\S+@\S+\.\S+$/.test(m)) { q.err.add = 1; render(); break } if (q.iv.length < 6 && ![...q.iv, ...q.prev].some(p => p.e.toLowerCase() === m.toLowerCase())) q.iv.push({ n, e: m }); q.nn = ''; q.ne = ''; delete q.err.add; delete q.err.ivany; render(); break }
         case 'rmiv': S.sch.iv.splice(+v, 1); render(); break;
         case 'cm': S.sch.m += +v; render(); break;
         case 'day': { const cc = scd(sk()), ds = cc.dates, i = ds.indexOf(v); i < 0 ? ds.push(v) : (ds.splice(i, 1), delete cc.tfs[v]); ds.sort(); delete S.sch.err['c' + sk()]; stepRender(); break }
@@ -13635,14 +13812,14 @@
         }
         case 'sback': S.sch.step = 0; S.sch.dir = 'bwd'; S.sch.err = {}; render(); window.scrollTo(0, 0); break;
         case 'snext':
-          if (!schValid()) { stepRender(); toast('Please complete the required fields'); break }
+          if (!schValid()) { stepRender(); toast('Please complete the required fields'); setTimeout(() => { const t = document.querySelector('.dtt.on'); if (t && t.scrollIntoView) t.scrollIntoView({ block: 'nearest' }) }, 30); break }
           if (S.sch.step === 0) { S.sch.step = 1; S.sch.dir = 'fwd'; render(); window.scrollTo(0, 0) }
           else if (S.sch.rnd) {
             const { i: ri, r } = S.sch.rnd, c = S.ivs[ri], m = c[6], cd = scd(String(S.sel[0])); S.sch.sent = true;
-            c[2] = 'Proposed: ' + cd.dates.map(k => fmtD(k) + ' (' + fmtHrs(cd.tfs[k]) + ')').join(' / '); c[3] = 'Awaiting'; c[5] = S.sch.it; c[4] = [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))];
+            c[2] = 'Proposed: ' + cd.dates.map(k => fmtD(k) + ' (' + fmtHrs(cd.tfs[k]) + ')').join(' / '); c[3] = 'Awaiting'; c[5] = S.sch.it; c[4] = schPeople();
             if (r > m.total) { for (let q = m.rs.length; q < r - 1; q++) m.rs[q] = 'done'; m.total = r } m.it[r - 1] = S.sch.it; m.rs[r - 1] = 'invited'; m.cur = r; m.prompt = false; m.hold = false; m.fmt = S.sch.fmt; m.tz = S.sch.tz; S.modal = 'sent'; render(); confetti()
           }
-          else { S.sch.sent = true; S.ivReq = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', [{ n: ORG.name + ' (you)', e: ORG.email, own: 1 }, ...S.sch.iv.filter(p => p.n.trim()).map(p => ({ n: p.n.trim(), e: p.e.trim() }))], S.sch.it, (parseInt(S.sch.n, 10) > 1 ? { total: parseInt(S.sch.n, 10), cur: 1, rs: Array.from({ length: parseInt(S.sch.n, 10) }, (_, k) => k ? 'locked' : 'invited'), it: [S.sch.it, ...Array(parseInt(S.sch.n, 10) - 1).fill('')], fmt: S.sch.fmt, tz: S.sch.tz } : null)]) }); S.modal = 'sent'; render(); confetti() }
+          else { S.sch.sent = true; S.ivReq = true; S.sel.forEach(i => { const c = scd(String(i)); S.ivs.unshift([getC(i).n, getC(i).r, 'Proposed: ' + c.dates.map(k => fmtD(k) + ' (' + fmtHrs(c.tfs[k]) + ')').join(' / '), 'Awaiting', schPeople(), S.sch.it, (parseInt(S.sch.n, 10) > 1 ? { total: parseInt(S.sch.n, 10), cur: 1, rs: Array.from({ length: parseInt(S.sch.n, 10) }, (_, k) => k ? 'locked' : 'invited'), it: [S.sch.it, ...Array(parseInt(S.sch.n, 10) - 1).fill('')], fmt: S.sch.fmt, tz: S.sch.tz } : null)]) }); S.modal = 'sent'; render(); confetti() }
           break
       }
     });
@@ -13666,6 +13843,7 @@
       const el = e.target;
       if (el.dataset.w) { const k = el.dataset.w; S.wiz.d[k] = k === 'rate' ? +el.value : el.value; if (k === 'extra' && $('#cnt')) $('#cnt').textContent = el.value.length + '/250'; const f = el.closest('.fld'); if (f && el.value) { f.classList.remove('err'); delete S.wiz.err[k] } }
       else if (el.dataset.h) { const [i, k] = el.dataset.h.split(':'); S.wiz.d.holders[+i][k] = el.value; delete S.wiz.err['h' + i + k]; el.closest('.fld')?.classList.remove('err') }
+      else if (el.dataset.ni) { S.sch[el.dataset.ni] = el.value; if (S.sch.err.add) { delete S.sch.err.add; el.closest('.fld')?.classList.remove('err') } }
       else if (el.dataset.iv) { const [i, k] = el.dataset.iv.split(':'); S.sch.iv[+i][k] = el.value; delete S.sch.err['i' + i + k]; el.closest('.fld')?.classList.remove('err') }
     });
     document.addEventListener('change', e => { const el = e.target; if (el.dataset && el.dataset.slotf && NS && NS.slotsModal) { const [i, k] = el.dataset.slotf.split(':'); const x = NS.slotsModal.slots[+i]; x[k] = el.value; if (k === 's' && el.value && (!x.e || new Date(x.e) <= new Date(el.value))) { x.e = new Date(new Date(el.value).getTime() + 30 * 6e4); const d = x.e, p = n => String(n).padStart(2, '0'); x.e = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()) } NS.slotsModal.touched = true; rerender() } });
@@ -13673,6 +13851,7 @@
     document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-tsmsg]')) { S.tsMsg = e.target.value; if (e.target.value.trim()) { S.tsReqErr = false; e.target.closest('.fld').classList.remove('err') } } });
     document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-sqsearch]')) { S.sq = e.target.value; const l = $('.sq-list'); if (l) l.innerHTML = sqList(S.sqf || 'all') } });
     document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-sqin]')) { const b = e.target.closest('.sq-form').querySelector('[data-a=sqsave]'); if (b) b.disabled = !e.target.value.trim() } });
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.ni) { e.preventDefault(); const b = document.querySelector('.ivadd [data-a=addiv]'); b && b.click() } });
     document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches && e.target.matches('[data-pc]')) { e.preventDefault(); const b = e.target.closest('.pcb').querySelector('[data-a=pcsave]'); b && b.click() } });
     document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('pcard')) { e.preventDefault(); S.modal = 'pcomp'; render() } });
     document.addEventListener('keydown', e => { if (e.target.matches && e.target.matches('[data-sqin],[data-sqrole]')) { if (e.key === 'Enter') { e.preventDefault(); e.target.closest('.sq-form').querySelector('[data-a=sqsave]').click() } else if (e.key === 'Escape') { S.sqEdit = null; render(false) } } });

@@ -1746,6 +1746,20 @@
       line-height: 1.4
     }
 
+    .tst { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: var(--r-inp, 10px); background: var(--surface); padding: 4px }
+    .tst span { flex: 1; text-align: center; font-size: 15px; color: var(--body); font-variant-numeric: tabular-nums }
+    .tst span.ph { color: #8a949b }
+    .tst button { width: 34px; height: 34px; border: 0; border-radius: 8px; background: #eef2f5; color: #3e566a; font-size: 18px; line-height: 1; cursor: pointer }
+    .tst button:hover { background: #dfe7ee }
+    .tsum { margin: 8px 0 0; font-size: 12.5px; color: #68727a }
+    .tsum.bad { color: #b4423a }
+    .tpre { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 6px !important }
+    .tpre .chip { height: 34px; padding: 0 8px; font-size: 13px; white-space: nowrap; justify-content: center; width: 100% }
+    .tst input { flex: 1; min-width: 0; width: 100%; text-align: center; border: 0; background: transparent; font: inherit; font-size: 15px; padding: 6px 2px; outline: none; font-variant-numeric: tabular-nums }
+    .tst:focus-within { border-color: #547691; box-shadow: 0 0 0 3px rgba(84, 118, 145, .14) }
+    .tst.err { border-color: #b4423a }
+    .tpre { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 12px }
+
     input[type=text],
     input[type=email],
     input[type=tel],
@@ -3160,6 +3174,22 @@
       }
       return `<div class="field${ERRS[id] ? ' field-err' : ''}"><label for="f_${id}">${label}${req ? '<span class="req">*</span>' : ''}</label><input id="f_${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}">${hint ? `<div class="field-hint">${esc(hint)}</div>` : ''}${errMsg(id)}</div>`;
     }
+    const TIME_OPTS = Array.from({ length: 48 }, (_, i) => { const h = Math.floor(i / 2), m = i % 2 ? '30' : '00'; return [String(h).padStart(2, '0') + ':' + m, ((h % 12) || 12) + ':' + m + ' ' + (h < 12 ? 'AM' : 'PM')] });
+    const TIME_PRESETS = [['Mornings', '08:00', '12:00'], ['Afternoons', '12:00', '17:00'], ['Business hours', '09:00', '17:00'], ['Evenings', '17:00', '21:00'], ['Any time', '08:00', '20:00']];
+    const t12l = t => { if (!t) return ''; const [h, m] = t.split(':').map(Number); return ((h % 12) || 12) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM') };
+    const a_terr = id => !!A()['_terr_' + id];
+    const tmin = t => { const [h, m] = (t || '0:0').split(':').map(Number); return h * 60 + m };
+    const parseT = x => { x = String(x || '').trim().toLowerCase().replace(/\./g, ''); const m = x.match(/^(\d{1,2})(?::?(\d{2}))?\s*(a|p|am|pm)?$/); if (!m) return null; let h = +m[1], mi = m[2] ? +m[2] : 0; const ap = m[3]; if (mi > 59) return null; if (ap) { if (h < 1 || h > 12) return null; h = h % 12 + (ap[0] === 'p' ? 12 : 0) } else if (h > 23) return null; return String(h).padStart(2, '0') + ':' + String(mi).padStart(2, '0') };
+    function timeStep(id, label, def) {
+      const v = A()[id] || '';
+      return `<div class="field"><label>${label}</label><div class="tst${a_terr(id) ? ' err' : ''}"><button type="button" data-tstep="${id}|-30|${def}" aria-label="30 minutes earlier">−</button><input type="text" inputmode="text" autocomplete="off" data-tin="${id}" value="${v ? t12l(v) : ''}" placeholder="e.g. 9:30 AM" aria-label="${label} time"><button type="button" data-tstep="${id}|30|${def}" aria-label="30 minutes later">+</button></div></div>`;
+    }
+    function timeRange() {
+      const a = A(), ok = a.stime && a.etime, d = ok ? tmin(a.etime) - tmin(a.stime) : 0;
+      const sum = ok ? (d > 0 ? `<p class="tsum">${t12l(a.stime)} – ${t12l(a.etime)} · ${d / 60 % 1 ? (d / 60).toFixed(1) : d / 60} hrs a day</p>` : '<p class="tsum bad">“Until” should be later than “From”.</p>') : '';
+      const er = a_terr('stime') || a_terr('etime') ? '<p class="tsum bad">Enter a time like 9:30 AM or 14:00.</p>' : '';
+      return `<div class="tpre">${TIME_PRESETS.map(([l, s, e]) => `<button type="button" class="chip${a.stime === s && a.etime === e ? ' sel' : ''}" data-tpreset="${s}|${e}">${l}</button>`).join('')}</div><div class="row">${timeStep('stime', 'From', '09:00')}${timeStep('etime', 'Until', '17:00')}</div>${er}${sum}`;
+    }
     function selRaw(id, opts, { def = '' } = {}) {
       if (def && A()[id] === undefined) A()[id] = def;
       const v = A()[id] !== undefined ? A()[id] : (def || '');
@@ -3471,7 +3501,7 @@
         kind: 'form', group: 'Opportunity Preferences and Availability', q: 'When could you start, and how much?', sub: 'Numeric hours, not a broad preset range.',
         body: () => `${text('startdate', 'Earliest start date', { type: 'date', req: true })}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs || '')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" value="${esc(a.maxhrs || '')}"></div></div>
         <div class="field" style="margin-top:18px"><label>When are you normally available?</label><div class="hint">Recurring windows in your local time — mornings, evenings, or weekends are fine.</div></div>
-        <div class="row"><div class="field"><label>Days</label>${selRaw('days', ['Weekdays', 'Weekends', 'Every day', 'Custom by day'])}</div><div class="field"><label>Start</label><input type="time" data-k="stime" value="${esc(a.stime || '')}"></div><div class="field"><label>End</label><input type="time" data-k="etime" value="${esc(a.etime || '')}"></div></div>`,
+        <div class="field"><label>Days</label>${selRaw('days', ['Weekdays', 'Weekends', 'Every day', 'Custom by day'])}</div>${timeRange()}`,
         pv: { k: 'Availability', get: a => a.minhrs && a.maxhrs ? `${a.minhrs}–${a.maxhrs} hrs/wk` : '' }
       });
       S.push({
@@ -4035,6 +4065,8 @@
         return;
       }
       if (e.target.closest('[data-addprofile]')) { if (a.ptype && a.purl) { a.profiles = a.profiles || []; a.profiles.push({ type: a.ptype, url: a.purl }); a.purl = ''; render(); } return; }
+      { const ts = e.target.closest('[data-tstep]'); if (ts) { const [k, d0, def] = ts.dataset.tstep.split('|'); const cur = a[k] ? tmin(a[k]) : tmin(def) - (+d0); const n = Math.max(0, Math.min(1410, cur + (+d0))); a[k] = String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0'); delete a['_terr_' + k]; render(false); return } }
+      { const tp = e.target.closest('[data-tpreset]'); if (tp) { const [s0, e0] = tp.dataset.tpreset.split('|'); a.stime = s0; a.etime = e0; delete a._terr_stime; delete a._terr_etime; render(false); return } }
       const rmprofile = e.target.closest('[data-rmprofile]');
       if (rmprofile) { a.profiles.splice(Number(rmprofile.dataset.rmprofile), 1); render(); return; }
       if (e.target.closest('[data-addcred]')) { if (a.credname) { a.credentials = a.credentials || []; a.credentials.push({ name: a.credname, issuer: a.credissuer || '' }); a.credname = ''; a.credissuer = ''; render(); } return; }
@@ -4043,6 +4075,8 @@
     });
 
     // Separate document-level handler for experience overlay buttons (which live in document.body)
+    document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.tin) return; const k = el.dataset.tin, a = A(), t = el.value.trim() === '' ? '' : parseT(el.value); if (t === null) { a['_terr_' + k] = 1 } else { delete a['_terr_' + k]; a[k] = t } render(false) });
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.tin) { e.preventDefault(); e.target.blur() } });
     document.addEventListener('click', e => {
       const a = A();
       if (e.target.hasAttribute('data-modalbackdrop')) { a.expFormOpen = false; a.expEditIdx = undefined; clearExpDraft(a); render(); return; }
