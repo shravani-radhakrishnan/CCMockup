@@ -12,6 +12,16 @@
     rel="stylesheet">
   <style>
     :root {
+      --brand: #547691;
+      --brand-d: #3e566a;
+      --brand-dd: #2c3e4c;
+      --brand-h: #4d6d87;
+      --brand-rgb: 84, 118, 145;
+      --brand-d-rgb: 62, 86, 106;
+      --brand-dd-rgb: 44, 62, 76;
+      --brand-hi: #c5e4d9;
+      --brand-hi2: #cfe0ec;
+      --brand-soft: #c3d1dc;
       --bg: #f8fafb;
       --surface: #ffffff;
       --card-border: #e0e5e9;
@@ -46,7 +56,7 @@
 
     * {
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     ::-webkit-scrollbar {
@@ -59,12 +69,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     html {
@@ -207,13 +217,13 @@
       border-color: var(--slate);
       background: #fbfcfd;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px -10px rgba(84, 118, 145, .22)
+      box-shadow: 0 6px 20px -10px rgba(var(--brand-rgb), .22)
     }
 
     .path-tile.sel {
       border-color: var(--slate);
       background: var(--slate-tint);
-      box-shadow: inset 0 0 0 1.5px var(--slate), 0 6px 20px -10px rgba(84, 118, 145, .18)
+      box-shadow: inset 0 0 0 1.5px var(--slate), 0 6px 20px -10px rgba(var(--brand-rgb), .18)
     }
 
     .path-check {
@@ -528,7 +538,7 @@
       max-height: 100vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     .side::-webkit-scrollbar {
@@ -540,12 +550,12 @@
     }
 
     .side::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     .side::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     .side .eyebrow {
@@ -576,7 +586,7 @@
       overflow-y: visible;
       padding-right: 2px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     .secwrap::-webkit-scrollbar {
@@ -588,12 +598,12 @@
     }
 
     .secwrap::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     .secwrap::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     .seceyebrow {
@@ -1179,7 +1189,7 @@
     .chip-add-row input:focus {
       outline: none;
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14)
     }
 
     .chip-add-btn {
@@ -1195,7 +1205,7 @@
     }
 
     .chip-add-btn:hover {
-      background: #4d6d87
+      background: var(--brand-h)
     }
 
     .chip-add-btn:disabled {
@@ -1418,7 +1428,7 @@
 
     .phone-wrap:focus-within {
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14);
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14);
     }
 
     .field-err .phone-wrap {
@@ -1509,7 +1519,7 @@
     }
 
     .password-toggle:focus-visible {
-      outline: 2px solid rgba(84, 118, 145, .22);
+      outline: 2px solid rgba(var(--brand-rgb), .22);
       outline-offset: 2px
     }
 
@@ -1545,9 +1555,9 @@
     }
 
     .otp-row input.filled {
-      border-color: rgba(84, 118, 145, .45);
+      border-color: rgba(var(--brand-rgb), .45);
       background: #fbfdfe;
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .08)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .08)
     }
 
     .otp-row input.bump {
@@ -1557,17 +1567,17 @@
     @keyframes otpBump {
       0% {
         transform: scale(.94);
-        box-shadow: 0 0 0 0 rgba(84, 118, 145, .18)
+        box-shadow: 0 0 0 0 rgba(var(--brand-rgb), .18)
       }
 
       70% {
         transform: scale(1.05);
-        box-shadow: 0 0 0 5px rgba(84, 118, 145, .10)
+        box-shadow: 0 0 0 5px rgba(var(--brand-rgb), .10)
       }
 
       100% {
         transform: scale(1);
-        box-shadow: 0 0 0 3px rgba(84, 118, 145, .08)
+        box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .08)
       }
     }
 
@@ -1762,14 +1772,14 @@
     .tst { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: var(--r-inp, 10px); background: var(--surface); padding: 4px }
     .tst span { flex: 1; text-align: center; font-size: 15px; color: var(--body); font-variant-numeric: tabular-nums }
     .tst span.ph { color: #8a949b }
-    .tst button { width: 34px; height: 34px; border: 0; border-radius: 8px; background: #eef2f5; color: #3e566a; font-size: 18px; line-height: 1; cursor: pointer }
+    .tst button { width: 34px; height: 34px; border: 0; border-radius: 8px; background: #eef2f5; color: var(--brand-d); font-size: 18px; line-height: 1; cursor: pointer }
     .tst button:hover { background: #dfe7ee }
     .tsum { margin: 8px 0 0; font-size: 12.5px; color: #68727a }
     .tsum.bad { color: #b4423a }
     .tpre { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 6px !important }
     .tpre .chip { height: 34px; padding: 0 8px; font-size: 13px; white-space: nowrap; justify-content: center; width: 100% }
     .tst input { flex: 1; min-width: 0; width: 100%; text-align: center; border: 0; background: transparent; font: inherit; font-size: 15px; padding: 6px 2px; outline: none; font-variant-numeric: tabular-nums }
-    .tst:focus-within { border-color: #547691; box-shadow: 0 0 0 3px rgba(84, 118, 145, .14) }
+    .tst:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14) }
     .tst.err { border-color: #b4423a }
     .tpre { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 12px }
 
@@ -1804,7 +1814,7 @@
     textarea:focus {
       outline: none;
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14)
     }
 
     input::placeholder {
@@ -1921,7 +1931,7 @@
       padding-right: 6px;
       margin-right: -6px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .28) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .28) transparent
     }
 
     .exp-list-scroll::-webkit-scrollbar {
@@ -1933,12 +1943,12 @@
     }
 
     .exp-list-scroll::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .28);
+      background: rgba(var(--brand-rgb), .28);
       border-radius: 99px
     }
 
     .exp-list-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .55)
+      background: rgba(var(--brand-rgb), .55)
     }
 
     .exp-hint {
@@ -1955,7 +1965,7 @@
     .exp-card {}
 
     .exp-ok {
-      border-color: rgba(84, 118, 145, .3);
+      border-color: rgba(var(--brand-rgb), .3);
       background: #f7fafc
     }
 
@@ -2001,7 +2011,7 @@
     }
 
     .icon-btn.icon-confirmed {
-      border-color: rgba(84, 118, 145, .3);
+      border-color: rgba(var(--brand-rgb), .3);
       color: var(--slate);
       background: var(--slate-tint)
     }
@@ -2020,7 +2030,7 @@
 
     .exp-editing {
       border-color: var(--slate);
-      box-shadow: 0 0 0 2px rgba(84, 118, 145, .12), 0 8px 22px -18px rgba(65, 82, 96, .4)
+      box-shadow: 0 0 0 2px rgba(var(--brand-rgb), .12), 0 8px 22px -18px rgba(65, 82, 96, .4)
     }
 
     .exp-edit-header {
@@ -2592,16 +2602,16 @@
     .btn.primary {
       background: var(--slate);
       color: #fff;
-      box-shadow: 0 5px 0 0 var(--slate-d), 0 12px 26px 0 rgba(84, 118, 145, .125)
+      box-shadow: 0 5px 0 0 var(--slate-d), 0 12px 26px 0 rgba(var(--brand-rgb), .125)
     }
 
     .btn.primary:hover {
-      background: #4d6d87
+      background: var(--brand-h)
     }
 
     .btn.primary:active {
       transform: translateY(3px);
-      box-shadow: 0 2px 0 0 var(--slate-d), 0 6px 14px 0 rgba(84, 118, 145, .12)
+      box-shadow: 0 2px 0 0 var(--slate-d), 0 6px 14px 0 rgba(var(--brand-rgb), .12)
     }
 
     .btn.ghost {
@@ -2923,6 +2933,7 @@
     }
   </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
+  <script src="theme-picker.js"></script>
 </head>
 
 <body>
