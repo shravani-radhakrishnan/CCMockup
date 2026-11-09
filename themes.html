@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colour themes | Cloud Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink: #262b2f; --muted: #68727a; --line: #dfe4e8; --bg: #f8fafb; }
+    * { box-sizing: border-box }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "DM Sans", system-ui, sans-serif }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 64px }
+    h1 { font: 800 28px Manrope, sans-serif; margin: 0 0 6px }
+    .sub { color: var(--muted); margin: 0 0 24px; max-width: 640px }
+    .tog { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-bottom: 24px; background: #fff }
+    .tog button { border: 0; background: none; padding: 8px 16px; font: 600 13px "DM Sans", sans-serif; cursor: pointer; color: var(--muted) }
+    .tog button.on { background: #262b2f; color: #fff }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px }
+    .pc { border: 1px solid var(--line-x, var(--line)); border-radius: 18px; background: var(--surface-x, #fff); overflow: hidden; box-shadow: 0 10px 30px rgba(20, 30, 40, .06); color: var(--ink-x, var(--ink)) }
+    .pc-hero { padding: 22px; color: #fff; background: linear-gradient(135deg, var(--brand-dd) 0%, var(--brand-d) 55%, var(--brand) 100%) }
+    .pc-hero small { opacity: .8; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase }
+    .pc-hero h2 { font: 800 20px Manrope, sans-serif; margin: 4px 0 12px }
+    .pc-hero .b { display: inline-block; background: #fff; color: var(--brand-dd); border-radius: 9px; padding: 7px 14px; font-weight: 700; font-size: 13px }
+    .pc-body { padding: 16px 20px 18px; background: var(--bg-x, #fff) }
+    .pc-body .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px }
+    .btn { border: 0; border-radius: 9px; padding: 8px 14px; font: 700 13px "DM Sans", sans-serif; background: var(--brand); color: #fff }
+    .btn.s { background: var(--slate-tint-x); color: var(--slate-d-x) }
+    .chip { border-radius: 99px; padding: 4px 11px; font-size: 12px; font-weight: 600; background: var(--slate-tint-2-x); color: var(--slate-d-x) }
+    .bar { height: 7px; border-radius: 99px; background: var(--track-x); overflow: hidden; flex: 1; min-width: 80px } .bar i { display: block; height: 100%; width: 68%; background: var(--brand); border-radius: 99px }
+    .card-m { border: 1px solid var(--line-x); border-radius: 12px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; background: var(--surface-x) }
+    .av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 12px Manrope; background: linear-gradient(145deg, var(--brand-h), var(--brand-d)) }
+    .card-m b { display: block; font-size: 13px } .card-m small { color: var(--muted-x, var(--muted)); font-size: 12px }
+    .pc-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 20px 16px; background: var(--bg-x, #fff); border-top: 1px solid var(--line-x, var(--line)) }
+    .pc-foot b { font: 800 15px Manrope, sans-serif } .pc-foot small { display: block; color: var(--muted-x, var(--muted)); font-size: 12px }
+    .links { display: flex; gap: 6px; flex-wrap: wrap }
+    .links a { border: 1px solid var(--line-x, var(--line)); border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 600; text-decoration: none; color: var(--slate-d-x, var(--ink)) }
+    .links a:hover { background: var(--slate-tint-x) }
+    .gh { grid-column: 1 / -1; margin: 10px 0 -4px; font: 800 13px Manrope, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted) }
+    .dk { --ink-x: #e8edf0; --muted-x: #8f9aa2 }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Colour themes</h1>
+    <p class="sub">Sixty-two palettes for the Cloud Club mockups, grouped by purpose and sorted by colour: our own, recruiting platforms, enterprise products, landing-page and technical brands, eight neutral greys and browns, and seventeen light, soft ones. Compare them here, then open any page in a palette. You can also switch on every page with the <b>Colours</b> handle on the right edge. Your pick is remembered.</p>
+    <div class="tog" role="tablist"><button class="on" data-mode="light">Light</button><button data-mode="dark">Dark</button></div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <script src="theme-picker.js"></script>
+  <script>
+    (function () {
+      var grid = document.getElementById('grid'), mode = 'light';
+      function css(o, dark) { var m = { '--ink': '--ink-x', '--muted': '--muted-x', '--slate-tint': '--slate-tint-x', '--slate-tint-2': '--slate-tint-2-x', '--slate-d': '--slate-d-x', '--line': '--line-x', '--surface': '--surface-x', '--bg': '--bg-x', '--track': '--track-x' }, out = Object.keys(o).map(function (k) { return k + ':' + o[k] }); Object.keys(m).forEach(function (k) { if (o[k]) out.push(m[k] + ':' + o[k]) }); if (!o['--surface']) out.push('--surface-x:' + (dark ? '#1b2227' : '#fff')); return out.join(';') }
+      function draw() {
+        var P = window.CCPalette, cur = (function () { try { return localStorage.getItem('cc_palette') || 'slate' } catch (e) { return 'slate' } })();
+        var lastG = null;
+        grid.innerHTML = P.list.map(function (p) {
+          var gname = P.groups[p.g || 0], head = gname !== lastG ? '<div class="gh">' + gname + '</div>' : ''; lastG = gname;
+          var b = P.build(p), o = mode === 'dark' ? b.dark : b.light;
+          if (p.id === 'slate') { o = Object.assign({}, o, mode === 'dark' ? { '--bg': '#12171b', '--surface': '#1b2227', '--line': '#2b343b', '--track': '#27313a', '--slate-tint': '#232d35', '--slate-tint-2': '#2b3842', '--slate-d': '#7fa3bf' } : { '--bg': '#f8fafb', '--surface': '#fff', '--line': '#dfe4e8', '--track': '#e7edf1', '--slate-tint': '#eef3f6', '--slate-tint-2': '#e2ebf0', '--slate-d': '#3e566a' }) }
+          var q = '?palette=' + p.id;
+          return head + '<div class="pc' + (mode === 'dark' ? ' dk' : '') + '" style="' + css(o, mode === 'dark') + '"><div class="pc-hero"><small>' + p.note + '</small><h2>' + p.name + '</h2><span class="b">New Job Posting</span></div>' +
+            '<div class="pc-body"><div class="row"><span class="btn">Primary</span><span class="btn s">Secondary</span><span class="chip">AWS</span><span class="chip">Snowflake</span></div>' +
+            '<div class="row"><div class="bar"><i></i></div><small style="color:var(--muted-x,#68727a)">68%</small></div>' +
+            '<div class="card-m"><span class="av">CC</span><div><b>CC-128 · Principal Architect</b><small>96% match · Available now</small></div></div></div>' +
+            '<div class="pc-foot"><div><b>' + p.name + '</b><small>' + p.c + '</small></div><div class="links"><a href="client-portal.html' + q + '">Client</a><a href="consultant-portal.html' + q + '">Consultant</a><a href="index.html' + q + '">Sign-up</a></div></div></div>'
+        }).join('');
+      }
+      document.querySelector('.tog').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; mode = b.dataset.mode; [].forEach.call(document.querySelectorAll('.tog button'), function (x) { x.classList.toggle('on', x === b) }); draw() });
+      draw();
+    })();
+  </script>
+</body>
+</html>

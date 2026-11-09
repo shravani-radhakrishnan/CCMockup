@@ -12,6 +12,16 @@
     rel="stylesheet">
   <style>
     :root {
+      --brand: #547691;
+      --brand-d: #3e566a;
+      --brand-dd: #2c3e4c;
+      --brand-h: #4d6d87;
+      --brand-rgb: 84, 118, 145;
+      --brand-d-rgb: 62, 86, 106;
+      --brand-dd-rgb: 44, 62, 76;
+      --brand-hi: #c5e4d9;
+      --brand-hi2: #cfe0ec;
+      --brand-soft: #c3d1dc;
       --bg: #f8fafb;
       --surface: #ffffff;
       --card-border: #e0e5e9;
@@ -46,7 +56,7 @@
 
     * {
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     ::-webkit-scrollbar {
@@ -59,12 +69,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     html {
@@ -207,13 +217,13 @@
       border-color: var(--slate);
       background: #fbfcfd;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px -10px rgba(84, 118, 145, .22)
+      box-shadow: 0 6px 20px -10px rgba(var(--brand-rgb), .22)
     }
 
     .path-tile.sel {
       border-color: var(--slate);
       background: var(--slate-tint);
-      box-shadow: inset 0 0 0 1.5px var(--slate), 0 6px 20px -10px rgba(84, 118, 145, .18)
+      box-shadow: inset 0 0 0 1.5px var(--slate), 0 6px 20px -10px rgba(var(--brand-rgb), .18)
     }
 
     .path-check {
@@ -528,7 +538,7 @@
       max-height: 100vh;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     .side::-webkit-scrollbar {
@@ -540,12 +550,12 @@
     }
 
     .side::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     .side::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     .side .eyebrow {
@@ -576,7 +586,7 @@
       overflow-y: visible;
       padding-right: 2px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .2) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .2) transparent
     }
 
     .secwrap::-webkit-scrollbar {
@@ -588,12 +598,12 @@
     }
 
     .secwrap::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .2);
+      background: rgba(var(--brand-rgb), .2);
       border-radius: 10px
     }
 
     .secwrap::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .45)
+      background: rgba(var(--brand-rgb), .45)
     }
 
     .seceyebrow {
@@ -910,6 +920,10 @@
       grid-template-columns: repeat(3, 1fr)
     }
 
+    .oneline-opts.two .opts.cols {
+      grid-template-columns: repeat(2, 1fr)
+    }
+
     .chipfield .chips {
       max-height: 132px;
       overflow-y: auto;
@@ -1075,6 +1089,15 @@
       gap: 8px
     }
 
+    .chips.tight {
+      gap: 6px
+    }
+
+    .chips.tight .chip {
+      padding: 6px 12px;
+      font-size: 12.5px
+    }
+
     .chip {
       display: inline-flex;
       align-items: center;
@@ -1166,7 +1189,7 @@
     .chip-add-row input:focus {
       outline: none;
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14)
     }
 
     .chip-add-btn {
@@ -1182,7 +1205,7 @@
     }
 
     .chip-add-btn:hover {
-      background: #4d6d87
+      background: var(--brand-h)
     }
 
     .chip-add-btn:disabled {
@@ -1405,7 +1428,7 @@
 
     .phone-wrap:focus-within {
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14);
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14);
     }
 
     .field-err .phone-wrap {
@@ -1496,7 +1519,7 @@
     }
 
     .password-toggle:focus-visible {
-      outline: 2px solid rgba(84, 118, 145, .22);
+      outline: 2px solid rgba(var(--brand-rgb), .22);
       outline-offset: 2px
     }
 
@@ -1532,9 +1555,9 @@
     }
 
     .otp-row input.filled {
-      border-color: rgba(84, 118, 145, .45);
+      border-color: rgba(var(--brand-rgb), .45);
       background: #fbfdfe;
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .08)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .08)
     }
 
     .otp-row input.bump {
@@ -1544,17 +1567,17 @@
     @keyframes otpBump {
       0% {
         transform: scale(.94);
-        box-shadow: 0 0 0 0 rgba(84, 118, 145, .18)
+        box-shadow: 0 0 0 0 rgba(var(--brand-rgb), .18)
       }
 
       70% {
         transform: scale(1.05);
-        box-shadow: 0 0 0 5px rgba(84, 118, 145, .10)
+        box-shadow: 0 0 0 5px rgba(var(--brand-rgb), .10)
       }
 
       100% {
         transform: scale(1);
-        box-shadow: 0 0 0 3px rgba(84, 118, 145, .08)
+        box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .08)
       }
     }
 
@@ -1746,6 +1769,20 @@
       line-height: 1.4
     }
 
+    .tst { display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: var(--r-inp, 10px); background: var(--surface); padding: 4px }
+    .tst span { flex: 1; text-align: center; font-size: 15px; color: var(--body); font-variant-numeric: tabular-nums }
+    .tst span.ph { color: #8a949b }
+    .tst button { width: 34px; height: 34px; border: 0; border-radius: 8px; background: #eef2f5; color: var(--brand-d); font-size: 18px; line-height: 1; cursor: pointer }
+    .tst button:hover { background: #dfe7ee }
+    .tsum { margin: 8px 0 0; font-size: 12.5px; color: #68727a }
+    .tsum.bad { color: #b4423a }
+    .tpre { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 6px !important }
+    .tpre .chip { height: 34px; padding: 0 8px; font-size: 13px; white-space: nowrap; justify-content: center; width: 100% }
+    .tst input { flex: 1; min-width: 0; width: 100%; text-align: center; border: 0; background: transparent; font: inherit; font-size: 15px; padding: 6px 2px; outline: none; font-variant-numeric: tabular-nums }
+    .tst:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14) }
+    .tst.err { border-color: #b4423a }
+    .tpre { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 12px }
+
     input[type=text],
     input[type=email],
     input[type=tel],
@@ -1777,7 +1814,7 @@
     textarea:focus {
       outline: none;
       border-color: var(--slate);
-      box-shadow: 0 0 0 3px rgba(84, 118, 145, .14)
+      box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14)
     }
 
     input::placeholder {
@@ -1894,7 +1931,7 @@
       padding-right: 6px;
       margin-right: -6px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(84, 118, 145, .28) transparent
+      scrollbar-color: rgba(var(--brand-rgb), .28) transparent
     }
 
     .exp-list-scroll::-webkit-scrollbar {
@@ -1906,12 +1943,12 @@
     }
 
     .exp-list-scroll::-webkit-scrollbar-thumb {
-      background: rgba(84, 118, 145, .28);
+      background: rgba(var(--brand-rgb), .28);
       border-radius: 99px
     }
 
     .exp-list-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(84, 118, 145, .55)
+      background: rgba(var(--brand-rgb), .55)
     }
 
     .exp-hint {
@@ -1928,7 +1965,7 @@
     .exp-card {}
 
     .exp-ok {
-      border-color: rgba(84, 118, 145, .3);
+      border-color: rgba(var(--brand-rgb), .3);
       background: #f7fafc
     }
 
@@ -1974,7 +2011,7 @@
     }
 
     .icon-btn.icon-confirmed {
-      border-color: rgba(84, 118, 145, .3);
+      border-color: rgba(var(--brand-rgb), .3);
       color: var(--slate);
       background: var(--slate-tint)
     }
@@ -1993,7 +2030,7 @@
 
     .exp-editing {
       border-color: var(--slate);
-      box-shadow: 0 0 0 2px rgba(84, 118, 145, .12), 0 8px 22px -18px rgba(65, 82, 96, .4)
+      box-shadow: 0 0 0 2px rgba(var(--brand-rgb), .12), 0 8px 22px -18px rgba(65, 82, 96, .4)
     }
 
     .exp-edit-header {
@@ -2565,16 +2602,16 @@
     .btn.primary {
       background: var(--slate);
       color: #fff;
-      box-shadow: 0 5px 0 0 var(--slate-d), 0 12px 26px 0 rgba(84, 118, 145, .125)
+      box-shadow: 0 5px 0 0 var(--slate-d), 0 12px 26px 0 rgba(var(--brand-rgb), .125)
     }
 
     .btn.primary:hover {
-      background: #4d6d87
+      background: var(--brand-h)
     }
 
     .btn.primary:active {
       transform: translateY(3px);
-      box-shadow: 0 2px 0 0 var(--slate-d), 0 6px 14px 0 rgba(84, 118, 145, .12)
+      box-shadow: 0 2px 0 0 var(--slate-d), 0 6px 14px 0 rgba(var(--brand-rgb), .12)
     }
 
     .btn.ghost {
@@ -2896,6 +2933,7 @@
     }
   </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
+  <script src="theme-picker.js"></script>
 </head>
 
 <body>
@@ -2908,9 +2946,8 @@
   <div class="landing-wrap" id="landingWrap">
     <section class="side" id="landingSide">
       <div class="eyebrow">Get started</div>
-      <h1>Create your<br><em class="serif-i">Cloud Club profile.</em></h1>
-      <p>Whether you're hiring or looking for your next project, it starts with a short profile. No payment, no
-        commitment — just the details we need to make a great first match.</p>
+      <h1>Join<br><em class="serif-i">Cloud Club.</em></h1>
+      <p>Connect with proven technology experts or discover projects that match your expertise. Get started by creating your profile.</p>
     </section>
     <div class="cardwrap">
       <div class="card">
@@ -2946,8 +2983,7 @@
                 <circle cx="12" cy="8" r="4" />
                 <path d="M4 20a8 8 0 0116 0" />
               </svg></span>
-            <span class="path-body"><span class="path-l">I'm a consultant</span><span class="path-s">Find meaningful
-                projects that match my expertise</span></span>
+            <span class="path-body"><span class="path-l">Join as a consultant</span><span class="path-s">Apply to join our invite-only network of vetted technology consultants.</span></span>
           </button>
         </div>
         <div class="landing-foot">
@@ -3159,6 +3195,22 @@
         return `<div class="field${ERRS[id] ? ' field-err' : ''}"><label for="f_${id}">${label}${req ? '<span class="req">*</span>' : ''}</label><div class="password-wrap"><input id="f_${id}" type="${shown ? 'text' : 'password'}" data-original-type="password" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}"><button class="password-toggle" type="button" data-toggle-password="${id}" aria-label="${shown ? 'Hide password' : 'Show password'}">${eye}</button></div>${hint ? `<div class="field-hint">${esc(hint)}</div>` : ''}${errMsg(id)}</div>`;
       }
       return `<div class="field${ERRS[id] ? ' field-err' : ''}"><label for="f_${id}">${label}${req ? '<span class="req">*</span>' : ''}</label><input id="f_${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(v)}" data-k="${id}">${hint ? `<div class="field-hint">${esc(hint)}</div>` : ''}${errMsg(id)}</div>`;
+    }
+    const TIME_OPTS = Array.from({ length: 48 }, (_, i) => { const h = Math.floor(i / 2), m = i % 2 ? '30' : '00'; return [String(h).padStart(2, '0') + ':' + m, ((h % 12) || 12) + ':' + m + ' ' + (h < 12 ? 'AM' : 'PM')] });
+    const TIME_PRESETS = [['Mornings', '08:00', '12:00'], ['Afternoons', '12:00', '17:00'], ['Business hours', '09:00', '17:00'], ['Evenings', '17:00', '21:00'], ['Any time', '08:00', '20:00']];
+    const t12l = t => { if (!t) return ''; const [h, m] = t.split(':').map(Number); return ((h % 12) || 12) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM') };
+    const a_terr = id => !!A()['_terr_' + id];
+    const tmin = t => { const [h, m] = (t || '0:0').split(':').map(Number); return h * 60 + m };
+    const parseT = x => { x = String(x || '').trim().toLowerCase().replace(/\./g, ''); const m = x.match(/^(\d{1,2})(?::?(\d{2}))?\s*(a|p|am|pm)?$/); if (!m) return null; let h = +m[1], mi = m[2] ? +m[2] : 0; const ap = m[3]; if (mi > 59) return null; if (ap) { if (h < 1 || h > 12) return null; h = h % 12 + (ap[0] === 'p' ? 12 : 0) } else if (h > 23) return null; return String(h).padStart(2, '0') + ':' + String(mi).padStart(2, '0') };
+    function timeStep(id, label, def) {
+      const v = A()[id] || '';
+      return `<div class="field"><label>${label}</label><div class="tst${a_terr(id) ? ' err' : ''}"><button type="button" data-tstep="${id}|-30|${def}" aria-label="30 minutes earlier">−</button><input type="text" inputmode="text" autocomplete="off" data-tin="${id}" value="${v ? t12l(v) : ''}" placeholder="e.g. 9:30 AM" aria-label="${label} time"><button type="button" data-tstep="${id}|30|${def}" aria-label="30 minutes later">+</button></div></div>`;
+    }
+    function timeRange() {
+      const a = A(), ok = a.stime && a.etime, d = ok ? tmin(a.etime) - tmin(a.stime) : 0;
+      const sum = ok ? (d > 0 ? `<p class="tsum">${t12l(a.stime)} – ${t12l(a.etime)} · ${d / 60 % 1 ? (d / 60).toFixed(1) : d / 60} hrs a day</p>` : '<p class="tsum bad">“Until” should be later than “From”.</p>') : '';
+      const er = a_terr('stime') || a_terr('etime') ? '<p class="tsum bad">Enter a time like 9:30 AM or 14:00.</p>' : '';
+      return `<div class="tpre">${TIME_PRESETS.map(([l, s, e]) => `<button type="button" class="chip${a.stime === s && a.etime === e ? ' sel' : ''}" data-tpreset="${s}|${e}">${l}</button>`).join('')}</div><div class="row">${timeStep('stime', 'From', '09:00')}${timeStep('etime', 'Until', '17:00')}</div>${er}${sum}`;
     }
     function selRaw(id, opts, { def = '' } = {}) {
       if (def && A()[id] === undefined) A()[id] = def;
@@ -3402,6 +3454,18 @@
     };
     const COUNTRY_CITIES_FALLBACK = { 'Afghanistan': ['Kabul'], 'Albania': ['Tirana'], 'Algeria': ['Algiers'], 'Andorra': ['Andorra la Vella'], 'Angola': ['Luanda'], 'Argentina': ['Buenos Aires', 'Córdoba'], 'Armenia': ['Yerevan'], 'Austria': ['Vienna', 'Graz'], 'Azerbaijan': ['Baku'], 'Bahamas': ['Nassau'], 'Bahrain': ['Manama'], 'Bangladesh': ['Dhaka', 'Chittagong'], 'Barbados': ['Bridgetown'], 'Belgium': ['Brussels', 'Antwerp'], 'Belize': ['Belize City'], 'Bermuda': ['Hamilton'], 'Bolivia': ['La Paz', 'Santa Cruz'], 'Bosnia and Herzegovina': ['Sarajevo'], 'Bulgaria': ['Sofia'], 'Cambodia': ['Phnom Penh'], 'Cameroon': ['Douala', 'Yaoundé'], 'Chile': ['Santiago', 'Valparaíso'], 'Colombia': ['Bogotá', 'Medellín'], 'Costa Rica': ['San José'], 'Croatia': ['Zagreb'], 'Cyprus': ['Nicosia'], 'Czech Republic': ['Prague', 'Brno'], 'Denmark': ['Copenhagen', 'Aarhus'], 'Dominican Republic': ['Santo Domingo'], 'Ecuador': ['Quito', 'Guayaquil'], 'Egypt': ['Cairo', 'Alexandria'], 'Estonia': ['Tallinn'], 'Ethiopia': ['Addis Ababa'], 'Finland': ['Helsinki', 'Tampere'], 'Georgia': ['Tbilisi'], 'Ghana': ['Accra', 'Kumasi'], 'Greece': ['Athens', 'Thessaloniki'], 'Guatemala': ['Guatemala City'], 'Hong Kong': ['Hong Kong'], 'Hungary': ['Budapest'], 'Iceland': ['Reykjavik'], 'Indonesia': ['Jakarta', 'Surabaya'], 'Ireland': ['Dublin', 'Cork'], 'Israel': ['Tel Aviv', 'Jerusalem'], 'Jamaica': ['Kingston'], 'Jordan': ['Amman'], 'Kazakhstan': ['Almaty', 'Astana'], 'Kenya': ['Nairobi', 'Mombasa'], 'Kuwait': ['Kuwait City'], 'Latvia': ['Riga'], 'Lebanon': ['Beirut'], 'Lithuania': ['Vilnius'], 'Luxembourg': ['Luxembourg City'], 'Malaysia': ['Kuala Lumpur', 'Penang'], 'Malta': ['Valletta'], 'Monaco': ['Monaco'], 'Morocco': ['Casablanca', 'Rabat'], 'Netherlands': ['Amsterdam', 'Rotterdam'], 'New Zealand': ['Auckland', 'Wellington'], 'Nigeria': ['Lagos', 'Abuja'], 'Norway': ['Oslo', 'Bergen'], 'Oman': ['Muscat'], 'Pakistan': ['Karachi', 'Lahore', 'Islamabad'], 'Panama': ['Panama City'], 'Peru': ['Lima', 'Arequipa'], 'Philippines': ['Manila', 'Cebu City'], 'Poland': ['Warsaw', 'Kraków'], 'Portugal': ['Lisbon', 'Porto'], 'Qatar': ['Doha'], 'Romania': ['Bucharest', 'Cluj-Napoca'], 'Saudi Arabia': ['Riyadh', 'Jeddah'], 'Serbia': ['Belgrade'], 'Singapore': ['Singapore'], 'Slovakia': ['Bratislava'], 'Slovenia': ['Ljubljana'], 'South Africa': ['Johannesburg', 'Cape Town'], 'South Korea': ['Seoul', 'Busan'], 'Sri Lanka': ['Colombo'], 'Sweden': ['Stockholm', 'Gothenburg'], 'Switzerland': ['Zürich', 'Geneva', 'Bern'], 'Taiwan': ['Taipei', 'Kaohsiung'], 'Thailand': ['Bangkok', 'Chiang Mai'], 'Trinidad and Tobago': ['Port of Spain'], 'Tunisia': ['Tunis'], 'Turkey': ['Istanbul', 'Ankara'], 'Ukraine': ['Kyiv', 'Lviv'], 'United Arab Emirates': ['Dubai', 'Abu Dhabi'], 'Uruguay': ['Montevideo'], 'Venezuela': ['Caracas'], 'Vietnam': ['Ho Chi Minh City', 'Hanoi'] };
 
+    const ENGAGE_OPTS = ['C2C — Through My Own Corporation', 'C2C — Through My Employer', 'C2C — Through Another Corporation', '1099 — Independent Contractor', 'Not Sure'];
+    const AUTH_TYPES = ['H-1B', 'L-1', 'TN', 'E-3', 'OPT / STEM OPT', 'H-4 EAD', 'L-2 EAD', 'Other EAD'];
+    const TRAVEL_FREQ = ['1–5 days per month', '6–10 days per month', '11–15 days per month', '16+ days per month', 'Flexible / Depends on the Opportunity'];
+    function workPrefsBlock() {
+      const a = A();
+      return `<div class="groupcard" style="margin-top:16px"><div class="gh">Work location preferences</div>
+      <div class="field oneline-opts" style="margin-bottom:14px"><label>Preferred Work Arrangements</label>${optionCards('workarr', ['Remote', 'Hybrid', 'On-site'], { multi: true, cols: true, auto: false })}</div>
+      <div class="row" style="margin-bottom:${a.travel === 'Yes' ? 14 : 0}px"><div class="field oneline-opts two" style="margin-bottom:0"><label>Willing to Travel?</label>${optionCards('travel', ['Yes', 'No'], { cols: true, auto: false })}</div>
+      <div class="field oneline-opts two" style="margin-bottom:0"><label>Open to Relocation?</label>${optionCards('relocate', ['Yes', 'No'], { cols: true, auto: false })}</div></div>
+      ${a.travel === 'Yes' ? `<div class="field" style="margin-bottom:0"><label>How frequently are you willing to travel?</label><div class="chips tight">${TRAVEL_FREQ.map((o, i) => `<span class="chip ${(a.travelfreq || []).includes(o) ? 'sel' : ''}" data-chip="travelfreq" data-val="${esc(o)}" title="${esc(o)}">${['1–5 days', '6–10 days', '11–15 days', '16+ days', 'Flexible'][i]}</span>`).join('')}</div><div class="hint" style="margin:6px 0 0">Days per month. Select all that apply.</div></div>` : ''}</div>`;
+    }
+
     /* ============ CANDIDATE ============ */
     function buildCandidate() {
       const a = A(); const S = [];
@@ -3411,7 +3475,7 @@
       });
       S.push({ kind: 'form', group: 'Verify Your Email', q: 'Verify your email.', body: verifyBody });
       S.push({
-        kind: 'form', group: 'Resume and Professional Profiles', q: 'Add your resume.', sub: 'So clients can see your background. You’ll add your experience details next.',
+        kind: 'form', group: 'Resume and Professional Profiles', q: 'Add your resume and professional profiles.', sub: 'Upload your resume and add your professional profiles to help Cloud Club understand your experience, expertise, and qualifications.',
         body: () => {
           const parseLabels = [['Extracting text and layout', 'Understanding your resume structure'], ['Identifying roles and employers', 'Analyzing your career journey'], ['Mapping clients and projects', 'Connecting your project experience'], ['Recognizing skills and tools', 'Mapping your technical expertise'], ['Identifying industries', 'Understanding your domain expertise'], ['Calculating experience', 'Evaluating your experience and proficiency'], ['Matching skills to taxonomy', 'Aligning skills with Cloud Club’s talent taxonomy'], ['Checking missing details', 'Validating your professional information'], ['Preparing your profile', 'Building your AI-powered talent profile']];
           let up;
@@ -3459,33 +3523,45 @@
       });
       S.push({
         kind: 'multi', group: 'Opportunity Preferences and Availability', q: 'What are you looking for through Cloud Club?', sub: 'Select all that apply.',
-        opts: [{ v: 'Full-time contract work', i: 'brief' }, { v: 'Part-time or side work', i: 'clock' }, { v: 'Project advisory or fractional', i: 'spark' }, { v: 'Permanent employment', i: 'building' }, { v: 'Explore future opportunities', i: 'compass' }], id: 'looking',
+        opts: [{ v: 'Full-Time Contracts', i: 'brief' }, { v: 'Part-Time Contracts', i: 'clock' }, { v: 'Fractional Leadership & Advisory', i: 'spark' }, { v: 'Contract-to-Hire (CTH)', i: 'doc' }, { v: 'Permanent Employment (W-2)', i: 'building' }, { v: 'Open to Future Opportunities', i: 'compass' }], id: 'looking', cols: true,
+        extra: () => workPrefsBlock(),
         pv: { k: 'Looking for', get: a => (a.looking || []).join(', ') }
       });
       S.push({
         kind: 'single', group: 'Opportunity Preferences and Availability', q: 'Your current work situation?',
-        opts: ['Full-time employee', 'Full-time contractor', 'Part-time contractor / freelancer', 'Working on multiple engagements', 'Between roles', 'Not currently working', 'Prefer not to say'], id: 'situation',
+        opts: ['Full-time employee', 'Full-time contractor', 'Part-time contractor / freelancer', 'Working on multiple engagements', 'Between roles', 'Prefer not to say'], id: 'situation',
         pv: { k: 'Situation', get: a => a.situation || '' }
       });
       S.push({
-        kind: 'form', group: 'Opportunity Preferences and Availability', q: 'When could you start, and how much?', sub: 'Numeric hours, not a broad preset range.',
-        body: () => `${text('startdate', 'Earliest start date', { type: 'date', req: true })}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs || '')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" value="${esc(a.maxhrs || '')}"></div></div>
+        kind: 'form', group: 'Opportunity Preferences and Availability', q: 'When are you available to start, and how many hours can you work?', sub: 'Numeric hours, not a broad preset range.',
+        body: () => `${text('startdate', 'Earliest start date', { type: 'date', req: true })}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs || '')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" min="1" max="40" value="${esc(a.maxhrs || '')}"></div></div>
         <div class="field" style="margin-top:18px"><label>When are you normally available?</label><div class="hint">Recurring windows in your local time — mornings, evenings, or weekends are fine.</div></div>
-        <div class="row"><div class="field"><label>Days</label>${selRaw('days', ['Weekdays', 'Weekends', 'Every day', 'Custom by day'])}</div><div class="field"><label>Start</label><input type="time" data-k="stime" value="${esc(a.stime || '')}"></div><div class="field"><label>End</label><input type="time" data-k="etime" value="${esc(a.etime || '')}"></div></div>`,
+        <div class="field"><label>Days</label>${selRaw('days', ['Weekdays', 'Weekends', 'Every day', 'Custom by day'])}</div>${timeRange()}`,
         pv: { k: 'Availability', get: a => a.minhrs && a.maxhrs ? `${a.minhrs}–${a.maxhrs} hrs/wk` : '' }
       });
       S.push({
-        kind: 'form', group: 'Opportunity Preferences and Availability', q: 'Your baseline rate.', sub: 'You’ll confirm the final rate per opportunity.',
-        body: () => `<div class="row"><div class="field" style="margin-bottom:11px"><label>Min rate</label><input type="number" data-k="minrate" placeholder="Min rate" value="${esc(a.minrate || '')}"></div><div class="field" style="margin-bottom:11px"><label>Desired rate</label><input type="number" data-k="desrate" placeholder="Desired rate" value="${esc(a.desrate || '')}"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px"><label>Currency</label>${selRaw('currate', ['USD', 'EUR', 'GBP', 'INR', 'CAD'])}</div></div>`
+        kind: 'form', group: 'Opportunity Preferences and Availability', q: 'Your desired hourly rate range.', sub: 'Enter the lowest hourly rate you’d accept and the rate you’d ideally like to earn. Rates may vary by engagement.',
+        body: () => `<div class="row"><div class="field" style="margin-bottom:11px"><label>Lowest Acceptable Rate</label><input type="number" data-k="minrate" placeholder="Lowest acceptable rate" value="${esc(a.minrate || '')}"></div><div class="field" style="margin-bottom:11px"><label>Target Rate</label><input type="number" data-k="desrate" placeholder="Target rate" value="${esc(a.desrate || '')}"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px"><label>Currency</label>${selRaw('currate', ['USD', 'EUR', 'GBP', 'INR', 'CAD'], { def: 'USD' })}</div></div>`
       });
       S.push({
-        kind: 'form', group: 'Work Authorization and Engagement Method', q: 'Where are you authorized to work?', sub: 'Entity, payroll, tax, and banking come later — only if you’re selected.',
-        body: () => `<div class="field${ERRS.authcountries ? ' field-err' : ''}"><label>Authorized countries<span class="req">*</span></label>${countryPicker('authcountries', COUNTRIES)}${errMsg('authcountries')}</div>
-        <div class="field oneline-opts" style="margin-top:18px"><label>Will you need sponsorship?</label>${optionCards('sponsor', [{ v: 'No' }, { v: 'Yes' }, { v: 'Not sure' }], { cols: true, auto: false })}</div>
-        <div class="field" style="margin-top:18px"><label>How can you engage for contract work?</label>${optionCards('engage', ['C2C through my own company', '1099 independent contractor', 'Through an employer', 'Not sure'], { multi: true, cols: true, auto: false })}</div>`,
-        pv: { k: 'Authorized in', get: a => (a.authcountries || []).join(', ') }
+        kind: 'form', group: 'Work Authorization and Engagement Method', q: 'How will you work with us?', sub: 'Entity, payroll, tax, and banking come later — only if you’re selected.',
+        body: () => {
+          const us = (a.country || 'United States') === 'United States';
+          let h = '';
+          if (us) {
+            h += `<div class="field"><label>What is your current U.S. work authorization status?</label>${optionCards('workauth', ['U.S. Citizen', 'Green Card Holder', 'Work Visa / EAD', 'Not Currently Authorized', 'Not Sure'], { cols: true, auto: false })}</div>`;
+            if (a.workauth === 'Work Visa / EAD') h += sel('authtype', 'Authorization type', AUTH_TYPES);
+            h += `<div class="field oneline-opts" style="margin-top:18px"><label>Will you now or in the future require employer sponsorship to work in the U.S.?</label>${optionCards('sponsor', [{ v: 'Yes' }, { v: 'No' }, { v: 'Not Sure' }], { cols: true, auto: false })}</div>`;
+          }
+          h += `<div class="field" style="margin-top:${us ? 18 : 0}px"><label>Contract Engagement Method</label><div class="hint">Select all that apply.</div>${optionCards('engage', ENGAGE_OPTS, { multi: true, cols: true, auto: false })}</div>`;
+          if ((a.engage || []).includes('C2C — Through My Employer')) {
+            h += `<div class="groupcard"><div class="gh">Employer details</div>${text('emp_name', 'Employer Company Name', { req: true })}<div class="row">${text('emp_contact', 'Primary Contact Name')}${text('emp_email', 'Primary Contact Email', { type: 'email' })}</div>${text('emp_phone', 'Primary Contact Phone', { type: 'tel' })}<div class="hint">Contact details are optional. Employer information stays internal to Cloud Club and is only used by assigned representatives to confirm rate and contracting terms.</div></div>`;
+          }
+          return h;
+        },
+        pv: { k: 'Engagement', get: a => (a.engage || []).join(', ') }
       });
-      S.push({ kind: 'done', group: 'Work Authorization and Engagement Method', q: 'Your profile is ready.', sub: 'These features are available from your dashboard.', preview: true, dashboardLabel: 'Features you can access from the dashboard', routes: [{ ic: '⌕', t: 'Browse opportunities', d: 'Roles matched to your profile.' }, { ic: '☰', t: 'Review my profile', d: 'See how clients view you.' }, { ic: '✦', t: 'Talk to Skai', d: 'Ask our AI assistant anything.' }, { ic: '✓', t: 'Skills verification', d: 'Boost your match ranking.' }, { ic: '★', t: 'Request a testimonial', d: 'Add a reference.' }], candidate: true });
+      S.push({ kind: 'done', group: 'Profile Complete', q: 'Welcome to the Club!', sub: 'Your profile is complete! Explore everything Cloud Club has to offer.', preview: true, dashboardLabel: 'Features you can access from the dashboard', routes: [{ ic: '⌕', t: 'Browse opportunities', d: 'Roles matched to your profile.' }, { ic: '☰', t: 'Review my profile', d: 'See how clients view you.' }, { ic: '✦', t: 'Talk to Skai', d: 'Ask our AI assistant anything.' }, { ic: '✓', t: 'Skills verification', d: 'Verify your skills to strengthen your profile.' }, { ic: '★', t: 'Request a testimonial', d: 'Add a reference.' }, { ic: '◷', t: 'Manage Your Availability', d: 'Keep your availability and preferences up to date.' }], candidate: true });
       return S;
     }
 
@@ -3695,7 +3771,7 @@
       </div>
     </div></div>`;
       }
-      h += `<div style="margin-top:14px">${callout('For a <b>confidential client</b>, leave the end-client field blank — we\'ll still show the industry, products, and skills on your profile.')}</div>`;
+      h += `<div style="margin-top:14px">${callout('If your client is confidential, leave the end-client field blank. We\'ll still highlight your relevant industry experience, technologies, and skills.')}</div>`;
       return h;
     }
 
@@ -3903,11 +3979,12 @@
         });
         // cross-field: max hours >= min hours
         if (a.minhrs && a.maxhrs && Number(a.maxhrs) < Number(a.minhrs)) { fail('maxhrs', 'Max must be ≥ minimum hours'); }
+        if (a.maxhrs && Number(a.maxhrs) > 40) { fail('maxhrs', 'Maximum hours per week can’t exceed 40'); }
+        if (a.minhrs && Number(a.minhrs) > 40) { fail('minhrs', 'Hours per week can’t exceed 40'); }
         if (q.includes('Verify your email')) {
           const code = Array.from({ length: 6 }, (_, i) => a[`code${i}`] || '').join('');
           if (!/^\d{6}$/.test(code)) { fail('code', 'Enter the 6-digit code'); }
         }
-        if (q.includes('authorized to work') && (!a.authcountries || !a.authcountries.length)) { fail('authcountries', 'Select at least one authorized country'); }
         if (/^Create your (company )?account/.test(q) && !a.agreeTerms) { fail('agreeTerms', 'You must agree to the Terms of Service and Privacy Policy to continue'); }
       }
 
@@ -4035,6 +4112,8 @@
         return;
       }
       if (e.target.closest('[data-addprofile]')) { if (a.ptype && a.purl) { a.profiles = a.profiles || []; a.profiles.push({ type: a.ptype, url: a.purl }); a.purl = ''; render(); } return; }
+      { const ts = e.target.closest('[data-tstep]'); if (ts) { const [k, d0, def] = ts.dataset.tstep.split('|'); const cur = a[k] ? tmin(a[k]) : tmin(def) - (+d0); const n = Math.max(0, Math.min(1410, cur + (+d0))); a[k] = String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0'); delete a['_terr_' + k]; render(false); return } }
+      { const tp = e.target.closest('[data-tpreset]'); if (tp) { const [s0, e0] = tp.dataset.tpreset.split('|'); a.stime = s0; a.etime = e0; delete a._terr_stime; delete a._terr_etime; render(false); return } }
       const rmprofile = e.target.closest('[data-rmprofile]');
       if (rmprofile) { a.profiles.splice(Number(rmprofile.dataset.rmprofile), 1); render(); return; }
       if (e.target.closest('[data-addcred]')) { if (a.credname) { a.credentials = a.credentials || []; a.credentials.push({ name: a.credname, issuer: a.credissuer || '' }); a.credname = ''; a.credissuer = ''; render(); } return; }
@@ -4043,6 +4122,8 @@
     });
 
     // Separate document-level handler for experience overlay buttons (which live in document.body)
+    document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.tin) return; const k = el.dataset.tin, a = A(), t = el.value.trim() === '' ? '' : parseT(el.value); if (t === null) { a['_terr_' + k] = 1 } else { delete a['_terr_' + k]; a[k] = t } render(false) });
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.tin) { e.preventDefault(); e.target.blur() } });
     document.addEventListener('click', e => {
       const a = A();
       if (e.target.hasAttribute('data-modalbackdrop')) { a.expFormOpen = false; a.expEditIdx = undefined; clearExpDraft(a); render(); return; }
@@ -4066,6 +4147,7 @@
     });
     document.getElementById('stage').addEventListener('input', e => {
       const k = e.target.dataset.k; if (k) {
+        if ((k === 'maxhrs' || k === 'minhrs') && e.target.value !== '' && Number(e.target.value) > 40) e.target.value = '40';
         A()[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         if (e.target.type === 'tel' || k === 'phone') {
           const dial = A()[k + '_dial'] || '+1';
