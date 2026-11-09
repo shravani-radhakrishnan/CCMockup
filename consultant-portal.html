@@ -1854,6 +1854,27 @@
       }
     }
 
+    .lgc { display: grid; gap: 22px }
+    .lgs > header { padding: 0 0 7px; margin-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
+    .lgb { padding: 0 }
+    .lgg { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px }
+    .lgk.w { grid-column: 1/-1 }
+    .lgk small { display: block; margin-bottom: 2px; color: var(--muted); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase }
+    .lgk b { font-weight: 600 }
+    .lgnv { color: var(--faint); font-weight: 500 }
+    @media(max-width:700px) { .lgg { grid-template-columns: 1fr } }
+    .lgc .fld { margin-bottom: 14px; gap: 6px }
+    .lgc .in { height: 42px }
+    .lgc .chip { height: 30px; padding: 0 12px; font-size: 12.5px }
+    .lgc .pills { gap: 8px }
+    .lgc .fld > label { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px }
+    .lgn { font-size: 12px; font-weight: 500; color: var(--muted) }
+    .rowg { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0 16px; align-items: start }
+    .rowg.wp { display: flex; flex-wrap: wrap; gap: 0 44px }
+    .rowg.win { grid-template-columns: 1.3fr 1fr 1fr auto; align-items: end }
+    .rowg.win .btn { margin-bottom: 10px }
+    @media(max-width:700px) { .rowg.win { grid-template-columns: 1fr 1fr } }
+
     .row2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -4606,6 +4627,13 @@
       pointer-events: none
     }
 
+    .pvn { margin: -8px 0 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--slate-tint) }
+    .pvn button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 14px; background: none; border: 0; text-align: left; cursor: pointer; font: inherit; font-size: 12.5px; line-height: 1.45; color: var(--muted) }
+    .pvn .pvl { display: inline-flex; flex: none; color: var(--slate-d) }
+    .pvn .pvt { flex: 1 }
+    .pvn .pvc { display: inline-flex; flex: none; transform: rotate(-90deg); transition: transform .2s }
+    .pvn.c .pvc { transform: rotate(90deg) }
+
     .li {
       display: flex;
       flex-direction: column;
@@ -5474,6 +5502,34 @@
       color: var(--amber);
       font-weight: 600
     }
+
+    .dw .ftg { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px }
+    .dw .ftg.list { grid-template-columns: 1fr }
+    .dw .ft { padding: 18px; gap: 10px }
+    .dw .ftg.list .ft { padding: 14px 18px }
+    .dw .ft .fi { width: 42px; height: 42px; border-radius: 11px }
+    .dw .ft b { font-size: 14.5px }
+    .dw .ft small { font-size: 12.5px }
+    .dw .ft-s .in { height: 42px; font-size: 14px }
+    .dw .fsub { margin: 26px 0 12px }
+    .mbox.rcm { width: min(560px, 100%) }
+    .mbox.rcm .mic { margin-bottom: 12px }
+    .rcs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 4px 0 10px }
+    .rcs > div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--slate-tint) }
+    .rcs small { display: block; margin-bottom: 3px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase }
+    .rcs b { font-size: 15px; font-weight: 650 }
+    .rcl { color: var(--muted); font-size: 12.5px }
+    @media(max-width:600px) { .rcs { grid-template-columns: 1fr } }
+
+    .mbox.rvm { width: min(680px, 100%) }
+    .rvp { max-height: 52vh; overflow: auto; padding: 24px 28px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: #1f2933; font-size: 13px; line-height: 1.55; box-shadow: inset 0 1px 3px rgba(0,0,0,.04) }
+    .rvp h4 { margin: 0; font-size: 20px }
+    .rvp .rvs { color: #5b6770; margin-bottom: 6px }
+    .rvp h5 { margin: 16px 0 6px; padding-bottom: 3px; border-bottom: 1px solid #dfe4e8; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: #3e566a }
+    .rvp p { margin: 0; color: #1f2933 }
+    .rvj { margin-bottom: 10px }
+    .rvj small { display: block; color: #5b6770; font-size: 12px }
+    .rvj span { display: block }
 
     .fsub {
       margin: 18px 0 10px;
@@ -6381,6 +6437,7 @@
       trash: I('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 15),
       copy: I('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/>', 15),
       clock: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', 15),
+      lock: I('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>', 16),
       send: I('<path d="M3 20l18-8L3 4v6l12 2-12 2z"/>', 16),
       pin: I('<path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>', 15),
       cal: I('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 15),
@@ -6417,6 +6474,10 @@
     const dFull = d => d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
     const fmtLong = k => k ? dLong(pd(k)) : '—';
     const fmtH = h => { const m = Math.round(h * 60); return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0') };
+    const LC_KEY = 'cc_last_confirmed';
+    const lcGet = () => { try { const v = localStorage.getItem(LC_KEY); if (v) return v } catch (e) { } return iso(D(FRESH ? 0 : -75)) };
+    const lcDays = () => Math.floor((D(0) - pd(S.lastConf)) / 864e5);
+    const lcSet = () => { S.lastConf = iso(D(0)); save(LC_KEY, S.lastConf) };
     const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const ini = n => n.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
 
@@ -6464,51 +6525,66 @@
     const COUNTRY_CITIES_FALLBACK = { 'Afghanistan': ['Kabul'], 'Albania': ['Tirana'], 'Algeria': ['Algiers'], 'Andorra': ['Andorra la Vella'], 'Angola': ['Luanda'], 'Argentina': ['Buenos Aires', 'Córdoba'], 'Armenia': ['Yerevan'], 'Austria': ['Vienna', 'Graz'], 'Azerbaijan': ['Baku'], 'Bahamas': ['Nassau'], 'Bahrain': ['Manama'], 'Bangladesh': ['Dhaka', 'Chittagong'], 'Barbados': ['Bridgetown'], 'Belgium': ['Brussels', 'Antwerp'], 'Belize': ['Belize City'], 'Bermuda': ['Hamilton'], 'Bolivia': ['La Paz', 'Santa Cruz'], 'Bosnia and Herzegovina': ['Sarajevo'], 'Bulgaria': ['Sofia'], 'Cambodia': ['Phnom Penh'], 'Cameroon': ['Douala', 'Yaoundé'], 'Chile': ['Santiago', 'Valparaíso'], 'Colombia': ['Bogotá', 'Medellín'], 'Costa Rica': ['San José'], 'Croatia': ['Zagreb'], 'Cyprus': ['Nicosia'], 'Czech Republic': ['Prague', 'Brno'], 'Denmark': ['Copenhagen', 'Aarhus'], 'Dominican Republic': ['Santo Domingo'], 'Ecuador': ['Quito', 'Guayaquil'], 'Egypt': ['Cairo', 'Alexandria'], 'Estonia': ['Tallinn'], 'Ethiopia': ['Addis Ababa'], 'Finland': ['Helsinki', 'Tampere'], 'Georgia': ['Tbilisi'], 'Ghana': ['Accra', 'Kumasi'], 'Greece': ['Athens', 'Thessaloniki'], 'Guatemala': ['Guatemala City'], 'Hong Kong': ['Hong Kong'], 'Hungary': ['Budapest'], 'Iceland': ['Reykjavik'], 'Indonesia': ['Jakarta', 'Surabaya'], 'Ireland': ['Dublin', 'Cork'], 'Israel': ['Tel Aviv', 'Jerusalem'], 'Jamaica': ['Kingston'], 'Jordan': ['Amman'], 'Kazakhstan': ['Almaty', 'Astana'], 'Kenya': ['Nairobi', 'Mombasa'], 'Kuwait': ['Kuwait City'], 'Latvia': ['Riga'], 'Lebanon': ['Beirut'], 'Lithuania': ['Vilnius'], 'Luxembourg': ['Luxembourg City'], 'Malaysia': ['Kuala Lumpur', 'Penang'], 'Malta': ['Valletta'], 'Monaco': ['Monaco'], 'Morocco': ['Casablanca', 'Rabat'], 'Netherlands': ['Amsterdam', 'Rotterdam'], 'New Zealand': ['Auckland', 'Wellington'], 'Nigeria': ['Lagos', 'Abuja'], 'Norway': ['Oslo', 'Bergen'], 'Oman': ['Muscat'], 'Pakistan': ['Karachi', 'Lahore', 'Islamabad'], 'Panama': ['Panama City'], 'Peru': ['Lima', 'Arequipa'], 'Philippines': ['Manila', 'Cebu City'], 'Poland': ['Warsaw', 'Kraków'], 'Portugal': ['Lisbon', 'Porto'], 'Qatar': ['Doha'], 'Romania': ['Bucharest', 'Cluj-Napoca'], 'Saudi Arabia': ['Riyadh', 'Jeddah'], 'Serbia': ['Belgrade'], 'Singapore': ['Singapore'], 'Slovakia': ['Bratislava'], 'Slovenia': ['Ljubljana'], 'South Africa': ['Johannesburg', 'Cape Town'], 'South Korea': ['Seoul', 'Busan'], 'Sri Lanka': ['Colombo'], 'Sweden': ['Stockholm', 'Gothenburg'], 'Switzerland': ['Zürich', 'Geneva', 'Bern'], 'Taiwan': ['Taipei', 'Kaohsiung'], 'Thailand': ['Bangkok', 'Chiang Mai'], 'Trinidad and Tobago': ['Port of Spain'], 'Tunisia': ['Tunis'], 'Turkey': ['Istanbul', 'Ankara'], 'Ukraine': ['Kyiv', 'Lviv'], 'United Arab Emirates': ['Dubai', 'Abu Dhabi'], 'Uruguay': ['Montevideo'], 'Venezuela': ['Caracas'], 'Vietnam': ['Ho Chi Minh City', 'Hanoi'] };
     const stOpts = c => COUNTRY_STATES[c] || null, ctOpts = (c, st) => COUNTRY_STATES[c] ? ((COUNTRY_STATE_CITIES[c] || {})[st] || []) : (COUNTRY_CITIES_FALLBACK[c] || []);
     const TZ_OPTS = ['US Eastern (ET)', 'US Central (CT)', 'US Mountain (MT)', 'US Pacific (PT)', 'GMT / UTC', 'Central European (CET)', 'India (IST)', 'Other'];
-    const LOOK_OPTS = ['Full-time contract work', 'Part-time or side work', 'Project advisory or fractional', 'Permanent employment', 'Explore future opportunities'];
-    const ENG_OPTS = ['C2C through my own company', '1099 independent contractor', 'Through an employer', 'Not sure'];
+    const LOOK_OPTS = ['Full-Time Contracts', 'Part-Time Contracts', 'Fractional Leadership & Advisory', 'Contract-to-Hire (CTH)', 'Permanent Employment (W-2)', 'Open to Future Opportunities'];
+    const ENG_OPTS = ['C2C — Through My Own Corporation', 'C2C — Through My Employer', 'C2C — Through Another Corporation', '1099 — Independent Contractor', 'Not Sure'];
     const DAY_OPTS = ['Weekdays', 'Weekends', 'Every day', 'Custom by day'];
-    const SPON_OPTS = ['No', 'Yes', 'Not sure'];
+    const SPON_OPTS = ['Yes', 'No', 'Not Sure'];
+    const WAUTH_OPTS = ['U.S. Citizen', 'Green Card Holder', 'Work Visa / EAD', 'Not Currently Authorized', 'Not Sure'];
+    const AUTH_TYPES = ['H-1B', 'L-1', 'TN', 'E-3', 'OPT / STEM OPT', 'H-4 EAD', 'L-2 EAD', 'Other EAD'];
+    const ARR_OPTS = ['Remote', 'Hybrid', 'On-site'];
+    const TRAVEL_FREQ = ['1–5 days per month', '6–10 days per month', '11–15 days per month', '16+ days per month', 'Flexible / Depends on the Opportunity'];
+    const CURS = ['USD', 'EUR', 'GBP', 'INR', 'CAD'], CSYM = { USD: '$', EUR: '€', GBP: '£', INR: '₹', CAD: 'CA$' };
+    const isUS = g => g.country === 'United States', isC2C = g => g.engage.some(x => x.startsWith('C2C')), needContact = g => g.engage.some(x => x === 'C2C — Through My Employer' || x === 'C2C — Through Another Corporation');
     const t12 = t => { if (!t || !/^\d{1,2}:\d{2}/.test(t)) return ''; const [h, m] = t.split(':').map(Number); return ((h % 12) || 12) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM') };
     function lgSync(g) {
       g.address = [g.city, g.state, g.country].filter(Boolean).join(', ');
       g.bw = g.minhrs && g.maxhrs ? g.minhrs + '–' + g.maxhrs + ' hrs/week' : '';
       g.open = g.looking.join(', ');
-      g.hours = g.stime && g.etime ? (g.days ? g.days + ' · ' : '') + t12(g.stime) + ' – ' + t12(g.etime) : (g.days || '');
+      g.hours = g.wins.filter(w => w.days || (w.stime && w.etime)).map(w => (w.days ? w.days + (w.stime && w.etime ? ' · ' : '') : '') + (w.stime && w.etime ? t12(w.stime) + ' – ' + t12(w.etime) : '')).join('; ');
       g.contract = g.engage.join(', ');
-      g.auth = g.authc.length ? g.authc.join(', ') + (g.sponsor ? ' · Sponsorship: ' + g.sponsor : '') : '';
+      g.auth = isUS(g) ? (g.wauth ? g.wauth + (g.wauth === 'Work Visa / EAD' ? (g.wtype ? ' (' + g.wtype + ')' : '') + (g.sponsor ? ' · Sponsorship: ' + g.sponsor : '') : '') : '') : (g.country ? 'Not required (based outside the U.S.)' : '');
+      g.workpref = [g.workarr.join(', '), g.travel ? 'Travel: ' + g.travel + (g.travel === 'Yes' && g.travelfreq.length ? ' (' + g.travelfreq.join(', ') + ')' : '') : '', g.relocate ? 'Relocation: ' + g.relocate : ''].filter(Boolean).join(' · ');
       return g
     }
     function lgInit() {
-      const o = ONBA || {}, g = { country: 'Argentina', state: 'Buenos Aires', city: 'Buenos Aires', tz: 'Other', roles: ['SF Administrator', 'SF Solutions Architect'], rate: '100', min: '90', minhrs: '20', maxhrs: '40', looking: ['Full-time contract work', 'Part-time or side work'], days: 'Weekdays', stime: '09:00', etime: '17:00', start: iso(D(21)), engage: ['C2C through my own company'], authc: ['United States'], sponsor: 'No' };
-      if (FRESH) Object.assign(g, { engage: [], authc: [], sponsor: '', country: '', state: '', city: '', tz: '', roles: [], rate: '', min: '', minhrs: '', maxhrs: '', looking: [], days: '', stime: '', etime: '', start: '' });
-      const mp = { country: 'country', state: 'state', city: 'city', tz: 'tz', startdate: 'start', minhrs: 'minhrs', maxhrs: 'maxhrs', days: 'days', stime: 'stime', etime: 'etime', minrate: 'min', desrate: 'rate', sponsor: 'sponsor' };
+      const o = ONBA || {}, g = { country: 'Argentina', state: 'Buenos Aires', city: 'Buenos Aires', tz: 'Other', roles: ['SF Administrator', 'SF Solutions Architect'], rate: '100', min: '90', cur: 'USD', minhrs: '20', maxhrs: '40', looking: ['Full-Time Contracts', 'Part-Time Contracts'], wins: [{ days: 'Weekdays', stime: '09:00', etime: '17:00' }], start: iso(D(21)), engage: ['C2C — Through My Own Corporation'], corpname: 'Kumar Consulting S.R.L.', corpaddr: 'Av. Corrientes 1234, Buenos Aires, Argentina', corpcname: '', corpemail: '', corpphone: '', wauth: '', wtype: '', sponsor: '', workarr: ['Remote'], travel: 'No', travelfreq: [], relocate: 'No' };
+      if (FRESH) Object.assign(g, { engage: [], corpname: '', corpaddr: '', sponsor: '', country: '', state: '', city: '', tz: '', roles: [], rate: '', min: '', minhrs: '', maxhrs: '', looking: [], wins: [{ days: '', stime: '', etime: '' }], start: '', workarr: [], travel: '', relocate: '' });
+      const mp = { country: 'country', state: 'state', city: 'city', tz: 'tz', startdate: 'start', minhrs: 'minhrs', maxhrs: 'maxhrs', minrate: 'min', desrate: 'rate', currate: 'cur', sponsor: 'sponsor', workauth: 'wauth', authtype: 'wtype', travel: 'travel', relocate: 'relocate', emp_name: 'corpname', emp_contact: 'corpcname', emp_email: 'corpemail', emp_phone: 'corpphone' };
       Object.keys(mp).forEach(k => { if (o[k]) g[mp[k]] = String(o[k]) });
-      [['looking', 'looking'], ['engage', 'engage'], ['authcountries', 'authc']].forEach(([a, b]) => { if (Array.isArray(o[a]) && o[a].length) g[b] = o[a].slice() }); g.engage = g.engage.slice(0, 1);
+      if (o.days || o.stime || o.etime) g.wins = [{ days: o.days || '', stime: o.stime || '', etime: o.etime || '' }];
+      [['looking', 'looking'], ['engage', 'engage'], ['workarr', 'workarr'], ['travelfreq', 'travelfreq']].forEach(([a, b]) => { if (Array.isArray(o[a]) && o[a].length) g[b] = o[a].slice() });
+      if (+g.maxhrs > 40) g.maxhrs = '40'; if (+g.minhrs > 40) g.minhrs = '40';
       return lgSync(g)
     }
     function lgValid(P, g, ob) {
       const e = {};['country', 'state', 'city', 'tz', 'rate', 'minhrs', 'maxhrs', 'start'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 });
-      if (!g.engage.length) e[P + 'engage'] = 1; if (!g.authc.length) e[P + 'authc'] = 1; if (!ob && !g.roles.length) e[P + 'roles'] = 1;
+      if (!g.engage.length) e[P + 'engage'] = 1; if (!ob && !g.roles.length) e[P + 'roles'] = 1;
+      if (isUS(g)) { if (!g.wauth) e[P + 'wauth'] = 1; if (g.wauth === 'Work Visa / EAD') { if (!g.wtype) e[P + 'wtype'] = 1; if (!g.sponsor) e[P + 'sponsor'] = 1 } }
+      if (isC2C(g)) { ['corpname', 'corpaddr'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 }); if (needContact(g)) { ['corpcname', 'corpemail', 'corpphone'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 }); if (g.corpemail && !isMail(g.corpemail)) e[P + 'corpemail'] = 2 } }
       if (!e[P + 'minhrs'] && !e[P + 'maxhrs'] && +g.maxhrs < +g.minhrs) e[P + 'maxhrs'] = 2;
+      if (+g.maxhrs > 40) e[P + 'maxhrs'] = 3; if (+g.minhrs > 40) e[P + 'minhrs'] = 3;
       if (g.min && g.rate && +g.min > +g.rate) e[P + 'min'] = 2;
-      S.err = e; if (Object.keys(e).length) { const f = Object.keys(e)[0]; toast(e[P + 'min'] === 2 && Object.keys(e).length === 1 ? 'Minimum can’t be higher than desired rate' : 'Please complete the required fields') }
+      S.err = e; if (Object.keys(e).length) { const f = Object.keys(e)[0]; toast(e[P + 'maxhrs'] === 3 || e[P + 'minhrs'] === 3 ? 'Hours per week are limited to 40' : e[P + 'min'] === 2 && Object.keys(e).length === 1 ? 'Lowest acceptable rate can’t be higher than target rate' : 'Please complete the required fields') }
       return !Object.keys(e).length
     }
     function lgForm(P, g, ob) {
       const er = k => S.err[P + k] ? 'err' : '', stO = stOpts(g.country), ctO = ctOpts(g.country, g.state);
-      const chips = (k, opts, label, req, one) => `<div class="fld ${er(k)}"><label>${label}${req ? '<span class="rq">*</span>' : ''}<span style="font-weight:500;color:var(--muted);font-size:12px;margin-left:8px">${one ? 'Select one' : 'Select all that apply'}</span></label><div class="pills">${opts.map(o => `<button type="button" class="chip ${g[k].includes(o) ? 'on' : ''}" data-a="${one ? 'lgone' : 'lgtog'}" data-p="${P + k}" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div><span class="em">Select at least one</span></div>`;
-      const ctry = `<div class="fld ${er('authc')}"><label>Authorized countries<span class="rq">*</span></label><div class="cdd-wrap"><input class="in" type="text" data-csearch="${P}authc" placeholder="Search countries…" autocomplete="off"><div class="cdd" data-cdd="${P}authc"></div></div>${g.authc.length ? `<div class="pills" style="margin-top:10px">${g.authc.map(c => `<span class="tag">${esc(c)}<button type="button" data-a="lgrm" data-p="${P}authc" data-v="${esc(c)}" aria-label="Remove ${esc(c)}">×</button></span>`).join('')}</div>` : ''}<span class="em">Select at least one country</span></div>`;
-      const sp = `<div class="fld"><label>Will you need sponsorship?</label><div class="pills">${SPON_OPTS.map(o => `<button type="button" class="chip ${g.sponsor === o ? 'on' : ''}" data-a="lgset" data-p="${P}sponsor" data-v="${o}">${o}</button>`).join('')}</div></div>`;
-      return `<div class="row2">${fld('Country', P + 'country', { req: 1, opts: COUNTRIES })}${stO ? fld('State', P + 'state', { req: 1, opts: stO }) : fld('State / region', P + 'state', { req: 1, ph: 'State or region' })}</div>
-  <div class="row2">${ctO.length ? fld('City', P + 'city', { req: 1, opts: ctO }) : fld('City', P + 'city', { req: 1, ph: 'City' })}${fld('Primary time zone', P + 'tz', { req: 1, opts: TZ_OPTS })}</div>
-  ${ob ? '' : `<div class="fld ${er('roles')}"><label>Type of roles you are interested in<span class="rq">*</span></label><div class="pills">${ROLE_OPTS.map(r => `<button type="button" class="chip ${g.roles.includes(r) ? 'on' : ''}" data-a="lgtog" data-p="${P}roles" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div><span class="em">Pick at least one role</span></div>`}
-  <div class="row2">${fld('Desired rate ($/hour)', P + 'rate', { req: 1, type: 'number' })}${fld('Min. willing to accept ($/hour)', P + 'min', { type: 'number', bad: 'Minimum can’t be higher than desired rate' })}</div>
-  <div class="row2">${fld('Min hours / week', P + 'minhrs', { req: 1, type: 'number', ph: '10' })}${fld('Max hours / week', P + 'maxhrs', { req: 1, type: 'number', ph: '40', bad: 'Max must be at least the minimum hours' })}</div>
-  ${ob ? '' : chips('looking', LOOK_OPTS, 'What are you looking for through Cloud Club?')}
-  <div class="row2">${fld('Earliest start date', P + 'start', { req: 1, type: 'date' })}${fld('Normally available', P + 'days', { opts: DAY_OPTS, ph: 'Days' })}</div>
-  <div class="row2">${fld('Available from', P + 'stime', { type: 'time' })}${fld('Available until', P + 'etime', { type: 'time' })}</div>
-  ${chips('engage', ENG_OPTS, 'How can you engage for contract work?', 1, 1)}
-  ${ctry}${sp}`
+      const hd = t => `<div class="lgh">${t}</div>`;
+      const pills = (k, opts, label, req, one, short, hint) => `<div class="fld ${er(k)}"><label>${label}${req ? '<span class="rq">*</span>' : ''}${hint ? `<span class="lgn">${hint}</span>` : ''}</label><div class="pills">${opts.map((o, i) => `<button type="button" class="chip ${(one ? g[k] === o : g[k].includes(o)) ? 'on' : ''}" data-a="${one ? 'lgset' : 'lgtog'}" data-p="${P + k}" data-v="${esc(o)}" title="${esc(o)}">${esc(short ? short[i] : o)}</button>`).join('')}</div><span class="em">Select at least one</span></div>`;
+      const auth = isUS(g) ? `<div class="rowg">${pills('wauth', WAUTH_OPTS, 'U.S. work authorization status', 1, 1)}</div>
+        ${g.wauth === 'Work Visa / EAD' ? `<div class="rowg">${fld('Authorization type', P + 'wtype', { req: 1, opts: AUTH_TYPES })}${pills('sponsor', SPON_OPTS, 'Will you now or in the future require employer sponsorship to work in the U.S.?', 1, 1)}</div>` : ''}` : '';
+      const corp = isC2C(g) ? `<div class="rowg">${fld('Company Legal Name', P + 'corpname', { req: 1 })}${fld('Company Address', P + 'corpaddr', { req: 1 })}</div>
+        ${needContact(g) ? `<div class="rowg">${fld('Primary Contact Name', P + 'corpcname', { req: 1 })}${fld('Primary Contact Email', P + 'corpemail', { req: 1, type: 'email', bad: 'Enter a valid email' })}${fld('Primary Contact Phone', P + 'corpphone', { req: 1, type: 'tel' })}</div>` : ''}
+        <div class="lgn" style="margin:-4px 0 10px">Saved for future engagements. Company and contact details stay internal to Cloud Club and are only used by assigned representatives to confirm rate and contracting terms.</div>` : '';
+      const wins = g.wins.map((w, i) => `<div class="rowg win">${fld(i ? 'Window ' + (i + 1) : 'Normally available', P + 'wins.' + i + '.days', { opts: DAY_OPTS, ph: 'Days' })}${fld('From', P + 'wins.' + i + '.stime', { type: 'time' })}${fld('Until', P + 'wins.' + i + '.etime', { type: 'time' })}${g.wins.length > 1 ? `<button type="button" class="btn sm" data-a="lgwinrm" data-p="${P}wins" data-v="${i}" aria-label="Remove availability window ${i + 1}">Remove</button>` : ''}</div>`).join('');
+      const sec = (t, inner) => `<section class="lgs"><header>${t}</header><div class="lgb">${inner}</div></section>`;
+      return `<div class="lgc">
+  ${sec('Location', `<div class="rowg">${fld('Country', P + 'country', { req: 1, opts: COUNTRIES })}${stO ? fld('State', P + 'state', { req: 1, opts: stO }) : fld('State / region', P + 'state', { req: 1, ph: 'State or region' })}${ctO.length ? fld('City', P + 'city', { req: 1, opts: ctO }) : fld('City', P + 'city', { req: 1, ph: 'City' })}${fld('Primary time zone', P + 'tz', { req: 1, opts: TZ_OPTS })}</div>`)}
+  ${ob ? '' : sec('Roles and opportunities', pills('roles', ROLE_OPTS, 'Type of roles you are interested in', 1) + pills('looking', LOOK_OPTS, 'What are you looking for through Cloud Club?'))}
+  ${sec('Rate, hours and start date', `<div class="rowg">${fld('Target Rate (/hour)', P + 'rate', { req: 1, type: 'number' })}${fld('Lowest Acceptable Rate (/hour)', P + 'min', { type: 'number', bad: 'Lowest acceptable rate can’t be higher than target rate' })}${fld('Currency', P + 'cur', { opts: CURS, ph: 'USD' })}${fld('Earliest start date', P + 'start', { req: 1, type: 'date' })}${fld('Min hours / week', P + 'minhrs', { req: 1, type: 'number', ph: '10', bad: 'Hours per week are limited to 40' })}${fld('Max hours / week (up to 40)', P + 'maxhrs', { req: 1, type: 'number', ph: '40', bad: 'Max must be at least the minimum hours' })}</div>`)}
+  ${sec('Work preferences', `<div class="rowg wp">${pills('workarr', ARR_OPTS, 'Preferred Work Arrangements')}${pills('travel', ['Yes', 'No'], 'Willing to Travel?', 0, 1)}${g.travel === 'Yes' ? pills('travelfreq', TRAVEL_FREQ, 'How frequently are you willing to travel?', 0, 0, ['1–5 days', '6–10 days', '11–15 days', '16+ days', 'Flexible'], 'Days per month') : ''}${pills('relocate', ['Yes', 'No'], 'Open to Relocation?', 0, 1)}</div>`)}
+  ${sec('Availability', `${wins}<button type="button" class="btn sm" data-a="lgwinadd" data-p="${P}wins">${IC.plus} Add availability window</button>`)}
+  ${sec('Contract and authorization', `${pills('engage', ENG_OPTS, 'Contract Engagement Method', 1)}${corp}${auth}`)}</div>`
     }
     const S = {
       view: 'profile', ptab: 'resume', collapsed: false, theme: 'light', pop: false, chat: false, modal: null, open: true, mf: {}, err: {},
@@ -6524,10 +6600,10 @@
           { emp: 'Amazon', client: 'Amazon', proj: 'Vendor onboarding portal', ind: 'Retail', sub: 'E-commerce', role: 'Salesforce Senior Engineer', start: '2020-01', end: '2021-07', prods: ['Experience Cloud', 'Sales Cloud'], skills: ['Apex', 'LWC'], resp: 'Built Apex automation and Lightning components for the vendor onboarding portal, delivered two weeks early.' },
           { emp: 'Avianca', client: 'Avianca', proj: 'Sales Cloud and CPQ implementation', ind: 'Travel & Hospitality', sub: 'Airlines', role: 'Salesforce Engineer', start: '2016-01', end: '2019-12', prods: ['Sales Cloud', 'Salesforce CPQ'], skills: ['Admin & configuration', 'Training'], resp: 'Implemented Sales Cloud and CPQ, and trained 200+ sales users.' }],
         skills: [['Salesforce Clouds', ['Sales Cloud', 'Service Cloud', 'Marketing Cloud', 'Health Cloud', 'Commerce Cloud']], ['Coding languages', ['Apex', 'JavaScript', 'SOQL', 'HTML', 'Java']], ['Configuration abilities', ['Flows', 'Process Builder', 'Validation Rules', 'Permission Sets']], ['Marketing automation', ['Journey Builder', 'Email Studio', 'Pardot']], ['Integration / iPaaS', ['MuleSoft', 'Boomi', 'REST APIs']]],
-        links: { linkedin: 'linkedin.com/in/john-davis', github: 'github.com/johndavis', trail: '' }
+        links: { linkedin: 'linkedin.com/in/john-davis', github: 'github.com/johndavis', trail: '', extra: [] }
       },
       showMore: {}, sumtab: 'ind', xtab: 'exp', jd: {},
-      lg: lgInit(),
+      lg: lgInit(), lastConf: lcGet(), reconSeen: false, phone: FRESH ? ((ONBA && ONBA.phone) || '') : '+54 11 5555 0123',
       lgEdit: false, lgDraft: null, docView: 'grid', docQ: '',
       c2c: [['COI Type 1.pdf', 'Expiring ' + dLong(D(40))], ['Corp to Corp.pdf', '']],
       refs: [{ n: 'Marc Anthony', r: 'Worked together on the Hertz Service Cloud rollout', d: 'Mar 2026', t: 'Marc was a pleasure to work with — proactive, precise and calm under pressure.', st: 'Received' }, { n: 'Priya Raman', r: 'Client stakeholder at Amazon', d: 'Jan 2026', t: 'John delivered the onboarding portal two weeks ahead of schedule.', st: 'Received' }, { n: 'Luis Ortega', r: 'Engineering manager at Avianca', d: 'Sep 2026', t: '', st: 'Requested' }],
@@ -6538,7 +6614,7 @@
       offers: [{ id: 1, role: 'Salesforce Senior Engineer', co: 'Pharmaceutical Distributor Company', loc: 'ART', hpw: 40, rate: 100, start: iso(D(14)), end: iso(D(14 + 120)), mode: 'Remote', st: 'new' },
       { id: 0, role: 'Service Cloud Developer', co: 'Regional Health Network', loc: 'ART', hpw: 30, rate: 90, start: '2026-06-01', end: '2026-08-31', mode: 'Remote', st: 'declined', reason: 'Rate is below my minimum' }],
       logs: {}, wk: {}, ts: null, pay: { f: 'All', proj: 'All', page: 0, per: 5 },
-      payd: { bank: 'Banco Galicia', addr: 'Av. Corrientes 456, Buenos Aires', acct: '•••• •••• 3122', route: '•••• 5521' },
+      payd: { bank: 'Banco Galicia', addr: 'Av. Corrientes 456, Buenos Aires', acct: '•••• •••• 3122', route: '•••• 5521', swift: 'GABAARBA' },
       prefs: { o: 1, i: 1, h: 1, p: 1, r: 1, tfa: 0 },
       rl: [{ who: 'aisha.bello@gmail.com', type: 'Consultant', code: 'CC-7KQ2-M9XA', d: 'Aug 12, 2026', st: 'Signed up' }, { who: 'ops@northwind.com', type: 'Client', code: 'CC-4TRN-8HWB', d: 'Jul 03, 2026', st: 'Invited' }]
     };
@@ -6551,10 +6627,10 @@
       Object.assign(P, {
         headline: o.headline || '', loc: [o.city, o.country].filter(Boolean).join(', '), tz: o.tz || '', about: '', beganSF: '', beganSW: '', langs: [], edu: [], certs: (o.credentials || []).map(c => ({ n: c.name, i: c.issuer || '' })),
         jobs: ex.map(e => ({ emp: e.employer || '', client: e.client || '', type: e.type || '', proj: e.project || '', ind: e.industry || '', sub: e.subindustry || '', role: e.role || '', start: e.start || '', end: e.end || '', plats: [], prods: (e.platforms || []).concat(e.products || []), skills: (e.skills || []).slice(), resp: e.outcome || '' })),
-        skills: [], links: { linkedin: '', github: '', trail: '' }
+        skills: [], links: { linkedin: '', github: '', trail: '', extra: [] }
       });
-      (o.profiles || []).forEach(x => { const t = (x.type || '').toLowerCase(), k = /linkedin/.test(t) ? 'linkedin' : /github/.test(t) ? 'github' : /trail/.test(t) ? 'trail' : ''; if (k) P.links[k] = (x.url || '').replace(/^https?:\/\//, '') });
-      S.refs = []; S.ivs = []; S.offers = []; S.c2c = []; S.rl = []; S.payd = { bank: '', addr: '', acct: '', route: '' };
+      (o.profiles || []).forEach(x => { const t = (x.type || '').toLowerCase(), k = /linkedin/.test(t) ? 'linkedin' : /github/.test(t) ? 'github' : /trail/.test(t) ? 'trail' : ''; if (k) P.links[k] = (x.url || '').replace(/^https?:\/\//, ''); else if (x.url) P.links.extra.push({ type: x.type || 'Other', url: x.url.replace(/^https?:\/\//, '') }) });
+      S.refs = []; S.ivs = []; S.offers = []; S.c2c = []; S.rl = []; S.payd = { bank: '', addr: '', acct: '', route: '', swift: '' };
       S.notifs = [{ t: 'Welcome to Cloud Club', s: 'Complete your profile to start getting matched', w: 'Just now', go: 'profile', u: 1 }]
     })();
 
@@ -6592,7 +6668,7 @@
       ['Add an experience overview', 'Introduce yourself and your work', 'Experience overview added', !!S.prof.about],
       ['Add at least 3 skills', 'Used to match you with the right offers', 'Skills added', S.prof.skills.length > 2],
       ['Add a certification', 'Certifications raise your match score', 'Certification added', S.prof.certs.length > 0],
-      ['Complete your Logistics tab', 'Contract type, work authorization, address, rate and roles', 'Logistics completed', logiDone()],
+      ['Complete your Work Preferences tab', 'Contract type, work authorization, address, rate and roles', 'Work Preferences completed', logiDone()],
       ['Get a reference', 'Ask a colleague or client to vouch for you', 'Reference received', S.refs.some(r => r.st === 'Received')],
       ['Connect LinkedIn', 'Link your LinkedIn profile', 'LinkedIn connected', !!S.prof.links.linkedin],
       ['Connect Trailblazer', 'Link your Trailblazer profile', 'Trailblazer connected', !!S.prof.links.trail],
@@ -6721,7 +6797,7 @@
     }
 
     const TITLES = { profile: 'My Profile', interviews: 'Interviews', offers: 'Offers', projects: 'Projects', timesheet: 'Timesheet', payments: 'Payments', referrals: 'Referrals', settings: 'Settings' };
-    const PT = { resume: 'CC Resume', logistics: 'Logistics', references: 'References' };
+    const PT = { resume: 'CC Resume', logistics: 'Work Preferences', documents: 'Documents', references: 'References' };
     function crumb() { if (S.view === 'profile') return `My Profile / <b>${PT[S.ptab]}</b>`; if (S.view === 'timesheet') return 'Projects / <b>Timesheet</b>'; return `<b>${TITLES[S.view]}</b>` }
     const badge = k => k === 'interviews' && nInv() ? `<i class="bd">${nInv()}</i>` : k === 'offers' && nOff() ? `<i class="bd">${nOff()}</i>` : '';
     function render() {
@@ -6755,7 +6831,7 @@
     function fld(label, path, o = {}) {
       const v = getp(path) ?? '', er = S.err[path];
       const inner = o.opts ? `<select class="in" data-b="${path}"><option value="">${o.ph || 'Select…'}</option>${o.opts.map(x => `<option ${v === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>` : o.area ? `<textarea class="in" data-b="${path}" placeholder="${esc(o.ph || '')}" maxlength="${o.max || 400}" ${o.lg ? 'rows="6" style="min-height:150px"' : ''}>${esc(v)}</textarea>` : `<input class="in" type="${o.type || 'text'}" data-b="${path}" placeholder="${esc(o.ph || '')}" value="${esc(v)}" ${o.ro ? 'readonly' : ''} ${o.max ? `maxlength="${o.max}"` : ''}>`;
-      return `<div class="fld ${er ? 'err' : ''}" data-f="f-${path}"><label>${label}${o.req ? '<span class="rq">*</span>' : ''}</label>${inner}<span class="em">${er === 2 ? o.bad || 'Enter a valid value' : 'This field is required'}</span></div>`
+      return `<div class="fld ${er ? 'err' : ''}" data-f="f-${path}"><label>${label}${o.req ? '<span class="rq">*</span>' : ''}</label>${o.hint ? `<span style="font-size:12px;color:var(--muted);margin-top:-3px">${o.hint}</span>` : ''}${inner}<span class="em">${er === 2 || er === 3 ? o.bad || 'Enter a valid value' : 'This field is required'}</span></div>`
     }
     function need(paths, rules = {}) { S.err = {}; let ok = true; paths.forEach(p => { const v = String(getp(p) ?? '').trim(); if (!v) { S.err[p] = 1; ok = false } else if (rules[p] && !rules[p](v)) { S.err[p] = 2; ok = false } }); return ok }
     const isMail = v => /^\S+@\S+\.\S+$/.test(v);
@@ -6777,17 +6853,17 @@
   ${rows.length ? `<div class="xs-l">${rows.map(r => `<div class="xs-r ${sk ? 'nom' : ''}"><div class="xs-n"><b>${esc(r.lab)}</b>${r.edited ? '<span class="pill pu"><i></i>Edited</span>' : ''}</div><div class="xs-y"><div class="xs-bar"><i style="width:${Math.max(4, Math.round(r.m / mx * 100))}%"></i></div><span>${fy(r.m)}</span></div>${sk ? '' : `<div class="xs-m"><span><b>${r.cl == null ? '—' : r.cl}</b> client${r.cl === 1 ? '' : 's'}</span><span><b>${r.pr == null ? '—' : r.pr}</b> project${r.pr === 1 ? '' : 's'}</span></div>`}${cr ? '<span class="xs-e"></span>' : `<button class="ib xs-e" data-a="sumedit" data-v="${esc(r.k)}" aria-label="Edit">${IC.edit}</button>`}</div>`).join('')}</div>` : '<div class="empty">Nothing here yet. Add work experience and this fills in automatically.</div>'}</div>`
     }
     function vProfile() {
-      const pct = strength(), tabs = [['resume', 'CC Resume'], ['logistics', 'Logistics'], ['references', 'References']];
+      const pct = strength(), tabs = [['resume', 'CC Resume'], ['logistics', 'Work Preferences'], ['documents', 'Documents'], ['references', 'References']];
       return `<div class="ph"><div><h1>Welcome ${esc(ME.first)}!</h1><p>Keep your profile up to date — it powers Cloud Club's matching.</p></div></div>
   <div class="ptabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${S.ptab === k}" class="${S.ptab === k ? 'on' : ''}" data-a="ptab" data-v="${k}">${l}${k === 'logistics' && !logiDone() ? '<span class="tb">!</span>' : ''}</button>`).join('')}</div>
-  ${S.ptab === 'resume' ? tResume(pct) : S.ptab === 'logistics' ? tLogistics() : tRefs()}`
+  ${S.ptab === 'resume' ? tResume(pct) : S.ptab === 'logistics' ? tLogistics() : S.ptab === 'documents' ? tDocuments() : tRefs()}`
     }
 
     const emptyCard = (ic, t, p, btns) => `<div class="card es"><span class="es-ic">${ic}</span><h3>${t}</h3><p>${p}</p>${btns ? `<div class="es-act">${btns}</div>` : ''}</div>`;
     function getStarted() {
       if (!FRESH) return '';
       const L = S.prof.links, st = [[!!(S.prof.about && S.prof.skills.length), 'Finish your profile', 'Add an experience overview and your skills so clients can see what you do best.', 'Edit overview', 'data-a="medit" data-v="overview"'],
-      [logiDone(), 'Complete your logistics', 'Roles, rate, work authorization and contract type decide which offers you are matched with.', 'Complete logistics', 'data-a="gologi"'],
+      [logiDone(), 'Complete your work preferences', 'Roles, rate, work authorization and contract type decide which offers you are matched with.', 'Complete work preferences', 'data-a="gologi"'],
       [S.refs.some(r => r.st === 'Received'), 'Get a reference', 'Ask a colleague or client to vouch for you — it helps clients say yes faster.', 'Ask for a reference', 'data-a="goref"'],
       [!!S.vreq, 'Verify your skills (free)', 'A short technical interview with Cloud Club adds a vote of trust to your profile.', 'Book online interview', 'data-a="vreq"']],
         dn = st.filter(x => x[0]).length, cur = st.findIndex(x => !x[0]); if (dn === st.length) return '';
@@ -6800,6 +6876,7 @@
       return `<div class="card" style="margin-bottom:20px"><div class="phead"><button class="pring" data-a="mopen" data-v="pcomp" aria-label="View what is missing from your profile">${ring(pct, 76)}</button>
     <div class="nm"><h2>${p.headline ? esc(p.headline) : '<span style="color:var(--faint)">Add your headline</span>'} <button class="ib" data-a="medit" data-v="head" aria-label="Edit headline">${IC.edit}</button></h2><div class="sub"><span>${IC.pin} ${esc(p.loc || 'Add your location')}</span><span>${IC.clock} ${esc(p.tz || 'Time zone not set')}</span><span>${IC.offer} ${esc(S.resume || 'No resume yet')}</span></div></div>
     <div class="acts"><button class="btn sm" data-a="medit" data-v="resume">${IC.up} Upload new resume</button></div></div></div>
+  <div class="pvn ${S.pvHide ? 'c' : ''}"><button type="button" data-a="pvtog" aria-expanded="${!S.pvHide}"><span class="pvl">${IC.lock}</span><span class="pvt">${S.pvHide ? 'Profile visibility' : 'Your professional profile may be shared with potential clients. Your personal contact information, compensation details, work authorization, banking information, and employer contacts remain private.'}</span><span class="pvc">${IC.chev}</span></button></div>
   ${getStarted()}
   <div class="pcols">
    <div class="stk">
@@ -6810,12 +6887,12 @@
      <small style="color:var(--muted)">${p.certs.length ? p.certs.length + ' certification' + (p.certs.length === 1 ? '' : 's') : 'No certifications yet'}</small>
      ${certs.map((c, i) => `<div class="li"><div class="lr"><div><b>${esc(c.n)}</b>${c.i ? `<small style="display:block;color:var(--muted)">${esc(c.i)}</small>` : ''}</div><button class="ib dg" data-a="mdel" data-v="certs:${i}" aria-label="Remove">${IC.trash}</button></div></div>`).join('')}
      ${p.certs.length > 5 ? `<button class="btn sm" data-a="more" data-v="certs" style="margin-top:8px">${S.showMore.certs ? 'Show less' : 'Show more'}</button>` : ''}</div>
-    <div class="card"><h3>Linked accounts</h3>
-     ${[['linkedin', 'LinkedIn'], ['github', 'GitHub']].map(([k, n]) => `<div class="li"><div class="lr"><b>${n}</b>${L[k] ? `<button class="btn sm" data-a="unlink" data-v="${k}">Disconnect</button>` : `<button class="btn sm" data-a="toast" data-v="${n} connection opens in a new window">Connect</button>`}</div><small>${L[k] ? esc(L[k]) : 'Not connected'}</small></div>`).join('')}
-     ${L.trail ? `<div class="li"><div class="lr"><b>Trailblazer</b><button class="btn sm" data-a="unlink" data-v="trail">Disconnect</button></div><small>${esc(L.trail)}</small></div>` : FRESH ? `<div class="li"><div class="lr"><b>Trailblazer</b><button class="btn sm" data-a="mopen" data-v="trail">Connect</button></div><small>Not connected</small></div>` : `<div class="bnr" style="margin:12px 0 0">${IC.warn}<div><b>Your Trailblazer account is not public and could not be linked</b>Switch your Trailblazer profile to public to make the connection possible.<div style="margin-top:10px"><button class="btn sm" data-a="mopen" data-v="trail">Connect Trailblazer</button></div></div></div>`}</div>
+    <div class="card"><div class="sech"><h3>Linked accounts</h3><span class="r"><button class="btn sm" data-a="mopen" data-v="acct">${IC.plus} Add Account</button></span></div>
+     ${[['linkedin', 'LinkedIn'], ['github', 'GitHub'], ['trail', 'Trailblazer']].map(([k, n]) => `<div class="li"><div class="lr"><b>${n}</b>${L[k] ? `<button class="btn sm" data-a="unlink" data-v="${k}">Disconnect</button>` : k === 'trail' ? `<button class="btn sm" data-a="mopen" data-v="trail">Connect</button>` : `<button class="btn sm" data-a="toast" data-v="${n} connection opens in a new window">Connect</button>`}</div><small>${L[k] ? esc(L[k]) : 'Not connected'}</small></div>`).join('')}
+     ${(L.extra || []).map((x, i) => `<div class="li"><div class="lr"><b>${esc(x.type)}</b><button class="btn sm" data-a="rmacct" data-v="${i}">Disconnect</button></div><small>${esc(x.url)}</small></div>`).join('')}</div>
    </div>
    <div class="stk">
-    ${S.vclosed ? '' : `<div class="vbox"><div class="ic">${IC.shield}</div><div><h4>Verify your skills for free</h4><p>${S.vreq ? 'Request received — a Cloud Club vetter will email you interview times within one business day.' : 'Schedule a technical verification interview with us to back up your profile with a Cloud Club vote of trust.'}</p>${S.vreq ? `<span class="pill ok"><i></i>Verification requested</span>` : `<button class="btn sm p" data-a="vreq">Book online interview</button>`}</div><button class="x" data-a="vclose" aria-label="Dismiss">×</button></div>`}
+    ${S.vclosed ? '' : `<div class="vbox"><div class="ic">${IC.shield}</div><div><h4>Connect with Cloud Club</h4><p>${'Have questions about your profile, opportunities, or how Cloud Club works? Schedule a call with our team.'}</p><button class="btn sm p" data-a="vreq">Schedule a Call</button></div><button class="x" data-a="vclose" aria-label="Dismiss">×</button></div>`}
     <div class="card"><div class="sech"><h3>Experience overview</h3><span class="r"><button class="ib" data-a="medit" data-v="overview" aria-label="Edit">${IC.edit}</button></span></div>
      <p style="margin:0 0 14px;color:var(--body)">${esc(p.about) || '<span style="color:var(--muted)">Introduce yourself and your work.</span>'}</p>
      <div class="kvl"><div><small>Year began working in Salesforce</small><b>${p.beganSF ? esc(p.beganSF) + ' · ' + (new Date().getFullYear() - p.beganSF) + ' years' : '<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div><div><small>Year began working in software</small><b>${p.beganSW ? esc(p.beganSW) + ' · ' + (new Date().getFullYear() - p.beganSW) + ' years' : '<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div></div>
@@ -6828,21 +6905,31 @@
 
     const ROLE_OPTS = ['SF Administrator', 'SF Solutions Architect', 'SF Developer', 'SF Business Analyst', 'Marketing Cloud Specialist', 'Integration Engineer', 'Data Engineer', 'Project Manager'];
     function tLogistics() {
-      const e = S.lgEdit, g = e ? S.lgDraft : S.lg, P = e ? 'lgDraft.' : 'lg.';
-      const nv = '<span style="color:var(--faint);font-weight:500">Not set</span>', kv = (l, v) => `<div><small>${l}</small><b>${v ? esc(v) : nv}</b></div>`;
-      const done = logiDone();
-      return `<div class="lg"><div class="card"><div class="sech"><h3>Your logistic information</h3><span class="r">${e ? `<button class="btn sm" data-a="lgcancel">Cancel</button><button class="btn p sm" data-a="lgsave">Save changes</button>` : `<button class="btn sm" data-a="lgedit">${IC.edit} ${done ? 'Edit' : 'Complete'}</button>`}</span></div>
-    <div class="bnr ${done ? 'info' : ''}">${IC.info}<div><b>${done ? 'Keep it up to date' : 'Complete this to get matched'}</b>${done ? 'This data helps us match you with job offers that fit your work conditions.' : 'This data ensures fitted matches between potential job offers and your work conditions. Please fill in all the requested information.'}</div></div>
-    ${e ? lgForm('lgDraft.', g, 0)
-          : `<div class="kvl">${kv('Your address', g.address)}${kv('Time zone', g.tz)}
-      <div style="grid-column:1/-1"><small>Type of roles you are interested in</small><div class="pills" style="margin-top:6px">${g.roles.map(r => `<span class="tag" style="padding-right:11px">${esc(r)}</span>`).join('') || '—'}</div></div>
-      ${kv('Desired rate', g.rate ? '$' + g.rate + '/hour' : '')}${kv('Min. willing to accept', g.min ? '$' + g.min + '/hour' : '')}${kv('Current bandwidth', g.bw)}${kv('Looking for', g.open)}${kv('Available working hours', g.hours)}${kv('Earliest start date', g.start ? fmtLong(g.start) : '')}${kv('Contract type', g.contract)}${kv('Work authorization', g.auth)}</div>`}</div>
+      const e = S.lgEdit, g = e ? S.lgDraft : S.lg;
+      const nv = '<span class="lgnv">Not set</span>', kv = (l, v, wide) => `<div class="lgk${wide ? ' w' : ''}"><small>${l}</small><b>${v ? esc(v) : nv}</b></div>`;
+      const tags = (arr, m) => `<div class="lgk w"><small>${m}</small><div class="pills" style="margin-top:5px">${arr.map(r => `<span class="tag" style="padding-right:11px">${esc(r)}</span>`).join('') || nv}</div></div>`;
+      const sec = (t, inner) => `<section class="lgs"><header>${t}</header><div class="lgb"><div class="lgg">${inner}</div></div></section>`;
+      const cs = CSYM[g.cur || 'USD'] || '$', done = logiDone();
+      const wl = g.wins.filter(w => w.days || (w.stime && w.etime)).map(w => (w.days ? w.days + (w.stime && w.etime ? ' · ' : '') : '') + (w.stime && w.etime ? t12(w.stime) + ' – ' + t12(w.etime) : ''));
+      return `<div class="lg" style="grid-template-columns:minmax(0,1fr)"><div class="card"><div class="sech"><h3>Your work preferences</h3><span class="r">${e ? `<button class="btn sm" data-a="lgcancel">Cancel</button><button class="btn p sm" data-a="lgsave">Save changes</button>` : `<button class="btn sm" data-a="lgedit">${IC.edit} ${done ? 'Edit' : 'Complete'}</button>`}</span></div>
+    <div class="bnr ${done ? 'info' : ''}">${IC.info}<div><b>${done ? 'Keep it up to date' : 'Complete this to get matched'}</b>${done ? 'This data helps us match you with job offers that fit your work conditions. Last confirmed ' + fmtLong(S.lastConf) + '.' : 'This data ensures fitted matches between potential job offers and your work conditions. Please fill in all the requested information.'}</div></div>
+    ${e ? lgForm('lgDraft.', g, 0) : `<div class="lgc">
+      ${sec('Location', kv('Your address', g.address) + kv('Time zone', g.tz))}
+      ${sec('Roles and opportunities', tags(g.roles, 'Type of roles you are interested in') + tags(g.looking, 'Looking for'))}
+      ${sec('Rate, hours and start date', kv('Target Rate', g.rate ? cs + g.rate + '/hour' : '') + kv('Lowest Acceptable Rate', g.min ? cs + g.min + '/hour' : '') + kv('Current bandwidth', g.bw) + kv('Earliest start date', g.start ? fmtLong(g.start) : ''))}
+      ${sec('Work preferences', kv('Work arrangement', g.workarr.join(', ')) + kv('Willing to travel', g.travel ? g.travel + (g.travel === 'Yes' && g.travelfreq.length ? ' · ' + g.travelfreq.join(', ') : '') : '') + kv('Open to relocation', g.relocate))}
+      ${sec('Availability', tags(wl, 'Available working hours'))}
+      ${sec('Contract and authorization', kv('Contract engagement method', g.contract, 1) + (isC2C(g) ? kv('Company legal name', g.corpname) + kv('Company address', g.corpaddr) : '') + (needContact(g) ? kv('Primary contact', [g.corpcname, g.corpemail, g.corpphone].filter(Boolean).join(' · '), 1) : '') + (isUS(g) ? kv('U.S. work authorization', g.auth, 1) : ''))}</div>`}</div></div>`
+    }
+
+    function tDocuments() {
+      return `<div class="lg dw" style="grid-template-columns:minmax(0,1fr)">
    <div class="card"><div class="ft-h"><h3>Uploaded documents</h3><button class="ib" data-a="docview" data-v="grid" aria-label="Grid view" style="${S.docView === 'grid' ? 'background:var(--slate-tint-2)' : ''}">${IC.grid}</button><button class="ib" data-a="docview" data-v="list" aria-label="List view" style="${S.docView === 'list' ? 'background:var(--slate-tint-2)' : ''}">${IC.list}</button></div>
     <div class="ft-s"><input class="in" data-b="docQ" placeholder="Search file name" value="${esc(S.docQ)}" aria-label="Search files"></div>
     ${(() => {
           const q = S.docQ.trim().toLowerCase(), c2cWarn = S.c2c.some(x => x[1]), files = [['Resumes', S.resume ? 1 : 0, '', ''], ['Corp to Corp', S.c2c.length, c2cWarn ? 'Action required*' : '', c2cWarn ? 'wr' : '', 'c2c']].filter(f => !q || f[0].toLowerCase().includes(q));
           const pf = PROJ.filter(p => !q || p.t.toLowerCase().includes(q));
-          return `<div class="ftg ${S.docView}">${files.map(f => `<button class="ft ${f[3]}" data-a="${f[4] === 'c2c' ? 'mopen' : 'toast'}" data-v="${f[4] === 'c2c' ? 'c2c' : 'Opening ' + f[0]}"><span class="fi">${f[3] ? IC.warn : IC.folder}</span><div><b>${f[0]}</b><small>${f[1]} file${f[1] === 1 ? '' : 's'}</small>${f[2] ? `<small class="wn">${f[2]}</small>` : ''}</div></button>`).join('')}</div>
+          return `<div class="ftg ${S.docView}">${files.map(f => `<button class="ft ${f[3]}" data-a="${f[4] === 'c2c' ? 'mopen' : f[0] === 'Resumes' ? 'mopen' : 'toast'}" data-v="${f[4] === 'c2c' ? 'c2c' : f[0] === 'Resumes' ? 'resumes' : 'Opening ' + f[0]}"><span class="fi">${f[3] ? IC.warn : IC.folder}</span><div><b>${f[0]}</b><small>${f[1]} file${f[1] === 1 ? '' : 's'}</small>${f[2] ? `<small class="wn">${f[2]}</small>` : ''}</div></button>`).join('')}</div>
       <div class="fsub">Projects</div><div class="ftg ${S.docView}">${pf.map(p => `<button class="ft" data-a="mopen" data-v="pdocs:${p.id}"><span class="fi">${IC.folder}</span><div><b>${esc(p.t)}</b><small>${p.docs.length} file${p.docs.length === 1 ? '' : 's'}</small></div></button>`).join('') || `<div class="empty" style="grid-column:1/-1">${FRESH && !q ? 'No project files yet — contracts appear here once you start a project' : 'No matching files'}</div>`}</div>`
         })()}</div></div>`
     }
@@ -6851,8 +6938,8 @@
       const R = S.refs;
       return `<div class="lg"><div class="card"><h3>Enhance your profile with trusted references</h3><p style="margin:0 0 16px;color:var(--muted)">Invite someone to leave a good word about your work. A short, honest reference helps clients say yes faster.</p>
    ${fld('Referee’s full name', 'mf.rn', { ph: 'e.g. Marc Anthony', req: 1 })}${fld('Referee’s email', 'mf.re', { ph: 'name@company.com', type: 'email', req: 1, bad: 'Enter a valid email' })}
-   <div class="row2">${fld('Referee’s phone number', 'mf.rp', { ph: '+1 555 0100' })}${fld('Working relationship with the referee', 'mf.rr', { ph: 'e.g. Engineering manager', req: 1 })}</div>
-   ${fld('Company / project name', 'mf.rc', { ph: 'e.g. Hertz Service Cloud rollout', req: 1 })}
+   ${fld('Referee’s phone number', 'mf.rp', { ph: '+1 555 0100' })}
+   ${fld('Tell us about your professional relationship.', 'mf.rr', { area: 1, lg: 1, max: 600, req: 1, hint: 'Where and when did you work together, and in what capacity?', ph: 'e.g., We worked together at Salesforce from 2022–2024, where I was a Solution Architect, and they were my project manager.' })}
    <div style="display:flex;justify-content:flex-end"><button class="btn p" data-a="askref">${IC.send} Ask for a reference</button></div></div>
    <div class="card"><h3>Your references</h3><div class="refl">${R.map((r, i) => `<div class="it"><span class="av">${ini(r.n)}</span><div><b>${esc(r.n)}</b><small>${esc(r.r)} · ${r.d}</small></div>${r.st === 'Received' ? `<button class="btn sm" data-a="mopen" data-v="ref:${i}">${IC.eye} View</button>` : `<span class="pill am"><i></i>Requested</span>`}</div>`).join('') || '<div class="empty">No references yet</div>'}</div></div></div>`
     }
@@ -6861,7 +6948,7 @@
     function vInterviews() {
       return `<div class="ph"><div><h1>Job Interviews</h1><p>Accept, schedule and access your job interviews from here.</p></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Awaiting your reply', nInv()], ['Accepted', S.ivs.filter(x => x.st === 'accepted').length], ['Declined', S.ivs.filter(x => x.st === 'rejected').length]].map(s => `<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
-  ${S.ivs.length ? '' : emptyCard(IC.chat, 'No interview requests yet', 'When a client likes your profile they send you an interview request here. Keep your profile and logistics complete to get matched faster.', `<button class="btn p" data-a="gologi">Complete my logistics</button><button class="btn" data-go="profile">View my profile</button>`)}
+  ${S.ivs.length ? '' : emptyCard(IC.chat, 'No interview requests yet', 'When a client likes your profile they send you an interview request here. Keep your profile and work preferences complete to get matched faster.', `<button class="btn p" data-a="gologi">Complete my work preferences</button><button class="btn" data-go="profile">View my profile</button>`)}
   <div class="ivl stagger">${S.ivs.map(iv => {
         const st = { invited: ['am', 'Awaiting your reply'], accepted: ['ok', 'Interview accepted'], rejected: ['dg', 'Declined'] }[iv.st];
         const jd = JD[iv.id] || JD[1], mk = iv.st !== 'accepted', co = mk ? 'Confidential · ' + jd.ind + ' company' : iv.co;
@@ -6889,7 +6976,7 @@
   ${nw.length ? nw.map(o => `<div class="hero2 ${S.jd['of' + o.id] ? 'open' : ''}" style="margin-bottom:20px"><div class="orb"></div><span class="pill">${IC.sparkle} ${o.st === 'onboarding' ? 'Offer accepted' : 'New offer'}</span><h2>${o.st === 'onboarding' ? 'Finish onboarding to start your project' : 'Congratulations! You’ve been offered a new position'}</h2><p>${esc(o.role)} · ${esc(o.co)}</p>
     <div class="meta"><span>${IC.pin} Time zone <b>${o.loc}</b></span><span><b>${o.hpw}</b> hrs/week</span><span><b>$${o.rate}</b>/hr</span><span>${fmtLong(o.start)} – ${fmtLong(o.end)}</span><span><b>${o.mode}</b></span></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">${o.st === 'onboarding' ? `<button class="btn p" data-a="mopen" data-v="onb:${o.id}">Continue onboarding</button>` : `<button class="btn p" data-a="mopen" data-v="oacc:${o.id}">Accept offer</button><button class="btn" data-a="mopen" data-v="decl:${o.id}">Decline offer</button>`}<span class="sp" style="flex:1"></span><button class="btn jdx-t" data-a="jdtog" data-v="of${o.id}" aria-expanded="${!!S.jd['of' + o.id]}">${IC.offer} ${S.jd['of' + o.id] ? 'Hide job details' : 'View job details'} <i>${S.jd['of' + o.id] ? '▴' : '▾'}</i></button></div>
-  </div>${S.jd['of' + o.id] ? offerJd(o) : ''}`).join('') : FRESH ? emptyCard(IC.offer, 'No offers yet', 'Offers arrive after a client interviews you. Complete your profile and logistics so Cloud Club can start matching you.', `<button class="btn p" data-go="profile">Complete my profile</button>`) : `<div class="card" style="margin-bottom:20px"><div class="empty">No new offers right now. Keep your profile and logistics up to date to get matched.</div></div>`}
+  </div>${S.jd['of' + o.id] ? offerJd(o) : ''}`).join('') : FRESH ? emptyCard(IC.offer, 'No offers yet', 'Offers arrive after a client interviews you. Complete your profile and work preferences so Cloud Club can start matching you.', `<button class="btn p" data-go="profile">Complete my profile</button>`) : `<div class="card" style="margin-bottom:20px"><div class="empty">No new offers right now. Keep your profile and work preferences up to date to get matched.</div></div>`}
   <div class="card tw"><h3 style="padding:0 0 0">Offer history</h3><table style="margin-top:12px"><thead><tr><th>Role</th><th>Client</th><th>Terms</th><th>Dates</th><th>Status</th></tr></thead><tbody>
    ${old.map((o, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(o.role)}</b></td><td>${esc(o.co)}</td><td>${o.hpw} hrs/wk · $${o.rate}/hr</td><td>${fmtLong(o.start)} – ${fmtLong(o.end)}</td><td><span class="pill ${o.st === 'accepted' ? 'ok' : 'dg'}"><i></i>${o.st === 'accepted' ? 'Accepted' : 'Declined'}</span>${o.reason ? `<small style="display:block;color:var(--muted);margin-top:4px">${esc(o.reason)}</small>` : ''}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">No past offers yet.</div></td></tr>'}</tbody></table></div>`
     }
@@ -6919,7 +7006,7 @@
   ${t.tab === 'log' ? `<div class="wkn"><button class="btn sm" data-a="tswk" data-v="-1" ${iso(addD(mon, -7)) < iso(monOf(pd(p.start))) ? 'disabled' : ''}>‹ Previous week</button><b>${dShort(mon)} – ${dShort(sun)}, ${sun.getFullYear()}</b><button class="btn sm" data-a="tswk" data-v="1" ${t.w >= maxW ? 'disabled' : ''}>Next week ›</button><button class="btn sm" data-a="tswk" data-v="max" ${t.w === maxW ? 'disabled' : ''}>${p.st === 'Active' ? 'This week' : 'Last week'}</button></div>
    <div class="tsdays">${days.map(d => { const k = iso(d), h = (S.logs[p.id + '|' + k] || []).reduce((a, e) => a + e.h, 0); return `<div class="${k === t.d ? 'sel' : ''} ${k > td ? 'fut' : ''}" data-a="tsday" data-v="${k}" tabindex="0" role="button"><small>${d.toLocaleDateString('en-US', { weekday: 'short' })}</small><b>${dShort(d)}</b><em>${h ? fmtH(h) : '—'}</em></div>` }).join('')}<div class="tt"><small>Week</small><b>${fmtH(tot)}</b><em>total</em></div></div>
    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h4 class="tsh" style="margin:0;flex:1">${dFull(selD)}</h4><button class="btn p sm" data-a="mopen" data-v="entry" ${lock || fut ? 'disabled' : ''} title="${lock ? 'This week is locked' : fut ? 'You can’t log future days' : ''}">${IC.plus} Log hours</button></div>
-   <div class="tsents">${ents.length ? ents.map((e, i) => `<div class="ent"><div><b>${esc(e.task)}</b>${e.tech ? `<small>Technology: ${esc(e.tech)}</small>` : ''}${e.note ? `<small>${esc(e.note)}</small>` : ''}</div><span class="h">${fmtH(e.h)}</span><span class="eb"><button class="ib" data-a="mopen" data-v="entry:${i}" ${lock ? 'disabled' : ''} aria-label="Edit">${IC.edit}</button><button class="ib dg" data-a="entdel" data-v="${i}" ${lock ? 'disabled' : ''} aria-label="Delete">${IC.trash}</button></span></div>`).join('') + `<div class="tse tot"><span class="tsd">Day total</span><span class="tst"></span><b class="h">${fmtH(ents.reduce((a, e) => a + e.h, 0))}</b></div>` : `<div class="empty">${fut ? 'This day hasn’t happened yet.' : 'No hours logged for this day.'}</div>`}</div>
+   <div class="tsents">${ents.length ? ents.map((e, i) => `<div class="ent"><div><b>${esc(e.task)}</b>${[].concat(e.tech || []).length ? `<small>Technologies: ${esc([].concat(e.tech).join(', '))}</small>` : ''}${e.note ? `<small>${esc(e.note)}</small>` : ''}</div><span class="h">${fmtH(e.h)}</span><span class="eb"><button class="ib" data-a="mopen" data-v="entry:${i}" ${lock ? 'disabled' : ''} aria-label="Edit">${IC.edit}</button><button class="ib dg" data-a="entdel" data-v="${i}" ${lock ? 'disabled' : ''} aria-label="Delete">${IC.trash}</button></span></div>`).join('') + `<div class="tse tot"><span class="tsd">Day total</span><span class="tst"></span><b class="h">${fmtH(ents.reduce((a, e) => a + e.h, 0))}</b></div>` : `<div class="empty">${fut ? 'This day hasn’t happened yet.' : 'No hours logged for this day.'}</div>`}</div>
    <div class="tsact"><span class="pill ${SP[st][0]}"><i></i>${SP[st][1]}</span><span class="sp"></span>${st === 'draft' ? `<small style="color:var(--muted)">Week total ${fmtH(tot)}</small><button class="btn p" data-a="tssubmit" ${tot ? '' : 'disabled'}>Submit week hours</button>` : st === 'submitted' ? `<button class="btn" data-a="tsapprove">Simulate client approval</button>` : ''}</div>`
           : `<div class="tw"><table><thead><tr><th>Work week</th><th>Hours</th><th>Rate</th><th>Gross</th><th>Status</th></tr></thead><tbody>${weeks.map((w, i) => `<tr style="animation-delay:${i * .04}s"><td><b>${dShort(w.m)} – ${dShort(addD(w.m, 6))}</b></td><td>${fmtH(w.h)}</td><td>$${p.rate}</td><td><b>${money(w.h * p.rate)}</b></td><td><span class="pill ${SP[w.st][0]}"><i></i>${w.st === 'draft' ? 'Draft' : w.st === 'submitted' ? 'Awaiting approval' : 'Approved'}</span></td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">No hours yet.</div></td></tr>'}</tbody></table></div>
    <small style="color:var(--muted)">Approved weeks are grouped into one invoice and appear under Payments.</small>`}</div>`
@@ -6928,16 +7015,16 @@
     /* ================= PAYMENTS ================= */
     const PAYS = FRESH ? [] : (() => {
       const m0 = monOf(D(0)), R = []; let n = 0;
-      [[PROJ[1], -11], [PROJ[1], -10], [PROJ[1], -9], [PROJ[1], -8], [PROJ[1], -7], [PROJ[1], -6], [PROJ[1], -5], [PROJ[0], -3], [PROJ[0], -2]].forEach(([p, w], i, a) => { const mon = addD(m0, w * 7), h = p.id === 'p2' ? p.hpw : p.hpw, pay = addD(mon, 13); n++; R.push({ no: 'CCI-' + String(n).padStart(4, '0'), p: p.t, per: dShort(mon) + ' – ' + dShort(addD(mon, 6)) + ', ' + mon.getFullYear(), h, amt: h * p.rate, pay: dLong(pay), st: w === -2 ? 'Upcoming' : w === -3 && pay > D(0) ? 'Upcoming' : 'Received' }) });
+      [[PROJ[1], -11], [PROJ[1], -10], [PROJ[1], -9], [PROJ[1], -8], [PROJ[1], -7], [PROJ[1], -6], [PROJ[1], -5], [PROJ[0], -3], [PROJ[0], -2]].forEach(([p, w], i, a) => { const mon = addD(m0, w * 7), h = p.id === 'p2' ? p.hpw : p.hpw, pay = addD(mon, 13); n++; R.push({ no: 'CCI-' + String(n).padStart(4, '0'), p: p.t, co: p.co, rate: p.rate, per: dShort(mon) + ' – ' + dShort(addD(mon, 6)) + ', ' + mon.getFullYear(), h, amt: h * p.rate, pay: dLong(pay), st: w === -2 ? 'Upcoming' : w === -3 && pay > D(0) ? 'Upcoming' : 'Received' }) });
       return R.reverse()
     })();
     function vPayments() {
-      const P = S.pay, projs = [...new Set(PAYS.map(r => r.p))], list = PAYS.filter(r => (P.f === 'All' || r.st === P.f) && (P.proj === 'All' || r.p === P.proj)), pages = Math.max(1, Math.ceil(list.length / P.per)); if (P.page >= pages) P.page = pages - 1; const rows = list.slice(P.page * P.per, P.page * P.per + P.per), sum = f => PAYS.filter(f).reduce((a, r) => a + r.amt, 0);
-      return `<div class="ph"><div><h1>All Your Project’s Billable Hours Grouped In One Invoice</h1><p>Approved weeks are invoiced together. Download any invoice for your records.</p></div></div>
+      const P = S.pay, showRate = !(S.lg.engage || []).some(x => x === 'C2C — Through My Employer' || x === 'C2C — Through Another Corporation'), projs = [...new Set(PAYS.map(r => r.p))], list = PAYS.filter(r => (P.f === 'All' || r.st === P.f) && (P.proj === 'All' || r.p === P.proj)), pages = Math.max(1, Math.ceil(list.length / P.per)); if (P.page >= pages) P.page = pages - 1; const rows = list.slice(P.page * P.per, P.page * P.per + P.per), sum = f => PAYS.filter(f).reduce((a, r) => a + r.amt, 0);
+      return `<div class="ph"><div><h1>Your Invoices &amp; Payments</h1><p>Track your billable hours, upcoming payments, and payment history. Download invoices for your records.</p></div></div>
   <div class="grid g3 stagger" style="margin-bottom:20px">${[['Received to date', money(sum(r => r.st === 'Received'))], ['Upcoming', money(sum(r => r.st === 'Upcoming'))], ['Billable hours', PAYS.reduce((a, r) => a + r.h, 0)]].map(s => `<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div>
   ${FRESH ? emptyCard(IC.dollar, 'No invoices yet', 'Once the client approves your weekly hours they are grouped into one invoice and appear here with the expected pay date.', `<button class="btn" data-a="mopen" data-v="bank">Add payment details</button><button class="btn p" data-go="projects">Go to projects</button>`) : ''}
   <div class="card tw" ${FRESH ? 'hidden' : ''}><div class="payf">${['All', 'Upcoming', 'Received'].map(f => `<button class="fchip ${P.f === f ? 'active' : ''}" data-a="payf" data-v="${f}">${f}</button>`).join('')}<span style="flex:1"></span><label style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)">Project<select class="in" style="height:32px;width:auto;padding:0 28px 0 10px" data-payproj><option>All</option>${projs.map(x => `<option ${P.proj === x ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></label></div>
-  <table class="paytb"><thead><tr><th>Invoice number</th><th>Project</th><th>Work period</th><th class="hl">Billable hours</th><th>Gross payment</th><th>Anticipated pay date</th><th>Status</th><th></th></tr></thead><tbody>${rows.length ? rows.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${r.no}</b></td><td>${esc(r.p)}</td><td>${r.per}</td><td class="hl">${r.h} hrs</td><td><b>${money(r.amt)}</b></td><td>${r.pay}</td><td><span class="pill ${r.st === 'Received' ? 'ok' : 'am'}"><i></i>${r.st}</span></td><td><button class="ib" data-a="toast" data-v="Downloading ${r.no}.pdf" aria-label="Download invoice">${IC.down}</button></td></tr>`).join('') : '<tr><td colspan="8"><div class="empty">No invoices match these filters.</div></td></tr>'}</tbody></table>
+  <table class="paytb"><thead><tr><th>Invoice number</th><th>Client</th><th>Project</th><th>Work period</th><th class="hl">Billable hours</th>${showRate ? '<th>Pay rate</th>' : ''}<th>Gross payment</th><th>Anticipated pay date</th><th>Status</th><th></th></tr></thead><tbody>${rows.length ? rows.map((r, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${r.no}</b></td><td>${esc(r.co)}</td><td>${esc(r.p)}</td><td>${r.per}</td><td class="hl">${r.h} hrs</td>${showRate ? `<td>${money(r.rate)}/hr</td>` : ''}<td><b>${money(r.amt)}</b></td><td>${r.pay}</td><td><span class="pill ${r.st === 'Received' ? 'ok' : 'am'}"><i></i>${r.st}</span></td><td><button class="ib" data-a="toast" data-v="Downloading ${r.no}.pdf" aria-label="Download invoice">${IC.down}</button></td></tr>`).join('') : '<tr><td colspan="10"><div class="empty">No invoices match these filters.</div></td></tr>'}</tbody></table>
   <div class="payp"><label>Rows per page <select class="in" data-payper>${[5, 10].map(n => `<option ${P.per === n ? 'selected' : ''}>${n}</option>`).join('')}</select></label><span>${list.length ? P.page * P.per + 1 : 0}–${Math.min(list.length, P.page * P.per + P.per)} of ${list.length}</span><button class="btn sm" data-a="paypg" data-v="-1" ${P.page <= 0 ? 'disabled' : ''} aria-label="Previous page">‹</button><button class="btn sm" data-a="paypg" data-v="1" ${P.page >= pages - 1 ? 'disabled' : ''} aria-label="Next page">›</button></div></div>`
     }
 
@@ -6960,9 +7047,9 @@
       return `<div class="ph"><div><h1>Settings</h1><p>Manage your account, payment details, notifications and how the portal looks.</p></div></div>
   <div class="stg stagger">
    <div class="card"><h3>Account details</h3><div class="avrow"><span class="av avbig" ${avCss()}>${ME.ini}</span><div><b>Profile photo</b><small>JPG or PNG, up to 2 MB. Shown in the sidebar.</small><div class="avbtn"><button class="btn sm" data-a="avpick">${IC.up} ${S.avatar ? 'Change photo' : 'Upload photo'}</button>${S.avatar ? '<button class="btn sm" data-a="avrm">Remove</button>' : ''}</div></div><input type="file" id="avfile" accept="image/png,image/jpeg,image/webp" hidden></div>
-    <div class="kv" style="margin-top:16px"><div><small>Full name</small><b>${esc(ME.name)}</b></div><div><small>Email</small><b>${esc(ME.email)}</b></div><div><small>Phone number</small><b>${FRESH ? (ONBA && ONBA.phone ? esc(ONBA.phone) : 'Not set') : '+54 11 5555 0123'}</b></div><div><small>Role</small><b>${S.prof.headline ? esc(S.prof.headline) : 'Not set'}</b></div></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn sm" data-go="profile">Edit profile</button><button class="btn sm" data-a="toast" data-v="Password reset link sent to ${esc(ME.email)}">Change password</button></div></div>
-   <div class="card"><div class="sech"><h3>Payment details</h3><span class="r"><button class="btn sm" data-a="mopen" data-v="bank">${IC.edit} ${S.payd.bank ? 'Edit' : 'Add'}</button></span></div><p style="color:var(--muted);margin:0 0 12px">Modify or erase your payment information as needed. Payouts are sent here.</p><div class="kv">${[['Bank name', 'bank'], ['Bank address', 'addr'], ['Account number', 'acct'], ['Routing number', 'route']].map(([l, k]) => `<div><small>${l}</small><b>${S.payd[k] ? esc(S.payd[k]) : '<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div>`).join('')}</div></div>
+    <div class="kv" style="margin-top:16px"><div><small>Full name</small><b>${esc(ME.name)}</b></div><div><small>Email</small><b>${esc(ME.email)}</b></div><div><small>Phone number</small><b>${S.phone ? esc(S.phone) : 'Not set'}</b></div><div><small>Role</small><b>${S.prof.headline ? esc(S.prof.headline) : 'Not set'}</b></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn sm" data-a="mopen" data-v="accd">Edit profile</button><button class="btn sm" data-a="toast" data-v="Password reset link sent to ${esc(ME.email)}">Change password</button></div></div>
+   <div class="card"><div class="sech"><h3>Payment details</h3><span class="r"><button class="btn sm" data-a="mopen" data-v="bank">${IC.edit} ${S.payd.bank ? 'Edit' : 'Add'}</button></span></div><p style="color:var(--muted);margin:0 0 12px">Modify or erase your payment information as needed. Payouts are sent here.</p><div class="kv">${[['Bank name', 'bank'], ['Bank address', 'addr'], ['Account number', 'acct'], ['Routing number', 'route'], ['SWIFT code', 'swift']].map(([l, k]) => `<div><small>${l}</small><b>${S.payd[k] ? esc(S.payd[k]) : '<span style="color:var(--faint);font-weight:500">Not set</span>'}</b></div>`).join('')}</div></div>
    <div class="card"><h3>Linked accounts</h3><div class="acc">${[['linkedin', 'LinkedIn'], ['github', 'GitHub'], ['trail', 'Trailblazer']].map(([k, n]) => `<div class="a"><b>${n}</b><small>${L[k] ? esc(L[k]) : 'Not connected'}</small>${L[k] ? `<button class="btn sm" data-a="unlink" data-v="${k}">Disconnect</button>` : `<button class="btn sm" data-a="${k === 'trail' ? 'mopen' : 'toast'}" data-v="${k === 'trail' ? 'trail' : n + ' connection opens in a new window'}">Connect</button>`}</div>`).join('')}</div></div>
    <div class="card"><h3>Email notifications</h3><div class="stl">${PREFS.map(([k, t, d]) => `<div class="str"><div><b>${t}</b><small>${d}</small></div>${sw(k)}</div>`).join('')}</div></div>
    <div class="card"><h3>Appearance</h3><p style="color:var(--muted);margin:4px 0 12px">Choose how Cloud Club looks on this device.</p><div class="thm">${[['light', 'Light', 'Bright and clean — best in well-lit rooms'], ['dark', 'Dark', 'Easier on the eyes in low light']].map(([k, l, d]) => `<button class="thc ${S.theme === k ? 'on' : ''}" data-a="theme" data-v="${k}" role="radio" aria-checked="${S.theme === k}"><span class="thp ${k}"><i></i><i></i><i></i><u></u></span><span class="tht"><b>${l}</b><small>${d}</small></span><span class="thk">${IC.check}</span></button>`).join('')}</div></div>
@@ -7040,11 +7127,25 @@
           const k = p; const T = { lang: ['Add a language', [fld('Language', 'mf.a1', { req: 1, ph: 'e.g. Portuguese' }), fld('Proficiency', 'mf.a2', { req: 1, opts: ['Native', 'Fluent', 'Professional', 'Conversational'] })]], edu: ['Add education', [fld('Degree / program', 'mf.a1', { req: 1, ph: 'e.g. M.S. Computer Science' }), fld('School and year', 'mf.a2', { req: 1, ph: 'e.g. MIT · 2014' })]], cert: ['Add a certification', [fld('Certification name', 'mf.a1', { req: 1, ph: 'e.g. Platform App Builder' }), fld('Issuer', 'mf.a2', { opts: CERT_ISS, ph: 'Select issuer…' })]] }[k];
           return box(`<h3>${T[0]}</h3>${T[1].join('')}${acts('msave', 'Add')}`)
         }
-        case 'trail': return box(`<div class="mic">${IC.warn}</div><h3>Connect your Trailblazer account</h3><p>Your Trailblazer profile must be public. Future info (like new certifications) won’t sync if your account is set to private.</p>${fld('Trailblazer profile URL', 'mf.trail', { req: 1, ph: 'https://www.salesforce.com/trailblazer/yourname', bad: 'Enter a trailblazer URL' })}${acts('msave', 'Connect Trailblazer')}`);
+        case 'acct': return box(`<h3>Add a professional account</h3><p>Link another profile, such as Credly, a portfolio or a personal website.</p>${fld('Account type', 'mf.at', { req: 1, opts: ['Credly', 'Portfolio', 'Personal website', 'Other'] })}${fld('Profile URL', 'mf.au', { req: 1, ph: 'https://' })}${acts('msave', 'Add account')}`);
+        case 'trail': return box(`<h3>Connect your Trailblazer account</h3>${fld('Trailblazer profile URL', 'mf.trail', { req: 1, ph: 'https://www.salesforce.com/trailblazer/yourname', bad: 'Enter a trailblazer URL' })}${acts('msave', 'Connect Trailblazer')}`);
         case 'c2c': return box(`<h3>Corp-to-Corp files</h3>${S.c2c.some(f => f[1]) ? `<div class="bnr">${IC.warn}<div><b>Your certificate of insurance is expiring</b>Please upload a renewed certificate of insurance.</div></div>` : ''}
   <label class="dz" id="dz" style="padding:22px">${IC.up}<div><u>Browse</u> or drag and drop your files here</div><small>PDF (max. 3MB)</small><input type="file" id="c2cfile" accept=".pdf" hidden></label>
   <div class="docs" style="margin-top:8px;max-height:200px">${S.c2c.map((f, i) => `<div class="doc"><div class="fi">${IC.offer}</div><div class="t"><b>${esc(f[0])}</b>${f[1] ? `<small style="color:var(--amber);font-weight:600">${esc(f[1])}</small>` : '<small>Uploaded</small>'}</div><button class="ib" data-a="toast" data-v="Downloading ${esc(f[0])}" aria-label="Download">${IC.down}</button><button class="ib dg" data-a="c2cdel" data-v="${i}" aria-label="Delete">${IC.trash}</button></div>`).join('') || '<div class="empty">No files yet</div>'}</div>
   <div class="mact"><button class="btn p" data-a="mclose">Done</button></div>`);
+        case 'resumes': {
+          const P = S.prof, mo = x => x ? x.slice(0, 7).replace(/^(\d{4})-(\d{2})$/, (m, y, mm) => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+mm - 1] + ' ' + y) : 'Present';
+          if (!S.resume) return box(`<h3>Resumes</h3><p>No resume uploaded yet.</p><div class="mact"><button class="btn" data-a="mclose">Close</button><button class="btn p" data-a="mopen" data-v="resume">${IC.up} Upload resume</button></div>`);
+          return box(`<h3>Resumes</h3><p>1 file</p>
+  <div class="doc" style="margin-bottom:14px"><div class="fi">${IC.offer}</div><div class="t"><b>${esc(S.resume)}</b><small>Uploaded</small></div><button class="ib" data-a="toast" data-v="Downloading ${esc(S.resume)}" aria-label="Download">${IC.down}</button></div>
+  <div class="rvp"><h4>${esc(ME.first + ' ' + ME.last)}</h4><div class="rvs">${esc(P.headline || '')}${P.loc ? ' · ' + esc(P.loc) : ''}</div>
+  ${P.about ? `<h5>Summary</h5><p>${esc(P.about)}</p>` : ''}
+  ${P.jobs.length ? `<h5>Experience</h5>${P.jobs.map(j => `<div class="rvj"><b>${esc(j.role)}</b> · ${esc(j.emp)}<small>${mo(j.start)} – ${mo(j.end)}${j.client ? ' · Client: ' + esc(j.client) : ''}</small>${j.resp ? `<span>${esc(j.resp)}</span>` : ''}</div>`).join('')}` : ''}
+  ${P.skills.length ? `<h5>Skills</h5><p>${P.skills.map(k => esc(k[1].join(', '))).join(', ')}</p>` : ''}
+  ${P.certs.length ? `<h5>Certifications</h5><p>${P.certs.map(c => esc(c.n + (c.i ? ' (' + c.i + ')' : ''))).join(' · ')}</p>` : ''}
+  ${P.edu.length ? `<h5>Education</h5><p>${P.edu.map(e => esc(e[0] + ', ' + e[1])).join(' · ')}</p>` : ''}</div>
+  <div class="mact"><button class="btn" data-a="mclose">Close</button><button class="btn" data-a="mopen" data-v="resume">${IC.up} Upload new resume</button><button class="btn p" data-a="toast" data-v="Downloading ${esc(S.resume)}">${IC.down} Download</button></div>`, 'rvm') }
+        case 'accd': return box(`<h3>Edit profile</h3><p>Update your account details. Your headline is shown on your profile and as your role.</p><div class="row2">${fld('First name', 'mf.f', { req: 1 })}${fld('Last name', 'mf.l', { req: 1 })}</div>${fld('Email', 'mf.em', { req: 1, type: 'email', bad: 'Enter a valid email' })}${fld('Phone number', 'mf.ph', { type: 'tel', ph: '+1 555 0100' })}${fld('Role', 'mf.role', { max: 80, ph: 'e.g. SF Senior Engineer' })}${acts('msave', 'Save changes')}`);
         case 'pdocs': { const pr = PROJ.find(z => z.id === p); return box(`<h3>Contracts and documents</h3><p>${esc(pr.t)}</p><div class="docs" style="max-height:260px">${pr.docs.map(d => `<div class="doc"><div class="fi">${IC.offer}</div><div class="t"><b>${esc(d)}</b></div><button class="ib" data-a="toast" data-v="Downloading ${esc(d)}" aria-label="Download">${IC.down}</button></div>`).join('')}</div><div class="mact"><button class="btn p" data-a="mclose">Close</button></div>`) }
         case 'ref': { const r = S.refs[+p]; return box(`<h3>Your reference</h3><div class="kv" style="margin:14px 0"><div><small>Referee’s name</small><b>${esc(r.n)}</b></div><div><small>Working relationship</small><b>${esc(r.r)}</b></div></div><small style="color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Reference letter</small><p style="color:var(--body);margin:6px 0 0">${esc(r.t)}</p><div class="mact"><button class="btn p" data-a="mclose">Close</button></div>`) }
         case 'ivacc': {
@@ -7060,8 +7161,12 @@
         case 'oacc': { const of = S.offers.find(z => z.id === +p); return box(`<h3>Accept this offer?</h3><p>${esc(of.role)} · ${esc(of.co)}</p><div class="bnr info">${IC.info}<div>Next, you’ll complete a short onboarding: confirm the project terms, your contract details and documents. The project starts once onboarding is done.</div></div>${acts('oaccok', 'Yes, accept offer')}`) }
         case 'decl': return box(`<h3>Are you sure you wish to decline this job offer?</h3><p>Once confirmed, this action can’t be undone.</p>${fld('Select a reason', 'mf.reason', { req: 1, opts: ['Rate is below my minimum', 'Schedule does not work', 'I accepted another offer', 'Role is not what I expected', 'Other'] })}${acts('declsave', 'Yes, decline offer', { cls: 'dgp' })}`);
         case 'onb': return onbHtml(box);
-        case 'entry': { const e = S.mf; return box(`<h3>${p == null ? 'New entry' : 'Edit entry'} · ${dShort(pd(S.ts.d))}</h3><p>${esc(PROJ.find(z => z.id === S.ts.p).t)}</p>${fld('Task', 'mf.task', { req: 1, opts: TASKS })}${fld('Technology used', 'mf.tech', { ph: 'e.g. Apex, Flows' })}${fld('What did you work on?', 'mf.note', { req: 1, area: 1, lg: 1, ph: 'Describe the work you did, what you finished and anything the client should know', max: 500, bad: 'Add a description of at least 15 characters' })}${fld('Hours', 'mf.h', { req: 1, type: 'number', ph: '0.00', bad: 'Enter hours between 0.25 and 24' })}${acts('entsave', 'Save entry')}`) }
-        case 'bank': return box(`<h3>Edit your payment details</h3>${fld('Bank name', 'mf.b1', { req: 1 })}${fld('Bank address', 'mf.b2', { req: 1 })}${fld('Account number', 'mf.b3', { req: 1 })}${fld('Routing number', 'mf.b4', { req: 1 })}${acts('msave', 'Save changes')}`);
+        case 'entry': { const e = S.mf; return box(`<h3>${p == null ? 'New entry' : 'Edit entry'} · ${dShort(pd(S.ts.d))}</h3><p>${esc(PROJ.find(z => z.id === S.ts.p).t)}</p>${fld('Task', 'mf.task', { req: 1, opts: TASKS })}<div class="fld pk" data-f="f-mf.tech"><label>Technologies Used</label>${(e.tech || []).length ? `<div class="pills" style="gap:6px;margin-bottom:10px">${e.tech.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="lgtog" data-p="mf.tech" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}<div class="cdd-wrap"><input class="in" type="text" data-csearch="mf.tech" data-csrc="techs" data-cother="1" placeholder="Search or add a technology…" autocomplete="off"><div class="cdd" data-cdd="mf.tech"></div></div></div>${fld('What did you work on?', 'mf.note', { req: 1, area: 1, lg: 1, ph: 'Describe the work you did, what you finished and anything the client should know', max: 500, bad: 'Add a description of at least 15 characters' })}${fld('Hours', 'mf.h', { req: 1, type: 'number', ph: '0.00', bad: 'Enter hours between 0.25 and 24' })}${acts('entsave', 'Save entry')}`) }
+        case 'recon': { const g = S.lg, cs = CSYM[g.cur || 'USD'] || '$'; return box(`<div class="mic">${IC.clock}</div><h3>Are you still open to opportunities?</h3><p>It's been a while since you updated your preferences.</p>
+  <div class="rcs"><div><small>Availability</small><b>${g.hours ? esc(g.hours) : 'Not set'}</b></div><div><small>Hours per week</small><b>${g.bw ? esc(g.bw) : 'Not set'}</b></div><div><small>Target rate</small><b>${g.rate ? cs + esc(g.rate) + '/hour' : 'Not set'}</b></div></div>
+  <div class="rcl">Last confirmed ${fmtLong(S.lastConf)} · no need to repeat onboarding</div>
+  <div class="mact" style="justify-content:space-between;align-items:center"><button class="btn" data-a="reconlater" style="border-color:transparent;background:none;color:var(--muted)">Remind Me Later</button><span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-a="reconupd">Update Preferences</button><button class="btn p" data-a="reconok">Still Accurate</button></span></div>`, 'rcm') }
+        case 'bank': return box(`<h3>Edit your payment details</h3>${fld('Bank name', 'mf.b1', { req: 1 })}${fld('Bank address', 'mf.b2', { req: 1 })}${fld('Account number', 'mf.b3', { req: 1 })}${fld('Routing number', 'mf.b4', { req: 1 })}${fld('SWIFT code', 'mf.b5', { ph: 'e.g. GABAARBA', hint: 'For international banks.', max: 11 })}${acts('msave', 'Save changes')}`);
         case 'refer': return box(`<h3>Refer a company or client and they will receive an email to join us!</h3><div class="fld"><label>Referral type</label><div class="rads">${['Client', 'Consultant'].map(t => `<button class="rad ${S.mf.rt === t ? 'on' : ''}" data-a="mset" data-k="rt" data-v="${t}"><i></i>${t}</button>`).join('')}</div></div>${fld('Referral’s full name', 'mf.n', { req: 1, ph: 'Full name' })}${fld('Referral’s email', 'mf.e', { req: 1, type: 'email', ph: 'name@company.com', bad: 'Enter a valid email' })}${fld('Referral’s phone number', 'mf.ph', { ph: '+1 555 0100' })}${fld('Additional info about this referral', 'mf.note', { area: 1, max: 200 })}${acts('msave', 'Invite referral')}`);
         case 'close': return box(`<div class="mic" style="background:var(--danger-tint);color:var(--danger)">${IC.warn}</div><h3>Close your account?</h3><p>Your profile will be removed from matching and you’ll lose access to the portal. This can’t be undone.</p>${acts('closeacct', 'Yes, close my account', { cls: 'dgp', cancel: 'Keep my account' })}`);
       }return ''
@@ -7071,10 +7176,10 @@
       const o = S.onb, steps = o.steps, cur = steps[o.step], n = steps.length, ct = S.mf.ctype, of = S.offers.find(z => z.id === o.id);
       const head = `<div class="mstep">Step ${o.step + 1} of ${n}</div><div class="mbar"><i style="width:${(o.step + 1) / n * 100}%"></i></div>`;
       let body = '';
-      if (cur === 'logistics') body = `<h3>Let’s get you started!</h3><div class="bnr info">${IC.info}<div>In order to start working in your new project, follow these steps to complete the onboarding process.</div></div><h4 style="margin-top:0">Complete your logistic information</h4><div class="scr">${lgForm('lg.', S.lg, 1)}</div>`;
+      if (cur === 'logistics') body = `<h3>Let’s get you started!</h3><div class="bnr info">${IC.info}<div>In order to start working in your new project, follow these steps to complete the onboarding process.</div></div><h4 style="margin-top:0">Complete your work preferences</h4><div class="scr">${lgForm('lg.', S.lg, 1)}</div>`;
       else if (cur === 'terms') { const wk = Math.max(1, Math.round((pd(of.end) - pd(of.start)) / 6048e5)), tc = !!S.mf.tconf; body = `<h3>Confirm your project terms</h3><p style="margin-bottom:12px">${esc(of.role)} · ${esc(of.co)}</p><dl class="terms">${[['Start date', fmtLong(of.start)], ['End date', fmtLong(of.end)], ['Hourly rate', '$' + of.rate + '/hr'], ['Expected hours', of.hpw + ' hrs/week · about ' + (of.hpw * wk).toLocaleString() + ' hrs in total']].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl><button type="button" class="rad ${tc ? 'on' : ''}" data-a="mset" data-k="tconf" data-v="${tc ? '' : '1'}" style="margin-top:14px"><i></i>I confirm the dates, rate and expected hours above</button>${S.err.tconf ? `<small style="display:block;color:var(--danger);margin-top:8px">Please confirm the project terms to continue.</small>` : ''}<small style="display:block;margin-top:10px;color:var(--muted)">Something not right? Save & exit and contact Cloud Club support before continuing.</small>` }
       else if (cur === 'details') body = `<h3>Complete details</h3><p style="margin-bottom:12px">Confirm your legal and contract details.</p><div class="bnr info" style="margin-bottom:12px">${IC.info}<div>We filled in your legal name. Add the rest below.</div></div>${fld('Legal name', 'mf.o0', { req: 1 })}<label style="display:block;font-size:12.5px;font-weight:600;margin:0 0 8px">Contract type</label><div class="rads" style="margin-bottom:10px">${[['corp', 'Corp-to-Corp (C2C)'], ['1099', '1099 Contractor']].map(([k, l]) => `<button class="rad ${ct === k ? 'on' : ''}" data-a="mset" data-k="ctype" data-v="${k}"><i></i>${l}</button>`).join('')}</div>${ct === '1099' ? `<div class="bnr" style="margin-bottom:12px">${IC.warn}<div><b>A $5/hr fee applies to 1099 contractors</b><span style="display:block;margin-top:2px">We deduct $5 from every hour you bill. On this offer the client pays <strong>$${of.rate}/hr</strong>, so you receive <strong>$${of.rate - 5}/hr</strong>.</span></div></div>` : ''}<div class="scr">${ct === 'corp' ? `<h4>About your corporation</h4>${fld('Corporation name', 'mf.o1', { req: 1 })}${fld('Business address', 'mf.o2', { req: 1 })}${fld('Corporation EIN', 'mf.o3', { req: 1, ph: '12-3456789' })}${fld('Primary point of contact', 'mf.o4', { req: 1 })}` : `<h4>Tax information</h4>${fld('Tax ID (SSN)', 'mf.o3', { req: 1 })}`}${fld('Mailing address', 'mf.o11', { req: 1 })}<div class="row2">${fld('Phone number', 'mf.o5', { req: 1 })}${fld('Email', 'mf.o6', { req: 1, type: 'email', bad: 'Enter a valid email' })}</div><h4>${ct === 'corp' ? 'Corp' : 'Consultant'} bank information</h4>${fld('Bank name', 'mf.o7', { req: 1 })}${fld('Bank address', 'mf.o8', { req: 1 })}<div class="row2">${fld('Account number', 'mf.o9', { req: 1 })}${fld('Routing number', 'mf.o10', { req: 1 })}</div></div>`;
-      else body = `<h3>Upload your documents</h3><p>${ct === 'corp' ? 'Please upload your Certificate of Insurance (COI) if available now.' : 'Please upload your signed and dated W-9.'}</p><label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/, 'width="34" height="34"')}<div><u>Browse</u> or drag and drop your file here</div><small>PDF (max. 3MB)</small><input type="file" id="onbfile" accept=".pdf" hidden></label>${S.mf.doc ? `<div class="fprog"><b style="font-size:13px">${esc(S.mf.doc)}</b><div class="bar" style="margin:8px 0 6px"><i style="transform:scaleX(1)"></i></div><small>Uploaded</small></div>` : ''}<small style="display:block;margin-top:10px;color:var(--muted)">You can also add it later from Profile › Logistics.</small>`;
+      else body = `<h3>Upload your documents</h3><p>${ct === 'corp' ? 'Please upload your Certificate of Insurance (COI) if available now.' : 'Please upload your signed and dated W-9.'}</p><label class="dz" id="dz">${IC.up.replace(/width="16" height="16"/, 'width="34" height="34"')}<div><u>Browse</u> or drag and drop your file here</div><small>PDF (max. 3MB)</small><input type="file" id="onbfile" accept=".pdf" hidden></label>${S.mf.doc ? `<div class="fprog"><b style="font-size:13px">${esc(S.mf.doc)}</b><div class="bar" style="margin:8px 0 6px"><i style="transform:scaleX(1)"></i></div><small>Uploaded</small></div>` : ''}<small style="display:block;margin-top:10px;color:var(--muted)">You can also add it later from Profile › Work Preferences.</small>`;
       const last = o.step === n - 1;
       return box(`${head}${body}<div class="mact"><button class="btn" data-a="mclose">Save &amp; exit</button>${o.step ? `<button class="btn" data-a="onbback">Back</button>` : ''}<button class="btn p" data-a="onbnext">${last ? 'Finish &amp; start project' : 'Next step'}</button></div>`, 'xw')
     }
@@ -7100,11 +7205,12 @@
       else if (t === 'ind' && p == null) S.mf = { ind: '', sub: '', sel: [], yrs: '', cl: '', pr: '', note: '' };
       else if (t === 'job' || t === 'ind') { const j = p != null ? P.jobs[+p] : null; S.mf = j ? Object.assign({}, j, { start: padD(j.start), end: padD(j.end), plats: j.plats.slice(), prods: j.prods.slice(), skills: j.skills.slice(), cur: j.end ? '' : '1' }) : { emp: '', client: '', type: '', proj: '', ind: '', sub: '', role: '', start: '', end: '', plats: [], prods: [], skills: [], resp: '', cur: '' } }
       else if (t === 'xlink') S.mf = { names: [], sel: [], yrs: '', cl: '', pr: '', note: '' };
+      else if (t === 'accd') S.mf = { f: ME.first, l: ME.last, em: ME.email, ph: S.phone || '', role: P.headline || '' };
       else if (t === 'sumadd') S.mf = { cat: { ind: 'Industry', sub: 'Subindustry', plat: 'Platform', prod: 'Product', skill: 'Skill' }[S.sumtab] || '', name: '', yrs: '', cl: '', pr: '' };
       else if (t === 'sumedit') { const X = expStats(), r = [].concat(X.ind, X.sub, X.plat, X.prod, X.skill).find(z => z.k === p) || { lab: p, m: 0 }; S.mf = { name: r.lab, yrs: String(Math.round(r.m / 12 * 10) / 10), cl: r.cl == null ? '' : String(r.cl), pr: r.pr == null ? '' : String(r.pr) } }
       else if (t === 'skills') S.sk = JSON.parse(JSON.stringify(P.skills));
-      else if (t === 'entry') { const e = p != null ? (S.logs[S.ts.p + '|' + S.ts.d] || [])[+p] : null; S.mf = e ? { task: e.task, tech: e.tech, note: e.note, h: String(e.h) } : { task: 'Development', tech: '', note: '', h: '' } }
-      else if (t === 'bank') S.mf = { b1: S.payd.bank, b2: S.payd.addr, b3: S.payd.acct, b4: S.payd.route };
+      else if (t === 'entry') { const e = p != null ? (S.logs[S.ts.p + '|' + S.ts.d] || [])[+p] : null; S.mf = e ? { task: e.task, tech: Array.isArray(e.tech) ? e.tech.slice() : (e.tech ? String(e.tech).split(/\s*,\s*/) : []), note: e.note, h: String(e.h) } : { task: 'Development', tech: [], note: '', h: '' } }
+      else if (t === 'bank') S.mf = { b1: S.payd.bank, b2: S.payd.addr, b3: S.payd.acct, b4: S.payd.route, b5: S.payd.swift || '' };
       else if (t === 'refer') S.mf = { rt: 'Client' };
       else if (t === 'onb') { { const ct = /1099/.test(S.lg.contract) ? '1099' : 'corp', o = ONBA || {}; S.mf = { ctype: ct, o0: ME.first + ' ' + ME.last, o1: '', o2: '', o11: '', tconf: '', o5: '', o6: '', o7: '', o8: '', o9: '', o10: '' }; S.pre = 1; const sv = (S.offers.find(z => z.id === +p) || {}).ob; if (sv) Object.assign(S.mf, sv.mf) }; S.onb = { id: +p, step: 0, steps: logiDone() ? ['terms', 'details', 'docs'] : ['terms', 'logistics', 'details', 'docs'] }; const sv2 = (S.offers.find(z => z.id === +p) || {}).ob; if (sv2) { const k = S.onb.steps.findIndex(z => !sv2.done.includes(z)); S.onb.step = k < 0 ? S.onb.steps.length - 1 : k } }
       render()
@@ -7112,6 +7218,7 @@
     function saveModal() {
       const m = S.modal, mf = S.mf, P = S.prof;
       switch (m.t) {
+        case 'accd': if (!need(['mf.f', 'mf.l', 'mf.em'], { 'mf.em': isMail })) return render(); ME.first = mf.f.trim(); ME.last = mf.l.trim(); ME.name = ME.first + ' ' + ME.last; ME.ini = ((ME.first[0] || '') + (ME.last[0] || '')).toUpperCase() || 'CC'; ME.email = mf.em.trim(); S.phone = (mf.ph || '').trim(); P.headline = (mf.role || '').trim(); toast('Profile updated'); break;
         case 'head': if (!need(['mf.head', 'mf.loc'])) return render(); P.headline = mf.head.trim(); P.loc = mf.loc.trim(); toast('Headline updated'); break;
         case 'resume': S.resume = mf.file.n; toast('Resume uploaded — your profile is being refreshed'); break;
         case 'overview': { const y = new Date().getFullYear(), okY = v => /^\d{4}$/.test(v) && +v >= 1970 && +v <= y; if (!need(['mf.sf', 'mf.sw'], { 'mf.sf': okY, 'mf.sw': okY })) return render(); P.about = (mf.about || '').trim(); P.beganSF = mf.sf; P.beganSW = mf.sw; toast('Experience overview updated'); break }
@@ -7149,8 +7256,9 @@
           const X = expStats(), t = ed ? m.p.split(':')[0] : { 'Industry': 'ind', 'Subindustry': 'sub', 'Platform': 'plat', 'Product': 'prod', 'Skill': 'skill' }[mf.cat], key = ed ? m.p : t + ':' + mf.name.trim(), old = P.adj[key] || {}, derived = [].concat(X.ind, X.sub, X.plat, X.prod, X.skill).some(z => z.k === key && !(P.adj[key] && P.adj[key].man));
           P.adj[key] = { yrs: yr, cl: t === 'skill' ? '' : (mf.cl || '').trim(), pr: t === 'skill' ? '' : (mf.pr || '').trim(), man: ed ? !!old.man : !derived, lab: ed ? (old.lab || mf.name) : mf.name.trim() }; toast('Experience summary updated'); break
         }
+        case 'acct': if (!need(['mf.at', 'mf.au'])) return render(); P.links.extra = P.links.extra || []; P.links.extra.push({ type: mf.at, url: mf.au.trim().replace(/^https?:\/\//, '') }); toast(mf.at + ' account added'); break;
         case 'trail': if (!need(['mf.trail'], { 'mf.trail': v => /trailblazer\.me|salesforce\.com\/trailblazer/i.test(v) })) return render(); P.links.trail = mf.trail.trim().replace(/^https?:\/\//, ''); toast('Trailblazer connected'); break;
-        case 'bank': if (!need(['mf.b1', 'mf.b2', 'mf.b3', 'mf.b4'])) return render(); S.payd = { bank: mf.b1.trim(), addr: mf.b2.trim(), acct: mf.b3.trim(), route: mf.b4.trim() }; toast('Payment details saved'); break;
+        case 'bank': if (!need(['mf.b1', 'mf.b2', 'mf.b3', 'mf.b4'])) return render(); S.payd = { bank: mf.b1.trim(), addr: mf.b2.trim(), acct: mf.b3.trim(), route: mf.b4.trim(), swift: (mf.b5 || '').trim().toUpperCase() }; toast('Payment details saved'); break;
         case 'refer': if (!need(['mf.n', 'mf.e'], { 'mf.e': isMail })) return render(); S.rl.unshift({ who: mf.e.trim(), type: mf.rt, code: 'CC-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(), d: dLong(D(0)), st: 'Invited' }); toast('Invitation sent to ' + mf.e.trim()); break;
       }S.modal = null; S.err = {}; render()
     }
@@ -7198,23 +7306,30 @@
         case 'oaccok': { const id = +S.modal.p, of = S.offers.find(z => z.id === id); of.st = 'onboarding'; openModal('onb', id); toast('Offer accepted. Complete your onboarding to start the project'); break }
         case 'jobdelok': { S.prof.jobs.splice(+S.modal.p, 1); S.modal = null; render(); toast('Work experience removed. Your experience summary has been recalculated'); break }
         case 'more': S.showMore[v] = !S.showMore[v]; render(); break;
+        case 'rmacct': S.prof.links.extra.splice(+v, 1); render(); toast('Account removed'); break;
+        case 'pvtog': S.pvHide = !S.pvHide; render(); break;
         case 'unlink': S.prof.links[v] = ''; render(); toast('Account disconnected'); break;
-        case 'vreq': window.open('https://calendly.com/huntersharf', '_blank', 'noopener'); S.vreq = true; render(); toast('Verification interview requested'); break;
+        case 'vreq': window.open('https://calendly.com/huntersharf', '_blank', 'noopener'); S.vreq = true; render(); toast('Opening Hunter’s calendar'); break;
         case 'vclose': S.vclosed = true; render(); break;
         case 'avail': S.open = !S.open; render(); toast(S.open ? 'You’re open to new work' : 'You’re marked as not available — clients won’t see you in new searches'); break;
         case 'skrm': { const [gi, ti] = v.split(':'); S.sk[+gi][1].splice(+ti, 1); render(); break }
         case 'skadd': { const i = $('#ska-' + v), t = (i && i.value || '').trim(); if (!t) { i && i.focus(); break } if (!S.sk[+v][1].includes(t)) S.sk[+v][1].push(t); render(); setTimeout(() => $('#ska-' + v)?.focus(), 0); break }
         case 'lgedit': S.lgDraft = JSON.parse(JSON.stringify(S.lg)); S.lgEdit = true; S.err = {}; render(); break;
         case 'lgcancel': S.lgEdit = false; S.err = {}; render(); break;
-        case 'lgsave': { const d = S.lgDraft; if (!lgValid('lgDraft.', d, 0)) { render(); break } S.lg = lgSync(d); S.lgEdit = false; S.err = {}; render(); toast('Logistics saved'); break }
+        case 'reconok': lcSet(); S.modal = null; render(); toast('Thanks — your preferences are confirmed'); break;
+        case 'reconlater': S.modal = null; render(); break;
+        case 'reconupd': S.modal = null; S.ptab = 'logistics'; S.lgDraft = JSON.parse(JSON.stringify(S.lg)); S.lgEdit = true; doGo('profile'); break;
+        case 'lgsave': { const d = S.lgDraft; if (!lgValid('lgDraft.', d, 0)) { render(); break } S.lg = lgSync(d); lcSet(); S.lgEdit = false; S.err = {}; render(); toast('Work preferences saved'); break }
         case 'indsel': { const l = S.mf.sel || (S.mf.sel = []), i = +v, k = l.indexOf(i); k < 0 ? l.push(i) : l.splice(k, 1); render(); break }
         case 'lgone': { const l = getp(a_p(a)), i = l.indexOf(v); l.length = 0; if (i < 0) l.push(v); delete S.err[a_p(a)]; render(); break }
         case 'lgtog': { const l = getp(a_p(a)), i = l.indexOf(v); i < 0 ? l.push(v) : l.splice(i, 1); delete S.err[a_p(a)]; render(); break }
+        case 'lgwinadd': { getp(a_p(a)).push({ days: '', stime: '', etime: '' }); render(); break }
+        case 'lgwinrm': { const l = getp(a_p(a)); if (l.length > 1) l.splice(+v, 1); render(); break }
         case 'lgrm': { const l = getp(a_p(a)), i = l.indexOf(v); if (i >= 0) l.splice(i, 1); render(); break }
         case 'lgset': { setp(a_p(a), getp(a_p(a)) === v ? '' : v); render(); break }
         case 'docview': S.docView = v; render(); break;
         case 'c2cdel': S.c2c.splice(+v, 1); render(); break;
-        case 'askref': { if (!need(['mf.rn', 'mf.re', 'mf.rr', 'mf.rc'], { 'mf.re': isMail })) return render(); S.refs.unshift({ n: S.mf.rn.trim(), r: S.mf.rr.trim() + ' · ' + S.mf.rc.trim(), d: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }), t: '', st: 'Requested' }); const em = S.mf.re; S.mf = {}; S.err = {}; render(); toast('Your reference request was sent to ' + em); break }
+        case 'askref': { if (!need(['mf.rn', 'mf.re', 'mf.rr'], { 'mf.re': isMail })) return render(); S.refs.unshift({ n: S.mf.rn.trim(), r: S.mf.rr.trim().length > 70 ? S.mf.rr.trim().slice(0, 70) + '…' : S.mf.rr.trim(), full: S.mf.rr.trim(), d: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }), t: '', st: 'Requested' }); const em = S.mf.re; S.mf = {}; S.err = {}; render(); toast('Your reference request was sent to ' + em); break }
         /* interviews & offers */
         case 'ivdo': { const iv = S.ivs.find(z => z.id === +S.modal.p); iv.when = iv.slots[S.mf.slot]; iv.st = 'accepted'; iv.link = 'meet.cloudclub.com/iv/cc-' + (4000 + iv.id * 137); S.modal = null; render(); toast('Interview scheduled — a calendar invite is on its way'); break }
         case 'ivgcal': { const iv = S.ivs.find(z => z.id === +v); iv.when = [D(5), '2:00 PM']; iv.st = 'accepted'; iv.link = 'meet.cloudclub.com/iv/cc-' + (4000 + iv.id * 137); S.modal = null; render(); toast('Booked through Google Calendar'); break }
@@ -7229,7 +7344,7 @@
         case 'tswk': S.ts.w = v === 'max' ? maxWk(PROJ.find(z => z.id === S.ts.p)) : S.ts.w + +v; S.ts.d = null; render(); break;
         case 'tsday': S.ts.d = v; render(); break;
         case 'entsave': {
-          const h = parseFloat(S.mf.h); if (!need(['mf.task', 'mf.h', 'mf.note'], { 'mf.h': () => h >= .25 && h <= 24, 'mf.note': v => v.length >= 15 })) return render(); const k = S.ts.p + '|' + S.ts.d, L = S.logs[k] = S.logs[k] || [], ent = { task: S.mf.task, tech: (S.mf.tech || '').trim(), note: (S.mf.note || '').trim(), h: Math.round(h * 4) / 4 };
+          const h = parseFloat(S.mf.h); if (!need(['mf.task', 'mf.h', 'mf.note'], { 'mf.h': () => h >= .25 && h <= 24, 'mf.note': v => v.length >= 15 })) return render(); const k = S.ts.p + '|' + S.ts.d, L = S.logs[k] = S.logs[k] || [], ent = { task: S.mf.task, tech: (S.mf.tech || []).slice(), note: (S.mf.note || '').trim(), h: Math.round(h * 4) / 4 };
           if (S.modal.p != null) L[+S.modal.p] = ent; else L.push(ent); S.modal = null; S.err = {}; render(); toast('Hours saved'); break
         }
         case 'entdel': { const L = S.logs[S.ts.p + '|' + S.ts.d]; L.splice(+v, 1); render(); toast('Entry deleted'); break }
@@ -7285,6 +7400,7 @@
         countries: () => COUNTRIES.map(c => [c, '']),
         plats: () => PLATS.map(p => [p, platGroup(p)]),
         skills: () => SKILLS.map(x => [x, skillGroup(x)]),
+        techs: () => [...new Set([].concat(PLATS, PRODS, SKILLS))].map(x => [x, '']),
         allprods: () => PRODS.map(x => [x, Object.keys(PROD_BY).find(k => PROD_BY[k].includes(x)) || '']),
         prods: () => { const sel = (S.mf && S.mf.plats) || []; const out = []; sel.forEach(pl => (PROD_BY[pl] || []).forEach(x => out.push([x, pl]))); return out }
       };
@@ -7318,6 +7434,7 @@
       if ((e.key === 'Enter' || e.key === ' ') && el.matches && el.matches('.tsdays>div[data-a]')) { e.preventDefault(); el.click() }
     });
     window.addEventListener('resize', () => render());
+    if (lcDays() >= 60) { S.reconSeen = true; openModal('recon') }
     render();
   </script>
 </body>
