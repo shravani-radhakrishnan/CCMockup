@@ -2163,6 +2163,7 @@
       border-radius: 13px
     }
 
+    .otag { margin-left: 6px; font-size: 11.5px; font-weight: 500; color: var(--muted) }
     /* wizard */
     .wiz {
       display: grid;
@@ -11909,7 +11910,7 @@
       sign: ['Me', 'Hiring manager', 'Department head', 'C-level / Executive', 'Procurement / Finance']
     };
     const NSURE = "Not Sure — Need Guidance", PRODS = { "Salesforce": ["Sales Cloud", "Service Cloud", "Revenue Cloud", "Salesforce CPQ", "Salesforce Billing", "Data Cloud", "Agentforce", "Marketing Cloud Engagement", "Marketing Cloud Account Engagement (Pardot)", "Experience Cloud", "Field Service", "Financial Services Cloud (FSC)", "Health Cloud", "Nonprofit Cloud", "Nonprofit Success Pack (NPSP)", "Education Cloud", "B2B Commerce (CloudCraze)", "B2C Commerce", "CRM Analytics (Tableau CRM)", "OmniStudio", "Salesforce Industries (Vlocity)", "Manufacturing Cloud", "Energy & Utilities Cloud", "Loyalty Management", "Salesforce Maps", "Salesforce Shield", "Salesforce Platform", "Heroku"], "AWS": ["EC2", "Lambda", "S3", "RDS", "Redshift", "Glue", "Bedrock", "SageMaker", "IAM", "ECS/EKS"], "Microsoft Azure": ["Azure Functions", "Azure SQL", "Data Factory", "Azure OpenAI", "AKS", "Blob Storage", "Azure AI Foundry"], "Google Cloud": ["BigQuery", "Vertex AI", "Cloud Run", "Cloud Storage", "GKE"], "Databricks": ["Unity Catalog", "Delta Lake", "Lakeflow", "Databricks SQL", "MLflow", "Mosaic AI"], "Snowflake": ["Snowpark", "Cortex AI", "Streams & Tasks", "Data Sharing"], "Microsoft Dynamics 365": ["Dynamics 365 Sales", "Dynamics 365 Customer Service", "Dynamics 365 Finance", "Supply Chain Management", "Business Central"], "ServiceNow": ["ITSM", "ITOM", "HRSD", "CSM", "App Engine"], "SAP": ["S/4HANA", "SuccessFactors", "Ariba", "BTP"], "Oracle": ["Fusion Cloud ERP", "Oracle APEX", "Oracle Database", "OCI"], "NetSuite": ["NetSuite ERP", "NetSuite CRM", "SuiteCommerce", "SuiteAnalytics"], "HubSpot": ["Sales Hub", "Marketing Hub", "Service Hub", "Operations Hub"], "OpenAI": ["GPT Models", "Responses API", "Realtime API", "Embeddings"], "Anthropic Claude": ["Claude API", "Claude Code"], "Google Gemini": ["Gemini API", "Gemini Models"], "MuleSoft": ["Anypoint Platform", "API Manager", "CloudHub"], "Boomi": ["Integration Platform", "API Management", "Master Data Hub"], "Workato": ["Workato Integration", "Workflow Automation", "AI Agents"] }, SKG = [["Salesforce", ["Apex", "Lightning Web Components (LWC)", "Flow", "SOQL", "OmniStudio", "CPQ Configuration", "Data Migration", "Salesforce Integrations"]], ["AI / ML", ["AI Agent Development", "Generative AI", "RAG", "Prompt Engineering", "Fine-Tuning", "Machine Learning", "MLOps"]], ["Software Development", ["Python", "Java", "JavaScript", "TypeScript", "C#/.NET", "React", "Angular", "Node.js", "API Development"]], ["Data", ["SQL", "PySpark", "Spark", "ETL/ELT", "Data Engineering", "Data Modeling", "Data Architecture", "Data Governance", "Business Intelligence"]], ["Cloud / DevOps", ["Cloud Architecture", "Terraform", "Kubernetes", "Docker", "CI/CD", "DevOps", "Serverless Architecture"]], ["Security", ["IAM", "Cloud Security", "Security Assessments", "Data Security", "Compliance", "Vulnerability Management"]], ["Consulting", ["Solution Architecture", "Business Analysis", "Requirements Gathering", "Project Management", "Product Management", "QA", "Test Automation", "Systems Integration"]]], SKSUG = { "Salesforce": "Salesforce", "OpenAI": "AI / ML", "Anthropic Claude": "AI / ML", "Google Gemini": "AI / ML", "AWS": "Cloud / DevOps", "Microsoft Azure": "Cloud / DevOps", "Google Cloud": "Cloud / DevOps", "GitHub": "Cloud / DevOps", "GitLab": "Cloud / DevOps", "Kubernetes": "Cloud / DevOps", "Databricks": "Data", "Snowflake": "Data", "Microsoft Fabric": "Data", "MuleSoft": "Software Development", "Boomi": "Software Development", "Workato": "Software Development", "Microsoft Dynamics 365": "Consulting", "HubSpot": "Consulting", "ServiceNow": "Consulting", "SAP": "Consulting", "Oracle": "Consulting", "NetSuite": "Consulting", "Workday": "Consulting" };
-    const prodList = d => { const o = []; (d.sw || []).forEach(x => { if (PRODS[x]) o.push('#' + x, ...PRODS[x]) }); if (!o.length) return ['!Select a software or platform above to see its products & services']; return o };
+    const prodList = d => { const o = []; (d.sw || []).forEach(x => { if (PRODS[x]) o.push('#' + x, ...PRODS[x]) }); if (!o.length) Object.keys(PRODS).forEach(x => o.push('#' + x, ...PRODS[x])); return o };
     const skillList = d => { const sg = new Set((d.sw || []).map(x => SKSUG[x]).filter(Boolean)), o = [];[...SKG.filter(g => sg.has(g[0])).map(g => [g[0] + ' · suggested', g[1]]), ...SKG.filter(g => !sg.has(g[0]))].forEach(g => o.push('#' + g[0], ...g[1])); o.push(NSURE); return o };
     const pruneProds = d => { const ok = prodList(d); d.prods = d.prods.filter(x => ok.includes(x) && x !== 'Other'); syncOther(d); Object.keys(d.pimp).forEach(x => { if (!d.prods.includes(x)) delete d.pimp[x] }) };
     const custList = v => String(v || '').split(',').map(t => t.trim()).filter(Boolean);
@@ -11935,6 +11936,10 @@
     function sel(k, list, ph, r) { return `<select class="in" data-w="${k}" ${r ? 'data-r="1"' : ''}><option value="">${ph}</option>${list.map(o => `<option ${S.wiz.d[k] === o ? 'selected' : ''}>${o}</option>`).join('')}</select>` }
     function tx(k, ph, t = 'text') { return `<input class="in" type="${t}" data-w="${k}" placeholder="${ph}" value="${esc(S.wiz.d[k])}">` }
     const notSure = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>Not sure yet</button>`;
+    const noPref = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>No preference</button>`;
+    /* shared industry taxonomy (stands in for GET /api/v1/taxonomy/industries) */
+    const INDS_TAX = { 'Financial Services': ['Banking', 'Lending', 'Insurance', 'Wealth Management', 'Payments'], 'Healthcare': ['Providers', 'Payers', 'Medical Devices'], 'Pharma & Life Sciences': ['Biotech', 'Pharma Manufacturing', 'Distribution'], 'Travel & Hospitality': ['Airlines', 'Car Rental', 'Hotels'], 'Retail': ['E-commerce', 'Grocery', 'Apparel'], 'Technology': ['SaaS', 'Hardware', 'Telecom'], 'Manufacturing': ['Industrial', 'Automotive', 'Consumer Goods'], 'Public Sector': ['Federal', 'State & Local', 'Education'], 'Professional Services': ['Consulting', 'Legal', 'Staffing'] };
+    const NOPREF = 'No preference';
     function wf(k, label, body, opt) { return `<div class="fld ${S.wiz.err[k] ? 'err' : ''} ${S.wiz.ai && S.wiz.ai[k] ? 'aif' : ''}" data-f="${k}"><label>${label}${opt ? '' : '<span class="rq">*</span>'}</label>${body}${opt ? '' : '<span class="em">This field is required</span>'}</div>` }
     const CUSTK = { sw: 'osw', prods: 'oprod', tech: 'otech' };
     function ms(k, list, ph) {
@@ -12042,7 +12047,8 @@
     const aiBan = () => `<div class="aib"><div class="ic">${IC.sparkle}</div><div class="tx"><b>Skip the typing — build this with Skai</b><p>Paste your requirements into the chat and Skai fills the whole form for you. Your answers stay editable.</p></div><button class="btn p" data-a="skai">${IC.sparkle} Create with Skai</button></div>`;
 
     function wizStep() {
-      const d = S.wiz.d, E = S.wiz.err;
+      const d = S.wiz.d, E = S.wiz.err; d.subinds = d.subinds || [];
+      const hint = t => `<div class="hint" style="margin:6px 0 0;font-size:12px;color:var(--muted)">${t}</div>`;
       switch (S.wiz.step) {
         case 0: return `<h2>Hiring needs</h2><p>Why you're hiring, and the kind of consultant you need.</p>
   ${wf('why', 'Why are you hiring a consultant?', sel('why', LIST.why, 'Select a reason'))}
@@ -12059,21 +12065,24 @@
   ${d.budgetOk ? `<div class="fu">${wf('btype', 'Choose your desired budget type', opts('btype', BT.map(b => [b[0], b[1]])), 1)}
    ${bt && d.budgetOk === 'Yes' ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>$</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
         }
-        case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like — and how much each requirement matters.</p>
-  ${wf('sw', 'Which software or platforms should the consultant have experience with?', ms('sw', LIST.sw, 'Select software & platforms'))}
-  ${wf('prods', 'Which products or services should the consultant have experience with?', ms('prods', prodList(d), 'Select products & services'), 1)}
+        case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like. Products and must-have skills carry the most weight in matching.</p>
+  ${wf('prods', 'Which products or modules should the consultant have experience with?', ms('prods', prodList(d), 'Search & select products or modules'))}
   ${imp('prods')}
-  ${wf('tech', 'Which skills should the consultant have?', ms('tech', skillList(d), 'Search & select skills'))}
+  ${wf('tech', 'Which technical skills should the consultant have?', ms('tech', skillList(d), 'Search & select skills') + hint('Mark at least one skill as “Must have”. “Preferred” and “Bonus” skills count for less and widen the search.'))}
   ${imp('tech')}
-  ${wf('certs', 'Preferred certifications', tagin('certs', LIST.certs, 'Type a certification and press Enter, e.g. AWS Solutions Architect – Professional'), 1)}
-  <div class="fld"><label>Please provide any additional and relevant information</label><textarea class="in" maxlength="250" data-w="extra" placeholder="Anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/250</div></div>`;
-        case 3: return `<h2>Work location, environment & availability</h2><p>Where and when the work happens.</p>
-  ${wf('wloc', 'Work location', sel('wloc', LIST.wloc, 'Select work location', 1))}
-  ${d.wloc && d.wloc !== 'Remote' ? `<div class="fu">${wf('sloc', 'Address of office', tx('sloc', 'Street, City, State / Country'))}${wf('onsite', 'Specify number of days needed onsite per week', `<div class="amt"><input class="in" type="number" min="1" style="padding-left:14px" data-w="onsite" placeholder="Insert a numeric value" value="${esc(d.onsite)}"><em>per week</em></div>`)}</div>` : ''}
-  ${d.wloc === 'Remote' ? `<div class="fu">${wf('regions', 'Preferred hiring regions', ms('regions', LIST.regions, 'Select regions'))}
-  ${d.regions.includes('Other') ? cust('oreg', 'Please specify other region', 'e.g. Eastern Europe, Caribbean') : ''}
-  ${wf('tzs', 'Acceptable working time zones', selg('tzs', LIST.tzs, 'Select time zone'))}</div>` : ''}
-  ${wf('meet', 'How often will meetings be required?', sel('meet', LIST.meet, 'Select frequency'))}`;
+  <div class="row2">${wf('ind', 'Industry', selg('ind', [NOPREF, ...Object.keys(INDS_TAX)], 'Select an industry'))}${wf('subinds', 'Sub-industries', d.ind && d.ind !== NOPREF ? ms('subinds', INDS_TAX[d.ind] || [], 'Select sub-industries') : '<input class="in" disabled placeholder="Select an industry first">', 1)}</div>
+  ${wf('sw', 'Which software or platforms are involved?', ms('sw', LIST.sw, 'Select software & platforms'), 1)}
+  ${wf('usecases', 'Use cases', tx('usecases', 'e.g. quote-to-cash, renewals automation'), 1)}
+  <div class="row2">${wf('pyrs', 'Years of experience with the products', `<input class="in" type="number" min="0" max="30" data-w="pyrs" placeholder="e.g. 3" value="${esc(d.pyrs)}">`, 1)}${wf('hitech', 'Is this a highly technical role?', sel('hitech', ['Yes', 'No'], 'Select…', 1), 1)}</div>
+  ${wf('certs', 'Certifications', tagin('certs', LIST.certs, 'Type a certification and press Enter, e.g. AWS Solutions Architect – Professional'), 1)}
+  <div class="fld"><label>Additional information</label><textarea class="in" maxlength="250" data-w="extra" placeholder="Anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/250</div></div>`;
+        case 3: return `<h2>Work location & time zone</h2><p>Where and when the work happens.</p>
+  ${wf('wloc', 'Work style', sel('wloc', LIST.wloc, 'Select work style', 1))}
+  ${d.wloc && d.wloc !== 'Remote' ? `<div class="fu">${wf('sloc', 'Address of office', tx('sloc', 'Street, City, State / Country') + (d.wloc === 'On-site' ? hint('On-site work makes location a hard filter — only consultants based near it are matched.') : ''))}${wf('onsite', 'Specify number of days needed onsite per week', `<div class="amt"><input class="in" type="number" min="1" max="7" style="padding-left:14px" data-w="onsite" placeholder="Insert a numeric value" value="${esc(d.onsite)}"><em>per week</em></div>`)}</div>` : ''}
+  ${d.wloc === 'Remote' ? `<div class="fu">${wf('regions', 'Preferred hiring regions', ms('regions', LIST.regions, 'Select regions'), 1)}
+  ${d.regions.includes('Other') ? cust('oreg', 'Please specify other region', 'e.g. Eastern Europe, Caribbean') : ''}</div>` : ''}
+  ${wf('tzs', 'Working time zone', selg('tzs', [NOPREF, ...LIST.tzs], 'Select time zone'))}
+  ${wf('meet', 'How often will meetings be required?', sel('meet', LIST.meet, 'Select frequency'), 1)}`;
       }
     }
     function vWizard() {
@@ -13534,13 +13543,13 @@
       const imps = (l, g) => d[l].forEach(x => { if (!d[g][x]) e[g + ':' + x] = 1 });
       if (st === 0) { ['why', 'rtype', 'sen'].forEach(need); if (d.rtype === 'Multiple Roles') need('qty'); if (d.rtype === 'Other') need('ortype') }
       if (st === 1) { need('hours'); need('start'); if (!d.endNo) need('end'); if (!d.endNo && d.start && d.end && d.end < d.start) e.end = 1; if (d.budgetOk === 'Yes' && d.btype) need('bamt') }
-      if (st === 2) { ['sw', 'tech'].forEach(need) }
-      if (st === 3) { ['wloc', 'meet'].forEach(need); if (d.wloc === 'Remote') { ['regions', 'tzs'].forEach(need); if (d.regions.includes('Other')) need('oreg') } else if (d.wloc) { need('sloc'); need('onsite') } }
+      if (st === 2) { ['prods', 'tech', 'ind'].forEach(need); const ti = d.tech.filter(x => x !== 'Other').concat(custList(d.otech)); if (ti.length && !ti.some(x => d.timp[x] === 'Must have')) e.tech = 1 }
+      if (st === 3) { ['wloc', 'tzs'].forEach(need); if (d.wloc && d.wloc !== 'Remote') { need('sloc'); need('onsite') } }
       S.wiz.err = e; return !Object.keys(e).length
     }
     function stepRender() { const keep = window.scrollY; render(); window.scrollTo(0, keep) }
     function showErr() { stepRender(); toast('Please complete the required fields'); setTimeout(() => document.querySelector('.fld.err,.impr.err')?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60) }
-    const D0 = () => ({ why: '', urgency: '', rtype: '', ortype: '', qty: '', hours: '', start: '', end: '', startNo: false, endNo: false, budgetOk: '', btype: '', bamt: '', sen: '', sw: [], osw: '', oreg: '', prods: [], pimp: {}, oprod: '', certs: [], cimp: {}, tech: [], timp: {}, otech: '', indExp: '', sub: '', subs: [], orgs: [], extra: '', wloc: '', sloc: '', onsite: '', regions: [], tzs: '', meet: '', stake: '', holders: [{ n: '', p: '' }], sign: '' });
+    const D0 = () => ({ why: '', urgency: '', rtype: '', ortype: '', qty: '', hours: '', start: '', end: '', startNo: false, endNo: false, budgetOk: '', btype: '', bamt: '', sen: '', sw: [], osw: '', oreg: '', prods: [], pimp: {}, oprod: '', certs: [], cimp: {}, tech: [], timp: {}, otech: '', indExp: '', sub: '', subs: [], rtitle: '', ind: '', subinds: [], usecases: '', pyrs: '', hitech: '', firmStart: '', flexTime: '', orgs: [], extra: '', wloc: '', sloc: '', onsite: '', regions: [], tzs: '', meet: '', stake: '', holders: [{ n: '', p: '' }], sign: '' });
     function resetWiz() { S.wiz = { step: 0, dir: 'fwd', err: {}, d: D0() } }
     const PRE = () => ({ why: LIST.why[0], urgency: 'Soon', rtype: 'Developer / Engineer', hours: '35', sen: LIST.sen[2], sw: ['AWS', 'Snowflake'], prods: ['Glue', 'Snowpark'], pimp: { Glue: 'Must have', Snowpark: 'Preferred' }, tech: ['Python', 'API Development'], timp: { Python: 'Must have', 'API Development': 'Preferred' }, orgs: ['Enterprise'] });
     function pick(f) {
@@ -13549,7 +13558,7 @@
       const t = setInterval(() => { if (!S.file || S.modal !== 'upload') { clearInterval(t); return } S.file.p = Math.min(100, S.file.p + 8 + Math.random() * 14); const bar = $('.fprog .bar i'), sm = $('.fprog small'); if (bar) bar.style.transform = 'scaleX(' + S.file.p / 100 + ')'; if (sm) sm.textContent = S.file.p >= 100 ? 'Ready · ' + S.file.s : Math.round(S.file.p) + '% uploaded'; if (S.file.p >= 100) { clearInterval(t); $('[data-a=doupload]')?.removeAttribute('disabled') } }, 180)
     }
     function postSearch() {
-      const d = S.wiz.d, t = d.sen.split(' ')[0].split('-')[0] + ' ' + (d.rtype === 'Multiple Roles' ? 'Team' : d.rtype === 'Other' && d.ortype ? d.ortype : d.rtype);
+      const d = S.wiz.d, t = d.sen.split(' ')[0].split('-')[0] + ' ' + (d.rtitle ? d.rtitle : d.rtype === 'Multiple Roles' ? 'Team' : d.rtype === 'Other' && d.ortype ? d.ortype : d.rtype);
       let it = S.draft; if (!it) { it = { id: Date.now(), created: 'Today', title: t, role: t }; SEARCHES.unshift(it) }
       Object.assign(it, { posted: true, kind: 'wiz', via: S.wiz.skai ? 'skai' : 'manual', wiz: JSON.parse(JSON.stringify(S.wiz)), ns: null, jt: t, n: matchCount(d), reach: false, starts: d.start ? fmtDate(d.start) : '—', snippet: 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' }); S.pidx = SEARCHES.indexOf(it); S.rtab = 'cons'; S.draft = null;
       S.link = null; addProject(t); S.cur = { t }; S.sel = []; S.tab = {}; S.more = {}; S.offers.unshift({ t, st: 'Matching', c: matchCount(d), d: 'Today', b: '$' + (d.bamt || 90) + (d.btype === 'Monthly budget' ? '/month' : '/hour') });
@@ -13710,7 +13719,7 @@
         /* wizard */
         case 'opt': d[a.dataset.k] = v; delete S.wiz.err[a.dataset.k]; if (a.dataset.k === 'btype') delete S.wiz.err.bamt; S.wiz.dir = ''; stepRender(); break;
         case 'msopen': S.ms = S.ms === a.dataset.k ? null : a.dataset.k; stepRender(); break;
-        case 'sgpick': d[a.dataset.k] = v; S.ms = null; delete S.wiz.err[a.dataset.k]; stepRender(); break;
+        case 'sgpick': d[a.dataset.k] = v; if (a.dataset.k === 'ind') d.subinds = (d.subinds || []).filter(x => (INDS_TAX[v] || []).includes(x)); S.ms = null; delete S.wiz.err[a.dataset.k]; stepRender(); break;
         case 'msadd': {
           const k = a.dataset.k, ck = CUSTK[k], t = (a.dataset.v || '').trim(); if (!ck || !t) break;
           addCust(ck, t); syncOther(d); delete S.wiz.err[k]; stepRender();
@@ -13736,7 +13745,7 @@
         case 'addh': d.holders.push({ n: '', p: '' }); stepRender(); break;
         case 'rmh': d.holders.splice(+v, 1); stepRender(); break;
         case 'draft': {
-          const d = S.wiz.d, sn = d.sen ? d.sen.split('-')[0].split(' ')[0] + ' ' : '', t = (sn + (d.rtype || 'Untitled role')).trim();
+          const d = S.wiz.d, sn = d.sen ? d.sen.split('-')[0].split(' ')[0] + ' ' : '', t = (sn + (d.rtitle || d.rtype || 'Untitled role')).trim();
           if (!S.draft) { S.draft = { id: Date.now(), title: S.wiz.title || t, role: S.wiz.role || t, created: 'Today', starts: '—', n: 0, posted: false }; SEARCHES.unshift(S.draft) }
           S.draft.kind = 'wiz'; S.draft.wiz = S.wiz; S.draft.starts = d.start ? fmtDate(d.start) : '—';
           doGo('searches'); toast('Draft saved in Searches — continue it any time'); break
