@@ -2173,6 +2173,15 @@
       border-radius: 13px
     }
 
+    .hst { display: flex; gap: 8px; flex-wrap: wrap }
+    .hs { display: flex; gap: 8px; align-items: flex-start; flex: 1; min-width: 150px; opacity: .55 }
+    .hs.ok, .hs.on { opacity: 1 }
+    .hs i { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 11.5px; font-weight: 700; background: var(--slate-tint-2, #e3ecf3); color: var(--slate-d, #3e566a) }
+    .hs.ok i { background: var(--slate-d, #3e566a); color: #fff }
+    .hs.on i { outline: 2px solid var(--slate, #547691) }
+    .hs i svg { width: 12px; height: 12px }
+    .hs b { display: block; font-size: 12.5px }
+    .hs small { display: block; font-size: 11.5px; color: var(--muted) }
     .otag { margin-left: 6px; font-size: 11.5px; font-weight: 500; color: var(--muted) }
     /* wizard */
     .wiz {
@@ -7672,6 +7681,10 @@
       flex: 1 1 200px
     }
 
+    .rnp>.hst:first-child {
+      flex: none
+    }
+
     .rnp b {
       font-family: Manrope;
       font-size: 13.5px;
@@ -10760,21 +10773,95 @@
     }
 
     .gf .g-segs {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 1fr;
-      gap: 5px
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
     }
 
-    .gf .g-segs i {
-      height: 6px;
+    .gf .g-segs .gcn {
+      flex: 1 1 12px;
+      min-width: 10px;
+      align-self: stretch;
+      position: relative;
+      background: none
+    }
+
+    .gf .g-segs .gcn::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      margin-top: -1px;
+      border-radius: 2px;
+      background: var(--track)
+    }
+
+    .gf .g-segs .gcn.ok::before {
+      background: var(--slate)
+    }
+
+    .gf .g-segs .gs {
+      display: inline-flex;
+      align-items: center;
+      align-self: center;
+      gap: 6px;
+      padding: 3px 10px 3px 4px;
       border-radius: 99px;
       background: var(--track);
-      transition: background .3s
+      color: var(--muted);
+      white-space: nowrap;
+      transition: background .3s, color .3s
     }
 
-    .gf .g-segs i.on {
-      background: var(--slate)
+    .gf .g-segs .gs .d {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 700 10.5px Manrope, sans-serif;
+      background: var(--card, #fff);
+      color: var(--muted)
+    }
+
+    .gf .g-segs .gs .d svg {
+      width: 10px;
+      height: 10px
+    }
+
+    .gf .g-segs .gs b {
+      font: 600 12px Manrope, sans-serif;
+      color: inherit
+    }
+
+    .gf .g-segs .gs em {
+      font: 500 11px Manrope, sans-serif;
+      font-style: normal;
+      opacity: .7
+    }
+
+    .gf .g-segs .gs.on {
+      background: rgba(var(--brand-rgb), .14);
+      color: var(--ink)
+    }
+
+    .gf .g-segs .gs.on .d,
+    .gf .g-segs .gs.done .d {
+      background: var(--slate);
+      color: #fff
+    }
+
+    .gf .g-segs .gs.done {
+      color: var(--ink)
+    }
+
+    @media (max-width:760px) {
+      .gf .g-segs .gcn {
+        display: none
+      }
     }
 
     .gf .g-link {
@@ -12303,6 +12390,19 @@
     function modalHtml() {
       const m = S.modal; if (!m) return '';
       const box = b => `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" role="dialog" aria-modal="true">${b}</div></div>`, x = `<button class="x" data-a="closem" aria-label="Close">×</button>`;
+      if (m === 'hirecfm') {
+        const f = S.hf || {}, E = S.hfe || {}, c = S.ivs[S.hireI], F = (k, label, o = {}) => `<div class="fld ${E[k] ? 'err' : ''}"><label>${label}${o.opt ? '' : '<span class="rq">*</span>'}</label>${o.sel ? `<select class="in" data-hf="${k}">${o.sel.map(v => `<option ${f[k] === v ? 'selected' : ''}>${v}</option>`).join('')}</select>` : o.ro ? `<input class="in" value="${esc(f[k] || '')}" readonly>` : `<input class="in" type="${o.t || 'text'}" data-hf="${k}" placeholder="${esc(o.ph || '')}" value="${esc(f[k] || '')}" ${o.min ? 'min="' + o.min + '"' : ''}>`}<span class="em">${o.bad || 'This field is required'}</span></div>`;
+        return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" style="width:min(640px,100%)" role="dialog" aria-modal="true">${x}<h3>Confirm engagement details</h3><p>Review the details below. Once you confirm, Hunter is notified to prepare your contract and ${esc(c[0])} receives their offer by email.</p>
+  <div class="scr" style="max-height:58vh;overflow:auto;padding:2px 4px 2px 0">
+  <div class="row2">${F('cons', 'Consultant', { ro: 1 }).replace('value=""', 'value="' + esc(c[0]) + '"')}${F('title', 'Job title')}</div>
+  <div class="fld"><label>Job description</label><input class="in" value="From your job posting — shared with the consultant in their offer" readonly></div>
+  <div class="row2">${F('start', 'Start date', { t: 'date', min: today() })}${F('dur', 'Duration', { sel: ['1 month', '2 months', '3 months', '4 months', '6 months', '9 months', '12 months', '12+ months'] })}</div>
+  <div class="row2">${F('rate', 'Bill rate ($/hour)', { t: 'number', ph: 'e.g. 120' })}${F('hours', 'Hours per week', { t: 'number', ph: 'e.g. 40' })}</div>
+  <div class="row2">${F('co', 'Company name')}${F('addr', 'Company address', { ph: 'Street, City, State, ZIP' })}</div>
+  <h4 style="margin:6px 0 8px;font-size:13px">Contract signer</h4><div class="row2">${F('sname', 'Full name')}${F('semail', 'Email', { t: 'email', bad: 'Enter a valid email' })}</div>
+  <h4 style="margin:6px 0 8px;font-size:13px">Billing contact</h4><div class="row2">${F('bname', 'Full name')}${F('bemail', 'Email', { t: 'email', bad: 'Enter a valid email' })}</div>${F('bphone', 'Phone', { t: 'tel', opt: 1, ph: '+1 555 0100' })}</div>
+  <div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="hireok">Confirm &amp; hire</button></div></div></div>`
+      }
       if (m === 'pass' && S.ivs[S.passI] && S.ivs[S.passI][6].pass) return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox pmbox" role="dialog" aria-modal="true">${x}${passPanel(S.passI, S.ivs[S.passI][6])}</div></div>`;
       if (m === 'savel' || m === 'slnew' || m === 'savepos') return svModal(box, x);
       if (m === 'upload') {
@@ -12374,10 +12474,13 @@
       }), curSt = steps[cur - 1] ? steps[cur - 1].st : '', doneN = steps.filter(x => x.st === 'done').length;
       let act = '', inl = '';
       if (m.closed) act = `<div class="rnn">${IC.info}<span>Passed on candidate${m.reason ? ' · ' + esc(m.reason) : ''}. Thanks — your feedback helps us improve your matches.</span></div>`;
-      else if (m.hired) act = `<div class="rnn">${IC.check}<span><b>Hired.</b> ${esc(c[0])} has been selected for hire. Our team will be in touch with next steps.</span></div>`;
-      else if (m.hireq) act = `<div class="rnp"><div><b>Hire ${esc(c[0])}?</b><p>This selects the candidate for hire without another interview. We’ll notify the consultant and our team.</p></div><div class="rr"><button class="btn p sm" data-a="hireok" data-v="${i}">Yes, hire candidate</button><button class="btn sm" data-a="hirex" data-v="${i}">Cancel</button></div></div>`;
+      else if (m.hired) {
+        const stg = m.stage || 'prep', HS = [['Offer sent', 'The consultant has been emailed their offer'], ['Client contract', 'We prepare it and send it for your signature'], ['You sign', 'Sign the contract'], ['Consultant contract', 'Sent once you have signed'], ['Confirmed', 'All agreements signed']], at = { prep: 1, sign: 2, signed: 3 }[stg];
+        const msg = { prep: `<b>Hire request received.</b> Hunter has been notified and is preparing your client contract. ${esc(c[0])} has been emailed their offer.`, sign: `<b>Your contract is ready.</b> Please review and sign it. The consultant’s agreement is sent once you have signed.`, signed: `<b>Contract signed.</b> Hunter has been notified and is preparing ${esc(c[0])}’s agreement. We’ll confirm the engagement once all agreements are signed.` }[stg];
+        act = `<div class="rnp" style="flex-direction:column;align-items:stretch;gap:12px"><div class="hst">${HS.map((h, k) => `<div class="hs ${k < at ? 'ok' : k === at ? 'on' : ''}"><i>${k < at ? IC.check : k + 1}</i><div><b>${h[0]}</b><small>${h[1]}</small></div></div>`).join('')}</div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:240px">${msg}</span>${stg === 'sign' ? `<button class="btn p sm" data-a="hiresign" data-v="${i}">Review &amp; sign contract</button>` : ''}${stg === 'prep' ? `<button class="btn sm" data-a="hireprep" data-v="${i}" title="Prototype only: simulates Hunter sending the contract">Preview next step</button>` : ''}</div></div>`
+      }
       else if (m.hold) inl = `<span class="rnact"><button class="btn sm" data-a="ivresumeh" data-v="${i}">Resume</button></span>`;
-      else if (m.prompt) act = `<div class="rnp"><div><b>How did ${cur === 1 && m.total === 1 ? 'the interview' : 'round ' + cur} go?</b><p>${cur === 1 && m.total === 1 ? 'Need to talk again? Schedule another interview with the same interviewers and format.' : 'Round ' + (cur + 1) + ' reuses the interviewers and format from round ' + cur + '. Add as many rounds as you need.'}</p></div><div class="rr"><button class="btn p sm" data-a="hirereq" data-v="${i}">Hire Candidate</button><button class="btn sm" data-a="ivnext" data-v="${i}">${cur === 1 && m.total === 1 ? 'Schedule another interview' : 'Move to round ' + (cur + 1)}</button><button class="btn sm" data-a="ivhold" data-v="${i}">Hold</button><button class="btn sm" data-a="ivnofitq" data-v="${i}">Pass on Candidate</button></div></div>`;
+      else if (m.prompt) act = `<div class="rnp"><div><b>How did ${cur === 1 && m.total === 1 ? 'the interview' : 'round ' + cur} go?</b><p>${cur === 1 && m.total === 1 ? 'Need to talk again? Schedule another interview with the same interviewers and format.' : 'Round ' + (cur + 1) + ' reuses the interviewers and format from round ' + cur + '. Add as many rounds as you need.'}</p></div><div class="rr"><button class="btn p sm" data-a="hirereq" data-v="${i}">Hire Consultant</button><button class="btn sm" data-a="ivnext" data-v="${i}">${cur === 1 && m.total === 1 ? 'Schedule another interview' : 'Move to round ' + (cur + 1)}</button><button class="btn sm" data-a="ivhold" data-v="${i}">Hold</button><button class="btn sm" data-a="ivnofitq" data-v="${i}">Pass on Candidate</button></div></div>`;
       else if (curSt === 'confirmed') inl = `<span class="rnact"><button class="btn sm" data-a="ivdone" data-v="${i}">Mark ${m.total === 1 ? 'interview' : 'round ' + cur} completed</button></span>`;
       return `<div class="rnd"><div class="rntl"><span class="rncount">${m.total === 1 ? 'Interview 1' : doneN + '/' + m.total + ' rounds'}</span>${steps.map((x, k) => `${k ? `<span class="rnc ${steps[k - 1].st === 'done' ? 'ok' : ''}"></span>` : ''}<div class="rn ${x.cl}"><i>${x.ic}</i><div><b>${m.total === 1 ? 'Interview' : 'Round ' + x.r} · ${esc(x.ty)}</b><small>${esc(x.sub)}</small></div></div>`).join('')}${inl}</div>${act}</div>`
     }
@@ -13294,7 +13397,13 @@
     const gunit = k => { const q = gq(k), v = gval(k); return v && q.unit && /^\d+$/.test(v) ? v + q.unit : v };
     const gCount = g => gAct(g.A).filter(q => g.A[q.k] && g.A[q.k].length).length;
     const gFeed = () => document.getElementById('gfFeed');
-    const gSegs = () => gAct(G.A).map(q => `<i class="${gHas(q.k) ? 'on' : ''}"></i>`).join('');
+    const GSTEP = { why: 0, rtype: 0, seniority: 0, hours: 1, start: 1, duration: 1, budgetOk: 1, btype: 1, rate: 1, sw: 2, prods: 2, skills: 2, certs: 2, location: 3, sloc: 3, onsite: 3, regions: 3, tzs: 3, meet: 3 };
+    const gSegs = () => {
+      const act = gAct(G.A), per = STEPS.map((_, i) => { const qs = act.filter(q => GSTEP[q.k] === i); return { t: qs.length, d: qs.filter(q => gHas(q.k)).length } });
+      const cur = per.findIndex(x => x.d < x.t);
+      return STEPS.map((st, i) => { const x = per[i], done = x.t > 0 && x.d === x.t, on = i === cur || (cur < 0 && false);
+        return `${i ? '<span class="gcn' + (per[i - 1].t > 0 && per[i - 1].d === per[i - 1].t ? ' ok' : '') + '"></span>' : ''}<div class="gs ${done ? 'done' : ''} ${on ? 'on' : ''}" title="${x.d} of ${x.t} answered"><span class="d">${done ? IC.check : i + 1}</span><b>${st[0]}</b><em>${x.d}/${x.t}</em></div>` }).join('')
+    };
     const gExtra = () => {
       const d = G.carry; if (!d) return []; const cl = custList, j = a => (a || []).filter(t => t !== 'Other' && t !== NSURE).join(', '), rows = [];
       const add = (l, v) => { if (v) rows.push([l, v]) };
@@ -13671,9 +13780,11 @@
           m.reason = p.r.sort((a, b) => a - b).map(k => PASS[k][0]).join(', '); m.passData = { reasons: p.r.map(k => PASS[k][0]), followUps: Object.fromEntries(p.r.filter(k => p.fu[k]).map(k => [PASS[k][0], p.fu[k]])), other: p.o, feedback: p.n };
           m.closed = true; m.nofit = false; m.pass = null; m.prompt = false; S.modal = null; render(false); toast('Passed on candidate — thanks for the feedback'); break }
         case 'pfb': { S.ivs[+v][6].pass.fb = true; render(false); break }
-        case 'hirereq': { const m = S.ivs[+v][6]; m.hireq = true; render(false); break }
+        case 'hirereq': { const c = S.ivs[+v], dt = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10); S.hireI = +v; S.hfe = {}; S.hf = { title: c[1], start: dt, dur: '6 months', rate: '100', hours: '40', co: ORG.name, addr: '', sname: ORG.first, semail: ORG.email, bname: '', bemail: '', bphone: '' }; S.modal = 'hirecfm'; render(false); break }
+        case 'hireprep': { S.ivs[+v][6].stage = 'sign'; render(false); toast('Hunter sent your client contract for signature'); break }
+        case 'hiresign': { S.ivs[+v][6].stage = 'signed'; render(false); toast('Contract signed — Hunter has been notified'); break }
         case 'hirex': { const m = S.ivs[+v][6]; m.hireq = false; render(false); break }
-        case 'hireok': { const c = S.ivs[+v], m = c[6]; m.hired = true; m.hireq = false; m.prompt = false; render(false); toast(c[0] + ' marked as hired'); break }
+        case 'hireok': { const c = S.ivs[S.hireI], m = c[6], f = S.hf, e = {}; ['title', 'start', 'dur', 'rate', 'hours', 'co', 'addr', 'sname', 'semail', 'bname', 'bemail'].forEach(k => { if (!String(f[k] || '').trim()) e[k] = 1 }); ['semail', 'bemail'].forEach(k => { if (f[k] && !/^\S+@\S+\.\S+$/.test(f[k])) e[k] = 1 }); S.hfe = e; if (Object.keys(e).length) { render(false); break } m.hired = true; m.hireq = false; m.prompt = false; m.stage = 'prep'; m.hs = Object.assign({}, f); S.modal = null; render(false); toast('Hire request sent — Hunter has been notified and ' + c[0] + ' has been emailed their offer'); break }
         case 'ivrm': { const [a, b] = v.split(':').map(Number), T = S.ivs[a][4], p = T[b]; T.splice(b, 1); render(false); toast(p.n + ' removed from this call'); break }
         case 'ivcopy': navigator.clipboard?.writeText('https://' + v); toast('Interview link copied'); break;
         case 'ivjoin': window.open('https://' + v, '_blank'); toast('Opening your video interview…'); break;
@@ -13843,7 +13954,7 @@
           break
       }
     });
-    document.addEventListener('input', e => { const pf = e.target.dataset && e.target.dataset.pf; if (!pf) return; const [i, k] = pf.split(':'), p = S.ivs[+i][6].pass; if (!p) return; if (k === 'o') { p.o = e.target.value; if (p.err === 'other' && e.target.value.trim()) { p.err = ''; e.target.closest('.pfu').classList.remove('err'); const pe = e.target.closest('.pass').querySelector('.perr'); if (pe) pe.remove() } } else if (k === 'n') p.n = e.target.value; else p.fu[k] = e.target.value });
+    document.addEventListener('input', e => { const hk = e.target.dataset && e.target.dataset.hf; if (hk && S.hf) { S.hf[hk] = e.target.value; if (S.hfe && S.hfe[hk]) { delete S.hfe[hk]; e.target.closest('.fld') && e.target.closest('.fld').classList.remove('err') } return } const pf = e.target.dataset && e.target.dataset.pf; if (!pf) return; const [i, k] = pf.split(':'), p = S.ivs[+i][6].pass; if (!p) return; if (k === 'o') { p.o = e.target.value; if (p.err === 'other' && e.target.value.trim()) { p.err = ''; e.target.closest('.pfu').classList.remove('err'); const pe = e.target.closest('.pass').querySelector('.perr'); if (pe) pe.remove() } } else if (k === 'n') p.n = e.target.value; else p.fu[k] = e.target.value });
     document.addEventListener('change', e => {
       const el = e.target;
       if (el.id === 'avfile') {
