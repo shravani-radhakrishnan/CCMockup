@@ -11139,6 +11139,30 @@
       color: #fff
     }
 
+    .gf .g-opts[data-multi] .g-opt::before {
+      content: '+';
+      display: inline-block;
+      width: 14px;
+      margin-right: 6px;
+      font-weight: 700;
+      opacity: .55
+    }
+
+    .gf .g-opts[data-multi] .g-opt.on::before {
+      content: '✓';
+      opacity: 1
+    }
+
+    .gf .g-opts[data-multi] .g-opt.on:hover {
+      background: var(--slate-dd);
+      transform: none
+    }
+
+    .gf .g-row .btn.p:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
     .gf .g-cust {
       display: flex;
       gap: 8px;
@@ -12010,6 +12034,15 @@
     const NSURE = "Not Sure — Need Guidance", PRODS = { "Salesforce": ["Sales Cloud", "Service Cloud", "Revenue Cloud", "Salesforce CPQ", "Salesforce Billing", "Data Cloud", "Agentforce", "Marketing Cloud Engagement", "Marketing Cloud Account Engagement (Pardot)", "Experience Cloud", "Field Service", "Financial Services Cloud (FSC)", "Health Cloud", "Nonprofit Cloud", "Nonprofit Success Pack (NPSP)", "Education Cloud", "B2B Commerce (CloudCraze)", "B2C Commerce", "CRM Analytics (Tableau CRM)", "OmniStudio", "Salesforce Industries (Vlocity)", "Manufacturing Cloud", "Energy & Utilities Cloud", "Loyalty Management", "Salesforce Maps", "Salesforce Shield", "Salesforce Platform", "Heroku"], "AWS": ["EC2", "Lambda", "S3", "RDS", "Redshift", "Glue", "Bedrock", "SageMaker", "IAM", "ECS/EKS"], "Microsoft Azure": ["Azure Functions", "Azure SQL", "Data Factory", "Azure OpenAI", "AKS", "Blob Storage", "Azure AI Foundry"], "Google Cloud": ["BigQuery", "Vertex AI", "Cloud Run", "Cloud Storage", "GKE"], "Databricks": ["Unity Catalog", "Delta Lake", "Lakeflow", "Databricks SQL", "MLflow", "Mosaic AI"], "Snowflake": ["Snowpark", "Cortex AI", "Streams & Tasks", "Data Sharing"], "Microsoft Dynamics 365": ["Dynamics 365 Sales", "Dynamics 365 Customer Service", "Dynamics 365 Finance", "Supply Chain Management", "Business Central"], "ServiceNow": ["ITSM", "ITOM", "HRSD", "CSM", "App Engine"], "SAP": ["S/4HANA", "SuccessFactors", "Ariba", "BTP"], "Oracle": ["Fusion Cloud ERP", "Oracle APEX", "Oracle Database", "OCI"], "NetSuite": ["NetSuite ERP", "NetSuite CRM", "SuiteCommerce", "SuiteAnalytics"], "HubSpot": ["Sales Hub", "Marketing Hub", "Service Hub", "Operations Hub"], "OpenAI": ["GPT Models", "Responses API", "Realtime API", "Embeddings"], "Anthropic Claude": ["Claude API", "Claude Code"], "Google Gemini": ["Gemini API", "Gemini Models"], "MuleSoft": ["Anypoint Platform", "API Manager", "CloudHub"], "Boomi": ["Integration Platform", "API Management", "Master Data Hub"], "Workato": ["Workato Integration", "Workflow Automation", "AI Agents"] }, SKG = [["Salesforce", ["Apex", "Lightning Web Components (LWC)", "Flow", "SOQL", "OmniStudio", "CPQ Configuration", "Data Migration", "Salesforce Integrations"]], ["AI / ML", ["AI Agent Development", "Generative AI", "RAG", "Prompt Engineering", "Fine-Tuning", "Machine Learning", "MLOps"]], ["Software Development", ["Python", "Java", "JavaScript", "TypeScript", "C#/.NET", "React", "Angular", "Node.js", "API Development"]], ["Data", ["SQL", "PySpark", "Spark", "ETL/ELT", "Data Engineering", "Data Modeling", "Data Architecture", "Data Governance", "Business Intelligence"]], ["Cloud / DevOps", ["Cloud Architecture", "Terraform", "Kubernetes", "Docker", "CI/CD", "DevOps", "Serverless Architecture"]], ["Security", ["IAM", "Cloud Security", "Security Assessments", "Data Security", "Compliance", "Vulnerability Management"]], ["Consulting", ["Solution Architecture", "Business Analysis", "Requirements Gathering", "Project Management", "Product Management", "QA", "Test Automation", "Systems Integration"]]], SKSUG = { "Salesforce": "Salesforce", "OpenAI": "AI / ML", "Anthropic Claude": "AI / ML", "Google Gemini": "AI / ML", "AWS": "Cloud / DevOps", "Microsoft Azure": "Cloud / DevOps", "Google Cloud": "Cloud / DevOps", "GitHub": "Cloud / DevOps", "GitLab": "Cloud / DevOps", "Kubernetes": "Cloud / DevOps", "Databricks": "Data", "Snowflake": "Data", "Microsoft Fabric": "Data", "MuleSoft": "Software Development", "Boomi": "Software Development", "Workato": "Software Development", "Microsoft Dynamics 365": "Consulting", "HubSpot": "Consulting", "ServiceNow": "Consulting", "SAP": "Consulting", "Oracle": "Consulting", "NetSuite": "Consulting", "Workday": "Consulting" };
     const prodList = d => { const o = []; (d.sw || []).forEach(x => { if (PRODS[x]) o.push('#' + x, ...PRODS[x]) }); if (!o.length) Object.keys(PRODS).forEach(x => o.push('#' + x, ...PRODS[x])); return o };
     const skillList = d => { const sg = new Set((d.sw || []).map(x => SKSUG[x]).filter(Boolean)), o = [];[...SKG.filter(g => sg.has(g[0])).map(g => [g[0] + ' · suggested', g[1]]), ...SKG.filter(g => !sg.has(g[0]))].forEach(g => o.push('#' + g[0], ...g[1])); o.push(NSURE); return o };
+    const techList = () => { const seen = new Set(LIST.sw.filter(x => x[0] !== '#')), o = [...LIST.sw.filter(x => x !== NSURE)]; Object.keys(PRODS).forEach(x => { const l = PRODS[x].filter(y => !seen.has(y)); if (l.length) { o.push('#Products · ' + x, ...l); l.forEach(y => seen.add(y)) } }); return o };
+    const isFirm = () => /client projects/.test((S.profile && S.profile.usecase) || '');
+    const indList = () => Object.keys(INDS_TAX).reduce((o, k) => (o.push('#' + k, 'All ' + k, ...INDS_TAX[k]), o), []);
+    const indSubs = () => Object.values(INDS_TAX).flat();
+    const indOf = x => /^All /.test(x) && INDS_TAX[x.slice(4)] ? x.slice(4) : Object.keys(INDS_TAX).find(k => INDS_TAX[k].includes(x)) || '';
+    const syncInd = d => { d.subinds = (d.indx || []).filter(x => indSubs().includes(x)); d.ind = (d.indx || []).map(indOf).find(Boolean) || '' };
+    const syncTech = d => { d.sw = (d.prods || []).filter(x => LIST.sw.includes(x) && x !== 'Other') };
+    const mergeTech = d => { (d.sw || []).forEach(x => { if (x !== 'Other' && !d.prods.includes(x)) { d.prods.push(x); d.pimp[x] = d.pimp[x] || 'Must have' } }) };
+    const normBudget = d => { if (!d.btype && d.budgetOk && d.budgetOk !== 'Yes') d.btype = 'Not sure yet'; if (d.btype === 'Not sure yet') { d.budgetOk = 'Not yet'; d.bamt = '' } else if (d.btype) d.budgetOk = 'Yes' };
     const pruneProds = d => { const ok = prodList(d); d.prods = d.prods.filter(x => ok.includes(x) && x !== 'Other'); syncOther(d); Object.keys(d.pimp).forEach(x => { if (!d.prods.includes(x)) delete d.pimp[x] }) };
     const custList = v => String(v || '').split(',').map(t => t.trim()).filter(Boolean);
     /* single-select with a searchable, scrolling panel (replaces the browser's native select popup for long lists) */
@@ -12061,10 +12094,10 @@
       // urgency + start date
       const wk = t.match(/(?:in|within|starting in)\s+(\d+)\s+weeks?/);
       const d0 = new Date();
-      if (has(/asap|immediately|urgent|right away|this week/)) { p.urgency = 'Immediately'; p.start = iso(new Date(d0.getTime() + 3 * 864e5)) }
-      else if (wk) { const n = +wk[1]; p.urgency = n <= 1 ? 'Immediately' : n <= 4 ? 'Soon' : 'Planning'; p.start = iso(new Date(d0.getTime() + n * 7 * 864e5)) }
-      else if (has(/next month/)) { p.urgency = 'Soon'; p.start = iso(new Date(d0.getTime() + 30 * 864e5)) }
-      else if (has(/next quarter|in \d+ months?/)) { p.urgency = 'Planning'; p.start = iso(new Date(d0.getTime() + 60 * 864e5)) }
+      if (has(/asap|immediately|urgent|right away|this week/)) { p.urgency = 'High'; p.start = iso(new Date(d0.getTime() + 3 * 864e5)) }
+      else if (wk) { const n = +wk[1]; p.start = iso(new Date(d0.getTime() + n * 7 * 864e5)) }
+      else if (has(/next month/)) { p.start = iso(new Date(d0.getTime() + 30 * 864e5)) }
+      else if (has(/next quarter|in \d+ months?/)) { p.start = iso(new Date(d0.getTime() + 60 * 864e5)) }
       // role + seniority
       if (has(/data engineer/)) p.rtype = 'AI / Data Specialist'; else if (has(/architect/)) p.rtype = 'Architect'; else if (has(/\bqa\b|tester|quality assurance/)) p.rtype = 'QA Tester'; else if (has(/developer|engineer|programmer|coder|full[- ]?stack|front[- ]?end|back[- ]?end|devops|designer|ui\/?ux|software/)) p.rtype = 'Developer / Engineer'; else if (has(/admin/)) p.rtype = 'Administrator'; else if (has(/analyst|data scientist|\bba\b/)) p.rtype = 'Business Analyst'; else if (has(/project manager|program manager|delivery manager|product manager|scrum|\bpm\b/)) p.rtype = 'Project Manager / Product Owner'; else if (has(/team of|multiple|several/)) p.rtype = 'Multiple Roles';
       if (has(/principal|staff|10\+|lead /)) p.sen = LIST.sen[3]; else if (has(/senior|sr\.? |experienced/)) p.sen = LIST.sen[2]; else if (has(/mid[- ]?level|mid /)) p.sen = LIST.sen[1]; else if (has(/junior|entry/)) p.sen = LIST.sen[0];
@@ -12110,7 +12143,7 @@
       const finish = () => {
         const p = aiParse(txt); let fb = false; if (!Object.keys(p).length && txt.trim()) { p.extra = txt.trim().replace(/\s+/g, ' ').slice(0, 250); fb = true } const n = applyAiToForm(p), steps = [...new Set(Object.keys(p).map(k => ({ why: 1, urgency: 1, rtype: 1, sen: 1, hours: 2, start: 2, budgetOk: 2, btype: 2, bamt: 2, sw: 3, prods: 3, tech: 3, extra: 3, certs: 3, otech: 3, wloc: 4 })[k]).filter(Boolean))].sort();
         w.aiBusy = false; if (n) w.aiText = '';
-        w.aiMsg = fb ? `I couldn’t spot specific details (role, hours, budget…), so I added your text to <b>Additional information</b> on step 3. Add more detail and try again to fill the rest.` : n ? `Done — I filled <b>${n} field${n > 1 ? 's' : ''}</b> across step${steps.length > 1 ? 's' : ''} ${steps.join(', ')}. Review each step and edit anything that’s off.` : `I couldn’t pull any details from that. Try mentioning the role, seniority, technologies, hours, budget or start date.`;
+        w.aiMsg = fb ? `I couldn’t spot specific details (role, hours, budget…), so I added your text to <b>Describe the project, use cases, and any additional requirements</b> on step 3. Add more detail and try again to fill the rest.` : n ? `Done — I filled <b>${n} field${n > 1 ? 's' : ''}</b> across step${steps.length > 1 ? 's' : ''} ${steps.join(', ')}. Review each step and edit anything that’s off.` : `I couldn’t pull any details from that. Try mentioning the role, seniority, technologies, hours, budget or start date.`;
         stepRender(); if (n) toast('Skai filled ' + n + ' fields in your form');
       };
     }
@@ -12129,7 +12162,6 @@
       const sit = NS.situ || [], why = { Bug: 4, Enhancement: 0, Integration: 0, Strategy: 2, 'Ongoing Support': 1 };
       const sk = sit.find(x => why[x] !== undefined); if (sk !== undefined) p.why = LIST.why[why[sk]];
       const senIx = { Junior: 0, 'Mid-Level': 1, Senior: 2, Principal: 3 }[jd.seniority]; if (senIx !== undefined) p.sen = LIST.sen[senIx];
-      if (p.start && !p.urgency) { const dd = (new Date(p.start) - new Date()) / 864e5; p.urgency = dd <= 7 ? 'Immediately' : dd <= 28 ? 'Soon' : 'Planning' }
       const hrs = parseInt(jd.hours, 10); if (hrs) p.hours = String(hrs);
       const rt = (jd.rate || '').match(/\$?\s?(\d[\d,]*)/); if (rt) { p.budgetOk = 'Yes'; p.btype = /month/i.test(jd.rate) ? 'Monthly budget' : /total/i.test(jd.rate) ? 'Fixed project budget' : 'Target hourly rate'; p.bamt = rt[1].replace(/,/g, '') }
       if (jd.location) { if (/remote/i.test(jd.location)) p.wloc = 'Remote'; else { p.wloc = 'On-site'; p.sloc = jd.location } }
@@ -12145,7 +12177,7 @@
     const aiBan = () => `<div class="aib"><div class="ic">${IC.sparkle}</div><div class="tx"><b>Skip the typing — build this with Skai</b><p>Paste your requirements into the chat and Skai fills the whole form for you. Your answers stay editable.</p></div><button class="btn p" data-a="skai">${IC.sparkle} Create with Skai</button></div>`;
 
     function wizStep() {
-      const d = S.wiz.d, E = S.wiz.err; d.subinds = d.subinds || [];
+      const d = S.wiz.d, E = S.wiz.err; d.subinds = d.subinds || []; d.indx = d.indx || []; mergeTech(d); normBudget(d); if (!d.indx.length && d.ind && d.ind !== NOPREF) d.indx = d.subinds.length ? d.subinds.slice() : ['All ' + d.ind]; if (d.usecases) { d.extra = [d.extra, d.usecases].filter(Boolean).join(' · '); d.usecases = '' }
       const hint = t => `<div class="hint" style="margin:6px 0 0;font-size:12px;color:var(--muted)">${t}</div>`;
       switch (S.wiz.step) {
         case 0: return `<h2>Hiring needs</h2><p>Why you're hiring, and the kind of consultant you need.</p>
@@ -12158,22 +12190,20 @@
           const bt = BT.find(b => b[0] === d.btype);
           return `<h2>Engagement details</h2><p>Hours, timeline and budget.</p>
   ${wf('hours', 'Hours per week', `<div class="amt"><input class="in" type="number" min="1" max="80" style="padding-left:14px" data-w="hours" placeholder="e.g. 40" value="${esc(d.hours)}"><em>hrs / week</em></div>`)}
-  <div class="row2">${wf('start', 'Ideal start date', `<input type="date" class="in" data-w="start" min="${today()}" value="${d.start}">`)}${wf('end', 'Ideal end date', `<input type="date" class="in" data-w="end" min="${d.start || today()}" value="${d.end}" ${d.endNo ? 'disabled' : ''}>${notSure('end')}`)}</div>
-  ${wf('budgetOk', 'Has budget been discussed?', sel('budgetOk', ['Yes', 'Pending approval', 'Not yet'], 'Select…', 1), 1)}
-  ${d.budgetOk ? `<div class="fu">${wf('btype', 'Choose your desired budget type', opts('btype', BT.map(b => [b[0], b[1]])), 1)}
-   ${bt && d.budgetOk === 'Yes' ? wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>$</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`) : ''}</div>` : ''}`
+  <div class="row2">${wf('start', 'Ideal start date', `<input type="date" class="in" data-w="start" min="${today()}" value="${d.start}">`)}${wf('end', 'Estimated End Date', `<input type="date" class="in" data-w="end" min="${d.start || today()}" value="${d.end}" ${d.endNo ? 'disabled' : ''}>${notSure('end')}`)}</div>
+  <label style="display:flex;gap:8px;align-items:center;margin:-6px 0 16px;font-size:13px;cursor:pointer"><input type="checkbox" data-a="exttog" ${d.ext ? 'checked' : ''}><span>Potential for extension</span></label>
+  ${wf('btype', 'What is your estimated budget?', opts('btype', [...BT.map(b => [b[0], b[1]]), ['Not sure yet', 'We can refine this later']]))}
+  ${bt ? `<div class="fu">${wf('bamt', `Your ${bt[2]} budget`, `<div class="amt"><span>$</span><input class="in" type="number" min="0" data-w="bamt" placeholder="0" value="${esc(d.bamt)}"><em>/ ${bt[3]}</em></div>`)}</div>` : ''}`
         }
         case 2: return `<h2>Skill set & experience</h2><p>Tell us what great looks like. Products and must-have skills carry the most weight in matching.</p>
-  ${wf('prods', 'Which products or modules should the consultant have experience with?', ms('prods', prodList(d), 'Search & select products or modules'))}
+  ${wf('prods', 'Which technologies, products, or platforms should the consultant have experience with?', ms('prods', techList(), 'Search & select technologies, products or platforms'))}
   ${imp('prods')}
   ${wf('tech', 'Which technical skills should the consultant have?', ms('tech', skillList(d), 'Search & select skills') + hint('Mark at least one skill as “Must have”. “Preferred” and “Bonus” skills count for less and widen the search.'))}
   ${imp('tech')}
-  <div class="row2">${wf('ind', 'Industry', selg('ind', [NOPREF, ...Object.keys(INDS_TAX)], 'Select an industry'))}${wf('subinds', 'Sub-industries', d.ind && d.ind !== NOPREF ? ms('subinds', INDS_TAX[d.ind] || [], 'Select sub-industries') : '<input class="in" disabled placeholder="Select an industry first">', 1)}</div>
-  ${wf('sw', 'Which software or platforms are involved?', ms('sw', LIST.sw, 'Select software & platforms'), 1)}
-  ${wf('usecases', 'Use cases', tx('usecases', 'e.g. quote-to-cash, renewals automation'), 1)}
-  <div class="row2">${wf('pyrs', 'Years of experience with the products', `<input class="in" type="number" min="0" max="30" data-w="pyrs" placeholder="e.g. 3" value="${esc(d.pyrs)}">`, 1)}${wf('hitech', 'Is this a highly technical role?', sel('hitech', ['Yes', 'No'], 'Select…', 1), 1)}</div>
+  ${isFirm() ? wf('indx', 'What industry experience should the consultant have?', ms('indx', indList(), 'Search & select industries and sub-industries'), 1) : ''}
+  ${wf('pyrs', 'Years of experience with the products', `<input class="in" type="number" min="0" max="30" data-w="pyrs" placeholder="e.g. 3" value="${esc(d.pyrs)}">`, 1)}
   ${wf('certs', 'Certifications', tagin('certs', LIST.certs, 'Type a certification and press Enter, e.g. AWS Solutions Architect – Professional'), 1)}
-  <div class="fld"><label>Additional information</label><textarea class="in" maxlength="250" data-w="extra" placeholder="Anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/250</div></div>`;
+  <div class="fld"><label>Describe the project, use cases, and any additional requirements.</label><textarea class="in" rows="5" maxlength="1000" data-w="extra" placeholder="e.g. quote-to-cash rollout, renewals automation, anything else that helps us match…">${esc(d.extra)}</textarea><div class="cnt2" id="cnt">${d.extra.length}/1000</div></div>`;
         case 3: return `<h2>Work location & time zone</h2><p>Where and when the work happens.</p>
   ${wf('wloc', 'Work style', sel('wloc', LIST.wloc, 'Select work style', 1))}
   ${d.wloc && d.wloc !== 'Remote' ? `<div class="fu">${wf('sloc', 'Address of office', tx('sloc', 'Street, City, State / Country') + (d.wloc === 'On-site' ? hint('On-site work makes location a hard filter — only consultants based near it are matched.') : ''))}${wf('onsite', 'Specify number of days needed onsite per week', `<div class="amt"><input class="in" type="number" min="1" max="7" style="padding-left:14px" data-w="onsite" placeholder="Insert a numeric value" value="${esc(d.onsite)}"><em>per week</em></div>`)}</div>` : ''}
@@ -12242,7 +12272,6 @@
       const d = Object.assign(D0(), { hours: o.hours || '', start: o.start || '', end: o.end || '', endNo: !o.end, wloc: o.wloc || '', sen: o.sen || '', why: o.why || '', sign: o.sign || '', urgency: o.urgency || '' });
       if (o.bamt) { d.budgetOk = 'Yes'; d.btype = 'Target hourly rate'; d.bamt = o.bamt }
       const tl = String(o.title || '');
-      if (!d.urgency && d.start) { const dd = (new Date(d.start) - new Date()) / 864e5; if (!isNaN(dd)) d.urgency = dd <= 7 ? 'Immediately' : dd <= 28 ? 'Soon' : 'Planning' }
       if (!d.rtype) d.rtype = /architect/i.test(tl) ? 'Architect' : /data engineer/i.test(tl) ? 'AI / Data Specialist' : /\b(qa|test)/i.test(tl) ? 'QA Tester' : /admin/i.test(tl) ? 'Administrator' : /analyst/i.test(tl) ? 'Business Analyst' : /project manager|\bpm\b/i.test(tl) ? 'Project Manager / Product Owner' : /develop|engineer|programmer/i.test(tl) ? 'Developer / Engineer' : '';
       if (!d.sen) d.sen = /principal|lead\b|staff/i.test(tl) ? LIST.sen[3] : /senior|sr\b/i.test(tl) ? LIST.sen[2] : /junior|jr\b/i.test(tl) ? LIST.sen[0] : /mid/i.test(tl) ? LIST.sen[1] : '';
       const must = o.must || [], pref = o.pref || [], left = [];
@@ -12386,22 +12415,49 @@
   <div class="wfoot"><button class="btn" data-a="${s.step ? 'sback' : 'backres'}">‹ ${s.step ? 'Go back' : 'Back to results'}</button><span class="sp"></span><button class="btn p" data-a="snext">${s.step ? 'Send invites ' + IC.send : 'Continue'}</button></div></div><div class="stagger" style="display:grid;gap:20px">${side}</div></div>`
     }
 
+    /* ---------- hire confirmation helpers ---------- */
+    const HIRE_NAMES = { 'CC-104': 'Daniel Whitfield', 'CC-117': 'Elena Marchetti', 'CC-122': 'Priya Nair', 'CC-128': 'Marcus Oyelaran', 'CC-131': 'Sofia Lindqvist', 'CC-136': 'Tomás Alvarez' };
+    const hireUser = () => ({ name: [ORG.first, ONB && ONB.last].filter(Boolean).join(' '), title: (ONB && ONB.jobtitle) || '', email: ORG.email });
+    const hireName = id => HIRE_NAMES[id] || id;
+    const hireEnd = (start, dur) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(start || ''), n = parseInt((String(dur).match(/\d+/) || [0])[0]); if (!m || !n) return ''; const d = new Date(+m[1], +m[2] - 1 + n, +m[3]); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') };
+    const hireJd = role => `About the client\n${ORG.name} is a life-sciences company running its commercial and data operations on Salesforce and a cloud data platform. This role supports the next phase of that programme.\n\nProject overview\nDeliver the next phase of the platform roadmap as a ${role}, working alongside the in-house product and engineering teams from design through release and hypercare.\n\nResponsibilities\n- Design and build solutions with the product and engineering teams\n- Review code and mentor other team members\n- Own technical documentation and hand over to the support team\n- Raise risks early and keep stakeholders informed\n\nExpectations\n- Communicate progress and risks clearly\n- Work within the agreed hours and time zone overlap\n- Follow the client's security and delivery standards`;
+
     /* ---------- modals ---------- */
     function modalHtml() {
       const m = S.modal; if (!m) return '';
       const box = b => `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" role="dialog" aria-modal="true">${b}</div></div>`, x = `<button class="x" data-a="closem" aria-label="Close">×</button>`;
+      if (m === 'hiredone') return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" style="width:min(480px,100%);text-align:center" role="dialog" aria-modal="true">${x}<div style="width:48px;height:48px;border-radius:50%;margin:4px auto 12px;display:grid;place-items:center;background:var(--slate-d, #3e566a);color:#fff">${IC.check}</div><h3>Engagement Details Confirmed</h3><p>Thank you! Cloud Club has been notified of your confirmation. We’ll prepare your contract and send it to the authorized signer for electronic signature.</p><div class="mact" style="justify-content:center"><button class="btn p" data-a="closem">Done</button></div></div></div>`;
       if (m === 'hirecfm') {
-        const f = S.hf || {}, E = S.hfe || {}, c = S.ivs[S.hireI], F = (k, label, o = {}) => `<div class="fld ${E[k] ? 'err' : ''}"><label>${label}${o.opt ? '' : '<span class="rq">*</span>'}</label>${o.sel ? `<select class="in" data-hf="${k}">${o.sel.map(v => `<option ${f[k] === v ? 'selected' : ''}>${v}</option>`).join('')}</select>` : o.ro ? `<input class="in" value="${esc(f[k] || '')}" readonly>` : `<input class="in" type="${o.t || 'text'}" data-hf="${k}" placeholder="${esc(o.ph || '')}" value="${esc(f[k] || '')}" ${o.min ? 'min="' + o.min + '"' : ''}>`}<span class="em">${o.bad || 'This field is required'}</span></div>`;
-        return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" style="width:min(640px,100%)" role="dialog" aria-modal="true">${x}<h3>Confirm engagement details</h3><p>Review the details below. Once you confirm, Hunter is notified to prepare your contract and ${esc(c[0])} receives their offer by email.</p>
+        const f = S.hf || {}, E = S.hfe || {}, c = S.ivs[S.hireI], lu = hireUser(), sg = f.authSelf ? lu : { name: f.sname || '', email: f.semail || '' }; if (f.bsame) { f.bname = sg.name; f.bemail = sg.email } const ap = f.tsSame === 'signer' ? sg : f.tsSame === 'billing' ? { name: f.bname, email: f.bemail } : { name: f.tsName, email: f.tsEmail }; const F = (k, label, o = {}) => `<div class="fld ${E[k] ? 'err' : ''}"><label>${label}${o.opt ? '' : '<span class="rq">*</span>'}</label>${o.sel ? `<select class="in" data-hf="${k}">${o.sel.map(v => `<option ${f[k] === v ? 'selected' : ''}>${v}</option>`).join('')}</select>` : o.ro ? `<input class="in" value="${esc(f[k] || '')}" readonly>` : `<input class="in" type="${o.t || 'text'}" data-hf="${k}" placeholder="${esc(o.ph || '')}" value="${esc(f[k] || '')}" ${o.min ? 'min="' + o.min + '"' : ''}>`}<span class="em">${o.bad || 'This field is required'}</span></div>`;
+        return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox" style="width:min(640px,100%)" role="dialog" aria-modal="true">${x}<h3>Confirm engagement details</h3><p>Review the details below. Most details are filled in from your job posting and company profile — review them and edit anything that’s specific to this engagement. Once you confirm, Cloud Club is notified to review it and prepare your contract, and ${esc(c[0])} receives their offer by email.</p>
   <div class="scr" style="max-height:58vh;overflow:auto;padding:2px 4px 2px 0">
-  <div class="row2">${F('cons', 'Consultant', { ro: 1 }).replace('value=""', 'value="' + esc(c[0]) + '"')}${F('title', 'Job title')}</div>
-  <div class="fld"><label>Job description</label><input class="in" value="From your job posting — shared with the consultant in their offer" readonly></div>
-  <div class="row2">${F('start', 'Start date', { t: 'date', min: today() })}${F('dur', 'Duration', { sel: ['1 month', '2 months', '3 months', '4 months', '6 months', '9 months', '12 months', '12+ months'] })}</div>
-  <div class="row2">${F('rate', 'Bill rate ($/hour)', { t: 'number', ph: 'e.g. 120' })}${F('hours', 'Hours per week', { t: 'number', ph: 'e.g. 40' })}</div>
-  <div class="row2">${F('co', 'Company name')}${F('addr', 'Company address', { ph: 'Street, City, State, ZIP' })}</div>
-  <h4 style="margin:6px 0 8px;font-size:13px">Contract signer</h4><div class="row2">${F('sname', 'Full name')}${F('semail', 'Email', { t: 'email', bad: 'Enter a valid email' })}</div>
-  <h4 style="margin:6px 0 8px;font-size:13px">Billing contact</h4><div class="row2">${F('bname', 'Full name')}${F('bemail', 'Email', { t: 'email', bad: 'Enter a valid email' })}</div>${F('bphone', 'Phone', { t: 'tel', opt: 1, ph: '+1 555 0100' })}</div>
-  <div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="hireok">Confirm &amp; hire</button></div></div></div>`
+  <div class="row2">${F('cons', 'Consultant Name', { ro: 1 })}${F('title', 'Job Title')}</div>
+  <div class="fld"><button type="button" class="jdt" data-a="hfjd" aria-expanded="${!!S.hfJd}" style="width:100%"><b>Job Description, Responsibilities &amp; Expectations</b><span>${S.hfJd ? '▴' : '▾'}</span></button>${S.hfJd ? `<textarea class="in" data-hf="jd" rows="10" style="margin-top:8px;resize:vertical;line-height:1.5">${esc(f.jd || '')}</textarea><small style="color:var(--muted)">From your job posting — review and edit before confirming. This is shared with the consultant in their offer.</small>` : ''}</div>
+  <div class="row2">${F('start', 'Anticipated Start Date', { t: 'date', min: today() })}${F('end', 'Anticipated End Date', { t: 'date', min: f.start || today(), bad: 'Choose an end date after the start date' })}</div>
+  <div class="row2">${F('rate', 'Bill rate ($/hour)', { t: 'number', ph: 'e.g. 120' })}${F('hours', 'Estimated Hours per Week', { t: 'number', ph: 'e.g. 40' })}</div>
+  <h4 style="margin:6px 0 8px;font-size:13px">Work location &amp; expectations</h4>
+  <div class="fld ${E.warr ? 'err' : ''}"><label>Work Arrangement<span class="rq">*</span></label><div class="rr" style="display:flex;gap:8px;flex-wrap:wrap">${['Remote', 'Hybrid', 'On-site'].map(o => `<button type="button" class="btn sm ${f.warr === o ? 'p' : ''}" data-a="hfset" data-v="warr|${o}" aria-pressed="${f.warr === o}">${o}</button>`).join('')}</div><span class="em">Choose a work arrangement</span></div>
+  ${f.warr && f.warr !== 'Remote' ? `<div class="row2">${F('osDays', 'On-site Days', { t: 'number', ph: 'e.g. 3', min: 1 })}<div class="fld ${E.osFreq ? 'err' : ''}"><label>Frequency<span class="rq">*</span></label><div class="rr" style="display:flex;gap:8px;flex-wrap:wrap">${['Per week', 'Per month'].map(o => `<button type="button" class="btn sm ${f.osFreq === o ? 'p' : ''}" data-a="hfset" data-v="osFreq|${o}" aria-pressed="${f.osFreq === o}">${o}</button>`).join('')}</div><span class="em">Choose a frequency</span></div></div>
+  ${F('osAddr', 'On-site Work Address', { ph: 'Street, City, State, ZIP' })}
+  ${F('whours', 'Expected Working Hours (include time zone)', { ph: 'e.g. 9:00 AM – 5:00 PM ET' })}
+  <div class="fld"><label>Additional Expectations</label><textarea class="in" data-hf="addl" rows="3" placeholder="Specific office days, occasional travel, or other requirements" style="resize:vertical">${esc(f.addl || '')}</textarea></div>` : f.warr === 'Remote' ? `${F('whours', 'Expected Working Hours &amp; Time Zone', { opt: 1, ph: 'e.g. 9:00 AM – 5:00 PM ET' })}` : ''}
+  <h4 style="margin:6px 0 8px;font-size:13px">Company &amp; contracting information</h4>
+  <div class="row2">${F('co', 'Company Legal Name')}${F('addr', 'Company Legal/Contracting Address', { ph: 'Street, City, State, ZIP' })}</div>
+  <label class="hfck" style="display:flex;gap:8px;align-items:flex-start;margin:0 0 12px;font-size:13px;cursor:pointer"><input type="checkbox" data-a="hftog" data-v="authSelf" ${f.authSelf ? 'checked' : ''} style="margin-top:3px"><span>I am authorized to sign contracts on behalf of my company.</span></label>
+  ${f.authSelf ? `<div class="fld"><label>Authorized signer</label><div style="padding:10px 12px;border:1px solid var(--line, #dfe4e8);border-radius:10px;background:var(--bg-soft, #f8fafb);font-size:13px"><b>${esc(lu.name)}</b>${lu.title ? ' · ' + esc(lu.title) : ''}<br><span style="color:var(--muted)">${esc(lu.email)}</span></div><small style="color:var(--muted)">Taken from your account — the contract will be sent to you for signature.</small></div>` : `<h4 style="margin:6px 0 8px;font-size:13px">Authorized signer</h4><div class="row2">${F('sname', 'Full Name')}${F('stitle', 'Job Title')}</div>${F('semail', 'Email Address', { t: 'email', bad: 'Enter a valid email' })}`}
+  <h4 style="margin:6px 0 8px;font-size:13px">Billing contact</h4>
+  <label class="hfck" style="display:flex;gap:8px;align-items:flex-start;margin:0 0 12px;font-size:13px;cursor:pointer"><input type="checkbox" data-a="hftog" data-v="bsame" ${f.bsame ? 'checked' : ''} style="margin-top:3px"><span>${f.authSelf ? 'Send invoices and billing questions to me.' : 'Send invoices and billing questions to the authorized signer.'}</span></label>
+  ${f.bsame ? `<div class="fld"><label>Billing contact</label><div style="padding:10px 12px;border:1px solid var(--line, #dfe4e8);border-radius:10px;background:var(--bg-soft, #f8fafb);font-size:13px"><b>${esc(sg.name || '—')}</b>${f.authSelf && lu.title ? ' · ' + esc(lu.title) : !f.authSelf && f.stitle ? ' · ' + esc(f.stitle) : ''}<br><span style="color:var(--muted)">${esc(sg.email || '—')}</span></div><small style="color:var(--muted)">Invoices will be sent to this contact.</small></div>` : `<div class="row2">${F('bname', 'Full Name')}${F('bemail', 'Email Address', { t: 'email', bad: 'Enter a valid email' })}</div>`}${F('bphone', 'Phone Number', { opt: 1, t: 'tel', ph: '+1 555 0100' })}
+  <div class="fld ${E.poReq ? 'err' : ''}"><label>Is a Purchase Order required for invoicing?<span class="rq">*</span></label><div class="rr" style="display:flex;gap:8px;flex-wrap:wrap">${['Yes', 'No'].map(o => `<button type="button" class="btn sm ${f.poReq === o ? 'p' : ''}" data-a="hfset" data-v="poReq|${o}" aria-pressed="${f.poReq === o}">${o}</button>`).join('')}</div><span class="em">Choose Yes or No</span></div>
+  ${f.poReq === 'Yes' ? `${F('poNum', 'PO Number', f.poPending ? { opt: 1, ro: 1 } : { opt: 1, ph: 'e.g. PO-100245' })}<label class="hfck" style="display:flex;gap:8px;align-items:flex-start;margin:-6px 0 16px;font-size:13px;cursor:pointer"><input type="checkbox" data-a="hftog" data-v="poPending" ${f.poPending ? 'checked' : ''} style="margin-top:3px"><span>PO pending — will provide later</span></label>` : ''}
+  <div class="fld"><label>Payment Terms<span class="rq">*</span></label><input class="in" value="${esc(f.pterms || 'Net 30')}" readonly><small><button type="button" class="g-link" data-a="hftog" data-v="ptReq" style="border:0;background:none;color:var(--accent);font-weight:700;text-decoration:underline;cursor:pointer;padding:0">${f.ptReq ? 'Keep these terms' : 'Request different payment terms'}</button></small></div>
+  ${f.ptReq ? `${F('ptText', 'Requested payment terms', { ph: 'e.g. Net 45' })}<div class="fld"><label>Explanation</label><textarea class="in" data-hf="ptWhy" rows="2" placeholder="Why do you need different terms?" style="resize:vertical">${esc(f.ptWhy || '')}</textarea></div>` : ''}
+  <h4 style="margin:6px 0 8px;font-size:13px">Timesheet approval &amp; reporting</h4>
+  <div class="fld ${E.tsSame ? 'err' : ''}"><label>Timesheet Approver<span class="rq">*</span></label><div class="rr" style="display:flex;gap:8px;flex-wrap:wrap">${[['signer', 'Same as Authorized Signer'], ['billing', 'Same as Billing Contact'], ['other', 'Someone else']].map(o => `<button type="button" class="btn sm ${f.tsSame === o[0] ? 'p' : ''}" data-a="hfset" data-v="tsSame|${o[0]}" aria-pressed="${f.tsSame === o[0]}">${o[1]}</button>`).join('')}</div><span class="em">Choose a timesheet approver</span></div>
+  ${f.tsSame === 'other' ? `<div class="row2">${F('tsName', 'Full Name')}${F('tsEmail', 'Email Address', { t: 'email', bad: 'Enter a valid email' })}</div>` : f.tsSame ? `<div class="fld"><div style="padding:10px 12px;border:1px solid var(--line, #dfe4e8);border-radius:10px;background:var(--bg-soft, #f8fafb);font-size:13px"><b>${esc(ap.name || '—')}</b><br><span style="color:var(--muted)">${esc(ap.email || '—')}</span></div></div>` : ''}
+  <div class="fld"><label>Who should receive timesheet reports?</label><div class="rr" style="display:flex;gap:8px;flex-wrap:wrap">${['Timesheet Approver', 'Billing Contact', 'Both'].map(o => `<button type="button" class="btn sm ${f.recip === o ? 'p' : ''}" data-a="hfset" data-v="recip|${o}" aria-pressed="${f.recip === o}">${o}</button>`).join('')}</div></div>
+  ${F('addRecip', 'Additional Recipients', { opt: 1, ph: 'Comma-separated email addresses', bad: 'Enter valid email addresses, separated by commas' })}</div>
+  <div class="mact"><button class="btn" data-a="closem">Cancel</button><button class="btn p" data-a="hireok">Confirm Engagement Details</button></div></div></div>`
       }
       if (m === 'pass' && S.ivs[S.passI] && S.ivs[S.passI][6].pass) return `<div class="mov" data-a="closem" data-bg="1"><div class="mbox pmbox" role="dialog" aria-modal="true">${x}${passPanel(S.passI, S.ivs[S.passI][6])}</div></div>`;
       if (m === 'savel' || m === 'slnew' || m === 'savepos') return svModal(box, x);
@@ -12476,8 +12532,8 @@
       if (m.closed) act = `<div class="rnn">${IC.info}<span>Passed on candidate${m.reason ? ' · ' + esc(m.reason) : ''}. Thanks — your feedback helps us improve your matches.</span></div>`;
       else if (m.hired) {
         const stg = m.stage || 'prep', HS = [['Offer sent', 'The consultant has been emailed their offer'], ['Client contract', 'We prepare it and send it for your signature'], ['You sign', 'Sign the contract'], ['Consultant contract', 'Sent once you have signed'], ['Confirmed', 'All agreements signed']], at = { prep: 1, sign: 2, signed: 3 }[stg];
-        const msg = { prep: `<b>Hire request received.</b> Hunter has been notified and is preparing your client contract. ${esc(c[0])} has been emailed their offer.`, sign: `<b>Your contract is ready.</b> Please review and sign it. The consultant’s agreement is sent once you have signed.`, signed: `<b>Contract signed.</b> Hunter has been notified and is preparing ${esc(c[0])}’s agreement. We’ll confirm the engagement once all agreements are signed.` }[stg];
-        act = `<div class="rnp" style="flex-direction:column;align-items:stretch;gap:12px"><div class="hst">${HS.map((h, k) => `<div class="hs ${k < at ? 'ok' : k === at ? 'on' : ''}"><i>${k < at ? IC.check : k + 1}</i><div><b>${h[0]}</b><small>${h[1]}</small></div></div>`).join('')}</div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:240px">${msg}</span>${stg === 'sign' ? `<button class="btn p sm" data-a="hiresign" data-v="${i}">Review &amp; sign contract</button>` : ''}${stg === 'prep' ? `<button class="btn sm" data-a="hireprep" data-v="${i}" title="Prototype only: simulates Hunter sending the contract">Preview next step</button>` : ''}</div></div>`
+        const msg = { prep: `<b>Engagement details confirmed.</b> Cloud Club has been notified and will review them, then prepare your contract for the authorized signer. ${esc(c[0])} has been emailed their offer.`, sign: `<b>Your contract is ready.</b> Please review and sign it. The consultant’s agreement is sent once you have signed.`, signed: `<b>Contract signed.</b> Hunter has been notified and is preparing ${esc(c[0])}’s agreement. We’ll confirm the engagement once all agreements are signed.` }[stg];
+        act = `<div class="rnp" style="flex-direction:column;align-items:stretch;gap:12px"><div class="hst">${HS.map((h, k) => `<div class="hs ${k < at ? 'ok' : k === at ? 'on' : ''}"><i>${k < at ? IC.check : k + 1}</i><div><b>${h[0]}</b><small>${h[1]}</small></div></div>`).join('')}</div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:240px">${msg}</span>${stg === 'sign' ? `<button class="btn p sm" data-a="hiresign" data-v="${i}">Review &amp; sign contract</button>` : ''}${stg === 'prep' ? `<button class="btn sm" data-a="hireprep" data-v="${i}" title="Prototype only: simulates Hunter sending the contract">Preview next step</button>` : ''}</div>${(() => { const h = m.hs || {}, o = []; if (h.poReq === 'Yes') o.push(`<div class="hflag" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 12px;border-radius:10px;background:${h.poNum ? 'var(--slate-tint, #eef3f7)' : '#fff6e5'};font-size:12.5px"><span style="flex:1;min-width:200px">${h.poNum ? '<b>PO number:</b> ' + esc(h.poNum) : '<b>PO required for invoicing — not provided yet.</b> Add it any time, even after the contract is signed.'}</span><input class="in" id="po-${i}" placeholder="${h.poNum ? 'Update PO number' : 'PO number'}" style="width:170px"><button class="btn sm" data-a="hfpo" data-v="${i}">${h.poNum ? 'Update' : 'Save PO'}</button></div>`); if (h.ptReq) o.push(`<div class="hflag" style="padding:8px 12px;border-radius:10px;background:#fff6e5;font-size:12.5px"><b>Payment terms request pending.</b> You asked for ${esc(h.ptText)}. Cloud Club will review it — your contract uses ${esc(h.pterms || 'Net 30')} until it is approved.</div>`); return o.join('') })()}</div>`
       }
       else if (m.hold) inl = `<span class="rnact"><button class="btn sm" data-a="ivresumeh" data-v="${i}">Resume</button></span>`;
       else if (m.prompt) act = `<div class="rnp"><div><b>How did ${cur === 1 && m.total === 1 ? 'the interview' : 'round ' + cur} go?</b><p>${cur === 1 && m.total === 1 ? 'Need to talk again? Schedule another interview with the same interviewers and format.' : 'Round ' + (cur + 1) + ' reuses the interviewers and format from round ' + cur + '. Add as many rounds as you need.'}</p></div><div class="rr"><button class="btn p sm" data-a="hirereq" data-v="${i}">Hire Consultant</button><button class="btn sm" data-a="ivnext" data-v="${i}">${cur === 1 && m.total === 1 ? 'Schedule another interview' : 'Move to round ' + (cur + 1)}</button><button class="btn sm" data-a="ivhold" data-v="${i}">Hold</button><button class="btn sm" data-a="ivnofitq" data-v="${i}">Pass on Candidate</button></div></div>`;
@@ -13123,7 +13179,7 @@
       ['sen', d => !d.sen, 'What seniority level do you prefer? (Junior, Mid-Level, Senior-Level or Principal)'],
       ['hours', d => !d.hours, 'How many hours per week? (' + ol('hours') + ')'],
       ['start', d => !d.start && !d.startNo, 'What is your ideal start date?'],
-      ['end', d => !d.end && !d.endNo, 'What is your ideal end date? (or say “not sure yet”)'],
+      ['end', d => !d.end && !d.endNo, 'What is your estimated end date? (or say “not sure yet”)'],
       ['budgetOk', d => !d.budgetOk, 'Has budget been discussed? (Yes, Pending approval or Not yet)'],
       ['btype', d => d.budgetOk && !d.btype, 'Choose your desired budget type — Fixed project budget, Monthly budget or Target hourly rate.'],
       ['budget', d => d.budgetOk === 'Yes' && d.btype && !d.bamt, d => `What is your ${(BT.find(b => b[0] === d.btype) || ['', '', 'hourly'])[2]} budget?`],
@@ -13339,6 +13395,7 @@
     document.addEventListener('input', e => { const jf = e.target.dataset && e.target.dataset.jdf; if (jf && NS) { NS.jd[jf] = e.target.value; NS.pct = Math.max(NS.pct, jdPct(NS.jd)); rafRender(); return } const k = e.target.dataset && e.target.dataset.iin; if (!k || !INTAKE) return; INTAKE[k] = e.target.value; delete INTAKE.err[k]; e.target.closest('.isec')?.classList.remove('err') });
     document.addEventListener('keydown', e => {
       const el = e.target; if (!el) return;
+      if (el.dataset && el.dataset.gaddskill !== undefined && e.key === 'Enter') { e.preventDefault(); gaddcustom(el.closest('.g-bub')); return }
       if (el.id === 'chatInput' && e.key === 'Enter') { sendMessage(); return }
       if (el.id && el.id.startsWith('ti-') && e.key === 'Enter') { e.preventDefault(); el.closest('.cu').querySelector('[data-a=tagadd]').click(); return }
       if (el.id && el.id.startsWith('cu-') && e.key === 'Enter') { e.preventDefault(); el.closest('.cu').querySelector('[data-a=custadd]').click(); return }
@@ -13370,12 +13427,10 @@
       { k: 'seniority', label: 'Seniority', q: 'What seniority level do you prefer?', opts: LIST.sen },
       { k: 'hours', label: 'Hours per week', q: 'How many hours per week?', opts: ['10', '20', '30', '40'], unit: ' hrs / week', custom: { type: 'number', ph: 'Other (hours)' } },
       { k: 'start', label: 'Ideal start date', q: 'What is your ideal start date?', opts: ['As soon as possible', 'In 2–4 weeks', 'In 1–2 months'] },
-      { k: 'duration', label: 'Ideal end date', q: 'What is your ideal end date? Pick how long the engagement should run.', opts: ['1–3 months', '3–6 months', '6–12 months', '12+ months', 'Not sure yet'] },
-      { k: 'budgetOk', label: 'Budget discussed', q: 'Has budget been discussed?', opts: ['Yes', 'Pending approval', 'Not yet'] },
-      { k: 'btype', label: 'Budget type', q: 'Choose your desired budget type', opts: ['Fixed project budget', 'Monthly budget', 'Target hourly rate'], skip: A => gOpen(A.budgetOk) },
-      { k: 'rate', label: 'Budget amount', q: A => gRateQ[gBt(A)][0], s: 'An estimate is fine — you can refine it later.', opts: A => gRateQ[gBt(A)][1], custom: { type: 'text', ph: 'Or type your own' }, skip: A => A.budgetOk !== 'Yes' },
-      { k: 'sw', label: 'Software / platforms', q: 'Which software or platforms should the consultant have experience with?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another platform', opts: gOpts(LIST.sw) },
-      { k: 'prods', label: 'Products / services', q: 'Which products or services should the consultant have experience with?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another product', opts: A => gOpts(prodList({ sw: A.sw || [] })).slice(0, 18), skip: A => gOpen(A.sw) },
+      { k: 'duration', label: 'Estimated end date', q: 'How long do you expect this engagement to last?', special: 'duration', opts: ['1 month', '2 months', '3 months', '6 months', '9 months', '12 months', '12+ months', 'Not sure yet'] },
+      { k: 'btype', label: 'Estimated budget', q: 'What is your estimated budget?', opts: ['Fixed project budget', 'Monthly budget', 'Target hourly rate', 'Not sure yet'] },
+      { k: 'rate', label: 'Budget amount', q: A => gRateQ[gBt(A)][0], s: 'An estimate is fine — you can refine it later.', opts: A => gRateQ[gBt(A)][1], custom: { type: 'text', ph: 'Or type your own' }, skip: A => gOpen(A.btype) || A.btype === 'Not sure yet' },
+      { k: 'prods', label: 'Technologies, products & platforms', q: 'Which technologies, products, or platforms should the consultant have experience with?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another', opts: gOpts(LIST.sw) },
       { k: 'skills', label: 'Skills', q: 'Which skills should the consultant have?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another skill', opts: ['Python', 'SQL', 'Terraform', 'Kubernetes', 'Docker', 'CI/CD', 'API Development', 'JavaScript', 'TypeScript', 'React', 'Node.js', 'DevOps'] },
       { k: 'certs', label: 'Preferred certifications', q: 'Do you have any preferred certifications?', s: 'Pick all that apply, or add your own.', multi: true, add: 'Add another certification', opts: LIST.certs },
       { k: 'location', label: 'Work location', q: 'What is the work location?', opts: LIST.wloc },
@@ -13385,7 +13440,7 @@
       { k: 'tzs', label: 'Working time zones', q: 'Which working time zones are acceptable?', opts: gOpts(LIST.tzs).filter(o => /Eastern Time|Central Time \(US|Pacific Time|Mountain Time|London|Paris|Berlin|India|Singapore|Sydney/.test(o)), skip: A => A.location !== 'Remote' },
       { k: 'meet', label: 'Meeting frequency', q: 'How often will meetings be required?', opts: LIST.meet }
     ];
-    const GGROUPS = [['Why & who', ['why', 'rtype', 'seniority']], ['The engagement', ['hours', 'start', 'duration', 'budgetOk', 'btype', 'rate']], ['Skills & location', ['sw', 'prods', 'skills', 'certs', 'location', 'sloc', 'onsite', 'regions', 'tzs', 'meet']]];
+    const GGROUPS = [['Why & who', ['why', 'rtype', 'seniority']], ['The engagement', ['hours', 'start', 'duration', 'btype', 'rate']], ['Skills & location', ['prods', 'skills', 'certs', 'location', 'sloc', 'onsite', 'regions', 'tzs', 'meet']]];
     const gva = (v, A) => typeof v === 'function' ? v(A) : v;
     const gAct = A => GQ.filter(q => !(q.skip && q.skip(A)));
     const gTot = A => gAct(A).length;
@@ -13394,10 +13449,13 @@
     const gq = k => GQ.find(x => x.k === k);
     const gHas = k => G.A[k] && G.A[k].length;
     const gval = k => Array.isArray(G.A[k]) ? G.A[k].join(', ') : G.A[k];
-    const gunit = k => { const q = gq(k), v = gval(k); return v && q.unit && /^\d+$/.test(v) ? v + q.unit : v };
+    const gStartISO = A => { const v = String(A.start || ''), st = /2.4 weeks/.test(v) ? 21 : /1.2 months/.test(v) ? 45 : /as soon|asap/i.test(v) ? 7 : null; if (st === null) { const t = new Date(v); if (v && !isNaN(t)) return isoDate(t) } const t = new Date(); t.setDate(t.getDate() + (st === null ? 7 : st)); return isoDate(t) };
+    const gAddMonths = (iso, n) => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(iso || ''); return m ? isoDate(new Date(+m[1], +m[2] - 1 + n, +m[3])) : '' };
+    const gIsoD = v => /^\d{4}-\d\d-\d\d$/.test(v || '');
+    const gunit = k => { const q = gq(k), v = gval(k); if (k === 'duration' && gIsoD(v)) return fmtDate(v) + (G && G.A.dext ? ' · potential for extension' : ''); return v && q.unit && /^\d+$/.test(v) ? v + q.unit : v };
     const gCount = g => gAct(g.A).filter(q => g.A[q.k] && g.A[q.k].length).length;
     const gFeed = () => document.getElementById('gfFeed');
-    const GSTEP = { why: 0, rtype: 0, seniority: 0, hours: 1, start: 1, duration: 1, budgetOk: 1, btype: 1, rate: 1, sw: 2, prods: 2, skills: 2, certs: 2, location: 3, sloc: 3, onsite: 3, regions: 3, tzs: 3, meet: 3 };
+    const GSTEP = { why: 0, rtype: 0, seniority: 0, hours: 1, start: 1, duration: 1, btype: 1, rate: 1, prods: 2, skills: 2, certs: 2, location: 3, sloc: 3, onsite: 3, regions: 3, tzs: 3, meet: 3 };
     const gSegs = () => {
       const act = gAct(G.A), per = STEPS.map((_, i) => { const qs = act.filter(q => GSTEP[q.k] === i); return { t: qs.length, d: qs.filter(q => gHas(q.k)).length } });
       const cur = per.findIndex(x => x.d < x.t);
@@ -13414,6 +13472,14 @@
     function gprog() {
       const n = gCount(G), set = (id, h, t) => { const el = document.getElementById(id); if (el) t ? el.textContent = h : el.innerHTML = h };
       set('gfProg', n + ' of ' + gTot(G.A) + ' details captured', 1); set('gfDrSub', n + ' of ' + gTot(G.A) + ' details captured', 1); set('gfSegs', gSegs()); set('gfDrBody', gDrawer());
+    }
+    document.addEventListener('change', e => { const t = e.target; if (t && t.matches && t.matches('[data-gdate]')) { const b = t.closest('.g-bub'); b.querySelectorAll('[data-gdur]').forEach(x => x.classList.remove('on')); const h = b.querySelector('[data-gdhint]'); if (h) h.textContent = '' } });
+    function gmcount(bub) { if (!bub) return; const n = bub.querySelectorAll('.g-opt.on').length, b = bub.querySelector('[data-gmultidone]'), c = bub.querySelector('[data-gcnt]'); if (c) c.textContent = n; if (b) b.disabled = !n }
+    function gaddcustom(bub) {
+      const i = bub.querySelector('[data-gaddskill]'), box = bub.querySelector('.g-opts'); if (!i || !box) return;
+      const parts = i.value.split(',').map(t => t.trim()).filter(Boolean); if (!parts.length) { i.focus(); return }
+      parts.forEach(v => { const ex = [...box.querySelectorAll('.g-opt')].find(b => b.dataset.gopt.toLowerCase() === v.toLowerCase()); if (ex) { ex.classList.add('on'); return } const b = document.createElement('button'); b.className = 'g-opt on'; b.dataset.gopt = v; b.textContent = v; box.appendChild(b) });
+      i.value = ''; i.focus(); gmcount(bub); gsync()
     }
     function gsync() { const f = gFeed(); if (f) G.html = f.innerHTML; gprog() }
     function gscroll() { setTimeout(() => { const f = gFeed(); if (f) f.scrollTo({ top: f.scrollHeight, behavior: 'smooth' }) }, 60) }
@@ -13450,13 +13516,13 @@
       const x = t.toLowerCase(), p = {};
       const sen = x.match(/principal|staff|senior|sr\.|mid[- ]?level|junior|entry/); if (sen) p.seniority = LIST.sen[/principal|staff/.test(sen[0]) ? 3 : /senior|sr\./.test(sen[0]) ? 2 : /mid/.test(sen[0]) ? 1 : 0];
       const h = x.match(/(\d{1,2})\s*(?:hrs?|hours?)\b/); if (h) p.hours = String(Math.min(80, +h[1])); else if (/full[- ]?time/.test(x)) p.hours = '40';
-      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) { p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour'; p.budgetOk = 'Yes'; p.btype = 'Target hourly rate' }
+      const r = x.match(/\$\s?(\d{2,3})(?:\s*[-–]\s*\$?(\d{2,3}))?\s*(?:\/|per|an)?\s*(?:hr|hour)?/); if (r) { p.rate = '$' + r[1] + (r[2] ? '–' + r[2] : '') + '/hour'; p.btype = 'Target hourly rate' }
       if (/remote/.test(x)) p.location = 'Remote'; else if (/hybrid/.test(x)) p.location = 'Hybrid'; else if (/on[- ]?site/.test(x)) p.location = 'On-site';
       const w = x.match(/in (\d+)\s*weeks?/); if (w) p.start = +w[1] <= 1 ? 'As soon as possible' : +w[1] <= 4 ? 'In 2–4 weeks' : 'In 1–2 months'; else if (/asap|immediately|right away/.test(x)) p.start = 'As soon as possible'; else if (/next month/.test(x)) p.start = 'In 2–4 weeks';
-      const d = x.match(/(\d+)\s*(?:-|to|–)?\s*(\d+)?\s*months?/); if (d) { const n = +(d[2] || d[1]); p.duration = n <= 3 ? '1–3 months' : n <= 6 ? '3–6 months' : n <= 12 ? '6–12 months' : '12+ months' }
+      const d = x.match(/(\d+)\s*(?:-|to|–)?\s*(\d+)?\s*months?/); if (d) { const n = +(d[2] || d[1]); p.duration = gAddMonths(gStartISO({ start: p.start || (G && G.A.start) }), n); if (/extension|extend|possibly longer|or longer/.test(x)) p.dext = true }
       if (/replac/.test(x)) p.why = LIST.why[3]; else if (/rescue|stabili[sz]e|troubleshoot/.test(x)) p.why = LIST.why[4]; else if (/capacity|extra hands|augment/.test(x)) p.why = LIST.why[1]; else if (/specialist|expertise we lack/.test(x)) p.why = LIST.why[2]; else if (/migrat|implement|new platform|build/.test(x)) p.why = LIST.why[0];
       if (/data engineer/.test(x)) p.rtype = 'AI / Data Specialist'; else if (/architect/.test(x)) p.rtype = 'Architect'; else if (/\bqa\b|tester/.test(x)) p.rtype = 'QA Tester'; else if (/developer|engineer|programmer/.test(x)) p.rtype = 'Developer / Engineer'; else if (/admin/.test(x)) p.rtype = 'Administrator'; else if (/analyst/.test(x)) p.rtype = 'Business Analyst'; else if (/project manager|product owner/.test(x)) p.rtype = 'Project Manager / Product Owner';
-      const sw = Object.keys(SKMAP.sw).filter(k => SKMAP.sw[k].test(x) && gOpts(LIST.sw).includes(k)); if (sw.length) p.sw = sw;
+      const sw = Object.keys(SKMAP.sw).filter(k => SKMAP.sw[k].test(x) && gOpts(LIST.sw).includes(k)); if (sw.length) p.prods = sw;
       const sk = gq('skills').opts.filter(k => SKMAP.tech[k] ? SKMAP.tech[k].test(x) : x.includes(k.toLowerCase())); if (sk.length) p.skills = sk;
       return p
     }
@@ -13477,17 +13543,26 @@
       else gbot('<p>I couldn’t pick out specific details from that — no problem, I’ll just ask you a few quick questions.</p>');
       G.busy = false; gnext()
     }
+    function gaskDuration(isEdit, n) {
+      const q = gq('duration'), cur = G.A.duration, iso = gIsoD(cur) ? cur : '', st = gStartISO(G.A);
+      gbot(`<div class="g-qh">${isEdit ? 'Update' : 'Question ' + Math.min(n, gTot(G.A)) + ' of ' + gTot(G.A)}</div><div class="g-qt">${q.q}</div><div class="g-qs">Pick a length to calculate it from your start date, or choose the date yourself.</div>
+    <div class="g-opts" data-q="duration">${q.opts.map(o => `<button class="g-opt ${cur === o ? 'on' : ''}" data-gdur="${o}">${o}</button>`).join('')}</div>
+    <div class="g-cust" style="flex-direction:column;align-items:stretch;gap:6px"><label style="font-size:12.5px;font-weight:600">Estimated end date</label><input type="date" data-gdate min="${st}" value="${iso}"><small data-gdhint style="color:var(--muted)">${iso ? '' : 'Starts around ' + fmtDate(st)}</small></div>
+    <label style="display:flex;gap:8px;align-items:center;margin:8px 0;font-size:13px;cursor:pointer"><input type="checkbox" data-gext ${G.A.dext ? 'checked' : ''}><span>Potential for extension</span></label>
+    <div class="g-row"><button class="btn p" data-gdurdone>Use this</button></div>`)
+    }
     function gnext() { const q = gAct(G.A).find(x => !gHas(x.k)); if (!q) return greview(); gask(q.k) }
     function gask(k, isEdit) {
       const q = gq(k); G.cur = k; G.editing = !!isEdit;
       const n = gCount(G) + 1, sel = Array.isArray(G.A[k]) ? G.A[k] : [];
+      if (q.special === 'duration') return gaskDuration(isEdit, n);
       gbot(`<div class="g-qh">${isEdit ? 'Update' : 'Question ' + Math.min(n, gTot(G.A)) + ' of ' + gTot(G.A)}</div><div class="g-qt">${gva(q.q, G.A)}</div>${q.s ? `<div class="g-qs">${q.s}</div>` : ''}
-    <div class="g-opts" data-q="${k}">${gva(q.opts, G.A).map(o => `<button class="g-opt ${sel.includes(o) ? 'on' : ''}" data-gopt="${esc(o)}">${esc(o)}${q.unit && /^\d+$/.test(o) ? q.unit : ''}</button>`).join('')}</div>
+    <div class="g-opts" data-q="${k}" ${q.multi ? 'data-multi' : ''}>${[...gva(q.opts, G.A), ...(q.multi ? sel.filter(x => !gva(q.opts, G.A).includes(x) && x !== 'To be confirmed') : [])].map(o => `<button class="g-opt ${sel.includes(o) ? 'on' : ''}" data-gopt="${esc(o)}">${esc(o)}${q.unit && /^\d+$/.test(o) ? q.unit : ''}</button>`).join('')}</div>
     ${q.custom ? `<div class="g-cust"><input type="${q.custom.type}" ${q.custom.type === 'number' ? 'min="1" max="80"' : ''} placeholder="${q.custom.ph}"><button class="btn sm" data-gusecust="${k}">Use this</button></div>` : ''}
-    ${q.multi ? `<div class="g-cust"><input type="text" placeholder="${q.add || 'Add another'}" data-gaddskill><button class="btn sm" data-gaddskillbtn>Add</button></div><div class="g-row"><button class="btn p" data-gmultidone>Continue</button></div>` : ''}`)
+    ${q.multi ? `<div class="g-cust"><input type="text" placeholder="${q.add || 'Add another'}" data-gaddskill><button class="btn sm" data-gaddskillbtn>Add</button></div><div class="g-row"><button class="btn p" data-gmultidone ${sel.length ? '' : 'disabled'}>Add selected</button></div>` : ''}`)
     }
     const GACK = {
-      why: v => `Thanks — <b>${esc(v)}</b>. That helps me understand how urgent and how specialised this hire is.`,
+      why: v => `Thanks — <b>${esc(v)}</b>. That helps me understand how specialised this hire is.`,
       seniority: v => `<b>${esc(v)}</b> level — noted. I’ll focus on consultants with that depth of experience.`,
       hours: v => `<b>${esc(v)}</b> — great, I’ll look for consultants who have that availability.`,
       start: v => `<b>${esc(v)}</b> — noted. I’ll prioritise consultants who can start in that window.`,
@@ -13537,20 +13612,18 @@
       Object.assign(x, { posted: true, kind: 'wiz', via: 'skai', g: null, ns: null, wiz: null, jt: G.role || G.name, n: nm ? 0 : CANDIDATES.length, reach: false, starts: '—', snippet: nm ? 'Job posted — no matching consultants yet. Our team can help source candidates.' : 'Job posted — ' + CANDIDATES.length + ' consultants matched. Review your shortlist.' });
       const num = s => (String(s || '').replace(/,/g, '').match(/\d+/) || [])[0], dt = new Date(), addD = n => { const t = new Date(dt); t.setDate(t.getDate() + n); return t };
       const st = /2.4 weeks/.test(A.start) ? 21 : /1.2 months/.test(A.start) ? 45 : 7, mo = num(String(A.duration || '').split(/[–-]/).pop());
-      const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? (LIST.sen.find(s => s === A.seniority) || '') : '', why: A.why ? (LIST.why.find(r => r === A.why) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
+      const w = skaiWiz(x, { title: G.role || G.name, hours: num(A.hours), bamt: num(A.rate), start: isoDate(addD(st)), end: gIsoD(A.duration) ? A.duration : mo ? isoDate(new Date(addD(st).setMonth(addD(st).getMonth() + +mo))) : '', wloc: A.location, sen: A.seniority ? (LIST.sen.find(s => s === A.seniority) || '') : '', why: A.why ? (LIST.why.find(r => r === A.why) || '') : '', sign: A.signoff ? (LIST.sign.find(r => r.startsWith(A.signoff.split(' ')[0])) || '') : '', must: Array.isArray(A.skills) ? A.skills.filter(k => k !== 'To be confirmed') : [] });
       w.d.sw = w.d.sw || []; 
       { const d = w.d, ok = v => !gOpen(v);
-        if (ok(A.rtype)) d.rtype = A.rtype;
-        if (ok(A.budgetOk)) d.budgetOk = A.budgetOk; if (ok(A.btype)) d.btype = A.btype;
-        if (A.budgetOk === 'Yes' && num(A.rate)) { d.bamt = num(A.rate); d.btype = A.btype || 'Target hourly rate' } else if (A.budgetOk && A.budgetOk !== 'Yes') { d.bamt = '' }
-        if (ok(A.sw)) A.sw.forEach(v => { if (LIST.sw.includes(v)) { if (!d.sw.includes(v)) d.sw.push(v) } else d.osw = [...custList(d.osw), v].join(', ') });
-        if (ok(A.prods)) { const all = new Set(gOpts(prodList({ sw: d.sw }))); A.prods.forEach(v => { if (all.has(v)) { if (!d.prods.includes(v)) { d.prods.push(v); d.pimp[v] = 'Must have' } } else d.oprod = [...custList(d.oprod), v].join(', ') }) }
+        if (ok(A.rtype)) d.rtype = A.rtype; d.ext = !!A.dext;
+        if (ok(A.btype)) { d.btype = A.btype; d.budgetOk = A.btype === 'Not sure yet' ? 'Not yet' : 'Yes'; d.bamt = A.btype !== 'Not sure yet' && num(A.rate) ? num(A.rate) : '' }
+        if (ok(A.prods)) { const all = new Set(techList().filter(x => x[0] !== '#')); A.prods.forEach(v => { if (LIST.sw.includes(v)) { if (!d.sw.includes(v)) d.sw.push(v) } if (LIST.sw.includes(v) || all.has(v)) { if (!d.prods.includes(v)) { d.prods.push(v); d.pimp[v] = 'Must have' } } else d.oprod = [...custList(d.oprod), v].join(', ') }) }
         if (ok(A.certs)) A.certs.forEach(v => { if (!d.certs.includes(v)) { d.certs.push(v); d.cimp[v] = 'Preferred' } });
         if (A.location !== 'Remote') { if (ok(A.sloc)) d.sloc = A.sloc; if (ok(A.onsite)) d.onsite = num(A.onsite) } else { if (ok(A.regions)) d.regions = A.regions.filter(v => LIST.regions.includes(v)); if (ok(A.tzs)) d.tzs = A.tzs }
         if (ok(A.meet)) d.meet = A.meet;
         syncOther(d) }
       if (G.carry) {
-        const C = G.carry, map = { why: ['why'], seniority: ['sen'], hours: ['hours'], start: ['start'], duration: ['end', 'endNo'], rate: ['bamt', 'btype', 'budgetOk'], location: ['wloc'], skills: ['tech', 'timp', 'otech'], rtype: ['rtype'], budgetOk: ['budgetOk'], btype: ['btype'], sw: ['sw', 'osw'], prods: ['prods', 'pimp', 'oprod'], certs: ['certs', 'cimp'], sloc: ['sloc'], onsite: ['onsite'], regions: ['regions', 'oreg'], tzs: ['tzs'], meet: ['meet'] }, used = new Set(Object.values(map).flat());
+        const C = G.carry, map = { why: ['why'], seniority: ['sen'], hours: ['hours'], start: ['start'], duration: ['end', 'endNo', 'ext'], rate: ['bamt', 'btype', 'budgetOk'], location: ['wloc'], skills: ['tech', 'timp', 'otech'], rtype: ['rtype'], budgetOk: ['budgetOk'], btype: ['btype'], sw: ['sw', 'osw'], prods: ['prods', 'pimp', 'oprod'], certs: ['certs', 'cimp'], sloc: ['sloc'], onsite: ['onsite'], regions: ['regions', 'oreg'], tzs: ['tzs'], meet: ['meet'] }, used = new Set(Object.values(map).flat());
         Object.keys(map).forEach(k => { if (JSON.stringify(G.A[k]) === JSON.stringify(G.seed[k])) map[k].forEach(f => { if (C[f] !== undefined) w.d[f] = C[f] }) });
         Object.keys(C).forEach(f => { if (used.has(f) || f === 'sign') return; const v = C[f], e = w.d[f]; if (v && (!e || (Array.isArray(e) && !e.length) || (typeof e === 'object' && !Array.isArray(e) && !Object.keys(e).length))) w.d[f] = v })
       }
@@ -13573,10 +13646,12 @@
       if (c('#gSample')) { $g('#gIntro').value = GSAMPLE; $g('#gIntro').focus(); return }
       if (c('#gGo')) { const v = $g('#gIntro').value.trim(); if (!v) { $g('#gIntro').focus(); toast('Describe the role first, or skip to answer questions'); return } c('.g-bub').classList.add('done-card'); ganalyse(v); return }
       if (c('#gSkip')) { c('.g-bub').classList.add('done-card'); gme('Skip — ask me questions'); gbot('<p>Sure — I’ll ask a few quick questions, one at a time.</p>'); setTimeout(gnext, 450); return }
-      if ((el = c('[data-gopt]'))) { const k = el.closest('.g-opts').dataset.q; if (gq(k).multi) { el.classList.toggle('on'); gsync(); return } ganswer(k, el.dataset.gopt); return }
+      if ((el = c('[data-gdur]'))) { const bub = c('.g-bub'), v = el.dataset.gdur, di = bub.querySelector('[data-gdate]'), ex = bub.querySelector('[data-gext]'), hint = bub.querySelector('[data-gdhint]'); bub.querySelectorAll('[data-gdur]').forEach(b => b.classList.toggle('on', b === el)); if (v === 'Not sure yet') { di.value = ''; hint.textContent = 'No date — you can set one later.' } else { const m = parseInt(v), st = gStartISO(G.A); di.value = gAddMonths(st, m); hint.textContent = 'Calculated from your start date (' + fmtDate(st) + ') — edit it if needed.'; if (/\+/.test(v)) ex.checked = true } return }
+      if (c('[data-gdurdone]')) { const bub = c('.g-bub'), di = bub.querySelector('[data-gdate]'), ex = bub.querySelector('[data-gext]'), ns = bub.querySelector('[data-gdur="Not sure yet"].on'); if (!di.value && !ns) { toast('Pick a length or choose a date'); return } G.A.dext = !!ex.checked; if (!di.value) { G.A.dext = false; ganswer('duration', 'Not sure yet'); return } ganswer('duration', di.value, fmtDate(di.value) + (ex.checked ? ' · potential for extension' : '')); return }
+      if ((el = c('[data-gopt]'))) { const k = el.closest('.g-opts').dataset.q; if (gq(k).multi) { el.classList.toggle('on'); gmcount(el.closest('.g-bub')); gsync(); return } ganswer(k, el.dataset.gopt); return }
       if ((el = c('[data-gusecust]'))) { const k = el.dataset.gusecust, i = el.closest('.g-cust').querySelector('input'), v = i.value.trim(); if (!v) { i.focus(); return } ganswer(k, v, gq(k).unit && /^\d+$/.test(v) ? v + gq(k).unit : v); return }
-      if (c('[data-gaddskillbtn]')) { const i = c('.g-bub').querySelector('[data-gaddskill]'), v = i.value.trim(); if (!v) return; const b = document.createElement('button'); b.className = 'g-opt on'; b.dataset.gopt = v; b.textContent = v; c('.g-bub').querySelector('.g-opts').appendChild(b); i.value = ''; gsync(); return }
-      if (c('[data-gmultidone]')) { const sel = [...c('.g-bub').querySelectorAll('.g-opt.on')].map(b => b.dataset.gopt); if (!sel.length) { toast('Pick at least one option'); return } ganswer(G.cur, sel); return }
+      if (c('[data-gaddskillbtn]')) { gaddcustom(c('.g-bub')); return }
+      if (c('[data-gmultidone]')) { const sel = [...c('.g-bub').querySelectorAll('.g-opt.on')].map(b => b.dataset.gopt); if (!sel.length) return; ganswer(G.cur, sel); return }
       if ((el = c('[data-gchange]'))) { G.drawer = false; gdrawer(); const k = el.dataset.gchange; gme('Change ' + gq(k).label.toLowerCase()); gbot('<p>Sure — let’s update that.</p>'); gask(k, true); return }
       if ((el = c('[data-gleave]'))) { if (G.busy) return; const k = el.dataset.gleave; el.closest('.g-bub').classList.add('done-card'); document.querySelectorAll('.g-opts[data-q="' + k + '"]').forEach(o => o.closest('.g-bub').classList.add('done-card')); G.cur = null; G.A[k] = gq(k).multi ? ['To be confirmed'] : 'To be confirmed'; gprog(); gme('Leave it open for now'); G.busy = true; gsay('<p>Done — I’ve marked <b>' + gq(k).label.toLowerCase() + '</b> as “to be confirmed”. You can fill it in any time from the job summary.</p>').then(async () => { await gsleep(450); G.busy = false; gnext() }); return }
       if (c('[data-gagain]')) { c('.g-bub').classList.add('done-card'); gme('I’ll answer it'); gsay('<p>Great — pick an option above or type your answer below.</p>'); document.querySelectorAll('.g-bub.done-card').forEach(b => { if (b.querySelector('.g-opts') && G.cur) b.classList.remove('done-card') }); return }
@@ -13621,16 +13696,17 @@
       if (d.why) A.why = d.why;
       if (d.sen) A.seniority = d.sen;
       if (d.rtype) A.rtype = d.rtype;
-      if (d.budgetOk) A.budgetOk = d.budgetOk; if (d.btype) A.btype = d.btype;
+      normBudget(d); if (d.btype) A.btype = d.btype;
       if (num(d.hours)) A.hours = d.hours;
       if (d.start) A.start = fmtDate(d.start);
       if (d.endNo) A.duration = 'Not sure yet';
-      else if (d.start && d.end) { const m = (new Date(d.end) - new Date(d.start)) / (30.4 * 864e5); if (m > 0) A.duration = m <= 3 ? '1–3 months' : m <= 6 ? '3–6 months' : m <= 12 ? '6–12 months' : '12+ months' }
+      else if (d.end) A.duration = d.end;
+      if (d.ext) A.dext = true;
       if (d.bamt && num(d.bamt)) { const n = +d.bamt; A.rate = d.btype === 'Monthly budget' ? '$' + n.toLocaleString() + ' / month' : d.btype === 'Fixed project budget' ? '$' + n.toLocaleString() + ' total' : n >= 160 ? '$160+ / hr' : n >= 130 ? '$130–160 / hr' : n >= 100 ? '$100–130 / hr' : '$80–100 / hr' }
       if (d.wloc) A.location = d.wloc;
       const nz = l => (l || []).filter(t => t !== 'Other' && t !== NSURE), known = [...nz(d.sw), ...nz(d.prods), ...nz(d.tech)];
       const swv = [...nz(d.sw), ...cl(d.osw)], prv = [...nz(d.prods), ...cl(d.oprod)], tev = [...nz(d.tech), ...cl(d.otech)];
-      if (swv.length) A.sw = swv; if (prv.length) A.prods = prv; if (tev.length) A.skills = tev;
+      { const pv = [...new Set([...swv, ...prv])]; if (pv.length) A.prods = pv } if (tev.length) A.skills = tev;
       if (nz(d.certs).length) A.certs = nz(d.certs);
       if (d.sloc) A.sloc = d.sloc; if (num(d.onsite)) A.onsite = d.onsite;
       if (nz(d.regions).length) A.regions = nz(d.regions); if (d.tzs) A.tzs = d.tzs; if (d.meet) A.meet = d.meet;
@@ -13662,16 +13738,16 @@
       const d = S.wiz.d, st = S.wiz.step, e = {}; if (st >= 2) ['osw', 'oprod', 'otech', 'oreg'].forEach(k => { const el = document.getElementById('cu-' + k); if (el && el.value.trim()) addCust(k, el.value) }); const ti = document.getElementById('ti-certs'); if (st === 2 && ti && ti.value.trim() && !d.certs.some(x => x.toLowerCase() === ti.value.trim().toLowerCase())) d.certs.push(ti.value.trim()); const need = k => { const v = d[k]; if (!v || (Array.isArray(v) && !v.length)) e[k] = 1 };
       const imps = (l, g) => d[l].forEach(x => { if (!d[g][x]) e[g + ':' + x] = 1 });
       if (st === 0) { ['why', 'rtype', 'sen'].forEach(need); if (d.rtype === 'Multiple Roles') need('qty'); if (d.rtype === 'Other') need('ortype') }
-      if (st === 1) { need('hours'); need('start'); if (!d.endNo) need('end'); if (!d.endNo && d.start && d.end && d.end < d.start) e.end = 1; if (d.budgetOk === 'Yes' && d.btype) need('bamt') }
-      if (st === 2) { ['prods', 'tech', 'ind'].forEach(need); const ti = d.tech.filter(x => x !== 'Other').concat(custList(d.otech)); if (ti.length && !ti.some(x => d.timp[x] === 'Must have')) e.tech = 1 }
+      if (st === 1) { need('hours'); need('start'); if (!d.endNo) need('end'); if (!d.endNo && d.start && d.end && d.end < d.start) e.end = 1; need('btype'); if (d.btype && d.btype !== 'Not sure yet') need('bamt') }
+      if (st === 2) { ['prods', 'tech'].forEach(need); const ti = d.tech.filter(x => x !== 'Other').concat(custList(d.otech)); if (ti.length && !ti.some(x => d.timp[x] === 'Must have')) e.tech = 1 }
       if (st === 3) { ['wloc', 'tzs'].forEach(need); if (d.wloc && d.wloc !== 'Remote') { need('sloc'); need('onsite') } }
       S.wiz.err = e; return !Object.keys(e).length
     }
     function stepRender() { const keep = window.scrollY; render(); window.scrollTo(0, keep) }
     function showErr() { stepRender(); toast('Please complete the required fields'); setTimeout(() => document.querySelector('.fld.err,.impr.err')?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60) }
-    const D0 = () => ({ why: '', urgency: '', rtype: '', ortype: '', qty: '', hours: '', start: '', end: '', startNo: false, endNo: false, budgetOk: '', btype: '', bamt: '', sen: '', sw: [], osw: '', oreg: '', prods: [], pimp: {}, oprod: '', certs: [], cimp: {}, tech: [], timp: {}, otech: '', indExp: '', sub: '', subs: [], rtitle: '', ind: '', subinds: [], usecases: '', pyrs: '', hitech: '', firmStart: '', flexTime: '', orgs: [], extra: '', wloc: '', sloc: '', onsite: '', regions: [], tzs: '', meet: '', stake: '', holders: [{ n: '', p: '' }], sign: '' });
+    const D0 = () => ({ why: '', urgency: '', rtype: '', ortype: '', qty: '', hours: '', start: '', end: '', startNo: false, endNo: false, ext: false, budgetOk: '', btype: '', bamt: '', sen: '', sw: [], osw: '', oreg: '', prods: [], pimp: {}, oprod: '', certs: [], cimp: {}, tech: [], timp: {}, otech: '', indExp: '', sub: '', subs: [], rtitle: '', ind: '', subinds: [], indx: [], usecases: '', pyrs: '', firmStart: '', flexTime: '', orgs: [], extra: '', wloc: '', sloc: '', onsite: '', regions: [], tzs: '', meet: '', stake: '', holders: [{ n: '', p: '' }], sign: '' });
     function resetWiz() { S.wiz = { step: 0, dir: 'fwd', err: {}, d: D0() } }
-    const PRE = () => ({ why: LIST.why[0], urgency: 'Soon', rtype: 'Developer / Engineer', hours: '35', sen: LIST.sen[2], sw: ['AWS', 'Snowflake'], prods: ['Glue', 'Snowpark'], pimp: { Glue: 'Must have', Snowpark: 'Preferred' }, tech: ['Python', 'API Development'], timp: { Python: 'Must have', 'API Development': 'Preferred' }, orgs: ['Enterprise'] });
+    const PRE = () => ({ why: LIST.why[0], urgency: 'Medium', rtype: 'Developer / Engineer', hours: '35', sen: LIST.sen[2], sw: ['AWS', 'Snowflake'], prods: ['AWS', 'Snowflake', 'Glue', 'Snowpark'], pimp: { AWS: 'Must have', Snowflake: 'Must have', Glue: 'Must have', Snowpark: 'Preferred' }, tech: ['Python', 'API Development'], timp: { Python: 'Must have', 'API Development': 'Preferred' }, orgs: ['Enterprise'] });
     function pick(f) {
       if (!f) return; if (!/\.(pdf|doc|docx)$/i.test(f.name)) { toast('Only PDF or Word files are supported'); return } if (f.size > 3 * 1048576) { toast('File is larger than 3MB'); return }
       S.file = { n: f.name, p: 0, s: Math.max(1, Math.round(f.size / 1024)) + ' KB' }; render();
@@ -13765,6 +13841,10 @@
         case 'signout': toast('Signing you out…'); setTimeout(() => { window.location.href = 'index.html' }, 700); break;
         case 'refsend': { const el = $('#refmail'), m = (el && el.value || '').trim(); if (!/^\S+@\S+\.\S+$/.test(m)) { toast('Enter a valid email address'); el && el.focus(); break } S.refs = S.refs || REFS.slice(); S.refs.unshift({ who: m, co: '—', d: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }), st: 'Invited', cr: 0, code: genRef() }); render(false); toast('Invitation sent to ' + m + ' with a one-time code'); break }
         case 'toast': toast(v); break;
+        case 'hfset': case 'hftog': { const sc = document.querySelector('.mov .scr'), top = sc ? sc.scrollTop : 0, f = S.hf; if (a.dataset.a === 'hfset') { const [k, val] = v.split('|'); f[k] = val; if (S.hfe) delete S.hfe[k] } else { f[v] = !f[v]; if (v === 'poPending' && f.poPending) f.poNum = '' } render(false); const sc2 = document.querySelector('.mov .scr'); if (sc2) sc2.scrollTop = top; break }
+        case 'hfpo': { const el = document.getElementById('po-' + v), val = el ? el.value.trim() : ''; if (!val) { toast('Enter the PO number'); el && el.focus(); break } S.ivs[+v][6].hs.poNum = val; S.ivs[+v][6].hs.poPending = false; render(false); toast('PO number saved'); break }
+        case 'exttog': S.wiz.d.ext = !S.wiz.d.ext; stepRender(); break
+        case 'hfjd': S.hfJd = !S.hfJd; render(false); break
         case 'ivjd': S.ivJd = S.ivJd || {}; S.ivJd[+v] = !S.ivJd[+v]; render(false); break
         case 'ivadd': S.ivAdd = +v; render(false); setTimeout(() => $('#ivn')?.focus(), 0); break
         case 'ivcancel': S.ivAdd = null; render(false); break
@@ -13780,11 +13860,11 @@
           m.reason = p.r.sort((a, b) => a - b).map(k => PASS[k][0]).join(', '); m.passData = { reasons: p.r.map(k => PASS[k][0]), followUps: Object.fromEntries(p.r.filter(k => p.fu[k]).map(k => [PASS[k][0], p.fu[k]])), other: p.o, feedback: p.n };
           m.closed = true; m.nofit = false; m.pass = null; m.prompt = false; S.modal = null; render(false); toast('Passed on candidate — thanks for the feedback'); break }
         case 'pfb': { S.ivs[+v][6].pass.fb = true; render(false); break }
-        case 'hirereq': { const c = S.ivs[+v], dt = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10); S.hireI = +v; S.hfe = {}; S.hf = { title: c[1], start: dt, dur: '6 months', rate: '100', hours: '40', co: ORG.name, addr: '', sname: ORG.first, semail: ORG.email, bname: '', bemail: '', bphone: '' }; S.modal = 'hirecfm'; render(false); break }
+        case 'hirereq': { const c = S.ivs[+v], dt = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10); S.hireI = +v; S.hfe = {}; S.hfJd = false; S.hf = { cons: hireName(c[0]), title: c[1], jd: hireJd(c[1]), start: dt, dur: '6 months', end: hireEnd(dt, '6 months'), endManual: false, rate: '100', hours: '40', warr: 'Hybrid', osDays: '3', osFreq: 'Per week', osAddr: '', whours: '9:00 AM – 5:00 PM ET', addl: '', co: ORG.name, addr: '', authSelf: true, sname: '', stitle: '', semail: '', bsame: false, bname: '', bemail: '', bphone: '', poReq: '', poNum: '', poPending: false, pterms: 'Net 30', ptReq: false, ptText: '', ptWhy: '', tsSame: 'signer', tsName: '', tsEmail: '', recip: 'Timesheet Approver', addRecip: '' }; if (S.hireShared) { Object.assign(S.hf, S.hireShared); S.hf.reused = 1 }; S.modal = 'hirecfm'; render(false); break }
         case 'hireprep': { S.ivs[+v][6].stage = 'sign'; render(false); toast('Hunter sent your client contract for signature'); break }
         case 'hiresign': { S.ivs[+v][6].stage = 'signed'; render(false); toast('Contract signed — Hunter has been notified'); break }
         case 'hirex': { const m = S.ivs[+v][6]; m.hireq = false; render(false); break }
-        case 'hireok': { const c = S.ivs[S.hireI], m = c[6], f = S.hf, e = {}; ['title', 'start', 'dur', 'rate', 'hours', 'co', 'addr', 'sname', 'semail', 'bname', 'bemail'].forEach(k => { if (!String(f[k] || '').trim()) e[k] = 1 }); ['semail', 'bemail'].forEach(k => { if (f[k] && !/^\S+@\S+\.\S+$/.test(f[k])) e[k] = 1 }); S.hfe = e; if (Object.keys(e).length) { render(false); break } m.hired = true; m.hireq = false; m.prompt = false; m.stage = 'prep'; m.hs = Object.assign({}, f); S.modal = null; render(false); toast('Hire request sent — Hunter has been notified and ' + c[0] + ' has been emailed their offer'); break }
+        case 'hireok': { const c = S.ivs[S.hireI], m = c[6], f = S.hf, e = {}, lu = hireUser(); if (f.authSelf) { f.sname = lu.name; f.stitle = lu.title; f.semail = lu.email } if (f.bsame) { f.bname = f.sname; f.bemail = f.semail } const req = ['title', 'start', 'end', 'rate', 'hours', 'co', 'addr', 'warr', 'bname', 'bemail', 'poReq']; if (f.warr && f.warr !== 'Remote') req.push('osDays', 'osFreq', 'osAddr', 'whours'); if (!f.authSelf) req.push('sname', 'stitle', 'semail'); if (f.ptReq) req.push('ptText'); if (!f.tsSame) e.tsSame = 1; if (f.tsSame === 'other') req.push('tsName', 'tsEmail'); else if (f.tsSame) { const ap = f.tsSame === 'signer' ? { name: f.sname, email: f.semail } : { name: f.bname, email: f.bemail }; f.tsName = ap.name; f.tsEmail = ap.email } req.forEach(k => { if (!String(f[k] || '').trim()) e[k] = 1 }); ['semail', 'bemail', 'tsEmail'].forEach(k => { if (f[k] && !/^\S+@\S+\.\S+$/.test(f[k])) e[k] = 1 }); if (String(f.addRecip || '').trim() && String(f.addRecip).split(/[,;\s]+/).filter(Boolean).some(x => !/^\S+@\S+\.\S+$/.test(x))) e.addRecip = 1; if (f.start && f.end && f.end <= f.start) e.end = 1; S.hfe = e; if (Object.keys(e).length) { render(false); const er = document.querySelector('.mov .fld.err'); if (er) er.scrollIntoView({ block: 'center' }); break } if (f.poReq !== 'Yes') { f.poNum = ''; f.poPending = false } if (!f.ptReq) { f.ptText = ''; f.ptWhy = '' } m.hired = true; m.hireq = false; m.prompt = false; m.stage = 'prep'; m.hs = Object.assign({}, f); S.hireShared = ['warr', 'osDays', 'osFreq', 'osAddr', 'whours', 'addl', 'co', 'addr', 'authSelf', 'sname', 'stitle', 'semail', 'bsame', 'bname', 'bemail', 'bphone', 'poReq', 'poNum', 'poPending', 'tsSame', 'tsName', 'tsEmail', 'recip', 'addRecip'].reduce((o, k) => (o[k] = f[k], o), {}); S.hireDoneI = S.hireI; S.modal = 'hiredone'; render(false); break }
         case 'ivrm': { const [a, b] = v.split(':').map(Number), T = S.ivs[a][4], p = T[b]; T.splice(b, 1); render(false); toast(p.n + ' removed from this call'); break }
         case 'ivcopy': navigator.clipboard?.writeText('https://' + v); toast('Interview link copied'); break;
         case 'ivjoin': window.open('https://' + v, '_blank'); toast('Opening your video interview…'); break;
@@ -13839,7 +13919,7 @@
         case 'doupload': Object.assign(d, PRE()); S.modal = null; render(); toast('Pre-filled from ' + S.file.n + ' ✨'); break;
         case 'useoffer': Object.assign(d, PRE()); S.modal = null; render(); toast('Started from “' + S.offers[+v].t + '”'); break;
         /* wizard */
-        case 'opt': d[a.dataset.k] = v; delete S.wiz.err[a.dataset.k]; if (a.dataset.k === 'btype') delete S.wiz.err.bamt; S.wiz.dir = ''; stepRender(); break;
+        case 'opt': d[a.dataset.k] = v; delete S.wiz.err[a.dataset.k]; if (a.dataset.k === 'btype') { delete S.wiz.err.bamt; normBudget(d) } S.wiz.dir = ''; stepRender(); break;
         case 'msopen': S.ms = S.ms === a.dataset.k ? null : a.dataset.k; stepRender(); break;
         case 'sgpick': d[a.dataset.k] = v; if (a.dataset.k === 'ind') d.subinds = (d.subinds || []).filter(x => (INDS_TAX[v] || []).includes(x)); S.ms = null; delete S.wiz.err[a.dataset.k]; stepRender(); break;
         case 'msadd': {
@@ -13849,7 +13929,7 @@
           break
         }
         case 'msopt': {
-          const k = a.dataset.k, i = d[k].indexOf(v); i < 0 ? d[k].push(v) : d[k].splice(i, 1); const gk = IMPG[k]; if (gk && i >= 0) delete d[gk][v]; if (k === 'sw') pruneProds(d); delete S.wiz.err[k];
+          const k = a.dataset.k, i = d[k].indexOf(v); i < 0 ? d[k].push(v) : d[k].splice(i, 1); const gk = IMPG[k]; if (gk && i >= 0) delete d[gk][v]; if (k === 'prods') syncTech(d); if (k === 'indx') syncInd(d); delete S.wiz.err[k];
           /* keep the menu open and exactly as it was (scroll position + search text) after each pick */
           const m0 = document.querySelector('.msl'), top = m0 ? m0.scrollTop : 0, q0 = m0 && m0.querySelector('.msq') ? m0.querySelector('.msq').value : '';
           stepRender();
@@ -13954,7 +14034,7 @@
           break
       }
     });
-    document.addEventListener('input', e => { const hk = e.target.dataset && e.target.dataset.hf; if (hk && S.hf) { S.hf[hk] = e.target.value; if (S.hfe && S.hfe[hk]) { delete S.hfe[hk]; e.target.closest('.fld') && e.target.closest('.fld').classList.remove('err') } return } const pf = e.target.dataset && e.target.dataset.pf; if (!pf) return; const [i, k] = pf.split(':'), p = S.ivs[+i][6].pass; if (!p) return; if (k === 'o') { p.o = e.target.value; if (p.err === 'other' && e.target.value.trim()) { p.err = ''; e.target.closest('.pfu').classList.remove('err'); const pe = e.target.closest('.pass').querySelector('.perr'); if (pe) pe.remove() } } else if (k === 'n') p.n = e.target.value; else p.fu[k] = e.target.value });
+    document.addEventListener('input', e => { const hk = e.target.dataset && e.target.dataset.hf; if (hk && S.hf) { S.hf[hk] = e.target.value; if (hk === 'end') S.hf.endManual = true; if (hk === 'start' && !S.hf.endManual) { S.hf.end = hireEnd(S.hf.start, S.hf.dur); const ei = document.querySelector('[data-hf=end]'); if (ei) { ei.value = S.hf.end; ei.min = S.hf.start || ''; } if (S.hfe && S.hfe.end) { delete S.hfe.end; ei && ei.closest('.fld').classList.remove('err') } } if (S.hfe && S.hfe[hk]) { delete S.hfe[hk]; e.target.closest('.fld') && e.target.closest('.fld').classList.remove('err') } return } const pf = e.target.dataset && e.target.dataset.pf; if (!pf) return; const [i, k] = pf.split(':'), p = S.ivs[+i][6].pass; if (!p) return; if (k === 'o') { p.o = e.target.value; if (p.err === 'other' && e.target.value.trim()) { p.err = ''; e.target.closest('.pfu').classList.remove('err'); const pe = e.target.closest('.pass').querySelector('.perr'); if (pe) pe.remove() } } else if (k === 'n') p.n = e.target.value; else p.fu[k] = e.target.value });
     document.addEventListener('change', e => {
       const el = e.target;
       if (el.id === 'avfile') {
@@ -13972,7 +14052,7 @@
     });
     document.addEventListener('input', e => {
       const el = e.target;
-      if (el.dataset.w) { const k = el.dataset.w; S.wiz.d[k] = k === 'rate' ? +el.value : el.value; if (k === 'extra' && $('#cnt')) $('#cnt').textContent = el.value.length + '/250'; const f = el.closest('.fld'); if (f && el.value) { f.classList.remove('err'); delete S.wiz.err[k] } }
+      if (el.dataset.w) { const k = el.dataset.w; S.wiz.d[k] = k === 'rate' ? +el.value : el.value; if (k === 'extra' && $('#cnt')) $('#cnt').textContent = el.value.length + '/1000'; const f = el.closest('.fld'); if (f && el.value) { f.classList.remove('err'); delete S.wiz.err[k] } }
       else if (el.dataset.h) { const [i, k] = el.dataset.h.split(':'); S.wiz.d.holders[+i][k] = el.value; delete S.wiz.err['h' + i + k]; el.closest('.fld')?.classList.remove('err') }
       else if (el.dataset.ni) { S.sch[el.dataset.ni] = el.value; if (S.sch.err.add) { delete S.sch.err.add; el.closest('.fld')?.classList.remove('err') } }
       else if (el.dataset.iv) { const [i, k] = el.dataset.iv.split(':'); S.sch.iv[+i][k] = el.value; delete S.sch.err['i' + i + k]; el.closest('.fld')?.classList.remove('err') }
