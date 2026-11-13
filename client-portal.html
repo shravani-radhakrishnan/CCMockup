@@ -11722,7 +11722,7 @@
     const _uc = !ONB ? 'Hire for our company' : (ONB.usecase === 'client' ? 'Hire for client projects' : (ONB.usecase === 'both' ? 'Hire for our company & client projects' : 'Hire for our company'));
     const _join = v => Array.isArray(v) ? v.join(', ') : (v || '');
     const PROFILE0 = {
-      company: _co, website: (ONB && ONB.website) || '', industry: (ONB && ONB.ind2) || 'Technology', emp: (ONB && ONB.emp2) || '250', loc: (ONB && ONB.complocation) || 'United States', heard: (ONB && ONB.heard) || '',
+      company: _co, website: (ONB && ONB.website) || '', industry: (ONB && ONB.ind2) || 'Technology / Software / SaaS', emp: (ONB && ONB.emp2) || '250', loc: (ONB && ONB.complocation) || 'United States', heard: (ONB && ONB.heard) || '',
       usecase: _uc, goal: _join(ONB && ONB.goal) || 'Find an individual expert', stage: (ONB && ONB.stage) || '',
       firm: (ONB && ONB.firmtype) ? (FIRM_TYPE_LABELS[ONB.firmtype] || ONB.firmtype) : '', industries: _join(ONB && ONB.industries),
       clouds: ONB ? ((ONB.techareas || []).map(v => TECH_AREA_LABELS[v] || v)) : ['CRM & Customer Platforms', 'Data, Analytics & AI']
@@ -12069,7 +12069,7 @@
     const notSure = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>Not sure yet</button>`;
     const noPref = k => `<button type="button" class="wchk ${S.wiz.d[k + 'No'] ? 'on' : ''}" data-a="nosure" data-v="${k}" aria-pressed="${!!S.wiz.d[k + 'No']}"><i></i>No preference</button>`;
     /* shared industry taxonomy (stands in for GET /api/v1/taxonomy/industries) */
-    const INDS_TAX = { 'Financial Services': ['Banking', 'Lending', 'Insurance', 'Wealth Management', 'Payments'], 'Healthcare': ['Providers', 'Payers', 'Medical Devices'], 'Pharma & Life Sciences': ['Biotech', 'Pharma Manufacturing', 'Distribution'], 'Travel & Hospitality': ['Airlines', 'Car Rental', 'Hotels'], 'Retail': ['E-commerce', 'Grocery', 'Apparel'], 'Technology': ['SaaS', 'Hardware', 'Telecom'], 'Manufacturing': ['Industrial', 'Automotive', 'Consumer Goods'], 'Public Sector': ['Federal', 'State & Local', 'Education'], 'Professional Services': ['Consulting', 'Legal', 'Staffing'] };
+    const INDS_TAX = { 'Professional Services': ['Consulting', 'Legal', 'Staffing'], 'Technology / Software / SaaS': ['SaaS', 'Software', 'Hardware'], 'Financial Services & Banking': ['Banking', 'Lending', 'Wealth Management', 'Payments'], 'Healthcare & Life Sciences': ['Providers', 'Payers', 'Medical Devices', 'Biotech', 'Pharma Manufacturing', 'Distribution'], 'Manufacturing & Industrial': ['Industrial', 'Automotive', 'Consumer Goods'], 'Retail & E-commerce': ['E-commerce', 'Grocery', 'Apparel'], 'Government & Public Sector': ['Federal', 'State & Local'], 'Education': ['Higher Education', 'K-12'], 'Energy & Utilities': ['Oil & Gas', 'Power & Utilities', 'Renewables'], 'Telecommunications & Media': ['Telecom', 'Media & Entertainment'], 'Transportation & Logistics': ['Freight & Shipping', 'Supply Chain'], 'Real Estate & Construction': ['Real Estate', 'Construction'], 'Insurance': ['Property & Casualty', 'Life & Health', 'Brokerage'], 'Nonprofit': ['Nonprofit'], 'Hospitality & Travel': ['Airlines', 'Car Rental', 'Hotels'] };
     const NOPREF = 'No preference';
     function wf(k, label, body, opt) { return `<div class="fld ${S.wiz.err[k] ? 'err' : ''} ${S.wiz.ai && S.wiz.ai[k] ? 'aif' : ''}" data-f="${k}"><label>${label}${opt ? '' : '<span class="rq">*</span>'}</label>${body}${opt ? '' : '<span class="em">This field is required</span>'}</div>` }
     const CUSTK = { sw: 'osw', prods: 'oprod', tech: 'otech' };
@@ -12574,7 +12574,7 @@
     }
     const PROJ = [
       { co: ORG.name, ind: PROFILE0.industry, items: [['Cloud Data Platform Rollout', 'CC-117', 68, 312, 460], ['Marketing Analytics Migration', 'CC-104', 34, 96, 280], ['CPQ Implementation', 'CC-131', 12, 30, 240, 'am', 'At risk']] },
-      { co: 'Northwind Retail', ind: 'Retail', items: [['Commerce Replatform', 'CC-149', 81, 520, 640], ['Service Desk Setup', 'CC-117', 45, 90, 200]] },
+      { co: 'Northwind Retail', ind: 'Retail & E-commerce', items: [['Commerce Replatform', 'CC-149', 81, 520, 640], ['Service Desk Setup', 'CC-117', 45, 90, 200]] },
       { co: 'Helix Logistics', ind: 'Logistics', items: [['MuleSoft ERP Integration', 'CC-152', 100, 360, 360, '', 'Completed']] }
     ];
     const CNAME = { 'CC-104': 'Marcus Reed', 'CC-117': 'Priya Nair', 'CC-122': 'Adebayo Okafor', 'CC-131': 'Daniel Brooks', 'CC-149': 'Sofia Martinez', 'CC-152': 'Lena Fischer' }, cname = id => CNAME[id] || id;
@@ -12730,7 +12730,7 @@
         skills: ['AWS', 'Snowflake', 'Databricks', 'Terraform', 'Python', 'Data Governance', 'AI / ML'],
         why: ['Led two cloud data-platform migrations end to end — the exact stack in your brief', 'Data governance and multi-account strategy experience for standing up a new region and business unit', 'Hands-on architect who can also build, so a small team of 5 gets both vision and delivery', 'Available immediately at 40 hrs/week'],
         certs: ['AWS Solutions Architect – Professional', 'SnowPro Advanced Architect', 'Databricks Data Engineer Professional', 'Terraform Associate'],
-        industries: ['Financial Services', 'Retail', 'Technology'],
+        industries: ['Financial Services & Banking', 'Retail & E-commerce', 'Technology / Software / SaaS'],
         standout: ['Architected a data platform across 9 countries', 'ML pipeline that cut forecasting error by 38%', 'Mentored 3 internal analysts into data engineers']
       },
       {
@@ -12739,7 +12739,7 @@
         skills: ['AWS', 'Azure', 'Kubernetes', 'Terraform', 'CI/CD', 'Python', 'Cost Optimisation', 'Snowflake'],
         why: ['13 years of cloud engineering with direct AWS and Snowflake delivery — aligns with your core stack', 'Infrastructure-as-code background translates directly to the new region’s environments', 'Multi-account strategy skill is a direct match for standing up a new business unit from scratch', 'Financial Services and FinTech-adjacent experience with strong solution design capabilities', 'Full-time availability (40 hrs/week) means fully dedicated to your project from day one'],
         certs: ['AWS Solutions Architect – Professional', 'Azure Solutions Architect Expert', 'Certified Kubernetes Administrator'],
-        industries: ['Financial Services', 'Technology', 'Manufacturing', 'Retail'],
+        industries: ['Financial Services & Banking', 'Technology / Software / SaaS', 'Manufacturing & Industrial', 'Retail & E-commerce'],
         standout: ['Cloud landing-zone design and delivery expertise', 'Multi-account strategy and new environment setup experience', 'Strong solution design + API integration background']
       },
       {
@@ -12748,7 +12748,7 @@
         skills: ['Salesforce', 'HubSpot', 'CPQ', 'Customer Data Platform'],
         why: ['15 years across CRM and sales systems with hands-on CPQ configuration', 'Prior experience leading a techno-functional team through a multi-system migration', 'Comfortable owning both discovery workshops and hands-on build'],
         certs: ['Salesforce Administrator', 'HubSpot Revenue Operations'],
-        industries: ['Retail', 'Healthcare'],
+        industries: ['Retail & E-commerce', 'Healthcare & Life Sciences'],
         standout: ['CPQ rollout across 3 business units', 'Led techno-functional workstream for a national retailer']
       },
       {
@@ -12757,7 +12757,7 @@
         skills: ['MuleSoft', 'Boomi', 'API Design', 'Integrations', 'Kafka', 'Python'],
         why: ['Strong integration background that fits the new-region system connections', 'Less direct data-platform exposure than the top matches', 'Could pair well with a data architect on your team'],
         certs: ['MuleSoft Certified Integration Architect', 'Boomi Professional Developer', 'AWS Developer – Associate'],
-        industries: ['Healthcare', 'Financial Services'],
+        industries: ['Healthcare & Life Sciences', 'Financial Services & Banking'],
         standout: ['Built an API-led integration layer for 12 systems', 'Cut nightly sync failures by 70%']
       },
       {
@@ -12766,7 +12766,7 @@
         skills: ['Node.js', 'React', 'AWS Lambda', 'PostgreSQL', 'REST APIs'],
         why: ['Solid full-stack delivery at a lower rate', 'Newer to large-scale data platform and AI work', 'Good option if budget is the deciding factor'],
         certs: ['AWS Developer – Associate', 'Meta Front-End Developer'],
-        industries: ['Retail', 'Manufacturing'],
+        industries: ['Retail & E-commerce', 'Manufacturing & Industrial'],
         standout: ['Delivered 20+ internal tools for a retailer', 'Automated order routing with serverless workflows']
       }
     ];

@@ -1098,6 +1098,14 @@
       font-size: 12.5px
     }
 
+    .stwrap { position: relative }
+    .stdd { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 28px rgba(0, 0, 0, .12); max-height: 210px; overflow-y: auto; z-index: 30; display: none }
+    .stdd.show { display: block }
+    .stdd.up { top: auto; bottom: calc(100% + 4px) }
+    .stdd .sti { padding: 9px 13px; font-size: 13.5px; color: var(--body); cursor: pointer }
+    .stdd .sti:hover { background: var(--bg-soft, #f3f5f7) }
+    .stdd .ste { padding: 9px 13px; font-size: 13px; color: var(--muted) }
+
     .chip {
       display: inline-flex;
       align-items: center;
@@ -1782,6 +1790,22 @@
     .tst:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .14) }
     .tst.err { border-color: #b4423a }
     .tpre { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 12px }
+    .wins { display: grid; gap: 8px; margin-top: 4px }
+    .win { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) auto minmax(0, 1fr) minmax(44px, auto) 26px; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; background: var(--surface) }
+    .win.bad { border-color: #b4423a }
+    .win .wsel { padding: 9px 10px; font: inherit; font-size: 14px; border-radius: 8px; height: 40px }
+    .wdash { color: var(--muted) }
+    .wh { font-size: 12px; color: var(--muted); text-align: right; white-space: nowrap }
+    .wh .bad { color: #b4423a; font-weight: 600 }
+    .win-x { width: 26px; height: 26px; border: 0; border-radius: 50%; background: #eef2f5; color: var(--muted); font-size: 16px; line-height: 1; cursor: pointer; padding: 0 }
+    .win-x:hover { background: #f7e6e1; color: #b4423a }
+    .win-x.ph { background: none; cursor: default }
+    .wdl { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; padding: 2px 0 4px }
+    .wdl .chip { width: 44px !important; padding: 0 !important; height: 30px; font-size: 12.5px; justify-content: center }
+    .win-add { display: inline-flex; align-items: center; gap: 6px; justify-self: start; padding: 6px 4px; border: 0; background: none; color: var(--brand-d); font: inherit; font-weight: 600; font-size: 13.5px; cursor: pointer }
+    .win-add span { font-size: 17px; line-height: 1 }
+    .win-add:hover { text-decoration: underline }
+    @media (max-width: 560px) { .win { grid-template-columns: 1fr 1fr auto 1fr 26px } .win .wd { grid-column: 1 / 5 } .wh { display: none } }
 
     input[type=text],
     input[type=email],
@@ -3205,6 +3229,25 @@
       const er = a_terr('stime') || a_terr('etime') ? '<p class="tsum bad">Enter a time like 9:30 AM or 14:00.</p>' : '';
       return `<div class="tpre">${TIME_PRESETS.map(([l, s, e]) => `<button type="button" class="chip${a.stime === s && a.etime === e ? ' sel' : ''}" data-tpreset="${s}|${e}">${l}</button>`).join('')}</div><div class="row">${timeStep('stime', 'From', '09:00')}${timeStep('etime', 'Until', '17:00')}</div>${er}${sum}`;
     }
+    const WDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], WGROUPS = [['Weekdays', 'Weekdays'], ['Weekends', 'Weekends'], ['Every day', 'Every day'], ['Custom by day', 'Pick days']];
+    const hrsTxt = d => (d / 60 % 1 ? (d / 60).toFixed(1) : d / 60) + ' hr' + (d === 60 ? '' : 's') + ' a day';
+    function wins() { const a = A(); if (!Array.isArray(a.wins) || !a.wins.length) a.wins = [{ days: a.days || '', stime: a.stime || '', etime: a.etime || '' }]; return a.wins }
+    function syncWins() { const a = A(), w = wins()[0]; a.days = w.days || ''; a.stime = w.stime || ''; a.etime = w.etime || '' }
+    const tOpts = (v, ph) => `<option value="">${ph}</option>` + TIME_OPTS.map(([k, l]) => `<option value="${k}"${v === k ? ' selected' : ''}>${l}</option>`).join('');
+    function winCard(w, i, n) {
+      const ok = w.stime && w.etime, d = ok ? tmin(w.etime) - tmin(w.stime) : 0, bad = ok && d <= 0;
+      return `<div class="win${bad ? ' bad' : ''}">
+      <select class="wsel wd" data-wsel="${i}|days" aria-label="Days, window ${i + 1}"><option value="">Days…</option>${WGROUPS.map(([v, l]) => `<option value="${v}"${w.days === v ? ' selected' : ''}>${v === 'Custom by day' ? 'Custom days' : l}</option>`).join('')}</select>
+      <select class="wsel" data-wsel="${i}|stime" aria-label="From, window ${i + 1}">${tOpts(w.stime, 'From')}</select><span class="wdash">–</span>
+      <select class="wsel" data-wsel="${i}|etime" aria-label="Until, window ${i + 1}">${tOpts(w.etime, 'Until')}</select>
+      <span class="wh">${bad ? '<b class="bad">Check times</b>' : ok ? hrsTxt(d).replace(' a day', '') : ''}</span>
+      ${n > 1 ? `<button type="button" class="win-x" data-winrm="${i}" aria-label="Remove window ${i + 1}">×</button>` : '<span class="win-x ph"></span>'}
+      ${w.days === 'Custom by day' ? `<div class="wdl">${WDAYS.map(x => `<button type="button" class="chip dchip${(w.dlist || []).includes(x) ? ' sel' : ''}" data-wday="${i}|${x}" aria-pressed="${(w.dlist || []).includes(x)}">${x}</button>`).join('')}</div>` : ''}</div>`;
+    }
+    function windowsUI() {
+      const W = wins(), n = W.length;
+      return `<div class="wins">${W.map((w, i) => winCard(w, i, n)).join('')}${n < 5 ? `<button type="button" class="win-add" data-winadd><span>+</span> Add another window</button>` : ''}</div>`;
+    }
     function selRaw(id, opts, { def = '' } = {}) {
       if (def && A()[id] === undefined) A()[id] = def;
       const v = A()[id] !== undefined ? A()[id] : (def || '');
@@ -3365,6 +3408,10 @@
         <div class="legal-modal-foot"><button type="button" class="btn primary" data-legalclose>Back to sign up</button></div>
       </div></div>`;
     }
+    function indSearch(id, label, { req = false } = {}) {
+      const v = A()[id] || '';
+      return `<div class="field${ERRS[id] ? ' field-err' : ''}"><label for="f_${id}">${label}${req ? '<span class="req">*</span>' : ''}</label><div class="stwrap"><input id="f_${id}" type="text" data-k="${id}" data-isearch placeholder="Search industries" autocomplete="off" value="${esc(v)}"><div class="stdd" data-stdd></div></div>${errMsg(id)}</div>`;
+    }
     function sel(id, label, opts, { req = false, def = '' } = {}) {
       if (def && A()[id] === undefined) A()[id] = def;
       const v = A()[id] !== undefined ? A()[id] : (def || '');
@@ -3450,13 +3497,20 @@
     const ENGAGE_OPTS = ['C2C — Through My Own Corporation', 'C2C — Through My Employer', 'C2C — Through Another Corporation', '1099 — Independent Contractor', 'Not Sure'];
     const AUTH_TYPES = ['H-1B', 'L-1', 'TN', 'E-3', 'OPT / STEM OPT', 'H-4 EAD', 'L-2 EAD', 'Other EAD'];
     const TRAVEL_FREQ = ['1–5 days per month', '6–10 days per month', '11–15 days per month', '16+ days per month', 'Flexible / Depends on the Opportunity'];
+    const RELOC_OPTS = ['Anywhere in the United States', 'Specific U.S. States', 'Internationally', 'Depends on the Opportunity'];
+    function relocBlock(a) {
+      if (a.relocate !== 'Yes') return '';
+      const w = a.relocwhere || [], st = a.relocstates || [];
+      return `<div class="field" style="margin:${a.travel === 'Yes' ? 14 : 0}px 0 0"><label>Where are you willing to relocate?</label><div class="chips tight">${RELOC_OPTS.map(o => `<span class="chip ${w.includes(o) ? 'sel' : ''}" data-chip="relocwhere" data-val="${esc(o)}">${esc(o)}</span>`).join('')}</div><div class="hint" style="margin:6px 0 0">Select all that apply.</div></div>
+      ${w.includes('Specific U.S. States') ? `<div class="field" style="margin:14px 0 0"><label>Which U.S. states?</label>${st.length ? `<div class="chips tight" style="margin-bottom:10px">${st.map(x => `<span class="chip sel" data-chip="relocstates" data-val="${esc(x)}">${esc(x)}<span class="x">×</span></span>`).join('')}</div>` : ''}<div class="stwrap"><input type="text" data-stsearch placeholder="Search and select states" autocomplete="off"><div class="stdd" data-stdd></div></div></div>` : ''}`;
+    }
     function workPrefsBlock() {
       const a = A();
       return `<div class="groupcard" style="margin-top:16px"><div class="gh">Work location preferences</div>
       <div class="field oneline-opts" style="margin-bottom:14px"><label>Preferred Work Arrangements</label>${optionCards('workarr', ['Remote', 'Hybrid', 'On-site'], { multi: true, cols: true, auto: false })}</div>
-      <div class="row" style="margin-bottom:${a.travel === 'Yes' ? 14 : 0}px"><div class="field oneline-opts two" style="margin-bottom:0"><label>Willing to Travel?</label>${optionCards('travel', ['Yes', 'No'], { cols: true, auto: false })}</div>
+      <div class="row" style="margin-bottom:${a.travel === 'Yes' || a.relocate === 'Yes' ? 14 : 0}px"><div class="field oneline-opts two" style="margin-bottom:0"><label>Willing to Travel?</label>${optionCards('travel', ['Yes', 'No'], { cols: true, auto: false })}</div>
       <div class="field oneline-opts two" style="margin-bottom:0"><label>Open to Relocation?</label>${optionCards('relocate', ['Yes', 'No'], { cols: true, auto: false })}</div></div>
-      ${a.travel === 'Yes' ? `<div class="field" style="margin-bottom:0"><label>How frequently are you willing to travel?</label><div class="chips tight">${TRAVEL_FREQ.map((o, i) => `<span class="chip ${(a.travelfreq || []).includes(o) ? 'sel' : ''}" data-chip="travelfreq" data-val="${esc(o)}" title="${esc(o)}">${['1–5 days', '6–10 days', '11–15 days', '16+ days', 'Flexible'][i]}</span>`).join('')}</div><div class="hint" style="margin:6px 0 0">Days per month. Select all that apply.</div></div>` : ''}</div>`;
+      ${a.travel === 'Yes' ? `<div class="field" style="margin-bottom:0"><label>How frequently are you willing to travel?</label><div class="chips tight">${TRAVEL_FREQ.map((o, i) => `<span class="chip ${(a.travelfreq || []).includes(o) ? 'sel' : ''}" data-chip="travelfreq" data-val="${esc(o)}" title="${esc(o)}">${['1–5 days', '6–10 days', '11–15 days', '16+ days', 'Flexible'][i]}</span>`).join('')}</div><div class="hint" style="margin:6px 0 0">Days per month. Select all that apply.</div></div>` : ''}${relocBlock(a)}</div>`;
     }
 
     /* ============ CANDIDATE ============ */
@@ -3528,31 +3582,34 @@
       S.push({
         kind: 'form', group: 'Opportunity Preferences and Availability', q: 'When are you available to start, and how many hours can you work?', sub: 'Numeric hours, not a broad preset range.',
         body: () => `${text('startdate', 'Earliest start date', { type: 'date', req: true })}<div class="row"><div class="field"><label>Min hours / week<span class="req">*</span></label><input type="number" data-k="minhrs" placeholder="10" value="${esc(a.minhrs || '')}"></div><div class="field"><label>Max hours / week<span class="req">*</span></label><input type="number" data-k="maxhrs" placeholder="40" min="1" max="40" value="${esc(a.maxhrs || '')}"></div></div>
-        <div class="field" style="margin-top:18px"><label>When are you normally available?</label><div class="hint">Recurring windows in your local time — mornings, evenings, or weekends are fine.</div></div>
-        <div class="field"><label>Days</label>${selRaw('days', ['Weekdays', 'Weekends', 'Every day', 'Custom by day'])}</div>${timeRange()}`,
+        <div class="field" style="margin-top:18px"><label>When are you normally available?</label><div class="hint">Recurring windows in your local time. Add a separate window for each pattern, e.g. weekday evenings and weekend mornings.</div></div>
+        ${windowsUI()}`,
         pv: { k: 'Availability', get: a => a.minhrs && a.maxhrs ? `${a.minhrs}–${a.maxhrs} hrs/wk` : '' }
       });
       S.push({
         kind: 'form', group: 'Opportunity Preferences and Availability', q: 'Your desired hourly rate range.', sub: 'Enter the lowest hourly rate you’d accept and the rate you’d ideally like to earn. Rates may vary by engagement.',
-        body: () => `<div class="row"><div class="field" style="margin-bottom:11px"><label>Lowest Acceptable Rate</label><input type="number" data-k="minrate" placeholder="Lowest acceptable rate" value="${esc(a.minrate || '')}"></div><div class="field" style="margin-bottom:11px"><label>Target Rate</label><input type="number" data-k="desrate" placeholder="Target rate" value="${esc(a.desrate || '')}"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px"><label>Currency</label>${selRaw('currate', ['USD', 'EUR', 'GBP', 'INR', 'CAD'], { def: 'USD' })}</div></div>`
+        body: () => `<div class="row"><div class="field" style="margin-bottom:11px"><label>Target Rate</label><input type="number" data-k="desrate" placeholder="Target rate" value="${esc(a.desrate || '')}"></div><div class="field" style="margin-bottom:11px"><label>Lowest Acceptable Rate</label><input type="number" data-k="minrate" placeholder="Lowest acceptable rate" value="${esc(a.minrate || '')}"></div><div class="field" style="margin-bottom:11px;flex:0 0 92px"><label>Currency</label>${selRaw('currate', ['USD', 'EUR', 'GBP', 'INR', 'CAD'], { def: 'USD' })}</div></div>`
       });
       S.push({
         kind: 'form', group: 'Work Authorization and Engagement Method', q: 'How will you work with us?', sub: 'Entity, payroll, tax, and banking come later — only if you’re selected.',
         body: () => {
           const us = (a.country || 'United States') === 'United States';
+          if (Array.isArray(a.engage)) a.engage = a.engage[0] || '';
           let h = '';
           if (us) {
             h += `<div class="field"><label>What is your current U.S. work authorization status?</label>${optionCards('workauth', ['U.S. Citizen', 'Green Card Holder', 'Work Visa / EAD', 'Not Currently Authorized', 'Not Sure'], { cols: true, auto: false })}</div>`;
-            if (a.workauth === 'Work Visa / EAD') h += sel('authtype', 'Authorization type', AUTH_TYPES);
-            h += `<div class="field oneline-opts" style="margin-top:18px"><label>Will you now or in the future require employer sponsorship to work in the U.S.?</label>${optionCards('sponsor', [{ v: 'Yes' }, { v: 'No' }, { v: 'Not Sure' }], { cols: true, auto: false })}</div>`;
+            if (a.workauth === 'Work Visa / EAD') {
+              h += sel('authtype', 'Authorization type', AUTH_TYPES);
+              h += `<div class="field oneline-opts" style="margin-top:18px"><label>Will you now or in the future require employer sponsorship to work in the U.S.?</label>${optionCards('sponsor', [{ v: 'Yes' }, { v: 'No' }, { v: 'Not Sure' }], { cols: true, auto: false })}</div>`;
+            }
           }
-          h += `<div class="field" style="margin-top:${us ? 18 : 0}px"><label>Contract Engagement Method</label><div class="hint">Select all that apply.</div>${optionCards('engage', ENGAGE_OPTS, { multi: true, cols: true, auto: false })}</div>`;
-          if ((a.engage || []).includes('C2C — Through My Employer')) {
-            h += `<div class="groupcard"><div class="gh">Employer details</div>${text('emp_name', 'Employer Company Name', { req: true })}<div class="row">${text('emp_contact', 'Primary Contact Name')}${text('emp_email', 'Primary Contact Email', { type: 'email' })}</div>${text('emp_phone', 'Primary Contact Phone', { type: 'tel' })}<div class="hint">Contact details are optional. Employer information stays internal to Cloud Club and is only used by assigned representatives to confirm rate and contracting terms.</div></div>`;
+          h += `<div class="field" style="margin-top:${us ? 18 : 0}px"><label>Contract Engagement Method</label>${optionCards('engage', ENGAGE_OPTS, { multi: false, cols: true, auto: false })}</div>`;
+          if (a.engage === 'C2C — Through My Employer' || a.engage === 'C2C — Through Another Corporation') {
+            h += `<div class="groupcard"><div class="gh">Employer details</div>${text('emp_name', 'Employer Company Name', { req: true })}<div class="row">${text('emp_contact', 'Primary Contact Name', { req: true })}${text('emp_email', 'Primary Contact Email', { type: 'email', req: true })}</div>${text('emp_phone', 'Primary Contact Phone', { type: 'tel' })}<div class="hint">Employer information stays internal to Cloud Club and is only used by assigned representatives to confirm rate and contracting terms.</div></div>`;
           }
           return h;
         },
-        pv: { k: 'Engagement', get: a => (a.engage || []).join(', ') }
+        pv: { k: 'Engagement', get: a => [].concat(a.engage || []).join(', ') }
       });
       S.push({ kind: 'done', group: 'Profile Complete', q: 'Welcome to the Club!', sub: 'Your profile is complete! Explore everything Cloud Club has to offer.', preview: true, dashboardLabel: 'Features you can access from the dashboard', routes: [{ ic: '⌕', t: 'Browse opportunities', d: 'Roles matched to your profile.' }, { ic: '☰', t: 'Review my profile', d: 'See how clients view you.' }, { ic: '✦', t: 'Talk to Skai', d: 'Ask our AI assistant anything.' }, { ic: '✓', t: 'Skills verification', d: 'Verify your skills to strengthen your profile.' }, { ic: '★', t: 'Request a testimonial', d: 'Add a reference.' }, { ic: '◷', t: 'Manage Your Availability', d: 'Keep your availability and preferences up to date.' }], candidate: true });
       return S;
@@ -3576,7 +3633,7 @@
     function companyScreen({ industry = true } = {}) {
       return {
         kind: 'form', group: 'About Your Company', q: 'About your company.', sub: 'A few details to help us tailor your matches.',
-        body: () => `${industry ? sel('ind2', 'Industry', ['Professional Services', 'Technology', 'Financial Services', 'Healthcare', 'Manufacturing', 'Retail', 'Public Sector', 'Other'], { req: true }) : ''}${text('emp2', 'Employee count', { req: true, ph: 'e.g. 250', type: 'number' })}${sel('complocation', 'Company location', COUNTRIES, { req: true, def: 'United States' })}${sel('heard', 'How did you hear about us?', ['Google Search', 'Referral', 'LinkedIn', 'Event or Conference', 'Other'])}`,
+        body: () => `${industry ? indSearch('ind2', 'Industry', { req: true }) : ''}${text('emp2', 'Employee count', { req: true, ph: 'e.g. 250', type: 'number' })}${sel('complocation', 'Company location', COUNTRIES, { req: true, def: 'United States' })}${sel('heard', 'How did you hear about us?', ['Google Search', 'Referral', 'LinkedIn', 'Event or Conference', 'Other'])}`,
         pv: industry ? { k: 'Industry', get: a => a.ind2 || '' } : { k: 'Employees', get: a => a.emp2 || '' }
       };
     }
@@ -3643,7 +3700,7 @@
     }
     function clientBranchSteps(a) {
       const S = [firmTypeScreen(), companyScreen({ industry: false })];
-      S.push({ kind: 'multi', group: 'Your Client Focus', q: 'Which industries does your firm primarily serve?', sub: 'Up to three.', opts: ['Financial Services', 'Healthcare & Life Sciences', 'Technology & Software', 'Manufacturing', 'Retail & Consumer', 'Public Sector & Education', 'Other', 'No specific focus'], cols: true, id: 'industries', max: 3, pv: { k: 'Industries', get: a => (a.industries || []).slice(0, 3).join(', ') } });
+      S.push({ kind: 'multi', group: 'Your Client Focus', q: 'Which industries does your firm primarily serve?', sub: 'Up to three.', opts: ['Professional Services', 'Technology / Software / SaaS', 'Financial Services & Banking', 'Healthcare & Life Sciences', 'Manufacturing & Industrial', 'Retail & E-commerce', 'Government & Public Sector', 'Education', 'Energy & Utilities', 'Telecommunications & Media', 'Transportation & Logistics', 'Real Estate & Construction', 'Insurance', 'Nonprofit', 'Hospitality & Travel', 'Other', 'No specific focus'], cols: true, id: 'industries', max: 3, pv: { k: 'Industries', get: a => (a.industries || []).slice(0, 3).join(', ') } });
       // firm branch
       const t = a.firmtype;
       if (t === 'it') {
@@ -3676,13 +3733,13 @@
     const ICON_CLOSE = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
     /* ---- parsed resume data (seeded when resume is uploaded) ---- */
     const PARSED_EXPERIENCES = [
-      { employer: 'Cloud Systems Inc', client: 'XYZ Financial', industry: 'Financial Services', subindustry: 'Banking', project: 'Advisor platform on Financial Services Cloud', type: 'Consulting engagement', start: '2022-01', end: '', role: 'Solution Architect', platforms: ['Salesforce'], products: ['Financial Services Cloud (FSC)'], skills: ['Solution Architecture', 'Data Modeling', 'Integration Design'], outcome: 'Led FSC rollout for 1,200 advisors; designed integration with core banking.' },
-      { employer: 'Cloud Systems Inc', client: 'Regional Health Network', industry: 'Healthcare', subindustry: 'Providers', project: 'Patient service console', type: 'Consulting engagement', start: '2020-06', end: '2021-12', role: 'Technical Lead', platforms: ['Salesforce', 'MuleSoft'], products: ['Service Cloud', 'Anypoint Platform'], skills: ['Apex', 'LWC', 'Integration Design'], outcome: 'Built patient service console; integrated 3 legacy systems.' },
-      { employer: 'Brightpath Solutions', client: '', industry: 'Technology', subindustry: 'SaaS', project: 'CPQ implementation', type: 'Full-time employee', start: '2017-08', end: '2020-05', role: 'Salesforce Developer', platforms: ['Salesforce'], products: ['Salesforce CPQ'], skills: ['Apex', 'Solution Architecture'], outcome: 'Delivered CPQ; reduced quote cycle time 40%.' },
+      { employer: 'Cloud Systems Inc', client: 'XYZ Financial', industry: 'Financial Services & Banking', subindustry: 'Banking', project: 'Advisor platform on Financial Services Cloud', type: 'Consulting engagement', start: '2022-01', end: '', role: 'Solution Architect', platforms: ['Salesforce'], products: ['Financial Services Cloud (FSC)'], skills: ['Solution Architecture', 'Data Modeling', 'Integration Design'], outcome: 'Led FSC rollout for 1,200 advisors; designed integration with core banking.' },
+      { employer: 'Cloud Systems Inc', client: 'Regional Health Network', industry: 'Healthcare & Life Sciences', subindustry: 'Providers', project: 'Patient service console', type: 'Consulting engagement', start: '2020-06', end: '2021-12', role: 'Technical Lead', platforms: ['Salesforce', 'MuleSoft'], products: ['Service Cloud', 'Anypoint Platform'], skills: ['Apex', 'LWC', 'Integration Design'], outcome: 'Built patient service console; integrated 3 legacy systems.' },
+      { employer: 'Brightpath Solutions', client: '', industry: 'Technology / Software / SaaS', subindustry: 'SaaS', project: 'CPQ implementation', type: 'Full-time employee', start: '2017-08', end: '2020-05', role: 'Salesforce Developer', platforms: ['Salesforce'], products: ['Salesforce CPQ'], skills: ['Apex', 'Solution Architecture'], outcome: 'Delivered CPQ; reduced quote cycle time 40%.' },
     ];
     const fullDate = v => /^\d{4}-\d{2}$/.test(v || '') ? v + '-01' : (v || '');
     const fmtExpDate = v => { if (!v) return ''; const [y, m, d] = v.split('-'); return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m - 1] + (d ? ' ' + (+d) + ',' : '') + ' ' + y; };
-    const EXP_INDS = { 'Financial Services': ['Banking', 'Lending', 'Insurance', 'Wealth Management', 'Payments'], 'Healthcare': ['Providers', 'Payers', 'Medical Devices'], 'Pharma & Life Sciences': ['Biotech', 'Pharma Manufacturing', 'Distribution'], 'Travel & Hospitality': ['Airlines', 'Car Rental', 'Hotels'], 'Retail': ['E-commerce', 'Grocery', 'Apparel'], 'Technology': ['SaaS', 'Hardware', 'Telecom'], 'Manufacturing': ['Industrial', 'Automotive', 'Consumer Goods'], 'Public Sector': ['Federal', 'State & Local', 'Education'], 'Professional Services': ['Consulting', 'Legal', 'Staffing'], 'Other': ['Other'] };
+    const EXP_INDS = { 'Professional Services': ['Consulting', 'Legal', 'Staffing'], 'Technology / Software / SaaS': ['SaaS', 'Software', 'Hardware'], 'Financial Services & Banking': ['Banking', 'Lending', 'Wealth Management', 'Payments'], 'Healthcare & Life Sciences': ['Providers', 'Payers', 'Medical Devices', 'Biotech', 'Pharma Manufacturing', 'Distribution'], 'Manufacturing & Industrial': ['Industrial', 'Automotive', 'Consumer Goods'], 'Retail & E-commerce': ['E-commerce', 'Grocery', 'Apparel'], 'Government & Public Sector': ['Federal', 'State & Local'], 'Education': ['Higher Education', 'K-12'], 'Energy & Utilities': ['Oil & Gas', 'Power & Utilities', 'Renewables'], 'Telecommunications & Media': ['Telecom', 'Media & Entertainment'], 'Transportation & Logistics': ['Freight & Shipping', 'Supply Chain'], 'Real Estate & Construction': ['Real Estate', 'Construction'], 'Insurance': ['Property & Casualty', 'Life & Health', 'Brokerage'], 'Nonprofit': ['Nonprofit'], 'Hospitality & Travel': ['Airlines', 'Car Rental', 'Hotels'], 'Other': ['Other'] };
     const roChips = list => list && list.length ? `<div class="chips">${list.map(o => `<span class="chip sel">${esc(o)}</span>`).join('')}</div>` : `<div class="hint" style="margin:0">Nothing was found in your resume for this role.</div>`;
     /* same fields as Add / Edit work experience in the consultant dashboard; platforms, products and skills are read from the resume and not editable here */
     function expFormFields(a) {
@@ -3853,6 +3910,52 @@
     <div class="secsteps">${steps}</div></div>`;
     }
 
+    (function () {
+      const list = () => Object.keys(EXP_INDS);
+      const fillI = inp => {
+        const box = inp.parentNode.querySelector('[data-stdd]'); if (!box) return;
+        const cur = A()[inp.dataset.k] || '', raw = inp.value.trim().toLowerCase(), q = raw === cur.toLowerCase() ? '' : raw;
+        const m = list().filter(x => !q || x.toLowerCase().includes(q));
+        box.innerHTML = m.length ? m.map(x => `<div class="sti" data-iopt="${esc(x)}">${esc(x)}</div>`).join('') : '<div class="ste">No matches</div>';
+        box.classList.remove('up'); box.classList.add('show');
+        const r = inp.getBoundingClientRect(); if (r.bottom + 240 > window.innerHeight && r.top > 260) box.classList.add('up');
+      };
+      const isI = e => e.target.matches && e.target.matches('[data-isearch]');
+      document.addEventListener('focusin', e => { if (isI(e)) fillI(e.target) });
+      document.addEventListener('input', e => { if (isI(e)) { const ex = list().find(x => x.toLowerCase() === e.target.value.trim().toLowerCase()); A()[e.target.dataset.k] = ex || ''; fillI(e.target) } });
+      document.addEventListener('focusout', e => { if (isI(e)) { const t = e.target, ex = list().find(x => x.toLowerCase() === t.value.trim().toLowerCase()) || ''; A()[t.dataset.k] = ex; if (t.value !== ex) t.value = ex } });
+      document.addEventListener('mousedown', e => {
+        const it = e.target.closest && e.target.closest('[data-iopt]');
+        if (it) { e.preventDefault(); const inp = it.closest('.stwrap').querySelector('[data-isearch]'); A()[inp.dataset.k] = it.dataset.iopt; delete ERRS[inp.dataset.k]; render(); document.activeElement && document.activeElement.blur && document.activeElement.blur(); }
+      });
+      document.addEventListener('keydown', e => {
+        if (!isI(e)) return;
+        if (e.key === 'Enter') { e.preventDefault(); const f = e.target.parentNode.querySelector('[data-iopt]'); if (f) f.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })) }
+        if (e.key === 'Escape') e.target.parentNode.querySelector('[data-stdd]').classList.remove('show');
+      });
+    })();
+    (function () {
+      const fill = inp => {
+        const box = inp.parentNode.querySelector('[data-stdd]'); if (!box) return;
+        const q = inp.value.trim().toLowerCase(), have = A().relocstates || [];
+        const m = US_STATES.filter(x => !have.includes(x) && (!q || x.toLowerCase().includes(q))).sort((a, b) => (b.toLowerCase().startsWith(q) ? 1 : 0) - (a.toLowerCase().startsWith(q) ? 1 : 0));
+        box.innerHTML = m.length ? m.map(x => `<div class="sti" data-stopt="${esc(x)}">${esc(x)}</div>`).join('') : '<div class="ste">No matches</div>';
+        box.classList.remove('up'); box.classList.add('show');
+        const r = inp.getBoundingClientRect(); if (r.bottom + 240 > window.innerHeight && r.top > 260) box.classList.add('up');
+      };
+      document.addEventListener('focusin', e => { if (e.target.matches && e.target.matches('[data-stsearch]')) fill(e.target) });
+      document.addEventListener('input', e => { if (e.target.matches && e.target.matches('[data-stsearch]')) fill(e.target) });
+      document.addEventListener('mousedown', e => {
+        const it = e.target.closest && e.target.closest('[data-stopt]');
+        if (it) { e.preventDefault(); const a = A(); a.relocstates = a.relocstates || []; if (!a.relocstates.includes(it.dataset.stopt)) a.relocstates.push(it.dataset.stopt); render(); const i2 = document.querySelector('[data-stsearch]'); if (i2) { i2.focus(); fill(i2) } return }
+        if (!(e.target.closest && e.target.closest('.stwrap'))) document.querySelectorAll('.stdd.show').forEach(x => x.classList.remove('show'));
+      });
+      document.addEventListener('keydown', e => {
+        if (!(e.target.matches && e.target.matches('[data-stsearch]'))) return;
+        if (e.key === 'Enter') { e.preventDefault(); const f = e.target.parentNode.querySelector('[data-stopt]'); if (f) f.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })) }
+        if (e.key === 'Escape') e.target.parentNode.querySelector('[data-stdd]').classList.remove('show');
+      });
+    })();
     function persistCandidate() {
       if (state.flow !== 'candidate') return;
       try { const keep = Object.assign({}, A());['password', 'resume', 'uploadPct', 'resumeJustDone'].forEach(k => delete keep[k]); for (let i = 0; i < 6; i++) delete keep['code' + i]; localStorage.setItem('cc_consultant_answers', JSON.stringify(keep)); } catch (e) { }
@@ -3893,7 +3996,8 @@
       sideEl.classList.toggle('soft', !transition);
       morphHTML(sideEl, livePanel(screens));
       document.getElementById('kick').textContent = (s.group === 'FirmBranch' ? (FIRM_SECTION_TITLE[A().firmtype] || 'Firm Services') : s.group) || '';
-      document.getElementById('stepline').textContent = `Step ${state.idx + 1} of ${total}`;
+      const _grps = sectionGroups(screens); const _gi = Math.max(0, _grps.findIndex(g => state.idx >= g.start && state.idx <= g.end));
+      document.getElementById('stepline').textContent = `Step ${_gi + 1} of ${_grps.length}`;
       const pct = Math.round(state.idx / Math.max(1, total - 1) * 100);
       morphHTML(document.getElementById('ring'), ringSVG(pct));
       // body
@@ -3970,6 +4074,7 @@
           else if ((el.type === 'password' || el.dataset.originalType === 'password') && v.length < 8) { fail(k, 'Password must be at least 8 characters'); }
           else if (el.type === 'number' && Number(v) < 0) { fail(k, 'Must be a positive number'); }
         });
+        document.querySelectorAll('#stage input[data-isearch]').forEach(el => { const k = el.dataset.k, ok2 = Object.keys(EXP_INDS).includes(a[k]); if (!ok2) fail(k, 'Select an industry from the list'); });
         // cross-field: max hours >= min hours
         if (a.minhrs && a.maxhrs && Number(a.maxhrs) < Number(a.minhrs)) { fail('maxhrs', 'Max must be ≥ minimum hours'); }
         if (a.maxhrs && Number(a.maxhrs) > 40) { fail('maxhrs', 'Maximum hours per week can’t exceed 40'); }
@@ -4115,6 +4220,17 @@
     });
 
     // Separate document-level handler for experience overlay buttons (which live in document.body)
+    document.addEventListener('click', e => {
+      const t = e.target, c = s => t.closest(s), W = () => wins(); let el;
+      if ((el = c('[data-wdays]'))) { const [i, v] = el.dataset.wdays.split('|'), w = W()[+i]; w.days = v; if (v === 'Custom by day' && !w.dlist) w.dlist = []; syncWins(); render(false); return }
+      if ((el = c('[data-wday]'))) { const [i, d] = el.dataset.wday.split('|'), w = W()[+i]; w.dlist = w.dlist || []; const k = w.dlist.indexOf(d); k < 0 ? w.dlist.push(d) : w.dlist.splice(k, 1); syncWins(); render(false); return }
+      if ((el = c('[data-wpreset]'))) { const [i, s0, e0] = el.dataset.wpreset.split('|'), w = W()[+i]; w.stime = s0; w.etime = e0; delete w._e_stime; delete w._e_etime; syncWins(); render(false); return }
+      if ((el = c('[data-wstep]'))) { const [i, k, d0, def] = el.dataset.wstep.split('|'), w = W()[+i]; const cur = w[k] ? tmin(w[k]) : tmin(def) - (+d0), n = Math.max(0, Math.min(1410, cur + (+d0))); w[k] = String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0'); delete w['_e_' + k]; syncWins(); render(false); return }
+      if (c('[data-winadd]')) { const f = W()[0]; W().push({ days: f.days === 'Weekends' ? 'Weekdays' : 'Weekends', stime: f.days === 'Weekends' ? '17:00' : '09:00', etime: f.days === 'Weekends' ? '21:00' : '13:00' }); render(false); return }
+      if ((el = c('[data-winrm]'))) { W().splice(+el.dataset.winrm, 1); syncWins(); render(false); return }
+    });
+    document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.wsel) return; const [i, k] = el.dataset.wsel.split('|'), w = wins()[+i]; w[k] = el.value; if (k === 'days' && el.value === 'Custom by day' && !w.dlist) w.dlist = []; syncWins(); render(false) });
+    document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.winIn) return; const [i, k] = el.dataset.winIn.split('|'), w = wins()[+i], t = el.value.trim() === '' ? '' : parseT(el.value); if (t === null) { w['_e_' + k] = 1 } else { delete w['_e_' + k]; w[k] = t } syncWins(); render(false) });
     document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.tin) return; const k = el.dataset.tin, a = A(), t = el.value.trim() === '' ? '' : parseT(el.value); if (t === null) { a['_terr_' + k] = 1 } else { delete a['_terr_' + k]; a[k] = t } render(false) });
     document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.tin) { e.preventDefault(); e.target.blur() } });
     document.addEventListener('click', e => {
