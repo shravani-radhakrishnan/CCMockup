@@ -6421,7 +6421,14 @@
       html { scroll-behavior: auto }
       *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important }
     }
-  </style>
+      /* brand logo images: light/dark variants follow data-theme */
+    .brandlogo img { height: 28px; width: auto; display: block }
+    .brandlogo .lg-d { display: none }
+    :root[data-theme=dark] .brandlogo .lg-l { display: none }
+    :root[data-theme=dark] .brandlogo .lg-d { display: block }
+    .side.c .brandlogo { width: 40px; height: 28px; overflow: hidden }
+    .side.c .brandlogo img { height: 28px; max-width: none }
+</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
   <script src="theme-picker.js"></script>
 </head>
@@ -6829,7 +6836,7 @@
     function render() {
       morphHTML($('#app'), `
   <aside class="side ${S.collapsed || NARROW.matches ? 'c' : ''}">
-    <div class="s-head"><div class="logo"><svg viewBox="0 0 36 28" aria-hidden="true"><path d="M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z" fill="currentColor"/><path d="M13.6 17.6l4.4-3.9 4.4 2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13.6" cy="17.6" r="1.7" fill="#fff"/><circle cx="18" cy="13.7" r="1.7" fill="#fff"/><circle cx="22.4" cy="16.1" r="1.7" fill="#fff"/></svg></div><div class="brand">Cloud<i>Club</i></div>
+    <div class="s-head"><div class="brandlogo"><img class="lg-l" src="assets/logo-light.png" alt="Cloud Club"><img class="lg-d" src="assets/logo-dark.png" alt="Cloud Club"></div>
       <button class="tgl" data-a="collapse" aria-label="Toggle sidebar">${IC.chev}</button></div>
     <button class="cta ${S.open ? '' : 'off'}" data-a="avail" aria-pressed="${S.open}" data-tip="${S.open ? 'Open to work' : 'Not available'}"><i class="od"></i><span>${S.open ? 'Open to new work' : 'Not available'}</span></button>
     <div class="lbl">Workspace</div>
