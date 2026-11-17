@@ -2949,7 +2949,7 @@
     /* wordmark: "Cloud" + accent "Club", same as the portals */
     .wm i { font-style: normal; color: var(--slate) }
     /* brand logo images: light/dark variants swap with the colour scheme */
-    .wm img { height: 30px; width: auto; display: block }
+    .wm img { height: 30px; width: auto; max-width: none; flex: none; aspect-ratio: 790 / 124; object-fit: contain; display: block }
     .wm .lg-d { display: none }
     :root[data-theme=dark] .wm .lg-l { display: none }
     :root[data-theme=dark] .wm .lg-d { display: block }
@@ -2960,12 +2960,24 @@
     .wm { gap: 0 }
     .wm .cloud-mark { margin-right: 10px }
 
+    /* invited consultant: vendor-provided (locked) details */
+    .invite-from { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px solid var(--line); background: var(--slate-tint); border-radius: 14px; margin-bottom: 18px; font-size: 13.5px }
+    .invite-from b { display: block; font-size: 14px }
+    .invite-from span { color: var(--muted) }
+    .field input.locked, .field input:disabled { background: var(--surface-2, #f8fafb); color: var(--muted); cursor: not-allowed }
+    .lockhint { font-size: 12px; color: var(--muted); margin: -6px 0 14px }
+    .kvrow { display: grid; grid-template-columns: 150px 1fr; gap: 4px 14px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px }
+    .kvrow:last-child { border-bottom: 0 }
+    .kvrow dt { color: var(--muted) } .kvrow dd { margin: 0; font-weight: 500 }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto }
       *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important }
     }
   </style>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/favicon-192.png">
   <script src="theme-picker.js"></script>
 </head>
 
@@ -3044,7 +3056,7 @@
         <span class="wm"><img class="lg-l" src="assets/logo-light.png" alt="Cloud Club"><img class="lg-d" src="assets/logo-dark.png" alt="Cloud Club"></span>
         <div class="eyebrow login-kicker">Your next chapter awaits</div>
         <h1 class="login-title">Welcome back.</h1>
-        <p class="login-sub">One login for clients and consultants.</p>
+        <p class="login-sub">One login for clients, consultants and vendors.</p>
         <div class="login-form">
           <div class="field">
             <label for="loginEmail">Email address</label>
@@ -3621,7 +3633,93 @@
         pv: { k: 'Engagement', get: a => [].concat(a.engage || []).join(', ') }
       });
       S.push({ kind: 'done', group: 'Profile Complete', q: 'Welcome to the Club!', sub: 'Your profile is complete! Explore everything Cloud Club has to offer.', preview: true, dashboardLabel: 'Features you can access from the dashboard', routes: [{ ic: '⌕', t: 'Browse opportunities', d: 'Roles matched to your profile.' }, { ic: '☰', t: 'Review my profile', d: 'See how clients view you.' }, { ic: '✦', t: 'Talk to Skai', d: 'Ask our AI assistant anything.' }, { ic: '✓', t: 'Skills verification', d: 'Verify your skills to strengthen your profile.' }, { ic: '★', t: 'Request a testimonial', d: 'Add a reference.' }, { ic: '◷', t: 'Manage Your Availability', d: 'Keep your availability and preferences up to date.' }], candidate: true });
+      return a._inv ? applyInvite(S) : S;
+    }
+
+    /* ============ VENDOR (invite-only) + INVITED CONSULTANT ============ */
+    const VENDOR_SOFTWARE = ['Salesforce', 'SAP', 'AWS', 'Microsoft Azure', 'Google Cloud (GCP)', 'Dynamics 365 & Power Platform', 'ServiceNow', 'Workday', 'Oracle', 'NetSuite', 'Snowflake', 'Databricks', 'MuleSoft', 'Other'];
+    function buildVendor() {
+      const S = [];
+      S.push({
+        kind: 'form', group: 'Account Admin', q: 'Create your vendor account.', sub: 'You were invited to Cloud Club as a vendor. You’ll be the account admin.',
+        body: () => `<div class="row">${text('first', 'First name', { req: true })}${text('last', 'Last name', { req: true })}</div>${text('jobtitle', 'Title', { req: true, ph: 'Delivery Director' })}${text('workemail', 'Work email', { type: 'email', req: true, ph: 'you@yourcompany.com' })}${phoneInput('phone', 'Phone number', { req: true })}${text('password', 'Password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${agreeCheck()}`,
+        pv: { k: 'Admin', get: a => [a.first, a.last].filter(Boolean).join(' ') }
+      });
+      S.push({ kind: 'form', group: 'Verify Your Email', q: 'Verify your email.', body: verifyBody });
+      S.push({
+        kind: 'form', group: 'Company', q: 'Your company details.', sub: 'The corporation that employs or contracts your consultants.',
+        body: () => `${text('legal', 'Corporation legal name', { req: true, ph: 'Acme Technology Partners LLC' })}${text('addr1', 'Corporation address', { req: true, ph: 'Street address' })}<div class="row">${text('vcity', 'City', { req: true })}${text('vstate', 'State', { req: true, ph: 'TX' })}${text('vzip', 'ZIP code', { req: true })}</div>`,
+        pv: { k: 'Company', get: a => a.legal || '' }
+      });
+      S.push({
+        kind: 'form', group: 'Company', q: 'Bank details for payments.', sub: 'Where Cloud Club sends payments for your consultants’ work. Encrypted and visible only to your account admin.',
+        body: () => `${text('bankname', 'Bank name', { req: true })}${text('acctname', 'Account holder name', { req: true, ph: 'As it appears on the account' })}${sel('accttype', 'Account type', ['Checking', 'Savings'], { req: true })}<div class="row">${text('routing', 'Routing number', { req: true, ph: '9 digits' })}${text('acctnum', 'Account number', { req: true })}</div>`,
+        pv: { k: 'Bank', get: a => a.acctnum ? 'Account ending ' + String(a.acctnum).slice(-4) : '' }
+      });
+      S.push({
+        kind: 'form', group: 'Delivery Profile', q: 'Tell us about your delivery team.', sub: 'Optional. This helps us understand the kind of work to send your way. You can skip it and add it later.',
+        body: () => `<div class="row">${text('vteam', 'Overall delivery team size', { type: 'number', ph: 'e.g. 40' })}${text('vbench', 'Current bench size (FTE / W-2)', { type: 'number', ph: 'e.g. 5' })}</div><div class="field" style="margin-top:6px"><label>Software you provide consultants for</label><div class="hint">Select all that apply.</div>${optionCards('vsoft', VENDOR_SOFTWARE, { multi: true, cols: true, auto: false })}</div>`,
+        pv: { k: 'Software', get: a => (a.vsoft || []).slice(0, 3).join(', ') }
+      });
+      S.push({
+        kind: 'done', group: 'Account Ready', q: 'Your vendor account is ready.', sub: 'Invite your consultants first. You can complete the rest of your company profile later.', preview: true, dashboardLabel: 'Where to start in your dashboard',
+        routes: [{ ic: '＋', t: 'Invite consultants', d: 'They onboard and are linked to your company automatically.', primary: true }, { ic: '☰', t: 'Track your roster', d: 'See who has accepted and who is still pending.' }, { ic: '▣', t: 'Complete company profile', d: 'Add the remaining details whenever you’re ready.' }]
+      });
       return S;
+    }
+    const kv = (k, v) => `<div class="kvrow"><dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd></div>`;
+    const lockedField = (label, val) => `<div class="field"><label>${label}</label><input type="text" class="locked" value="${esc(val || '')}" disabled></div>`;
+    /* invited consultant: swap the account + work screens for vendor-provided read-only versions, drop rate + email verification */
+    function applyInvite(S) {
+      const a = A(), vn = a._vname || 'your company';
+      return S.filter(s => s.q !== 'Your desired hourly rate range.' && s.q !== 'Verify your email.').map(s => {
+        if (s.q === 'Create your account.') return {
+          kind: 'form', group: 'Accept Your Invitation', q: 'Accept your invitation.', sub: 'Create a password to finish setting up your account.',
+          body: () => `<div class="invite-from"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-top:2px;flex:none"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><div><b>${esc(vn)} invited you to Cloud Club</b><span>Your details below were provided by ${esc(vn)}. Your account will be linked to them automatically.</span></div></div>
+            <div class="row">${lockedField('First name', a.first)}${lockedField('Last name', a.last)}</div>${lockedField('Email', a.email)}<div class="lockhint" style="margin-top:-6px">Something wrong? Ask ${esc(vn)} to correct it and resend your invitation.</div>${a.phone ? lockedField('Phone number', a.phone) : phoneInput('phone', 'Phone number', { req: true })}
+            ${text('password', 'Create password', { type: 'password', req: true, ph: '••••••••', hint: 'At least 8 characters. Numbers, letters & special characters recommended.' })}${agreeCheck()}`,
+          pv: { k: 'Account', get: a => [a.first, a.last].filter(Boolean).join(' ') }
+        };
+        if (s.q === 'How will you work with us?') return {
+          kind: 'form', group: 'Work Authorization and Engagement Method', q: 'Your work details.', sub: 'Provided by ' + vn + '. These can’t be edited here.',
+          body: () => `<div class="groupcard"><div class="gh">Employer</div><dl style="margin:0">${kv('Company', a.emp_name)}${kv('Address', a.corpaddr)}${kv('Primary contact', [a.emp_contact, a.emp_email].filter(Boolean).join(' · '))}</dl></div>
+            <div class="groupcard"><div class="gh">Employment and authorization</div><dl style="margin:0">${kv('Employment type', a._etype)}${kv('Work authorization', a.workauth)}${a.authtype ? kv('Visa / EAD type', a.authtype) : ''}</dl></div>
+            <div class="hint">To change your employer or work authorization details, contact ${esc(vn)}. Rates are managed by ${esc(vn)}.</div>`,
+          pv: { k: 'Employer', get: a => a.emp_name || '' }
+        };
+        return s;
+      });
+    }
+    /* load the invite + vendor from localStorage (demo fallback so a copied link still works) */
+    function loadInvite(id) {
+      const rd = k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } };
+      const snap = rd('cc_consultant_invite_' + id) || {};
+      const vendor = Object.assign({ legal: 'Northstar Technology Partners LLC', addr: '1200 Congress Ave, Suite 400, Austin, TX 78701', admin: 'Priya Nair', email: 'priya@northstartp.com', phone: '+1 512 555 0142' }, rd('cc_vendor_profile') || {}, snap.vendor || {});
+      const list = rd('cc_vendor_invites') || [];
+      const inv = list.find(x => x.id === id) || snap.invite || { id, name: 'Dev Patel', email: 'dev.patel@northstartp.com', phone: '', type: 'FTE', auth: 'Green Card Holder', authtype: '', rmin: 90, rmax: 110, vis: 'hidden', st: 'invited' };
+      return { inv, vendor };
+    }
+    function setInviteStatus(id, st) {
+      try { const l = JSON.parse(localStorage.getItem('cc_vendor_invites') || 'null'); if (!l) return; const i = l.find(x => x.id === id); if (i) { i.st = st; localStorage.setItem('cc_vendor_invites', JSON.stringify(l)); } } catch (e) { }
+    }
+    function startInvitedConsultant(id) {
+      const { inv, vendor } = loadInvite(id), parts = inv.name.trim().split(/\s+/);
+      const a = (state.ans.candidate = {});
+      Object.assign(a, {
+        _inv: id, _vname: vendor.legal, first: parts[0], last: parts.slice(1).join(' '), email: inv.email, phone: inv.phone || '', _etype: inv.type,
+        workauth: inv.auth, authtype: inv.authtype || '', engage: inv.type === 'FTE' ? 'C2C — Through My Employer' : 'C2C — Through Another Corporation',
+        emp_name: vendor.legal, corpaddr: vendor.addr, emp_contact: vendor.admin, emp_email: vendor.email, emp_phone: vendor.phone, sponsor: 'Not Sure',
+        vendorLinked: true, ratevis: inv.vis, _rate: inv.vis !== 'hidden' ? '$' + inv.rmin + '–$' + inv.rmax + '/hr' : ''
+      });
+      if (inv.st === 'invited') setInviteStatus(id, 'onboarding');
+      state.flow = 'candidate'; state.idx = 0; state.finished = false;
+      hideAllShells(); document.getElementById('appWrap').style.display = 'flex'; render(true);
+    }
+    function startVendor() {
+      const a = (state.ans.vendor = {});
+      Object.assign(a, { first: 'Priya', last: 'Nair', workemail: 'priya@northstartp.com', legal: 'Northstar Technology Partners LLC' });
+      state.flow = 'vendor'; state.idx = 0; state.finished = false;
+      hideAllShells(); document.getElementById('appWrap').style.display = 'flex'; render(true);
     }
 
     /* ============ HIRE (internal) ============ */
@@ -3876,7 +3974,7 @@
     }
 
     /* ---- assembly + branch ---- */
-    function getScreens() { return state.flow === 'candidate' ? buildCandidate() : buildOrgSteps(); }
+    function getScreens() { return state.flow === 'candidate' ? buildCandidate() : state.flow === 'vendor' ? buildVendor() : buildOrgSteps(); }
     const FLOW_META = {
       candidate: { eyebrow: 'For consultants', hl: 'Build your practice. <span class="serif-i">On your terms.</span>', copy: 'Bring your expertise—we help with the business around it. Add your experience once and we’ll build your profile from it.', live: 'Your profile so far', mono: 'RK' },
       hiring: { eyebrow: 'Get started', hl: 'Find the right expertise. <span class="serif-i">Fast.</span>', copy: 'It starts with a short profile. No payment, no commitment — just the details we need to make a great first match, for your team or your clients.', live: 'Your brief so far', mono: 'AC' },
@@ -3903,6 +4001,7 @@
     }
     function workspaceLabel() {
       if (state.flow === 'candidate') return 'Consultant profile';
+      if (state.flow === 'vendor') return 'Vendor account';
       const eff = effectiveUseCase();
       return eff === 'client' ? 'Client delivery' : 'Company hiring';
     }
@@ -4092,7 +4191,7 @@
           const code = Array.from({ length: 6 }, (_, i) => a[`code${i}`] || '').join('');
           if (!/^\d{6}$/.test(code)) { fail('code', 'Enter the 6-digit code'); }
         }
-        if (/^Create your (company )?account/.test(q) && !a.agreeTerms) { fail('agreeTerms', 'You must agree to the Terms of Service and Privacy Policy to continue'); }
+        if (/^(Create your (company |vendor )?account|Accept your invitation)/.test(q) && !a.agreeTerms) { fail('agreeTerms', 'You must agree to the Terms of Service and Privacy Policy to continue'); }
       }
 
       if (s.kind === 'single' || s.kind === 'usecase' || s.kind === 'firmtype') {
@@ -4396,8 +4495,16 @@
         try { localStorage.setItem('cc_hiring_profile', JSON.stringify(a)); } catch (e) { }
         renderRedirect(label, 'client-portal.html?new=1'); return;
       }
+      if (state.flow === 'vendor') {
+        try {
+          localStorage.setItem('cc_vendor_profile', JSON.stringify({ legal: a.legal, addr: [a.addr1, a.vcity, a.vstate, a.vzip].filter(Boolean).join(', '), admin: [a.first, a.last].filter(Boolean).join(' '), title: a.jobtitle, email: a.workemail, phone: ((a.phone_dial || '+1') + ' ' + (a.phone || '')).trim(), team: a.vteam || '', bench: a.vbench || '', software: a.vsoft || [], bank: String(a.acctnum || '').slice(-4) }));
+          localStorage.removeItem('cc_vendor_invites');
+        } catch (e) { }
+        renderRedirect('your vendor dashboard', 'vendor-portal.html?new=1'); return;
+      }
       if (state.flow === 'candidate') {
-        try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email })); } catch (e) { }
+        if (a._inv) setInviteStatus(a._inv, 'active');
+        try { localStorage.setItem('cc_consultant_profile', JSON.stringify({ first: a.first, last: a.last, email: a.email, vendor: a._inv ? { id: a._inv, name: a._vname, ratevis: a.ratevis, rate: a._rate || '' } : undefined })); } catch (e) { }
         persistCandidate();
         renderRedirect('your consultant portal', 'consultant-portal.html?new=1'); return;
       }
@@ -4510,7 +4617,8 @@
       if (bad) { (bad.startsWith('Enter a valid') ? document.getElementById('loginEmail') : document.getElementById('loginPassword')).focus(); return; }
       btn.disabled = true; btn.firstChild.textContent = 'Signing you in… ';
       const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
-      setTimeout(() => { window.location.href = 'client-portal.html'; }, rm ? 80 : 700);
+      const dest = /^vendor/i.test(em) ? 'vendor-portal.html' : 'client-portal.html';
+      setTimeout(() => { window.location.href = dest; }, rm ? 80 : 700);
     }
     document.getElementById('loginSubmit').addEventListener('click', doLogin);
     ['loginEmail', 'loginPassword'].forEach(id => document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } }));
@@ -4520,7 +4628,13 @@
       input.type = shown ? 'password' : 'text';
       setEye(e.currentTarget, !shown);
     });
-    // don't auto-render the flow — landing card is shown first
+    // invite-only deep links: ?vendor_invite=1 (vendor onboarding) and ?consultant_invite=<id> (vendor-linked consultant onboarding)
+    (function () {
+      const q = new URLSearchParams(location.search);
+      if (q.has('vendor_invite')) startVendor();
+      else if (q.get('consultant_invite')) startInvitedConsultant(q.get('consultant_invite'));
+    })();
+    // otherwise don't auto-render the flow — landing card is shown first
   </script>
 </body>
 
