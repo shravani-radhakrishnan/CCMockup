@@ -668,7 +668,7 @@
     }
 
     .prof:hover {
-      background: var(--slate-tint)
+      background: none
     }
 
     .profrow {
@@ -7889,6 +7889,9 @@
       display: grid
     }
 
+    .thk svg { width: 12px !important; height: 12px !important }
+    .thc { align-content: start }
+
     .avrow {
       display: flex;
       align-items: center;
@@ -7927,6 +7930,7 @@
       gap: 18px;
       max-width: 760px
     }
+
 
     .stl {
       display: grid;
@@ -11850,7 +11854,7 @@
       <div class="seg"><button class="${S.theme === 'light' ? 'on' : ''}" data-a="theme" data-v="light" title="Light">${IC.sun}<span>Light</span></button><button class="${S.theme === 'dark' ? 'on' : ''}" data-a="theme" data-v="dark" title="Dark">${IC.moon}<span>Dark</span></button></div>
       <button class="ni" data-a="pop" data-tip="Notifications" aria-haspopup="true" aria-expanded="${!!S.pop}">${IC.bell}<span>Notifications</span>${unread() ? `<i class="bd">${unread()}</i>` : ''}</button>
       <button class="ni ${S.view === 'settings' ? 'on' : ''}" data-go="settings" data-tip="Settings">${IC.gear}<span>Settings</span></button>
-      <div class="profrow"><button class="prof" data-go="profile" data-tip="Profile"><span class="av" ${avCss()}>${ORG.ini}</span><span class="who"><b>${ORG.name}</b><i>${ORG.email}</i></span></button><button class="so" data-a="signout" title="Sign out" aria-label="Sign out">${IC.out}</button></div>
+      <div class="profrow"><div class="prof" style="cursor:default"><span class="av" ${avCss()}>${ORG.ini}</span><span class="who"><b>${ORG.name}</b><i>${ORG.email}</i></span></div><button class="so" data-a="signout" title="Sign out" aria-label="Sign out">${IC.out}</button></div>
     </div>
   </aside>
   ${S.pop ? notifPop() : ''}
