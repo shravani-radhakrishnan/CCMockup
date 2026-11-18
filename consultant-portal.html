@@ -6429,7 +6429,9 @@
     .side.c .brandlogo { width: 40px; height: 28px; overflow: hidden }
     .side.c .brandlogo img { height: 28px; max-width: none }
 </style>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 28'%3E%3Cpath d='M10.4 23.2h15.1a6.4 6.4 0 0 0 .8-12.7A9.2 9.2 0 0 0 9.2 8a7.8 7.8 0 0 0 1.2 15.2Z' fill='%23547691'/%3E%3Cpath d='M13.6 17.6l4.4-3.9 4.4 2.4' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='13.6' cy='17.6' r='1.7' fill='%23fff'/%3E%3Ccircle cx='18' cy='13.7' r='1.7' fill='%23fff'/%3E%3Ccircle cx='22.4' cy='16.1' r='1.7' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/favicon-192.png">
   <script src="theme-picker.js"></script>
 </head>
 
@@ -6481,6 +6483,8 @@
     /* ---------- state ---------- */
     const FRESH = /[?&]new\b/.test(location.search); /* first login after onboarding: nothing exists yet except what the onboarding collected */
     const ONB = (() => { try { const r = localStorage.getItem('cc_consultant_profile'); return r ? JSON.parse(r) : null } catch (e) { return null } })();
+    /* vendor-linked consultant: employer, authorization and rates are managed by the vendor */
+    const VEN = (ONB && ONB.vendor) || null;
     const ME = { first: (ONB && ONB.first) || 'John', last: (ONB && ONB.last) || 'Davis', email: (ONB && ONB.email) || 'john.davis@email.com' };
     ME.name = ME.first + ' ' + ME.last; ME.ini = ((ME.first[0] || '') + (ME.last[0] || '')).toUpperCase() || 'CC';
     const NAV = [['profile', 'My Profile', IC.user], ['interviews', 'Interviews', IC.chat], ['offers', 'Offers', IC.offer], ['projects', 'Projects', IC.brief], ['payments', 'Payments', IC.dollar], ['referrals', 'Referrals', IC.users]];
@@ -6575,7 +6579,7 @@
     function lgInit() {
       const o = ONBA || {}, g = { country: 'Argentina', state: 'Buenos Aires', city: 'Buenos Aires', tz: 'Other', roles: ['SF Administrator', 'SF Solutions Architect'], rate: '100', min: '90', cur: 'USD', minhrs: '20', maxhrs: '40', looking: ['Full-Time Contracts', 'Part-Time Contracts'], wins: [{ days: 'Weekdays', stime: '09:00', etime: '17:00' }], start: iso(D(21)), engage: ['C2C — Through My Own Corporation'], corpname: 'Kumar Consulting S.R.L.', corpaddr: 'Av. Corrientes 1234, Buenos Aires, Argentina', corpcname: '', corpemail: '', corpphone: '', wauth: '', wtype: '', sponsor: '', workarr: ['Remote'], travel: 'No', travelfreq: [], relocate: 'No', relocwhere: [], relocstates: [] };
       if (FRESH) Object.assign(g, { engage: [], corpname: '', corpaddr: '', sponsor: '', country: '', state: '', city: '', tz: '', roles: [], rate: '', min: '', minhrs: '', maxhrs: '', looking: [], wins: [{ days: '', stime: '', etime: '' }], start: '', workarr: [], travel: '', relocate: '', relocwhere: [], relocstates: [] });
-      const mp = { country: 'country', state: 'state', city: 'city', tz: 'tz', startdate: 'start', minhrs: 'minhrs', maxhrs: 'maxhrs', minrate: 'min', desrate: 'rate', currate: 'cur', sponsor: 'sponsor', workauth: 'wauth', authtype: 'wtype', travel: 'travel', relocate: 'relocate', emp_name: 'corpname', emp_contact: 'corpcname', emp_email: 'corpemail', emp_phone: 'corpphone' };
+      const mp = { country: 'country', state: 'state', city: 'city', tz: 'tz', startdate: 'start', minhrs: 'minhrs', maxhrs: 'maxhrs', minrate: 'min', desrate: 'rate', currate: 'cur', sponsor: 'sponsor', workauth: 'wauth', authtype: 'wtype', travel: 'travel', relocate: 'relocate', corpaddr: 'corpaddr', emp_name: 'corpname', emp_contact: 'corpcname', emp_email: 'corpemail', emp_phone: 'corpphone' };
       Object.keys(mp).forEach(k => { if (o[k]) g[mp[k]] = String(o[k]) });
       if (o.days || o.stime || o.etime) g.wins = [{ days: o.days || '', stime: o.stime || '', etime: o.etime || '' }];
       if (Array.isArray(o.wins) && o.wins.length) g.wins = o.wins.map(w => ({ days: w.days || '', stime: w.stime || '', etime: w.etime || '' }));
@@ -6583,6 +6587,7 @@
       if (+g.maxhrs > 40) g.maxhrs = '40'; if (+g.minhrs > 40) g.minhrs = '40';
       return lgSync(g)
     }
+    const venLocked = g => `<div class="lgk w"><small>Managed by ${esc(VEN.name)}</small><b>${esc(g.corpname || '')}${g.corpaddr ? ' · ' + esc(g.corpaddr) : ''}</b></div><div class="lgk"><small>Contract engagement method</small><b>${esc((g.engage || []).join(', '))}</b></div>${g.wauth ? `<div class="lgk"><small>U.S. work authorization</small><b>${esc(g.wauth)}${g.wtype ? ' · ' + esc(g.wtype) : ''}</b></div>` : ''}<div class="lgn" style="grid-column:1/-1">Employer and authorization details are set by ${esc(VEN.name)} and can’t be edited here. Contact ${esc(VEN.name)} or Cloud Club support to request a change.</div>`;
     const RELOC_OPTS = ['Anywhere in the United States', 'Specific U.S. States', 'Internationally', 'Depends on the Opportunity'];
     function relocTxt(g) {
       if (g.relocate !== 'Yes') return ''; const w = g.relocwhere || [];
@@ -6590,9 +6595,9 @@
       return ' (' + w.map(x => x === 'Specific U.S. States' && (g.relocstates || []).length ? 'Specific U.S. States: ' + g.relocstates.join(', ') : x).join('; ') + ')'
     }
     function lgValid(P, g, ob) {
-      const e = {};['country', 'state', 'city', 'tz', 'rate', 'minhrs', 'maxhrs', 'start'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 });
+      const e = {};['country', 'state', 'city', 'tz', 'rate', 'minhrs', 'maxhrs', 'start'].forEach(k => { if (VEN && k === 'rate') return; if (!String(g[k] || '').trim()) e[P + k] = 1 });
       if (!g.engage.length) e[P + 'engage'] = 1; if (!ob && !g.roles.length) e[P + 'roles'] = 1;
-      if (isUS(g)) { if (!g.wauth) e[P + 'wauth'] = 1; if (g.wauth === 'Work Visa / EAD') { if (!g.wtype) e[P + 'wtype'] = 1; if (!g.sponsor) e[P + 'sponsor'] = 1 } }
+      if (isUS(g)) { if (!g.wauth) e[P + 'wauth'] = 1; if (g.wauth === 'Work Visa / EAD') { if (!g.wtype) e[P + 'wtype'] = 1; if (!g.sponsor && !VEN) e[P + 'sponsor'] = 1 } }
       if (isC2C(g)) { ['corpname', 'corpaddr'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 }); if (needContact(g)) { ['corpcname', 'corpemail', 'corpphone'].forEach(k => { if (!String(g[k] || '').trim()) e[P + k] = 1 }); if (g.corpemail && !isMail(g.corpemail)) e[P + 'corpemail'] = 2 } }
       if (!e[P + 'minhrs'] && !e[P + 'maxhrs'] && +g.maxhrs < +g.minhrs) e[P + 'maxhrs'] = 2;
       if (+g.maxhrs > 40) e[P + 'maxhrs'] = 3; if (+g.minhrs > 40) e[P + 'minhrs'] = 3;
@@ -6614,10 +6619,10 @@
       return `<div class="lgc">
   ${sec('Location', `<div class="rowg">${fld('Country', P + 'country', { req: 1, opts: COUNTRIES })}${stO ? fld('State', P + 'state', { req: 1, opts: stO }) : fld('State / region', P + 'state', { req: 1, ph: 'State or region' })}${ctO.length ? fld('City', P + 'city', { req: 1, opts: ctO }) : fld('City', P + 'city', { req: 1, ph: 'City' })}${fld('Primary time zone', P + 'tz', { req: 1, opts: TZ_OPTS })}</div>`)}
   ${ob ? '' : sec('Roles and opportunities', pills('roles', ROLE_OPTS, 'Type of roles you are interested in', 1) + pills('looking', LOOK_OPTS, 'What are you looking for through Cloud Club?'))}
-  ${sec('Rate, hours and start date', `<div class="rowg">${fld('Target Rate (/hour)', P + 'rate', { req: 1, type: 'number' })}${fld('Lowest Acceptable Rate (/hour)', P + 'min', { type: 'number', bad: 'Lowest acceptable rate can’t be higher than target rate' })}${fld('Currency', P + 'cur', { opts: CURS, ph: 'USD' })}${fld('Earliest start date', P + 'start', { req: 1, type: 'date' })}${fld('Min hours / week', P + 'minhrs', { req: 1, type: 'number', ph: '10', bad: 'Hours per week are limited to 40' })}${fld('Max hours / week (up to 40)', P + 'maxhrs', { req: 1, type: 'number', ph: '40', bad: 'Max must be at least the minimum hours' })}</div>`)}
+  ${sec(VEN ? 'Hours and start date' : 'Rate, hours and start date', `<div class="rowg">${VEN ? '' : fld('Target Rate (/hour)', P + 'rate', { req: 1, type: 'number' }) + fld('Lowest Acceptable Rate (/hour)', P + 'min', { type: 'number', bad: 'Lowest acceptable rate can’t be higher than target rate' }) + fld('Currency', P + 'cur', { opts: CURS, ph: 'USD' })}${fld('Earliest start date', P + 'start', { req: 1, type: 'date' })}${fld('Min hours / week', P + 'minhrs', { req: 1, type: 'number', ph: '10', bad: 'Hours per week are limited to 40' })}${fld('Max hours / week (up to 40)', P + 'maxhrs', { req: 1, type: 'number', ph: '40', bad: 'Max must be at least the minimum hours' })}</div>`)}
   ${sec('Work preferences', `<div class="rowg wp">${pills('workarr', ARR_OPTS, 'Preferred Work Arrangements')}${pills('travel', ['Yes', 'No'], 'Willing to Travel?', 0, 1)}${g.travel === 'Yes' ? pills('travelfreq', TRAVEL_FREQ, 'How frequently are you willing to travel?', 0, 0, ['1–5 days', '6–10 days', '11–15 days', '16+ days', 'Flexible'], 'Days per month') : ''}${pills('relocate', ['Yes', 'No'], 'Open to Relocation?', 0, 1)}</div>${g.relocate === 'Yes' ? `<div class="rowg wp" style="margin-top:14px">${pills('relocwhere', RELOC_OPTS, 'Where are you willing to relocate?', 0, 0, ['Anywhere in the U.S.', 'Specific U.S. States', 'Internationally', 'Depends on the Opportunity'], 'Select all that apply')}${(g.relocwhere || []).includes('Specific U.S. States') ? `<div class="fld pk" data-f="f-${P}relocstates" style="flex:0 0 100%;max-width:520px;margin-top:6px"><label>Which U.S. states?</label>${(g.relocstates || []).length ? `<div class="pills" style="gap:6px;margin-bottom:10px">${g.relocstates.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="lgtog" data-p="${P}relocstates" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}<div class="cdd-wrap"><input class="in" type="text" data-csearch="${P}relocstates" data-csrc="usstates" placeholder="Search and select states" autocomplete="off"><div class="cdd" data-cdd="${P}relocstates"></div></div></div>` : ''}</div>` : ''}`)}
   ${sec('Availability', `${wins}<button type="button" class="btn sm" data-a="lgwinadd" data-p="${P}wins">${IC.plus} Add availability window</button>`)}
-  ${sec('Contract and authorization', `${pills('engage', ENG_OPTS, 'Contract Engagement Method', 1, 2)}${corp}${auth}`)}</div>`
+  ${VEN ? sec('Contract and authorization', `<div class="lgg">${venLocked(g)}</div>`) : sec('Contract and authorization', `${pills('engage', ENG_OPTS, 'Contract Engagement Method', 1, 2)}${corp}${auth}`)}</div>`
     }
     const S = {
       view: 'profile', ptab: 'resume', collapsed: false, theme: 'light', pop: false, chat: false, modal: null, open: true, mf: {}, err: {},
@@ -6694,7 +6699,7 @@
     })();
 
     /* ---------- derived ---------- */
-    const logiDone = () => !!(S.lg.contract && S.lg.auth && S.lg.address && S.lg.rate && S.lg.roles.length);
+    const logiDone = () => !!(S.lg.contract && S.lg.auth && S.lg.address && (VEN || S.lg.rate) && S.lg.roles.length);
     const pcItems = () => [
       ['Upload your resume', 'We read it to refresh your experience and skills', 'Resume uploaded', !!S.resume],
       ['Add a headline', 'The first thing clients read on your profile', 'Headline added', !!S.prof.headline],
@@ -6949,10 +6954,10 @@
     ${e ? lgForm('lgDraft.', g, 0) : `<div class="lgc">
       ${sec('Location', kv('Your address', g.address) + kv('Time zone', g.tz))}
       ${sec('Roles and opportunities', tags(g.roles, 'Type of roles you are interested in') + tags(g.looking, 'Looking for'))}
-      ${sec('Rate, hours and start date', kv('Target Rate', g.rate ? cs + g.rate + '/hour' : '') + kv('Lowest Acceptable Rate', g.min ? cs + g.min + '/hour' : '') + kv('Current bandwidth', g.bw) + kv('Earliest start date', g.start ? fmtLong(g.start) : ''))}
+      ${sec(VEN ? 'Hours and start date' : 'Rate, hours and start date', (VEN ? (VEN.rate ? kv('Your rate (set by ' + VEN.name + ')', VEN.rate) : '') : kv('Target Rate', g.rate ? cs + g.rate + '/hour' : '') + kv('Lowest Acceptable Rate', g.min ? cs + g.min + '/hour' : '')) + kv('Current bandwidth', g.bw) + kv('Earliest start date', g.start ? fmtLong(g.start) : ''))}
       ${sec('Work preferences', kv('Work arrangement', g.workarr.join(', ')) + kv('Willing to travel', g.travel ? g.travel + (g.travel === 'Yes' && g.travelfreq.length ? ' · ' + g.travelfreq.join(', ') : '') : '') + kv('Open to relocation', g.relocate ? g.relocate + relocTxt(g) : ''))}
       ${sec('Availability', tags(wl, 'Available working hours'))}
-      ${sec('Contract and authorization', kv('Contract engagement method', g.contract, 1) + (isC2C(g) ? kv('Company legal name', g.corpname) + kv('Company address', g.corpaddr) : '') + (needContact(g) ? kv('Primary contact', [g.corpcname, g.corpemail, g.corpphone].filter(Boolean).join(' · '), 1) : '') + (isUS(g) ? kv('U.S. work authorization', g.auth, 1) : ''))}</div>`}</div></div>`
+      ${VEN ? sec('Contract and authorization', venLocked(g)) : sec('Contract and authorization', kv('Contract engagement method', g.contract, 1) + (isC2C(g) ? kv('Company legal name', g.corpname) + kv('Company address', g.corpaddr) : '') + (needContact(g) ? kv('Primary contact', [g.corpcname, g.corpemail, g.corpphone].filter(Boolean).join(' · '), 1) : '') + (isUS(g) ? kv('U.S. work authorization', g.auth, 1) : ''))}</div>`}</div></div>`
     }
 
     function tDocuments() {
@@ -7019,7 +7024,7 @@
     <div class="meta"><span>${IC.pin} Time zone <b>${o.loc}</b></span><span><b>${o.hpw}</b> hrs/week</span>${emp ? '' : `<span><b>$${o.rate}</b>/hr</span>`}<span>${fmtLong(o.start)} – ${fmtLong(o.end)}</span><span><b>${o.mode}</b></span></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">${act ? `<button class="btn p" data-a="mopen" data-v="oacc:${o.id}">Accept offer</button><button class="btn" data-a="mopen" data-v="oreq:${o.id}">Request changes / Ask questions</button><button class="btn" data-a="mopen" data-v="decl:${o.id}">Decline offer</button>` : cs === 'ready' && !emp ? `<button class="btn p" data-a="mopen" data-v="osign:${o.id}">Review &amp; sign agreement</button>` : cs === 'awaitClient' && !emp && !cf ? `<button class="btn p" data-a="mopen" data-v="onb:${o.id}">Confirm contract details</button>` : `<button class="btn" data-a="csnext" data-v="${o.id}" title="Prototype only: simulates the next step happening on Cloud Club’s side">Preview next step</button>`}<span class="sp" style="flex:1"></span><button class="btn jdx-t" data-a="jdtog" data-v="of${o.id}" aria-expanded="${!!S.jd['of' + o.id]}">${IC.offer} ${S.jd['of' + o.id] ? 'Hide job details' : 'View job details'} <i>${S.jd['of' + o.id] ? '▴' : '▾'}</i></button></div>
   </div>${S.jd['of' + o.id] ? offerJd(o) : ''}` }).join('') : FRESH ? emptyCard(IC.offer, 'No offers yet', 'Offers arrive after a client interviews you. Complete your profile and work preferences so Cloud Club can start matching you.', `<button class="btn p" data-go="profile">Complete my profile</button>`) : `<div class="card" style="margin-bottom:20px"><div class="empty">No new offers right now. Keep your profile and work preferences up to date to get matched.</div></div>`}
-  <div class="card tw"><h3 style="padding:0 0 0">Offer history</h3><table style="margin-top:12px"><thead><tr><th>Role</th><th>Client</th><th>Terms</th><th>Dates</th><th>Status</th></tr></thead><tbody>
+  <div class="card tw" style="margin-top:20px"><h3 style="padding:0 0 0">Offer history</h3><table style="margin-top:12px"><thead><tr><th>Role</th><th>Client</th><th>Terms</th><th>Dates</th><th>Status</th></tr></thead><tbody>
    ${old.map((o, i) => `<tr style="animation-delay:${i * .05}s"><td><b>${esc(o.role)}</b></td><td>${esc(o.co)}</td><td>${o.hpw} hrs/wk${viaEmployer() ? '' : ' · $' + o.rate + '/hr'}</td><td>${fmtLong(o.start)} – ${fmtLong(o.end)}</td><td><span class="pill ${o.st === 'accepted' ? 'ok' : o.st === 'withdrawn' ? 'am' : 'dg'}"><i></i>${o.st === 'accepted' ? 'Accepted' : o.st === 'withdrawn' ? 'Offer Withdrawn' : 'Offer Declined'}</span>${o.reason ? `<small style="display:block;color:var(--muted);margin-top:4px">${esc(o.reason)}</small>` : ''}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">No past offers yet.</div></td></tr>'}</tbody></table></div>`
     }
 
@@ -7211,7 +7216,7 @@
         case 'osign': return box(`<h3>Review &amp; sign agreement</h3><p>Your contract has been approved by Cloud Club and is ready for your signature.</p><div class="mact"><button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="osignok" data-v="${p}">Sign agreement</button></div>`);
         case 'entry': { const e = S.mf; return box(`<h3>${p == null ? 'New entry' : 'Edit entry'} · ${dShort(pd(S.ts.d))}</h3><p>${esc(PROJ.find(z => z.id === S.ts.p).t)}</p>${fld('Task', 'mf.task', { req: 1, opts: TASKS })}<div class="fld pk" data-f="f-mf.tech"><label>Technologies Used</label>${(e.tech || []).length ? `<div class="pills" style="gap:6px;margin-bottom:10px">${e.tech.map(x => `<span class="tag">${esc(x)}<button type="button" data-a="lgtog" data-p="mf.tech" data-v="${esc(x)}" aria-label="Remove ${esc(x)}">×</button></span>`).join('')}</div>` : ''}<div class="cdd-wrap"><input class="in" type="text" data-csearch="mf.tech" data-csrc="techs" data-cother="1" placeholder="Search or add a technology…" autocomplete="off"><div class="cdd" data-cdd="mf.tech"></div></div></div>${fld('What did you work on?', 'mf.note', { req: 1, area: 1, lg: 1, ph: 'Describe the work you did, what you finished and anything the client should know', max: 500, bad: 'Add a description of at least 15 characters' })}${fld('Hours', 'mf.h', { req: 1, type: 'number', ph: '0.00', bad: 'Enter hours between 0.25 and 24' })}${acts('entsave', 'Save entry')}`) }
         case 'recon': { const g = S.lg, cs = CSYM[g.cur || 'USD'] || '$'; return box(`<div class="mic">${IC.clock}</div><h3>Are you still open to opportunities?</h3><p>It's been a while since you updated your preferences.</p>
-  <div class="rcs"><div><small>Availability</small><b>${g.hours ? esc(g.hours) : 'Not set'}</b></div><div><small>Hours per week</small><b>${g.bw ? esc(g.bw) : 'Not set'}</b></div><div><small>Target rate</small><b>${g.rate ? cs + esc(g.rate) + '/hour' : 'Not set'}</b></div></div>
+  <div class="rcs"><div><small>Availability</small><b>${g.hours ? esc(g.hours) : 'Not set'}</b></div><div><small>Hours per week</small><b>${g.bw ? esc(g.bw) : 'Not set'}</b></div><div><small>${VEN ? 'Rate' : 'Target rate'}</small><b>${VEN ? (VEN.rate ? esc(VEN.rate) : 'Managed by ' + esc(VEN.name)) : g.rate ? cs + esc(g.rate) + '/hour' : 'Not set'}</b></div></div>
   <div class="rcl">Last confirmed ${fmtLong(S.lastConf)} · no need to repeat onboarding</div>
   <div class="mact" style="justify-content:space-between;align-items:center"><button class="btn" data-a="reconlater" style="border-color:transparent;background:none;color:var(--muted)">Remind Me Later</button><span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-a="reconupd">Update Preferences</button><button class="btn p" data-a="reconok">Still Accurate</button></span></div>`, 'rcm') }
         case 'bank': return box(`<h3>Edit your payment details</h3>${fld('Bank name', 'mf.b1', { req: 1 })}${fld('Bank address', 'mf.b2', { req: 1 })}${fld('Account number', 'mf.b3', { req: 1 })}${fld('Routing number', 'mf.b4', { req: 1 })}${fld('SWIFT code', 'mf.b5', { ph: 'e.g. GABAARBA', hint: 'For international banks.', max: 11 })}${acts('msave', 'Save changes')}`);

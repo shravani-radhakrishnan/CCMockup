@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cloud Club — Vendor Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #547691; --brand-d: #3e566a; --brand-dd: #2c3e4c; --brand-h: #4d6d87;
+      --brand-rgb: 84, 118, 145; --brand-d-rgb: 62, 86, 106; --brand-dd-rgb: 44, 62, 76;
+      --brand-hi: #c5e4d9; --brand-hi2: #cfe0ec; --brand-soft: #c3d1dc;
+      --bg: #f8fafb; --surface: #fff; --surface-2: #f8fafb;
+      --ink: #262b2f; --body: #495259; --muted: #68727a; --faint: #8b949b;
+      --line: #dfe4e8; --line-2: #d3dade; --track: #e7edf1;
+      --slate: #547691; --slate-d: #3e566a; --slate-dd: #2c3e4c; --slate-tint: #eef3f6; --slate-tint-2: #e2ebf0;
+      --accent: #547691; --accent-tint: #e2ebf0;
+      --ok: #3f9e83; --ok-tint: #e5f4ee; --amber: #c98a2e; --amber-tint: #faf1e2; --danger: #b4462f; --danger-tint: #f7e6e1;
+      --shadow: 0 24px 64px rgba(65, 82, 96, .08); --shadow-lg: 0 32px 80px -12px rgba(44, 62, 76, .22);
+      --r: 16px;
+    }
+    :root[data-theme=dark] {
+      --bg: #12171b; --surface: #1b2227; --surface-2: #1f282e;
+      --ink: #e8edf0; --body: #b9c3ca; --muted: #8f9aa2; --faint: #707b83;
+      --line: #2b343b; --line-2: #34404a; --track: #27313a;
+      --slate: #7fa3bf; --slate-d: #4f7390; --slate-dd: #e2ebf0; --slate-tint: #232d35; --slate-tint-2: #2b3842;
+      --accent: #7fa3bf; --accent-tint: #2b3842;
+      --ok: #4fb596; --ok-tint: #1d3a31; --amber-tint: #3a2f1c; --danger-tint: #3d2420;
+      --shadow: 0 24px 64px rgba(0, 0, 0, .35); --shadow-lg: 0 32px 80px -12px rgba(0, 0, 0, .55);
+      color-scheme: dark
+    }
+    * { box-sizing: border-box }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "DM Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; transition: background .3s, color .3s }
+    h1, h2, h3, h4 { font-family: Manrope, sans-serif; margin: 0; letter-spacing: -.01em }
+    button { font: inherit; cursor: pointer }
+    input, select, textarea { font: inherit; color: var(--ink) }
+    svg { flex: 0 0 auto }
+    @keyframes up { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+    @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important } }
+
+    /* ---- shell ---- */
+    #app { display: flex; min-height: 100vh }
+    .side { width: 248px; flex: none; background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 18px 14px; position: sticky; top: 0; height: 100vh }
+    .brandlogo { padding: 4px 8px 16px }
+    .brandlogo img { height: 28px; width: auto; aspect-ratio: 790 / 124; object-fit: contain; max-width: none; display: block }
+    .brandlogo .lg-d { display: none }
+    :root[data-theme=dark] .brandlogo .lg-l { display: none }
+    :root[data-theme=dark] .brandlogo .lg-d { display: block }
+    .vtag { margin: 0 8px 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2) }
+    .vtag small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 }
+    .vtag b { display: block; font-family: Manrope, sans-serif; font-size: 14px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--faint); font-weight: 600; margin: 4px 10px 6px }
+    .nav { display: flex; flex-direction: column; gap: 2px }
+    .ni { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; background: none; color: var(--body); border-radius: 10px; text-align: left; font-weight: 500; position: relative }
+    .ni:hover:not(:disabled) { background: var(--slate-tint) }
+    .ni.on { background: var(--slate-tint-2); color: var(--slate-dd); font-weight: 600 }
+    .ni:disabled { opacity: .55; cursor: default }
+    .ni .soon { margin-left: auto; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 2px 6px; border-radius: 6px; background: var(--track); color: var(--muted) }
+    .sp { flex: 1 }
+    .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; background: var(--track); border-radius: 10px; margin-bottom: 10px }
+    .seg button { border: 0; background: none; padding: 6px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 12.5px }
+    .seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .1) }
+    .profrow { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--line) }
+    .prof { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; border: 0; background: none; text-align: left; padding: 4px; border-radius: 10px }
+    .av { width: 34px; height: 34px; border-radius: 50%; background: var(--slate); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none }
+    .who { min-width: 0 } .who b { display: block; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .who i { display: block; font-style: normal; font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .so { border: 1px solid var(--line); background: var(--surface); border-radius: 9px; width: 34px; height: 34px; display: grid; place-items: center; color: var(--muted) }
+    .so:hover { color: var(--ink); border-color: var(--line-2) }
+
+    .main { flex: 1; min-width: 0 }
+    .top { height: 56px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px }
+    .top b { color: var(--ink) }
+    .page { padding: 28px 32px 60px; max-width: 1180px }
+    .page.enter { animation: up .35s both }
+    .ph { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px }
+    .ph h1 { font-size: 26px } .ph p { margin: 4px 0 0; color: var(--muted) }
+
+    /* ---- controls ---- */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font-weight: 600; transition: .15s }
+    .btn:hover:not(:disabled) { border-color: var(--slate); color: var(--slate-d) }
+    .btn.primary { background: var(--slate-d); border-color: var(--slate-d); color: #fff }
+    :root[data-theme=dark] .btn.primary { background: var(--slate-d); color: #fff }
+    .btn.primary:hover:not(:disabled) { background: var(--brand-dd); border-color: var(--brand-dd); color: #fff }
+    .btn.sm { padding: 6px 11px; font-size: 12.5px; border-radius: 8px }
+    .btn.ghost { border-color: transparent; background: none; color: var(--muted) }
+    .btn:disabled { opacity: .5; cursor: default }
+    .btn:focus-visible, .ni:focus-visible, .chip:focus-visible, .opt:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px }
+    .card h3 { font-size: 15px; margin-bottom: 12px }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px }
+    .stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px }
+    .stat small { color: var(--muted); font-weight: 600; font-size: 12px }
+    .stat b { display: block; font: 800 28px Manrope, sans-serif; margin-top: 4px }
+    .stat span { font-size: 12px; color: var(--faint) }
+
+    .banner { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--r); background: var(--slate-tint); border: 1px solid var(--slate-tint-2); margin-bottom: 18px }
+    .banner h4 { font-size: 14.5px; margin-bottom: 2px } .banner p { margin: 0; color: var(--body) }
+    .banner .x { margin-left: auto; border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1 }
+
+    .tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid var(--line) }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap }
+    .chip { border: 1px solid var(--line); background: var(--surface); color: var(--body); padding: 5px 12px; border-radius: 99px; font-weight: 600; font-size: 12.5px }
+    .chip.on { background: var(--slate-d); border-color: var(--slate-d); color: #fff }
+    .chip em { font-style: normal; opacity: .7; margin-left: 4px }
+    .search { border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px; padding: 7px 12px; min-width: 220px }
+    .tw { overflow-x: auto }
+    table { width: 100%; border-collapse: collapse }
+    th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); font-weight: 600; padding: 10px 16px; border-bottom: 1px solid var(--line); white-space: nowrap }
+    td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: middle }
+    tr:last-child td { border-bottom: 0 }
+    tbody tr:hover { background: var(--surface-2) }
+    .cn { display: flex; align-items: center; gap: 10px }
+    .cn .av { width: 32px; height: 32px; font-size: 11.5px; background: var(--slate-tint-2); color: var(--slate-dd) }
+    .cn b { display: block } .cn small { color: var(--muted) }
+    .sub { color: var(--muted); font-size: 12.5px; display: block }
+    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; white-space: nowrap }
+    .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor }
+    .pill.invited { background: var(--amber-tint); color: var(--amber) }
+    .pill.onboarding { background: var(--slate-tint-2); color: var(--slate-d) }
+    :root[data-theme=dark] .pill.onboarding { color: var(--slate) }
+    .pill.active { background: var(--ok-tint); color: var(--ok) }
+    .pill.revoked { background: var(--danger-tint); color: var(--danger) }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; background: var(--track); color: var(--body) }
+    .vis { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 12.5px }
+    .acts { display: flex; gap: 6px; justify-content: flex-end; position: relative }
+    .empty { text-align: center; padding: 48px 20px; color: var(--muted) }
+    .empty b { display: block; color: var(--ink); font: 700 16px Manrope, sans-serif; margin-bottom: 4px }
+    .menu { position: absolute; right: 0; top: 36px; z-index: 20; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-lg); min-width: 200px; padding: 6px; animation: fade .12s both }
+    .menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 8px; color: var(--body); font-weight: 500 }
+    .menu button:hover { background: var(--slate-tint) }
+    .menu button.dng { color: var(--danger) }
+
+    /* ---- modal ---- */
+    .mov { position: fixed; inset: 0; background: rgba(20, 28, 34, .5); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 20px; z-index: 50 }
+    .mov.enter { animation: fade .18s both } .mov.enter .modal { animation: up .25s both }
+    .modal { background: var(--surface); border-radius: 20px; width: 100%; max-width: 620px; max-height: calc(100vh - 40px); overflow: auto; box-shadow: var(--shadow-lg) }
+    .mh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 22px 26px 4px }
+    .mh h2 { font-size: 20px } .mh p { margin: 4px 0 0; color: var(--muted) }
+    .mh .x { border: 0; background: none; font-size: 22px; line-height: 1; color: var(--muted) }
+    .mb { padding: 14px 26px 6px }
+    .mf { display: flex; justify-content: flex-end; gap: 10px; padding: 16px 26px 22px; border-top: 1px solid var(--line); margin-top: 10px }
+    .sec { font: 700 11.5px Manrope, sans-serif; text-transform: uppercase; letter-spacing: .07em; color: var(--faint); margin: 16px 0 8px }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+    .fld { margin-bottom: 12px }
+    .fld label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px }
+    .fld label .req { color: var(--danger); margin-left: 2px }
+    .fld label .opt-t { color: var(--faint); font-weight: 500 }
+    .in { width: 100%; padding: 10px 12px; border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px }
+    .in:focus { border-color: var(--slate); outline: none; box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .15) }
+    .in:disabled { background: var(--surface-2); color: var(--muted) }
+    .fld.err .in { border-color: var(--danger) }
+    .em { color: var(--danger); font-size: 12px; margin-top: 4px }
+    .hint { color: var(--muted); font-size: 12.5px; margin-top: 5px }
+    .pre { position: relative } .pre > span { position: absolute; left: 12px; top: 10px; color: var(--muted) } .pre .in { padding-left: 24px }
+    .opts { display: grid; gap: 8px }
+    .opts.c2 { grid-template-columns: 1fr 1fr }
+    .opt { text-align: left; border: 1px solid var(--line-2); background: var(--surface); border-radius: 12px; padding: 10px 12px; color: var(--body) }
+    .opt b { display: block; color: var(--ink); font-size: 13.5px } .opt span { font-size: 12.5px; color: var(--muted) }
+    .opt:hover { border-color: var(--slate) }
+    .opt.on { border-color: var(--slate); background: var(--slate-tint); box-shadow: 0 0 0 1px var(--slate) inset }
+    .ok-hero { text-align: center; padding: 18px 6px 6px }
+    .ok-hero .bdg { width: 52px; height: 52px; border-radius: 50%; background: var(--ok-tint); color: var(--ok); display: grid; place-items: center; margin: 0 auto 12px }
+    .mail { margin-top: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); padding: 14px 16px; font-size: 13px }
+    .mail dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 10px; margin: 0 }
+    .mail dt { color: var(--muted) } .mail dd { margin: 0 }
+    .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 12px; font-weight: 600; box-shadow: var(--shadow-lg); z-index: 80; animation: up .25s both }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+    dl.kv { display: grid; grid-template-columns: 150px 1fr; gap: 9px 14px; margin: 0 }
+    dl.kv dt { color: var(--muted) } dl.kv dd { margin: 0; font-weight: 500 }
+    .todo { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line) } .todo:last-child { border: 0 }
+    .todo i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line-2); flex: none }
+    .todo span { margin-left: auto }
+
+    @media (max-width: 960px) {
+      #app { flex-direction: column } .side { position: static; width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px }
+      .vtag, .lbl, .sp { display: none } .nav { flex-direction: row; flex-wrap: wrap } .profrow { border: 0; padding: 0; margin-left: auto } .seg { margin: 0 }
+      .stats { grid-template-columns: 1fr 1fr } .grid2 { grid-template-columns: 1fr } .page { padding: 20px 16px 48px } .top { padding: 0 16px }
+    }
+    @media (max-width: 560px) { .row2, .opts.c2 { grid-template-columns: 1fr } .stats { grid-template-columns: 1fr } }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/favicon-192.png">
+  <script src="theme-picker.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* ---------- helpers & icons ---------- */
+    const $ = s => document.querySelector(s);
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const I = (d, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const IC = {
+      users: I('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 4.5a3.5 3.5 0 010 7M18 14a6.5 6.5 0 013.5 6"/>'),
+      building: I('<path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2"/>'),
+      brief: I('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>'),
+      clock: I('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+      doc: I('<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/>'),
+      dollar: I('<circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.4-.8-1.3-1.2-2.5-1.2-1.5 0-2.5.8-2.5 1.9 0 3 5 1.4 5 4.2 0 1.1-1 1.9-2.5 1.9-1.2 0-2.1-.5-2.6-1.3M12 6v2M12 16v2"/>'),
+      plus: I('<path d="M12 5v14M5 12h14"/>', 16), out: I('<path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/>', 16),
+      eye: I('<path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z"/><circle cx="12" cy="12" r="2.7"/>', 14),
+      eyeoff: I('<path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.2A9.6 9.6 0 0112 5c6 0 9.5 7 9.5 7a15 15 0 01-3 3.9M6.1 6.7C3.6 8.4 2.5 12 2.5 12S6 19 12 19c1.5 0 2.9-.4 4-1"/>', 14),
+      check: I('<path d="M5 12.5l4.5 4.5L19 7.5"/>', 24), dots: I('<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>', 16),
+      mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 18)
+    };
+
+    /* ---------- data (localStorage keeps the demo alive between onboarding → portal) ---------- */
+    const KEYS = { vendor: 'cc_vendor_profile', invites: 'cc_vendor_invites' };
+    const load = (k, d) => { try { const r = localStorage.getItem(k); return r ? JSON.parse(r) : d } catch (e) { return d } };
+    const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } };
+    const params = new URLSearchParams(location.search);
+    const FRESH = params.has('new');
+
+    const VENDOR = Object.assign({
+      legal: 'Northstar Technology Partners LLC', addr: '1200 Congress Ave, Suite 400, Austin, TX 78701',
+      admin: 'Priya Nair', title: 'Delivery Director', email: 'priya@northstartp.com', phone: '+1 512 555 0142',
+      team: '42', bench: '6', software: ['Salesforce', 'AWS', 'SAP']
+    }, load(KEYS.vendor, {}));
+    VENDOR.ini = VENDOR.admin.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+
+    const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10) };
+    const SEED = [
+      { id: 'inv_seed1', name: 'Ramesh Kumar', email: 'ramesh.kumar@northstartp.com', phone: '', type: 'Contractor', auth: 'Work Visa / EAD', authtype: 'H-1B', rmin: 85, rmax: 105, vis: 'hidden', st: 'active', sent: day(-21) },
+      { id: 'inv_seed2', name: 'Ana Souza', email: 'ana.souza@northstartp.com', phone: '+1 512 555 0188', type: 'FTE', auth: 'U.S. Citizen', authtype: '', rmin: 95, rmax: 120, vis: 'hidden', st: 'onboarding', sent: day(-4) },
+      { id: 'inv_seed3', name: 'Dev Patel', email: 'dev.patel@northstartp.com', phone: '', type: 'FTE', auth: 'Green Card Holder', authtype: '', rmin: 90, rmax: 110, vis: 'view', st: 'invited', sent: day(-2) }
+    ];
+    let invites = load(KEYS.invites, null);
+    if (!invites) invites = FRESH ? [] : SEED;
+    const persist = () => save(KEYS.invites, invites);
+    persist();
+
+    const AUTH = ['U.S. Citizen', 'Green Card Holder', 'Work Visa / EAD', 'Not Currently Authorized'];
+    const VISA = ['H-1B', 'L-1', 'TN', 'E-3', 'OPT / STEM OPT', 'H-4 EAD', 'L-2 EAD', 'Other EAD'];
+    const VIS = {
+      hidden: ['Hidden', 'Consultant never sees their rate.'],
+      view: ['View only', 'Consultant can see their rate but not change it.'],
+      manage: ['View & manage', 'Consultant can see their rate and request changes.']
+    };
+    const STATUS = { invited: 'Invited', onboarding: 'Onboarding', active: 'Active', revoked: 'Revoked' };
+    const fmtD = s => { const [y, m, d] = s.split('-'); return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][+m - 1] + ' ' + (+d) };
+    const ini = n => n.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+
+    const S = { view: 'dashboard', theme: document.documentElement.dataset.theme || 'light', filter: 'all', q: '', modal: null, menu: null, form: {}, err: {}, mpos: { r: 0, y: 0 }, toast: '', hideBanner: !FRESH };
+    const NAV = [['dashboard', 'Dashboard', IC.users], ['company', 'Company', IC.building]];
+    const SOON = [['Projects', IC.brief], ['Hours', IC.clock], ['Invoices', IC.doc], ['Payments', IC.dollar]];
+
+    /* ---------- views ---------- */
+    function counts() { const c = { all: 0, invited: 0, onboarding: 0, active: 0 }; invites.filter(i => i.st !== 'revoked').forEach(i => { c.all++; c[i.st]++ }); return c }
+    const rate = i => `$${i.rmin}–$${i.rmax}/hr`;
+
+    function dashboard() {
+      const c = counts();
+      const rows = invites.filter(i => i.st !== 'revoked' && (S.filter === 'all' || i.st === S.filter) && (!S.q || (i.name + i.email).toLowerCase().includes(S.q.toLowerCase())));
+      const banner = !S.hideBanner ? `<div class="banner"><span style="color:var(--slate-d)">${IC.mail}</span><div><h4>Welcome to Cloud Club, ${esc(VENDOR.admin.split(' ')[0])}.</h4><p>Invite your consultants to get started. Each one completes a short onboarding and is linked to ${esc(VENDOR.legal)} automatically. You can finish the rest of your company profile any time.</p></div><button class="x" data-a="hideBanner" aria-label="Dismiss">×</button></div>` : '';
+      return `<div class="ph"><div><h1>Consultants</h1><p>Invite your consultants and track their onboarding.</p></div><button class="btn primary" data-a="invite">${IC.plus} Invite consultant</button></div>
+      ${banner}
+      <div class="stats"><div class="stat"><small>Total on roster</small><b>${c.all}</b><span>Invited + active</span></div><div class="stat"><small>Awaiting response</small><b>${c.invited}</b><span>Invitation sent</span></div><div class="stat"><small>In onboarding</small><b>${c.onboarding}</b><span>Started, not finished</span></div><div class="stat"><small>Active</small><b>${c.active}</b><span>Linked &amp; ready to match</span></div></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="tools"><div class="chips">${[['all', 'All'], ['invited', 'Invited'], ['onboarding', 'Onboarding'], ['active', 'Active']].map(([k, l]) => `<button class="chip ${S.filter === k ? 'on' : ''}" data-a="filter" data-v="${k}">${l}<em>${c[k]}</em></button>`).join('')}</div>
+          <input class="search" data-search placeholder="Search name or email" value="${esc(S.q)}" aria-label="Search consultants"></div>
+        ${rows.length ? `<div class="tw"><table><thead><tr><th>Consultant</th><th>Type</th><th>Work authorization</th><th>Target rate range</th><th>Rate visibility</th><th>Status</th><th></th></tr></thead><tbody>${rows.map((i, n) => row(i, n)).join('')}</tbody></table></div>`
+          : `<div class="empty"><b>${invites.length ? 'No consultants match' : 'No consultants yet'}</b>${invites.length ? 'Try a different filter or search.' : 'Invite your first consultant to get them onboarded and ready for project matching.'}${invites.length ? '' : `<div style="margin-top:14px"><button class="btn primary" data-a="invite">${IC.plus} Invite consultant</button></div>`}</div>`}
+      </div>`;
+    }
+    function row(i, n) {
+      const pend = i.st === 'invited';
+      return `<tr style="animation-delay:${n * .04}s"><td><div class="cn"><span class="av">${esc(ini(i.name))}</span><div><b>${esc(i.name)}</b><small>${esc(i.email)}</small></div></div></td>
+        <td><span class="tag">${i.type}</span></td><td>${esc(i.auth)}${i.authtype ? `<span class="sub">${esc(i.authtype)}</span>` : ''}</td><td><b>${rate(i)}</b></td>
+        <td><span class="vis">${i.vis === 'hidden' ? IC.eyeoff : IC.eye} ${VIS[i.vis][0]}</span></td>
+        <td><span class="pill ${i.st}">${STATUS[i.st]}</span>${pend ? `<span class="sub">Sent ${fmtD(i.sent)}</span>` : ''}</td>
+        <td><div class="acts">${pend ? `<button class="btn sm" data-a="resend" data-v="${i.id}">Resend</button>` : ''}<button class="btn sm ghost" data-a="menu" data-v="${i.id}" aria-label="More actions for ${esc(i.name)}" aria-haspopup="true">${IC.dots}</button>
+        ${S.menu === i.id ? `<div class="menu" role="menu" style="position:fixed;right:${S.mpos.r}px;${S.mpos.up ? 'top:auto;bottom:' + S.mpos.y : 'bottom:auto;top:' + S.mpos.y}px"><button data-a="edit" data-v="${i.id}">Edit details &amp; rate range</button>${pend || i.st === 'onboarding' ? `<button data-a="preview" data-v="${i.id}">Preview consultant onboarding</button><button data-a="copy" data-v="${i.id}">Copy invitation link</button>` : ''}${pend ? `<button class="dng" data-a="revoke" data-v="${i.id}">Revoke invitation</button>` : ''}</div>` : ''}</div></td></tr>`;
+    }
+    const SOFTWARE = ['Salesforce', 'SAP', 'AWS', 'Microsoft Azure', 'Google Cloud (GCP)', 'Dynamics 365 & Power Platform', 'ServiceNow', 'Workday', 'Oracle', 'NetSuite', 'Snowflake', 'Databricks', 'MuleSoft', 'Other'];
+    const CARDS = {
+      corp: ['Corporation', [['legal', 'Legal name', 1], ['addr', 'Address', 1], ['acct', 'Bank account number', 0, 'Leave blank to keep the account on file']]],
+      admin: ['Account admin', [['admin', 'Name', 1], ['title', 'Title', 1], ['email', 'Email', 1, '', 'email'], ['phone', 'Phone', 1, '', 'tel']]],
+      deliv: ['Delivery profile', [['team', 'Delivery team size', 0, '', 'number'], ['bench', 'Current bench (FTE/W2)', 0, '', 'number']]]
+    };
+    function card(k, view) {
+      const [title, fields] = CARDS[k], ed = S.edit === k, d = S.draft || {};
+      const head = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="margin:0">${title}</h3>${ed ? '' : `<button class="btn sm" data-a="editcard" data-v="${k}" ${S.edit ? 'disabled' : ''}>Edit</button>`}</div>`;
+      if (!ed) return `<div class="card">${head}${view}</div>`;
+      const inp = fields.map(([f, l, req, h, type]) => `<div class="fld ${S.cerr && S.cerr[f] ? 'err' : ''}"><label for="c_${f}">${l}${req ? '<span class="req">*</span>' : ''}</label><input class="in" id="c_${f}" data-d="${f}" type="${type || 'text'}" value="${esc(d[f] || '')}" ${f === 'acct' ? 'inputmode="numeric" placeholder="•••• ' + esc(VENDOR.bank || '') + '"' : ''}>${h ? `<div class="hint">${h}</div>` : ''}${S.cerr && S.cerr[f] ? `<div class="em">${S.cerr[f]}</div>` : ''}</div>`).join('');
+      const sw = k === 'deliv' ? `<div class="fld"><label>Software provided</label><div class="chips">${SOFTWARE.map(x => `<button type="button" class="chip ${(d.software || []).includes(x) ? 'on' : ''}" data-a="swtog" data-v="${esc(x)}" aria-pressed="${(d.software || []).includes(x)}">${esc(x)}</button>`).join('')}</div></div>` : '';
+      return `<div class="card">${head}${inp}${sw}<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px"><button class="btn sm" data-a="cancelcard">Cancel</button><button class="btn sm primary" data-a="savecard" data-v="${k}">Save changes</button></div></div>`;
+    }
+    function company() {
+      const dl = rows => `<dl class="kv">${rows.map(([a, b]) => `<dt>${a}</dt><dd>${esc(b)}</dd>`).join('')}</dl>`;
+      return `<div class="ph"><div><h1>Company</h1><p>Your corporation and account admin details.</p></div></div>
+      <div class="grid2" style="align-items:start">${card('corp', dl([['Legal name', VENDOR.legal], ['Address', VENDOR.addr], ['Bank details', VENDOR.bank ? 'Account ending ' + VENDOR.bank : 'On file']]))}
+      ${card('admin', dl([['Name', VENDOR.admin], ['Title', VENDOR.title], ['Email', VENDOR.email], ['Phone', VENDOR.phone]]))}
+      ${card('deliv', dl([['Delivery team size', VENDOR.team || '—'], ['Current bench (FTE/W2)', VENDOR.bench || '—'], ['Software provided', (VENDOR.software || []).length ? VENDOR.software.join(', ') : '—']]))}
+      <div class="card"><h3>Complete later</h3><div class="hint" style="margin:-6px 0 6px">None of this blocks inviting consultants.</div>${['Company website & tax ID', 'Remittance and invoicing contacts', 'Insurance & compliance documents', 'Master services agreement'].map(t => `<div class="todo"><i></i>${t}<span class="tag">Soon</span></div>`).join('')}</div></div>`;
+    }
+    function inviteModal() {
+      const f = S.form, e = S.err, ed = f.id && invites.find(x => x.id === f.id), lock = ed && ed.st !== 'invited';
+      if (S.modal === 'sent') {
+        const i = invites.find(x => x.id === f.id), ed = S.wasEdit;
+        return `<div class="mov${ENTER}" data-a="closeBg"><div class="modal" role="dialog" aria-modal="true" aria-label="Invitation sent"><div class="mb"><div class="ok-hero"><div class="bdg">${IC.check}</div><h2>${ed ? 'Changes saved' : 'Invitation sent'}</h2><p style="color:var(--muted);margin:6px 0 0">${ed ? 'Details updated for' : 'We emailed an invitation to'} <b style="color:var(--ink)">${esc(i.name)}</b> (${esc(i.email)}).</p></div>
+        </div>
+        <div class="mf">${ed ? '' : `<button class="btn" data-a="preview" data-v="${i.id}">Preview consultant onboarding</button>`}<button class="btn primary" data-a="close">Done</button></div></div></div>`;
+      }
+      const fld = (k, label, o = {}) => `<div class="fld ${e[k] ? 'err' : ''}"><label for="f_${k}">${label}${o.req ? '<span class="req">*</span>' : o.opt ? ' <span class="opt-t">(optional)</span>' : ''}</label>${o.pre ? '<div class="pre"><span>$</span>' : ''}<input class="in" id="f_${k}" data-k="${k}" type="${o.type || 'text'}" placeholder="${esc(o.ph || '')}" value="${esc(f[k] || '')}" ${o.dis ? 'disabled' : ''}>${o.pre ? '</div>' : ''}${e[k] ? `<div class="em">${e[k]}</div>` : ''}</div>`;
+      const opt = (k, v, l, s) => `<button type="button" class="opt ${f[k] === v ? 'on' : ''}" data-a="pick" data-k="${k}" data-v="${v}" aria-pressed="${f[k] === v}"><b>${l}</b>${s ? `<span>${s}</span>` : ''}</button>`;
+      return `<div class="mov${ENTER}" data-a="closeBg"><div class="modal" role="dialog" aria-modal="true" aria-label="${ed ? 'Edit consultant' : 'Invite consultant'}">
+      <div class="mh"><div><h2>${ed ? 'Edit consultant' : 'Invite a consultant'}</h2><p>${ed ? (lock ? 'Name and email are locked after the invitation is accepted.' : 'Update details before they accept.') : 'They’ll get an email to create their account. Their details below are pre-filled for them.'}</p></div><button class="x" data-a="close" aria-label="Close">×</button></div>
+      <div class="mb">
+        <div class="sec">Consultant</div>
+        <div class="row2">${fld('name', 'Full name', { req: 1, ph: 'Jordan Lee', dis: lock })}${fld('email', 'Email', { req: 1, type: 'email', ph: 'jordan@yourcompany.com', dis: lock })}</div>
+        ${fld('phone', 'Phone number', { opt: 1, type: 'tel', ph: '+1 555 000 0000', dis: lock })}
+        <div class="sec">Engagement</div>
+        <div class="fld"><label>Employment type<span class="req">*</span></label><div class="opts c2">${opt('type', 'FTE', 'FTE', 'Your W-2 employee')}${opt('type', 'Contractor', 'Contractor', '1099 or C2C')}</div>${e.type ? `<div class="em">${e.type}</div>` : ''}</div>
+        <div class="row2"><div class="fld ${e.auth ? 'err' : ''}"><label for="f_auth">Work authorization<span class="req">*</span></label><select class="in" id="f_auth" data-k="auth"><option value="">Select…</option>${AUTH.map(a => `<option ${f.auth === a ? 'selected' : ''}>${a}</option>`).join('')}</select>${e.auth ? `<div class="em">${e.auth}</div>` : ''}</div>
+        ${f.auth === 'Work Visa / EAD' ? `<div class="fld ${e.authtype ? 'err' : ''}"><label for="f_authtype">Visa / EAD type<span class="req">*</span></label><select class="in" id="f_authtype" data-k="authtype"><option value="">Select…</option>${VISA.map(a => `<option ${f.authtype === a ? 'selected' : ''}>${a}</option>`).join('')}</select>${e.authtype ? `<div class="em">${e.authtype}</div>` : ''}</div>` : '<div></div>'}</div>
+        <div class="sec">Rate</div>
+        <div class="row2">${fld('rmin', 'Target hourly rate: low', { req: 1, type: 'number', pre: 1, ph: '85' })}${fld('rmax', 'Target hourly rate: high', { req: 1, type: 'number', pre: 1, ph: '105' })}</div>
+        <div class="hint" style="margin:-6px 0 12px">Used by Cloud Club for matching. Only you and Cloud Club see this range.</div>
+        <div class="fld"><label>Can the consultant see their rate?</label><div class="opts">${Object.keys(VIS).map(k => opt('vis', k, VIS[k][0], VIS[k][1])).join('')}</div></div>
+      </div>
+      <div class="mf"><button class="btn" data-a="close">Cancel</button><button class="btn primary" data-a="submit">${ed ? 'Save changes' : 'Send invitation'}</button></div></div></div>`;
+    }
+
+    let ENTER = '';
+    function render() {
+      ENTER = S.enter ? ' enter' : ''; S.enter = false;
+      const ms = document.querySelector('.modal'), mt = ms ? ms.scrollTop : 0;
+      const T = { dashboard: 'Dashboard', company: 'Company' };
+      $('#app').innerHTML = `<aside class="side">
+        <div class="brandlogo"><img class="lg-l" src="assets/logo-light.png" alt="Cloud Club"><img class="lg-d" src="assets/logo-dark.png" alt="Cloud Club"></div>
+        <div class="vtag"><small>Vendor account</small><b title="${esc(VENDOR.legal)}">${esc(VENDOR.legal)}</b></div>
+        <div class="lbl">Workspace</div>
+        <nav class="nav">${NAV.map(([k, l, i]) => `<button class="ni ${S.view === k ? 'on' : ''}" data-go="${k}" ${S.view === k ? 'aria-current="page"' : ''}>${i}<span>${l}</span></button>`).join('')}
+          ${SOON.map(([l, i]) => `<button class="ni" disabled title="Coming soon">${i}<span>${l}</span><span class="soon">Soon</span></button>`).join('')}</nav>
+        <div class="sp"></div>
+        <div class="seg"><button class="${S.theme === 'light' ? 'on' : ''}" data-a="theme" data-v="light">Light</button><button class="${S.theme === 'dark' ? 'on' : ''}" data-a="theme" data-v="dark">Dark</button></div>
+        <div class="profrow"><div class="prof"><span class="av">${esc(VENDOR.ini)}</span><span class="who"><b>${esc(VENDOR.admin)}</b><i>${esc(VENDOR.email)}</i></span></div><button class="so" data-a="signout" aria-label="Sign out" title="Sign out">${IC.out}</button></div>
+      </aside>
+      <main class="main"><div class="top">Vendor Portal&nbsp;/&nbsp;<b>${T[S.view]}</b></div><div class="page${ENTER}" id="page">${S.view === 'company' ? company() : dashboard()}</div></main>
+      ${S.modal ? inviteModal() : ''}${S.toast ? `<div class="toast" role="status">${esc(S.toast)}</div>` : ''}`;
+      const m2 = document.querySelector('.modal'); if (m2 && mt) m2.scrollTop = mt;
+      const si = $('[data-search]'); if (si && S._focusSearch) { si.focus(); si.setSelectionRange(si.value.length, si.value.length); S._focusSearch = false }
+    }
+    let tt; const toast = m => { S.toast = m; render(); clearTimeout(tt); tt = setTimeout(() => { S.toast = ''; render() }, 2600) };
+
+    /* ---------- actions ---------- */
+    const blank = () => ({ name: '', email: '', phone: '', type: '', auth: '', authtype: '', rmin: '', rmax: '', vis: 'hidden' });
+    const link = id => location.href.replace(/[^/]*$/, '') + 'index.html?consultant_invite=' + id;
+    function validate(f) {
+      const e = {}, ed = f.id && invites.find(x => x.id === f.id);
+      if (!ed || ed.st === 'invited') {
+        if (!f.name.trim()) e.name = 'Name is required';
+        if (!f.email.trim()) e.email = 'Email is required'; else if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) e.email = 'Enter a valid email address';
+        else if (invites.some(x => x.id !== f.id && x.st !== 'revoked' && x.email.toLowerCase() === f.email.trim().toLowerCase())) e.email = 'This email has already been invited';
+      }
+      if (!f.type) e.type = 'Select FTE or contractor';
+      if (!f.auth) e.auth = 'Select work authorization';
+      if (f.auth === 'Work Visa / EAD' && !f.authtype) e.authtype = 'Select the visa or EAD type';
+      if (f.rmin === '' || +f.rmin <= 0) e.rmin = 'Enter a rate';
+      if (f.rmax === '' || +f.rmax <= 0) e.rmax = 'Enter a rate'; else if (f.rmin !== '' && +f.rmax < +f.rmin) e.rmax = 'High must be ≥ low';
+      return e;
+    }
+    function submit() {
+      S.err = validate(S.form); if (Object.keys(S.err).length) { render(); const el = document.querySelector('.fld.err .in, .fld.err .opt'); if (el) el.focus(); return }
+      const f = S.form, ed = f.id && invites.find(x => x.id === f.id);
+      const data = { name: f.name.trim(), email: f.email.trim(), phone: f.phone.trim(), type: f.type, auth: f.auth, authtype: f.auth === 'Work Visa / EAD' ? f.authtype : '', rmin: +f.rmin, rmax: +f.rmax, vis: f.vis };
+      if (ed) Object.assign(ed, ed.st === 'invited' ? data : { type: data.type, auth: data.auth, authtype: data.authtype, rmin: data.rmin, rmax: data.rmax, vis: data.vis });
+      else { const id = 'inv_' + Date.now().toString(36); invites.unshift(Object.assign({ id, st: 'invited', sent: day(0) }, data)); S.form.id = id; }
+      S.wasEdit = !!ed; persist(); S.modal = 'sent'; S.enter = true; render();
+    }
+    function preview(id) {
+      const i = invites.find(x => x.id === id); if (!i) return;
+      save('cc_consultant_invite_' + id, { invite: i, vendor: VENDOR });
+      location.href = 'index.html?consultant_invite=' + id;
+    }
+    document.addEventListener('click', ev => {
+      const go = ev.target.closest('[data-go]'); if (go) { S.view = go.dataset.go; S.menu = null; S.edit = null; S.enter = true; render(); return }
+      const el = ev.target.closest('[data-a]');
+      if (!el) { if (S.menu) { S.menu = null; render() } return }
+      const a = el.dataset.a, v = el.dataset.v;
+      if (a === 'closeBg') { if (ev.target !== el) return; S.modal = null; render(); return }
+      if (a === 'invite') { S.form = blank(); S.err = {}; S.modal = 'form'; S.menu = null; S.enter = true; render(); setTimeout(() => $('#f_name') && $('#f_name').focus(), 30) }
+      else if (a === 'edit') { const i = invites.find(x => x.id === v); S.form = Object.assign({}, i, { rmin: String(i.rmin), rmax: String(i.rmax) }); S.err = {}; S.modal = 'form'; S.menu = null; S.enter = true; render() }
+      else if (a === 'close') { S.modal = null; render() }
+      else if (a === 'pick') { S.form[el.dataset.k] = v; delete S.err[el.dataset.k]; render() }
+      else if (a === 'submit') submit();
+      else if (a === 'filter') { S.filter = v; render() }
+      else if (a === 'menu') { ev.stopPropagation(); const r = el.getBoundingClientRect(), up = r.bottom + 200 > innerHeight; S.mpos = { r: Math.round(innerWidth - r.right), up, y: Math.round(up ? innerHeight - r.top + 4 : r.bottom + 4) }; S.menu = S.menu === v ? null : v; render() }
+      else if (a === 'resend') { invites.find(x => x.id === v).sent = day(0); persist(); toast('Invitation resent') }
+      else if (a === 'copy') { S.menu = null; const u = link(v); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => toast('Invitation link copied'), () => toast('Copy failed. Link: ' + u)) }
+      else if (a === 'revoke') { const i = invites.find(x => x.id === v); i.st = 'revoked'; S.menu = null; persist(); toast('Invitation revoked for ' + i.name) }
+      else if (a === 'preview') preview(v);
+      else if (a === 'editcard') { S.edit = v; S.cerr = {}; S.draft = Object.assign({}, VENDOR, { software: (VENDOR.software || []).slice(), acct: '' }); render() }
+      else if (a === 'cancelcard') { S.edit = null; render() }
+      else if (a === 'swtog') { const L = S.draft.software, n = L.indexOf(v); n > -1 ? L.splice(n, 1) : L.push(v); render() }
+      else if (a === 'savecard') {
+        const e = {}, d = S.draft; CARDS[v][1].forEach(([f, l, req, , type]) => { const x = String(d[f] || '').trim(); if (req && !x) e[f] = l + ' is required'; else if (type === 'email' && x && !/^\S+@\S+\.\S+$/.test(x)) e[f] = 'Enter a valid email address'; else if (f === 'acct' && x && !/^\d{6,17}$/.test(x)) e[f] = 'Enter 6–17 digits'; });
+        S.cerr = e; if (Object.keys(e).length) { render(); return }
+        CARDS[v][1].forEach(([f]) => { if (f === 'acct') { if (String(d.acct).trim()) VENDOR.bank = String(d.acct).trim().slice(-4); } else VENDOR[f] = String(d[f] || '').trim(); });
+        if (v === 'deliv') VENDOR.software = d.software;
+        VENDOR.ini = VENDOR.admin.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+        const o = Object.assign({}, VENDOR); delete o.ini; save(KEYS.vendor, o); S.edit = null; toast('Company details saved') }
+      else if (a === 'hideBanner') { S.hideBanner = true; render() }
+      else if (a === 'theme') { S.theme = v; document.documentElement.dataset.theme = v; try { localStorage.setItem('cc_theme', v) } catch (e) { } render() }
+      else if (a === 'signout') location.href = 'index.html';
+    });
+    document.addEventListener('input', ev => {
+      const t = ev.target;
+      if (t.dataset.d && S.edit) { S.draft[t.dataset.d] = t.value; if (S.cerr && S.cerr[t.dataset.d]) { delete S.cerr[t.dataset.d]; const f = t.closest('.fld'); f.classList.remove('err'); const m = f.querySelector('.em'); if (m) m.remove() } return }
+      if (t.matches('[data-search]')) { S.q = t.value; S._focusSearch = true; render(); return }
+      if (t.dataset.k && S.modal === 'form') { S.form[t.dataset.k] = t.value; if (S.err[t.dataset.k]) { delete S.err[t.dataset.k]; t.closest('.fld').classList.remove('err'); const m = t.closest('.fld').querySelector('.em'); if (m) m.remove() } if (t.dataset.k === 'auth') render() }
+    });
+    document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && (S.modal || S.menu)) { S.modal = null; S.menu = null; render() } if (ev.key === 'Enter' && S.modal === 'form' && ev.target.matches('input')) { ev.preventDefault(); submit() } });
+    addEventListener('scroll', () => { if (S.menu) { S.menu = null; render() } }, true); addEventListener('resize', () => { if (S.menu) { S.menu = null; render() } });
+    S.enter = true; render();
+  </script>
+</body>
+
+</html>
