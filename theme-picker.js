@@ -4,7 +4,7 @@
    To add or change a palette, edit PALETTES below: one main colour is enough, the rest is derived. */
 (function () {
   'use strict';
-  var GROUPS = ['Our palettes', 'Recruiting & talent platforms', 'Enterprise products & workflows', 'Landing pages & technical products', 'Neutral & grey', 'Light & soft'];
+  var GROUPS = ['Our palettes', 'Recruiting & talent platforms', 'Enterprise products & workflows', 'Landing pages & technical products', 'Neutral & grey', 'Light & soft', 'Bold & two-tone'];
   var PALETTES = [
     { id: 'slate', g: 0,   name: 'Slate',   note: 'Original',            c: '#547691' },
     { id: 'graphite',name: 'Graphite',note: 'Neutral, minimal',    c: '#3b4450' },
@@ -77,7 +77,20 @@
     { id: 'lavender', g: 5,   lt: 1, name: 'Lavender',   note: 'Gentle, creative',         c: '#8a73e6' },
     { id: 'lilac', g: 5, lt: 1, name: 'Lilac', note: 'Soft, creative violet', c: '#8e6fd0' },
     { id: 'blush', g: 5,      lt: 1, name: 'Blush',      note: 'Soft, friendly pink',      c: '#e05a85' },
-    { id: 'rosewater', g: 5, lt: 1, name: 'Rosewater', note: 'Delicate rose', c: '#cc6177' }
+    { id: 'rosewater', g: 5, lt: 1, name: 'Rosewater', note: 'Delicate rose', c: '#cc6177' },
+  { id: 'sunset', g: 6, name: 'Sunset', note: 'Warm red-orange, apricot glow', c: '#c2452b', sw: ['#39160e', '#c2452b', '#f6c98a'], hl: '#f6c98a' },
+  { id: 'terracotta', g: 6, name: 'Terracotta', note: 'Earthy clay, soft cream', c: '#a8512f', sw: ['#381b10', '#a8512f', '#f2dcb4'], hl: '#f2dcb4' },
+  { id: 'crimson', g: 6, name: 'Crimson', note: 'Confident, high-contrast red', c: '#b0213f', sw: ['#390e17', '#b0213f', '#ffd3dc'], hl: '#ffd3dc' },
+  { id: 'magenta', g: 6, name: 'Magenta Pop', note: 'Vivid magenta, pink wash', c: '#a3207f', sw: ['#390e2d', '#a3207f', '#ffcfe9'], hl: '#ffcfe9' },
+  { id: 'teal-coral', g: 6, name: 'Teal & Coral', note: 'Deep teal with coral accent', c: '#0b7a75', sw: ['#0e3937', '#0b7a75', '#ffb7a3'], hl: '#ffb7a3' },
+  { id: 'ocean-citrus', g: 6, name: 'Ocean & Citrus', note: 'Ocean blue, citrus yellow', c: '#0a5c8a', sw: ['#0e2a39', '#0a5c8a', '#ffe08a'], hl: '#ffe08a' },
+  { id: 'ultraviolet', g: 6, name: 'Ultraviolet', note: 'Electric violet, mint accent', c: '#5b2bd1', sw: ['#1b0e39', '#5b2bd1', '#b9f0d6'], hl: '#b9f0d6' },
+  { id: 'olive', g: 6, name: 'Olive', note: 'Grounded olive, pale lime', c: '#5f6b2c', sw: ['#2d3315', '#5f6b2c', '#e4edb0'], hl: '#e4edb0' },
+  { id: 'emerald-gold', g: 6, name: 'Emerald & Gold', note: 'Deep emerald, warm gold', c: '#0f6b4f', sw: ['#0e392c', '#0f6b4f', '#f0cf6b'], hl: '#f0cf6b' },
+  { id: 'cherry-blush', g: 6, name: 'Cherry & Blush', note: 'Cherry red, soft blush', c: '#a61e4d', sw: ['#390e1d', '#a61e4d', '#ffd6e3'], hl: '#ffd6e3' },
+  { id: 'midnight-cyan', g: 6, name: 'Midnight & Cyan', note: 'Midnight navy, bright cyan', c: '#1b2a49', sw: ['#131e34', '#1b2a49', '#86e4f2'], hl: '#86e4f2' },
+  { id: 'copper', g: 6, name: 'Copper', note: 'Metallic copper, sand', c: '#9c5628', sw: ['#391f0f', '#9c5628', '#f4d4a2'], hl: '#f4d4a2' },
+  { id: 'plum-peach', g: 6, name: 'Plum & Peach', note: 'Deep plum, peach accent', c: '#5a2a6e', sw: ['#2a1434', '#5a2a6e', '#ffd0b5'], hl: '#ffd0b5' }
   ];
   var KEY = 'cc_palette', root = document.documentElement;
 
@@ -120,6 +133,11 @@
       '--slate-tint': col(h, .18, .17), '--slate-tint-2': dTint2, '--accent': col(h, clamp(s * .65, .2, .7), .68), '--accent-tint': dTint2, '--pc-3': col(h, clamp(s * .65, .2, .7), .68), '--pc-4': col(h, clamp(s * .6, .2, .7), .62),
       '--bg': col(h, .14, .08), '--surface': col(h, .13, .115), '--surface-2': col(h, .13, .135), '--line': col(h, .11, .18), '--line-2': col(h, .11, .22), '--track': col(h, .11, .17)
     });
+    if (p.hl) {
+      var mix = function (a, b, t) { var A = rgb(a).split(', ').map(Number), B = rgb(b).split(', ').map(Number); return hex(A.map(function (v, i) { return Math.round(v * t + B[i] * (1 - t)) })) };
+      Object.assign(light, { '--brand-hi': p.hl, '--brand-hi2': mix(p.hl, '#ffffff', .6), '--brand-soft': mix(p.hl, '#ffffff', .7), '--slate-tint': mix(p.hl, '#ffffff', .22), '--slate-tint-2': mix(p.hl, '#ffffff', .5), '--accent-tint': mix(p.hl, '#ffffff', .75) });
+      Object.assign(dark, { '--brand-hi': p.hl, '--brand-hi2': mix(p.hl, '#ffffff', .6), '--slate': p.hl, '--accent': p.hl, '--slate-tint': mix(p.hl, dark['--surface'], .12), '--slate-tint-2': mix(p.hl, dark['--surface'], .22), '--accent-tint': mix(p.hl, dark['--surface'], .22) });
+    }
     if (p.x) { Object.assign(light, p.x.light || {}); Object.assign(dark, p.x.dark || {}) }
     return { light: light, dark: dark };
   }
