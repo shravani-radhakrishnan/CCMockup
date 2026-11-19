@@ -3638,7 +3638,7 @@
 
     /* ============ VENDOR (invite-only) + INVITED CONSULTANT ============ */
     const vendorSoftware = a => (a.vsoft || []).filter(x => x !== 'Other').concat((a.vsoft || []).includes('Other') ? String(a.vsoft_other || '').split(',').map(x => x.trim()).filter(Boolean) : []);
-    const VENDOR_SOFTWARE = ['Salesforce', 'SAP', 'AWS', 'Microsoft Azure', 'Google Cloud (GCP)', 'Dynamics 365 & Power Platform', 'ServiceNow', 'Workday', 'Oracle', 'NetSuite', 'Snowflake', 'Databricks', 'MuleSoft', 'Other'];
+    const VENDOR_SOFTWARE = ['Salesforce', 'SAP', 'AWS', 'Microsoft Azure', 'Google Cloud (GCP)', 'Dynamics 365 & Power Platform', 'ServiceNow', 'Workday', 'Oracle', 'NetSuite', 'Snowflake', 'Databricks', 'MuleSoft', 'AI / Machine Learning', 'Cybersecurity', 'Other'];
     function buildVendor() {
       const S = [];
       S.push({
@@ -3652,18 +3652,18 @@
         body: () => {
           const a = A(), country = a.country || 'United States', states = COUNTRY_STATES[country];
           const stateField = states ? sel('state', 'State', states, { req: true }) : text('state', 'State / region', { req: true, ph: 'State or region' });
-          return `${text('legal', 'Corporation legal name', { req: true, ph: 'Acme Technology Partners LLC' })}${text('addr1', 'Corporation address', { req: true, ph: 'Street address' })}${sel('country', 'Country', COUNTRIES, { req: true, def: 'United States' })}<div class="row">${text('city', 'City', { req: true })}${stateField}</div>${text('vzip', 'ZIP / postal code', { req: true })}`;
+          return `${text('legal', 'Legal company name', { req: true, ph: 'Acme Technology Partners LLC' })}${text('addr1', 'Company street address', { req: true, ph: 'Street address' })}${sel('country', 'Country', COUNTRIES, { req: true, def: 'United States' })}<div class="row">${text('city', 'City', { req: true })}${stateField}</div>${text('vzip', 'ZIP / postal code', { req: true })}`;
         },
         pv: { k: 'Company', get: a => a.legal || '' }
       });
       S.push({
-        kind: 'form', group: 'Delivery Profile', q: 'Tell us about your delivery team.', sub: 'This helps us understand the kind of work to send your way. You can skip it and add it later.',
-        body: () => `<div class="row">${text('vteam', 'Overall delivery team size', { type: 'number', ph: 'e.g. 40' })}${text('vbench', 'Current bench size (FTE / W-2)', { type: 'number', ph: 'e.g. 5' })}</div><div class="field" style="margin-top:6px"><label>Software you provide consultants for</label><div class="hint">Select all that apply.</div>${optionCards('vsoft', VENDOR_SOFTWARE, { multi: true, cols: true, auto: false })}</div>${(A().vsoft || []).includes('Other') ? `<div style="margin-top:14px">${text('vsoft_other', 'Other software', { req: true, ph: 'e.g. Veeva, Guidewire', hint: 'Separate multiple with commas.' })}</div>` : ''}`,
+        kind: 'form', group: 'Delivery Profile', q: 'Tell us about your delivery team.', sub: 'This helps us understand your team’s capabilities and match your consultants with relevant opportunities.',
+        body: () => `<div class=\"row\">${text('vteam', 'Overall Delivery Team Size (W2 Employees)', { type: 'number', ph: 'e.g. 40' })}${text('vbench', 'Current Active Bench Size (W2 Employees)', { type: 'number', ph: 'e.g. 5' })}</div><div class="field" style="margin-top:6px"><label>Technologies & Specializations</label><div class="hint">Select all that apply.</div>${optionCards('vsoft', VENDOR_SOFTWARE, { multi: true, cols: true, auto: false })}</div>${(A().vsoft || []).includes('Other') ? `<div style="margin-top:14px">${text('vsoft_other', 'Other software', { req: true, ph: 'e.g. Veeva, Guidewire', hint: 'Separate multiple with commas.' })}</div>` : ''}`,
         pv: { k: 'Software', get: a => vendorSoftware(a).slice(0, 3).join(', ') }
       });
       S.push({
         kind: 'done', group: 'Account Ready', q: 'Your vendor account is ready.', sub: 'Invite your consultants first. You can complete the rest of your company profile later.', preview: true, dashboardLabel: 'Where to start in your dashboard',
-        routes: [{ ic: '＋', t: 'Invite consultants', d: 'They onboard and are linked to your company automatically.', primary: true }, { ic: '☰', t: 'Track your roster', d: 'See who has accepted and who is still pending.' }, { ic: '▣', t: 'Complete company profile', d: 'Add the remaining details whenever you’re ready.' }, { ic: '◷', t: 'Manage engagements', d: 'Review consultants’ projects, track hours, and view payments.' }]
+        routes: [{ ic: '＋', t: 'Invite consultants', d: 'They onboard and are linked to your company automatically.', primary: true }, { ic: '☰', t: 'Track your roster', d: 'See who has accepted and who is still pending.' }, { ic: '▣', t: 'Complete company profile', d: 'Add the remaining details whenever you’re ready.' }, { ic: '◷', t: 'Manage engagements', d: 'View consultant assignments, track hours, and manage payments.' }]
       });
       return S;
     }
