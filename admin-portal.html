@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cloud Club — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #547691; --brand-d: #3e566a; --brand-dd: #2c3e4c; --brand-h: #4d6d87;
+      --brand-rgb: 84, 118, 145; --brand-d-rgb: 62, 86, 106; --brand-dd-rgb: 44, 62, 76;
+      --brand-hi: #c5e4d9; --brand-hi2: #cfe0ec; --brand-soft: #c3d1dc;
+      --bg: #f8fafb; --surface: #fff; --surface-2: #f8fafb;
+      --ink: #262b2f; --body: #495259; --muted: #68727a; --faint: #8b949b;
+      --line: #dfe4e8; --line-2: #d3dade; --track: #e7edf1;
+      --slate: #547691; --slate-d: #3e566a; --slate-dd: #2c3e4c; --slate-tint: #eef3f6; --slate-tint-2: #e2ebf0;
+      --accent: #547691; --accent-tint: #e2ebf0;
+      --ok: #3f9e83; --ok-tint: #e5f4ee; --amber: #c98a2e; --amber-tint: #faf1e2; --danger: #b4462f; --danger-tint: #f7e6e1;
+      --shadow: 0 24px 64px rgba(65, 82, 96, .08); --shadow-lg: 0 32px 80px -12px rgba(44, 62, 76, .22);
+      --r: 16px;
+    }
+    :root[data-theme=dark] {
+      --bg: #12171b; --surface: #1b2227; --surface-2: #1f282e;
+      --ink: #e8edf0; --body: #b9c3ca; --muted: #8f9aa2; --faint: #707b83;
+      --line: #2b343b; --line-2: #34404a; --track: #27313a;
+      --slate: #7fa3bf; --slate-d: #4f7390; --slate-dd: #e2ebf0; --slate-tint: #232d35; --slate-tint-2: #2b3842;
+      --accent: #7fa3bf; --accent-tint: #2b3842;
+      --ok: #4fb596; --ok-tint: #1d3a31; --amber-tint: #3a2f1c; --danger-tint: #3d2420;
+      --shadow: 0 24px 64px rgba(0, 0, 0, .35); --shadow-lg: 0 32px 80px -12px rgba(0, 0, 0, .55);
+      color-scheme: dark
+    }
+    * { box-sizing: border-box }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "DM Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; transition: background .3s, color .3s }
+    h1, h2, h3, h4 { font-family: Manrope, sans-serif; margin: 0; letter-spacing: -.01em }
+    button { font: inherit; cursor: pointer }
+    input, select, textarea { font: inherit; color: var(--ink) }
+    svg { flex: 0 0 auto }
+    @keyframes up { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+    @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important } }
+
+    /* ---- shell ---- */
+    #app { display: flex; min-height: 100vh }
+    .side { width: 248px; flex: 0 0 248px; transition: width .25s, flex-basis .25s; z-index: 30; background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 18px 14px; position: sticky; top: 0; height: 100vh }
+    .s-head { position: relative; display: flex; align-items: center; min-height: 40px; margin-bottom: 12px }
+    .brandlogo { padding: 4px 8px }
+    .tgl { position: absolute; right: -25px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--surface); background: var(--slate); color: #fff; display: grid; place-items: center; padding: 0; transition: .2s }
+    .tgl:hover { background: var(--slate-d) } .tgl svg { transition: transform .25s }
+    .side.c { width: 78px; flex-basis: 78px }
+    .side.c .tgl { top: -4px; right: -24px; transform: none } .side.c .tgl svg { transform: rotate(180deg) }
+    .side.c .brandlogo { width: 40px; height: 28px; overflow: hidden; padding: 0 } .side.c .brandlogo img { height: 28px; max-width: none }
+    .side.c .vtag, .side.c .lbl, .side.c .ni span, .side.c .who { display: none }
+    .side.c .ni { justify-content: center; padding: 10px 0 }
+    .side.c .ni:hover::after { content: attr(data-tip); position: absolute; left: calc(100% + 14px); background: #0d1114; color: #fff; font-size: 12px; padding: 5px 10px; border-radius: 7px; white-space: nowrap; pointer-events: none; z-index: 50 }
+    .side.c .seg { grid-template-columns: 1fr } .side.c .seg button span { display: none } .side.c .seg button { display: grid; place-items: center }
+    .side.c .profrow { flex-direction: column } .side.c .prof { flex: none; padding: 0 }
+    .seg button { display: flex; align-items: center; justify-content: center; gap: 6px }
+    .brandlogo img { height: 28px; width: auto; aspect-ratio: 790 / 124; object-fit: contain; max-width: none; display: block }
+    .brandlogo .lg-d { display: none }
+    :root[data-theme=dark] .brandlogo .lg-l { display: none }
+    :root[data-theme=dark] .brandlogo .lg-d { display: block }
+    .vtag { margin: 0 8px 16px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2) }
+    .vtag small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600 }
+    .vtag b { display: block; font-family: Manrope, sans-serif; font-size: 14px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--faint); font-weight: 600; margin: 4px 10px 6px }
+    .nav { display: flex; flex-direction: column; gap: 2px }
+    .ni { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; background: none; color: var(--body); border-radius: 10px; text-align: left; font-weight: 500; position: relative }
+    .ni:hover:not(:disabled) { background: var(--slate-tint) }
+    .ni.on { background: var(--slate-tint-2); color: var(--slate-dd); font-weight: 600 }
+    .ni:disabled { opacity: .55; cursor: default }
+    .ni .soon { margin-left: auto; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 2px 6px; border-radius: 6px; background: var(--track); color: var(--muted) }
+    .sp { flex: 1 }
+    .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; background: var(--track); border-radius: 10px; margin-bottom: 10px }
+    .seg button { border: 0; background: none; padding: 6px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 12.5px }
+    .seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .1) }
+    .profrow { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--line) }
+    .prof { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; border: 0; background: none; text-align: left; padding: 4px; border-radius: 10px }
+    .av { width: 34px; height: 34px; border-radius: 50%; background: var(--slate); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none }
+    .who { min-width: 0 } .who b { display: block; font-size: 13px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .who i { display: block; font-style: normal; font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .so { border: 1px solid var(--line); background: var(--surface); border-radius: 9px; width: 34px; height: 34px; display: grid; place-items: center; color: var(--muted) }
+    .so:hover { color: var(--ink); border-color: var(--line-2) }
+
+    .ni .bd { margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--danger); color: #fff; font: 700 11px/18px "DM Sans", sans-serif; text-align: center }
+    .side.c .ni .bd { position: absolute; top: 6px; right: 10px; min-width: 8px; width: 8px; height: 8px; padding: 0; font-size: 0 }
+    .pop { position: fixed; left: 262px; bottom: 150px; width: 340px; max-height: 60vh; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-lg); z-index: 60; animation: fade .12s both }
+    .pop.c { left: 92px }
+    .pop h4 { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px 10px; font-size: 14px }
+    .pop h4 button { border: 0; background: none; color: var(--slate-d); font-weight: 600; font-size: 12.5px } .pop h4 button:disabled { color: var(--faint); cursor: default }
+    .pop .it { display: flex; gap: 10px; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line); background: none; padding: 12px 16px }
+    .pop .it:hover { background: var(--surface-2) }
+    .pop .it i { width: 8px; height: 8px; border-radius: 50%; background: var(--slate); margin-top: 6px; flex: none } .pop .it i.rd { background: transparent; border: 1.5px solid var(--line-2) }
+    .pop .it b { display: block; font-size: 13px; color: var(--ink) } .pop .it span { display: block; font-size: 12.5px; color: var(--muted) } .pop .it small { color: var(--faint); font-size: 11.5px }
+    .pop .none { padding: 24px 16px; text-align: center; color: var(--muted); border-top: 1px solid var(--line) }
+    .sw { position: relative; flex: none; width: 40px; height: 22px; border-radius: 99px; border: 0; background: var(--line-2); padding: 0; transition: .2s }
+    .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: .2s; box-shadow: 0 1px 3px rgba(0, 0, 0, .25) }
+    .sw[aria-checked=true] { background: var(--slate-d) } .sw[aria-checked=true]::after { transform: translateX(18px) }
+    .prefrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line) } .prefrow:last-child { border: 0 }
+    .prefrow b { display: block } .prefrow span { color: var(--muted); font-size: 12.5px }
+    /* settings: same components as the client and consultant portals */
+    .stg { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch } .stg .card { padding: 22px }
+    @media (max-width: 1280px) { .stg { grid-template-columns: minmax(0, 1fr); max-width: 760px } }
+    div.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px } .kv small { display: block; color: var(--muted); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em } .kv b { font-weight: 600 }
+    .avrow { display: flex; align-items: center; gap: 16px; margin-top: 12px; flex-wrap: wrap } .avrow > div { display: grid; gap: 2px } .avrow small { color: var(--muted) }
+    .avbig { width: 64px; height: 64px; font-size: 20px; flex: none; display: grid; place-items: center; border-radius: 50% } .avbtn { display: flex; gap: 8px; margin-top: 8px }
+    .stl { display: grid; margin-top: 6px } .str { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0 } .str + .str { border-top: 1px solid var(--line) } .str b { display: block; font-size: 14px } .str small { color: var(--muted) }
+    .swt { flex: none; width: 44px; height: 26px; border-radius: 99px; border: 0; background: var(--line-2); position: relative; cursor: pointer; transition: .2s } .swt i { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: .2s } .swt.on { background: var(--slate-d) } .swt.on i { transform: translateX(18px) }
+    .thm { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 560px }
+    .thc { display: grid; gap: 12px; text-align: left; padding: 12px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--surface); cursor: pointer; position: relative; transition: .18s } .thc:hover { border-color: var(--slate) } .thc.on { border-color: var(--slate-d); box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .16) }
+    .thp { display: grid; grid-template-columns: 34% 1fr; grid-template-rows: auto auto auto; gap: 5px 8px; height: 84px; padding: 10px; border-radius: 10px; border: 1px solid rgba(0, 0, 0, .08); position: relative } .thp i { display: block; border-radius: 4px; height: 8px } .thp i:nth-child(1) { grid-row: 1/4; height: auto } .thp i:nth-child(2) { background: currentColor; opacity: .25 } .thp i:nth-child(3) { background: currentColor; opacity: .15; width: 70% } .thp u { border-radius: 6px; height: 18px; align-self: end }
+    .thp.light { background: #f7f9fb; color: var(--brand-dd) } .thp.light i:nth-child(1) { background: #e2ebf0 } .thp.light u { background: #fff; border: 1px solid #dfe6ea }
+    .thp.dark { background: #141c22; color: var(--brand-hi2) } .thp.dark i:nth-child(1) { background: #232d35 } .thp.dark u { background: #1c262d; border: 1px solid #2b3842 }
+    .tht { display: grid; gap: 2px; padding-right: 28px } .tht b { font-size: 14px } .tht small { color: var(--muted); font-size: 12px; line-height: 1.4 }
+    .thk { position: absolute; right: 12px; bottom: 12px; width: 20px; height: 20px; border-radius: 50%; background: var(--slate-d); color: #fff; display: none; place-items: center } .thc.on .thk { display: grid }
+    .thk svg { width: 12px !important; height: 12px !important } .thc { align-content: start }
+    .main { flex: 1; min-width: 0 }
+    .top { height: 64px; display: flex; align-items: center; padding: 0 40px; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px }
+    .top b { color: var(--ink) }
+    .page { padding: 32px 40px 90px; max-width: 1280px; margin: 0 auto }
+    .page.enter { animation: up .35s both }
+    .ph { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px }
+    .ph h1 { font-size: 26px } .ph p { margin: 4px 0 0; color: var(--muted) }
+
+    /* ---- controls ---- */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); font-weight: 600; transition: .15s }
+    .btn:hover:not(:disabled) { border-color: var(--slate); color: var(--slate-d) }
+    .btn.primary { background: var(--slate-d); border-color: var(--slate-d); color: #fff }
+    :root[data-theme=dark] .btn.primary { background: var(--slate-d); color: #fff }
+    .btn.primary:hover:not(:disabled) { background: var(--brand-dd); border-color: var(--brand-dd); color: #fff }
+    .btn.sm { padding: 6px 11px; font-size: 12.5px; border-radius: 8px }
+    .btn.ghost { border-color: transparent; background: none; color: var(--muted) }
+    .btn:disabled { opacity: .5; cursor: default }
+    .btn:focus-visible, .ni:focus-visible, .chip:focus-visible, .opt:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px }
+    .card h3 { font-size: 15px; margin-bottom: 12px }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px }
+    .stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px }
+    .stat small { color: var(--muted); font-weight: 600; font-size: 12px }
+    .stat b { display: block; font: 800 28px Manrope, sans-serif; margin-top: 4px }
+    .stat span { font-size: 12px; color: var(--faint) }
+
+    .banner { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: var(--r); background: var(--slate-tint); border: 1px solid var(--slate-tint-2); margin-bottom: 18px }
+    .banner h4 { font-size: 14.5px; margin-bottom: 2px } .banner p { margin: 0; color: var(--body) }
+    .banner .x { margin-left: auto; border: 0; background: none; color: var(--muted); font-size: 18px; line-height: 1 }
+
+    .tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid var(--line) }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap }
+    .chip { border: 1px solid var(--line); background: var(--surface); color: var(--body); padding: 5px 12px; border-radius: 99px; font-weight: 600; font-size: 12.5px }
+    .chip.on { background: var(--slate-d); border-color: var(--slate-d); color: #fff }
+    .chip em { font-style: normal; opacity: .7; margin-left: 4px }
+    .search { border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px; padding: 7px 12px; min-width: 220px }
+    .tw { overflow-x: auto }
+    table { width: 100%; border-collapse: collapse }
+    th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); font-weight: 600; padding: 10px 16px; border-bottom: 1px solid var(--line); white-space: nowrap }
+    td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: middle }
+    tr:last-child td { border-bottom: 0 }
+    tbody tr:hover { background: var(--surface-2) }
+    .cn { display: flex; align-items: center; gap: 10px }
+    .cn .av { width: 32px; height: 32px; font-size: 11.5px; background: var(--slate-tint-2); color: var(--slate-dd) }
+    .cn b { display: block } .cn small { color: var(--muted) }
+    .sub { color: var(--muted); font-size: 12.5px; display: block }
+    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; white-space: nowrap }
+    .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor }
+    .pill.invited { background: var(--amber-tint); color: var(--amber) }
+    .pill.onboarding { background: var(--slate-tint-2); color: var(--slate-d) }
+    :root[data-theme=dark] .pill.onboarding { color: var(--slate) }
+    .pill.active { background: var(--ok-tint); color: var(--ok) }
+    .pill.revoked { background: var(--danger-tint); color: var(--danger) }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; background: var(--track); color: var(--body) }
+    .vis { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 12.5px }
+    .acts { display: flex; gap: 6px; justify-content: flex-end; position: relative }
+    .empty { text-align: center; padding: 48px 20px; color: var(--muted) }
+    .empty b { display: block; color: var(--ink); font: 700 16px Manrope, sans-serif; margin-bottom: 4px }
+    .menu { position: absolute; right: 0; top: 36px; z-index: 20; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-lg); min-width: 200px; padding: 6px; animation: fade .12s both }
+    .menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 8px; color: var(--body); font-weight: 500 }
+    .menu button:hover { background: var(--slate-tint) }
+    .menu button.dng { color: var(--danger) }
+
+    /* ---- modal ---- */
+    .mov { position: fixed; inset: 0; background: rgba(20, 28, 34, .5); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 20px; z-index: 50 }
+    .mov.enter { animation: fade .18s both } .mov.enter .modal { animation: up .25s both }
+    .modal { background: var(--surface); border-radius: 20px; width: 100%; max-width: 540px; max-height: calc(100vh - 40px); overflow: auto; box-shadow: var(--shadow-lg) }
+    .mh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 18px 22px 2px }
+    .mh h2 { font-size: 18px } .mh p { margin: 3px 0 0; color: var(--muted); font-size: 13px }
+    .mh .x { border: 0; background: none; font-size: 22px; line-height: 1; color: var(--muted) }
+    .mb { padding: 8px 22px 2px }
+    .mf { display: flex; justify-content: flex-end; gap: 10px; padding: 12px 22px 16px; border-top: 1px solid var(--line); margin-top: 6px }
+    .sec { font: 700 11.5px Manrope, sans-serif; text-transform: uppercase; letter-spacing: .07em; color: var(--faint); margin: 12px 0 6px }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+    .fld { margin-bottom: 9px }
+    .fld label { display: block; font-weight: 600; font-size: 12.5px; margin-bottom: 4px }
+    .fld label .req { color: var(--danger); margin-left: 2px }
+    .fld label .opt-t { color: var(--faint); font-weight: 500 }
+    .in { width: 100%; padding: 8px 11px; font-size: 13.5px; border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px }
+    .in:focus { border-color: var(--slate); outline: none; box-shadow: 0 0 0 3px rgba(var(--brand-rgb), .15) }
+    .in:disabled { background: var(--surface-2); color: var(--muted) }
+    .fld.err .in { border-color: var(--danger) }
+    .em { color: var(--danger); font-size: 12px; margin-top: 4px }
+    .hint { color: var(--muted); font-size: 12.5px; margin-top: 5px }
+    .pre { position: relative } .pre > span { position: absolute; left: 12px; top: 10px; color: var(--muted) } .pre .in { padding-left: 24px }
+    .opts { display: grid; gap: 8px }
+    .opts.c2 { grid-template-columns: 1fr 1fr }
+    .opt { text-align: left; border: 1px solid var(--line-2); background: var(--surface); border-radius: 10px; padding: 7px 11px; color: var(--body) }
+    .opt b { display: block; color: var(--ink); font-size: 13px } .opt span { font-size: 11.5px; color: var(--muted); line-height: 1.35; display: block }
+    .opts.c3 { grid-template-columns: repeat(3, 1fr) }
+    .opt:hover { border-color: var(--slate) }
+    .opt.on { border-color: var(--slate); background: var(--slate-tint); box-shadow: 0 0 0 1px var(--slate) inset }
+    .ok-hero { text-align: center; padding: 18px 6px 6px }
+    .ok-hero .bdg { width: 52px; height: 52px; border-radius: 50%; background: var(--ok-tint); color: var(--ok); display: grid; place-items: center; margin: 0 auto 12px }
+    .mail { margin-top: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); padding: 14px 16px; font-size: 13px }
+    .mail dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 10px; margin: 0 }
+    .mail dt { color: var(--muted) } .mail dd { margin: 0 }
+    .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 12px; font-weight: 600; box-shadow: var(--shadow-lg); z-index: 80; animation: up .25s both }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+    dl.kv { display: grid; grid-template-columns: 230px 1fr; gap: 12px 16px; margin: 0 }
+    .cgrid { align-items: stretch; gap: 20px } .cgrid > .card { display: flex; flex-direction: column; padding: 24px } .cgrid .chead { display: flex; justify-content: space-between; align-items: center; min-height: 34px; margin-bottom: 16px } .cgrid .chead h3 { margin: 0 } .cgrid dl.kv { padding-top: 14px; border-top: 1px solid var(--line) } .cgrid dl.kv dd { overflow-wrap: anywhere }
+    dl.kv dt { color: var(--muted) } dl.kv dd { margin: 0; font-weight: 500 }
+    .todo { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line) } .todo:last-child { border: 0 }
+    .todo i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line-2); flex: none }
+    .todo span { margin-left: auto }
+
+    @media (max-width: 960px) {
+      .tgl { display: none }
+      #app { flex-direction: column } .side { position: static; width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px }
+      .vtag, .lbl, .sp { display: none } .nav { flex-direction: row; flex-wrap: wrap } .profrow { border: 0; padding: 0; margin-left: auto } .seg { margin: 0 }
+      .stats { grid-template-columns: 1fr 1fr } .grid2 { grid-template-columns: 1fr } .page { padding: 20px 16px 48px } .top { padding: 0 16px }
+    }
+    @media (max-width: 560px) { .row2, .opts.c2, .opts.c3 { grid-template-columns: 1fr } .stats { grid-template-columns: 1fr } }
+
+    /* ---- admin additions ---- */
+    tr.rw { cursor: pointer } tr.rw:focus-visible { outline: 2px solid var(--slate); outline-offset: -2px }
+    .stat em { font-style: normal; color: var(--ok); font-size: 12px; font-weight: 600; margin-left: 6px }
+    .num { font-variant-numeric: tabular-nums; font-weight: 600 }
+    .zero { color: var(--faint); font-weight: 500 }
+    .pill.signed { background: var(--ok-tint); color: var(--ok) }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px } .two .card { padding: 0; overflow: hidden } .two .card h3 { padding: 18px 20px 12px; margin: 0 }
+    .feed { list-style: none; margin: 0; padding: 0 } .feed li { display: flex; gap: 12px; align-items: center; padding: 11px 20px; border-top: 1px solid var(--line) } .feed li:hover { background: var(--surface-2) }
+    .feed .av { width: 30px; height: 30px; font-size: 11px; background: var(--slate-tint-2); color: var(--slate-dd) } .feed div { min-width: 0; flex: 1 } .feed b { display: block; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .feed small { color: var(--muted); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .feed time { color: var(--faint); font-size: 12px; white-space: nowrap }
+    .seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; background: var(--track); border-radius: 10px }
+    .seg2 button { border: 0; background: none; padding: 8px; border-radius: 8px; color: var(--muted); font-weight: 600 } .seg2 button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1) }
+    .dov { position: fixed; inset: 0; background: rgba(20,28,34,.45); backdrop-filter: blur(2px); z-index: 50; display: flex; justify-content: flex-end }
+    .drawer { width: 100%; max-width: 460px; height: 100%; overflow: auto; background: var(--surface); box-shadow: var(--shadow-lg); display: flex; flex-direction: column }
+    .dov.enter { animation: fade .18s both } .dov.enter .drawer { animation: slide .25s both }
+    @keyframes slide { from { transform: translateX(40px); opacity: 0 } to { transform: none; opacity: 1 } }
+    .dh { display: flex; gap: 14px; align-items: flex-start; padding: 22px 24px 16px; border-bottom: 1px solid var(--line) } .dh .av { width: 48px; height: 48px; font-size: 16px } .dh h2 { font-size: 18px } .dh p { margin: 2px 0 8px; color: var(--muted) } .dh .x { margin-left: auto; border: 0; background: none; font-size: 22px; line-height: 1; color: var(--muted) }
+    .db { padding: 18px 24px 28px } .db dl.kv { grid-template-columns: 130px 1fr; margin-bottom: 22px }
+    .sh { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px } .sh li { border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px } .sh b { display: block; font-weight: 600; font-size: 13.5px } .sh small { color: var(--muted) }
+    @media (max-width: 960px) { .two { grid-template-columns: 1fr } }
+
+    /* ---- admin v2 ---- */
+    .stg { grid-template-columns: minmax(0, 1fr) !important; max-width: 760px }
+    .hero { position: relative; overflow: hidden; border-radius: 16px; padding: 18px 24px; margin-bottom: 16px; color: #fff; background: radial-gradient(circle at 92% 0%, rgba(255,255,255,.22), transparent 38%), radial-gradient(circle at 70% 120%, rgba(255,255,255,.14), transparent 40%), linear-gradient(120deg, var(--slate-d), var(--slate)) }
+    .hero h1 { font-size: 21px; color: #fff } .hero p { margin: 4px 0 12px; color: rgba(255,255,255,.82); font-size: 14.5px } .hero p b { color: #fff }
+    .hero .hb { display: flex; gap: 10px; flex-wrap: wrap } .hero .btn { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.28); color: #fff } .hero .btn:hover:not(:disabled) { background: rgba(255,255,255,.26); color: #fff; border-color: rgba(255,255,255,.5) }
+    .stat { position: relative } .stat .sp2 { position: absolute; right: 14px; top: 16px; opacity: .9 }
+    .stat .d { color: var(--ok); font-weight: 600; font-size: 12px }
+    .cc { padding: 20px 22px } .two .card.cc h3 { padding: 0; margin-bottom: 2px } .cc .sub2 { color: var(--muted); font-size: 12.5px; margin-bottom: 14px; display: block }
+    [data-tip] { position: relative } [data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; top: 0; transform: translate(-50%, 4px); min-width: 150px; padding: 8px 11px; border-radius: 9px; background: var(--ink); color: var(--surface); font: 500 12px/1.5 inherit; text-align: left; white-space: pre-line; opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; z-index: 6; box-shadow: 0 6px 18px rgba(0,0,0,.25) }
+    [data-tip]:hover::after, [data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0) }
+    .chart .col:hover .stk { filter: brightness(1.12) } .chart .col { cursor: default; outline: none } .stat[data-tip]::after { top: calc(100% + 6px); left: auto; right: 12px; transform: translateY(4px) } .stat[data-tip]:hover::after { transform: none }
+    .chart .col:first-child::after { left: 0; transform: translate(0, 4px) } .chart .col:first-child:hover::after, .chart .col:first-child:focus-visible::after { transform: none }
+    .chart .col:last-child::after { left: auto; right: 0; transform: translate(0, 4px) } .chart .col:last-child:hover::after, .chart .col:last-child:focus-visible::after { transform: none }
+    .chart { display: flex; align-items: flex-end; gap: 14px; height: 190px; padding-top: 8px }
+    .chart .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; height: 100% }
+    .chart .col > b { font-size: 12px; color: var(--body) } .chart .col > small { color: var(--faint); font-size: 11.5px }
+    .stk { width: 100%; max-width: 54px; display: flex; flex-direction: column-reverse; gap: 2px; min-height: 3px }
+    .stk i { display: block; border-radius: 5px; flex: 1 1 0; min-height: 3px } .stk i.c { background: var(--slate-d) } .stk i.k { background: var(--ok) } .stk i.v { background: var(--amber) } .stk i.s { background: var(--slate) }
+    .legend { display: flex; gap: 14px; margin-top: 12px; color: var(--muted); font-size: 12.5px } .legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; background: var(--c) }
+    .fn { display: grid; gap: 12px } .fn .r { display: grid; grid-template-columns: 130px 1fr 40px; align-items: center; gap: 12px } .fn .r span { color: var(--body); font-size: 13px } .fn .r b { text-align: right }
+    .tr2 { height: 22px; border-radius: 7px; background: var(--track); overflow: hidden } .tr2 i { display: block; height: 100%; border-radius: 7px; background: linear-gradient(90deg, var(--slate-d), var(--slate)) }
+    .attn { list-style: none; margin: 0; padding: 0 } .attn li { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-top: 1px solid var(--line) } .attn div { flex: 1; min-width: 0 } .attn b { display: block; font-size: 13.5px } .attn small { color: var(--muted) }
+    .attn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex: none }
+    .two .card.cc { padding: 20px 22px }
+    .drawer { max-width: 520px } .dact { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 24px; border-bottom: 1px solid var(--line) } .dact a.btn { text-decoration: none }
+    .db .sec { margin-top: 20px } .db textarea.in { min-height: 84px; resize: vertical }
+    .bar { height: 8px; border-radius: 99px; background: var(--track); overflow: hidden; width: 140px; display: inline-block; vertical-align: middle; margin-right: 8px } .bar i { display: block; height: 100%; background: var(--ok) }
+    .tg { display: flex; flex-wrap: wrap; gap: 5px } .pill.suspended { background: var(--danger-tint); color: var(--danger) }
+    .seg2.three { grid-template-columns: repeat(3, 1fr) }
+    .sh .row { display: flex; justify-content: space-between; align-items: center; gap: 10px }
+    .na { color: var(--danger) } .btn.dng { color: var(--danger) } .btn.dng:hover:not(:disabled) { border-color: var(--danger); color: var(--danger) }
+    textarea.in { font: inherit }
+    select.in { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center }
+    .emv { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap } .emv span { word-break: break-all }
+    .two .card.cc.fill { display: flex; flex-direction: column } .fn.scroll.fill, .tcl.fill { flex: 1 1 0; min-height: 230px; max-height: none }
+    .fnl { display: grid; gap: 8px } .fs { display: grid; justify-items: center; gap: 2px } .fs small { color: var(--muted); font-size: 11.5px }
+    .fb { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 16px; border-radius: 10px; background: linear-gradient(90deg, var(--slate-d), var(--slate)); color: #fff; font-size: 13.5px; font-weight: 600; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 10px 100%) } .fb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .fp { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; padding: 8px 12px; border-radius: 10px; background: rgba(184,134,11,.12); color: var(--amber); font-weight: 600; font-size: 13px } .fp i { width: 8px; height: 8px; border-radius: 50%; background: var(--amber) }
+    .rcol { display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; min-height: 0 } .two .card.sc { display: flex; flex-direction: column; min-height: 220px } .two .card.sc h3 { border-bottom: 1px solid var(--line) } .scr { flex: 1 1 0; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
+    @media (max-width: 960px) { .rcol { grid-template-rows: none } .two .card.sc { max-height: 380px } }
+    .stp { list-style: none; margin: 0; padding: 0; display: grid } .stp li { display: grid; grid-template-columns: 34px 1fr auto; gap: 14px; align-items: center; padding: 9px 0; position: relative }
+    .stp li:not(:last-child)::before { content: ''; position: absolute; left: 16px; top: 43px; bottom: -9px; width: 2px; background: var(--line-2) }
+    .stp .sn { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--slate-tint-2); color: var(--slate-d); font-weight: 700; font-size: 13px; position: relative; z-index: 1 } .stp li:first-child .sn { background: var(--slate-d); color: #fff }
+    .stp .sb b { display: block; font-size: 14px } .stp .sb small { color: var(--muted); font-size: 12px }
+    .stp .sv { display: flex; align-items: baseline; gap: 10px } .stp .sv strong { font-size: 20px } .stp .sv em { font-style: normal; font-size: 12px; font-weight: 600; color: var(--slate-d); background: var(--slate-tint); padding: 2px 8px; border-radius: 99px }
+    .stp li.pd .sn { background: rgba(184,134,11,.14); color: var(--amber); border: 1.5px dashed var(--amber) } .stp li.pd .sb b, .stp li.pd .sv strong { color: var(--amber) }
+    .th { display: flex; align-items: center; gap: 6px } .inf { position: relative; display: inline-grid; place-items: center; color: var(--muted); cursor: help; outline: none } .inf:hover, .inf:focus-visible { color: var(--slate-d) }
+    .inf em { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); width: 210px; padding: 8px 10px; border-radius: 8px; background: var(--ink); color: var(--surface); font: 500 12px/1.4 inherit; font-style: normal; opacity: 0; pointer-events: none; transition: .15s; z-index: 5 } .inf:hover em, .inf:focus-visible em { opacity: 1 }
+    .tcl { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start } .tcl.scroll { overflow-y: auto; padding-right: 8px; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent }
+    .tc { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px 6px 6px; border-radius: 99px; background: var(--slate-tint); border: 1px solid var(--slate-tint-2); font-size: 13px }
+    .tc i { font-style: normal; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: var(--surface); color: var(--muted) } .tc b { color: var(--slate-d) } .tc u { text-decoration: none; color: var(--ok); font-size: 9px }
+    .tc.t3 { background: var(--slate-d); border-color: var(--slate-d); color: #fff; font-weight: 600 } .tc.t3 i { background: rgba(255,255,255,.22); color: #fff } .tc.t3 b { color: #fff } .tc.t3 u { color: #fff }
+    .fn.scroll { max-height: 290px; overflow-y: auto; padding-right: 10px; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent } .fn.scroll:focus-visible { outline: 2px solid var(--slate); outline-offset: 4px; border-radius: 6px }
+    .fn .pn .tr2 i { background: var(--amber) } .fn .pn span { color: var(--amber); font-weight: 600 }
+    @media (max-width: 960px) { .chart { gap: 8px } .fn .r { grid-template-columns: 100px 1fr 32px } }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/favicon-192.png">
+  <script src="theme-picker.js"></script>
+</head>
+
+  <div id="app"></div>
+  <script>
+    const $ = s => document.querySelector(s);
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const I = (d, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const IC = {
+      grid: I('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
+      users: I('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 4.5a3.5 3.5 0 010 7M18 14a6.5 6.5 0 013.5 6"/>'),
+      building: I('<path d="M4 21V5l8-3 8 3v16M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2"/>'),
+      brief: I('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>'),
+      mail: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
+      gear: I('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>'),
+      chat: I('<path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/>', 16), phone: I('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>', 16), ext: I('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/>', 16), mail16: I('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 16),
+      plus: I('<path d="M12 5v14M5 12h14"/>', 16), out: I('<path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/>', 16),
+      chev: I('<path d="M15 6l-6 6 6 6"/>', 12), sun: I('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', 15), moon: I('<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>', 15),
+      clip: I('<path d="M20 11.5l-8 8a5 5 0 01-7-7l8.5-8.5a3.5 3.5 0 015 5L10 17.5a2 2 0 01-3-3l7.5-7.5"/>', 15),
+      check: I('<path d="M5 12.5l4.5 4.5L19 7.5"/>', 12), checkL: I('<path d="M5 12.5l4.5 4.5L19 7.5"/>', 24)
+    };
+
+    /* ---------- demo data ---------- */
+    const KEY = 'cc_admin_invites';
+    const load = (k, d) => { try { const r = localStorage.getItem(k); return r ? JSON.parse(r) : d } catch (e) { return d } };
+    const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } };
+    const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10) };
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const fmtD = s => { const [y, m, d] = s.split('-'); return MON[+m - 1] + ' ' + (+d) };
+    const dago = s => Math.round((new Date(day(0)) - new Date(s)) / 864e5);
+    const nd = n => n <= 0 ? 'Today' : n === 1 ? 'Yesterday' : n + ' days ago';
+    const ago = s => nd(dago(s));
+    const S1 = (q, d, n) => ({ q, d: day(d), n });
+
+    const CANDIDATES = [
+      { id: 'c1', name: 'Marcus Webb', email: 'marcus.webb@gmail.com', role: 'Salesforce Architect', loc: 'Austin, TX', st: 'active', joined: day(-34), searches: [S1('Remote Salesforce architect roles, $120+/hr', -2, 14), S1('Financial services CPQ projects', -9, 6), S1('Contract Salesforce roles in Texas', -20, 11)] },
+      { id: 'c2', name: 'Priyanka Rao', email: 'priyanka.rao@outlook.com', role: 'Data Engineer', loc: 'Seattle, WA', st: 'active', joined: day(-28), searches: [S1('Snowflake migration contract, 6 months', -1, 9), S1('Senior data engineer, AWS, remote', -12, 17)] },
+      { id: 'c3', name: 'Daniel Okafor', email: 'daniel.okafor@gmail.com', role: 'SAP Consultant', loc: 'Chicago, IL', st: 'active', joined: day(-21), searches: [S1('SAP S/4HANA finance roles', -5, 8)] },
+      { id: 'c4', name: 'Elena Petrova', email: 'elena.petrova@proton.me', role: 'Cloud DevOps Engineer', loc: 'Denver, CO', st: 'onboarding', joined: day(-6), searches: [] },
+      { id: 'c5', name: 'Sam Nguyen', email: 'sam.nguyen@gmail.com', role: 'Workday Integration Lead', loc: 'Dallas, TX', st: 'active', joined: day(-15), searches: [S1('Workday integration, healthcare, hybrid', -3, 5), S1('Workday HCM roles', -10, 12)] },
+      { id: 'c6', name: 'Aisha Khan', email: 'aisha.khan@gmail.com', role: 'ML Engineer', loc: 'Boston, MA', st: 'onboarding', joined: day(-3), searches: [] },
+      { id: 'c7', name: 'Tom Hartley', email: 'tom.hartley@gmail.com', role: 'MuleSoft Developer', loc: 'Atlanta, GA', st: 'active', joined: day(-9), searches: [S1('MuleSoft API roles, remote', -4, 7)] },
+      { id: 'c8', name: 'Lucia Fernandez', email: 'lucia.f@gmail.com', role: 'Cybersecurity Analyst', loc: 'Miami, FL', st: 'onboarding', joined: day(-1), searches: [] }
+    ];
+    const CLIENTS = [
+      { id: 'k1', name: 'Rachel Kim', email: 'rachel.kim@brightpath.com', company: 'BrightPath Health', role: 'VP Engineering', st: 'active', joined: day(-30), searches: [S1('Senior Salesforce developers, healthcare, Austin hybrid', -1, 12), S1('Data engineer, Snowflake, 6 month contract', -6, 9), S1('Integration lead, Epic experience', -14, 4)] },
+      { id: 'k2', name: 'Jon Alvarez', email: 'jon@meridianbank.com', company: 'Meridian Bank', role: 'Director, IT', st: 'active', joined: day(-24), searches: [S1('SAP finance consultants, S/4HANA migration', -2, 10), S1('Cybersecurity analysts, SOC2 experience', -8, 7)] },
+      { id: 'k3', name: 'Hannah Lee', email: 'hannah.lee@cobaltlogistics.com', company: 'Cobalt Logistics', role: 'Head of Data', st: 'active', joined: day(-17), searches: [S1('ML engineer, forecasting, remote', -4, 8)] },
+      { id: 'k4', name: 'Victor Mendes', email: 'victor@harborretail.com', company: 'Harbor Retail', role: 'CTO', st: 'onboarding', joined: day(-5), searches: [] },
+      { id: 'k5', name: 'Dana Whitfield', email: 'dana.w@solaraenergy.com', company: 'Solara Energy', role: 'Program Manager', st: 'active', joined: day(-11), searches: [S1('Workday HCM consultants, 3 month engagement', -2, 6), S1('MuleSoft developers', -7, 5)] },
+      { id: 'k6', name: 'Omar Haddad', email: 'omar@vantagecap.com', company: 'Vantage Capital', role: 'VP Technology', st: 'onboarding', joined: day(-2), searches: [] },
+      { id: 'k7', name: 'Grace Tan', email: 'grace.tan@pinecrestedu.org', company: 'Pinecrest Education', role: 'IT Manager', st: 'active', joined: day(-8), searches: [S1('Cloud DevOps engineers, AWS, onsite Austin', -3, 11)] }
+    ];
+    const VENDORS = [
+      { id: 'v1', name: 'Priya Nair', email: 'priya@northstartp.com', company: 'Northstar Technology Partners', role: 'Delivery Director', st: 'active', joined: day(-26), searches: [] },
+      { id: 'v2', name: 'Michael Torres', email: 'michael@apexconsulting.com', company: 'Apex Consulting Group', role: 'Managing Partner', st: 'active', joined: day(-19), searches: [] },
+      { id: 'v3', name: 'Sofia Marino', email: 'sofia@lumenit.com', company: 'Lumen IT Services', role: 'Director of Delivery', st: 'active', joined: day(-12), searches: [] },
+      { id: 'v4', name: 'Greg Holloway', email: 'greg@zenithstaffing.com', company: 'Zenith Staffing', role: 'VP Operations', st: 'onboarding', joined: day(-4), searches: [] },
+      { id: 'v5', name: 'Nadia Rahman', email: 'nadia@brightwavesys.com', company: 'Brightwave Systems', role: 'Founder', st: 'onboarding', joined: day(-1), searches: [] }
+    ];
+    const X = {
+      c1: { phone: '+1 512 555 0111', skills: ['Salesforce', 'CPQ', 'Apex'], rate: '$120–140/hr', auth: 'U.S. Citizen', avail: 'Available now', done: 100, last: 0 },
+      c2: { phone: '+1 206 555 0132', skills: ['Snowflake', 'AWS', 'Python'], rate: '$95–115/hr', auth: 'Green Card Holder', avail: '2 weeks notice', done: 100, last: 1 },
+      c3: { phone: '+1 312 555 0176', skills: ['SAP S/4HANA', 'FICO'], rate: '$110–130/hr', auth: 'U.S. Citizen', avail: 'Available Jan 5', done: 100, last: 5 },
+      c4: { phone: '+1 720 555 0119', skills: ['AWS', 'Kubernetes', 'Terraform'], rate: '$90–110/hr', auth: 'Work Visa / EAD (H-1B)', avail: 'Available now', done: 55, last: 2 },
+      c5: { phone: '+1 214 555 0163', skills: ['Workday', 'Integrations'], rate: '$100–120/hr', auth: 'U.S. Citizen', avail: 'Available Dec 1', done: 100, last: 3 },
+      c6: { phone: '+1 617 555 0148', skills: ['Machine Learning', 'Python', 'MLOps'], rate: '$105–125/hr', auth: 'Work Visa / EAD (OPT)', avail: 'Available now', done: 40, last: 1 },
+      c7: { phone: '+1 404 555 0190', skills: ['MuleSoft', 'APIs'], rate: '$85–105/hr', auth: 'U.S. Citizen', avail: 'Available now', done: 100, last: 4 },
+      c8: { phone: '+1 305 555 0127', skills: ['Cybersecurity', 'SOC2'], rate: '$90–110/hr', auth: 'Green Card Holder', avail: 'Available Jan 15', done: 25, last: 0 },
+      k1: { phone: '+1 512 555 0201', industry: 'Healthcare', size: '1,000–5,000', posts: 3, hires: 1, last: 1 },
+      k2: { phone: '+1 214 555 0244', industry: 'Financial services', size: '5,000+', posts: 2, hires: 0, last: 2 },
+      k3: { phone: '+1 404 555 0278', industry: 'Logistics', size: '500–1,000', posts: 1, hires: 0, last: 4 },
+      k4: { phone: '+1 617 555 0231', industry: 'Retail', size: '200–500', posts: 0, hires: 0, last: 5 },
+      k5: { phone: '+1 713 555 0215', industry: 'Energy', size: '1,000–5,000', posts: 2, hires: 1, last: 2 },
+      k6: { phone: '+1 212 555 0262', industry: 'Financial services', size: '50–200', posts: 0, hires: 0, last: 2 },
+      k7: { phone: '+1 512 555 0293', industry: 'Education', size: '200–500', posts: 1, hires: 0, last: 3 },
+      v1: { phone: '+1 512 555 0142', team: 42, bench: 6, tech: ['Salesforce', 'AWS', 'SAP'], cons: [['Ramesh Kumar', 'active'], ['Ana Souza', 'onboarding'], ['Dev Patel', 'invited']], last: 0 },
+      v2: { phone: '+1 646 555 0173', team: 120, bench: 14, tech: ['Workday', 'Oracle', 'Azure'], cons: [['Lena Fischer', 'active'], ['Raj Singh', 'active'], ['Kim Park', 'active'], ['Omar Ali', 'invited']], last: 1 },
+      v3: { phone: '+1 415 555 0186', team: 65, bench: 9, tech: ['MuleSoft', 'Snowflake', 'AI / Machine Learning'], cons: [['Jon Bell', 'active'], ['Mia Chen', 'onboarding']], last: 3 },
+      v4: { phone: '+1 303 555 0159', team: 30, bench: 4, tech: ['Cybersecurity', 'AWS'], cons: [], last: 2 },
+      v5: { phone: '+1 408 555 0124', team: 18, bench: 3, tech: ['Salesforce'], cons: [], last: 0 }
+    };
+    const EXTRA = { c1: [S1('Salesforce CPQ with NetSuite integration', -15, 5)], c2: [S1('Databricks and Spark engineer, Azure', -7, 8)], c3: [S1('Oracle ERP and SAP Basis roles', -11, 6)], c5: [S1('ServiceNow developer, ITSM', -8, 4)], c7: [S1('Java and Spring Boot backend, MuleSoft', -13, 9)],
+      k1: [S1('DevOps engineer, Kubernetes, Terraform', -9, 7), S1('Power BI analyst, healthcare', -11, 5)], k2: [S1('Python data scientist, fraud detection', -13, 6), S1('Azure cloud architect', -16, 8)], k3: [S1('Tableau and Power BI developers', -9, 10), S1('GCP BigQuery data engineer', -15, 6)], k5: [S1('Oracle EBS consultants', -12, 4), S1('React frontend developers', -14, 7)], k7: [S1('ServiceNow admin, higher education', -10, 3)] };
+    CANDIDATES.concat(CLIENTS).forEach(p => { if (EXTRA[p.id]) p.searches.push(...EXTRA[p.id]) });
+    const STEP = { c4: ['Skills & experience', 4, 6], c6: ['Work authorization', 3, 6], c8: ['Resume upload', 2, 6], k4: ['Company details', 3, 5], k6: ['Email verification', 2, 5], v4: ['Delivery profile', 4, 4], v5: ['Company details', 3, 4] };
+    const stepTxt = p => p.step ? `${p.step[0]} (step ${p.step[1]} of ${p.step[2]})` : '';
+    CANDIDATES.forEach(p => { p.t = 'candidate'; Object.assign(p, X[p.id]) }); CLIENTS.forEach(p => { p.t = 'client'; Object.assign(p, X[p.id]) }); VENDORS.forEach(p => { p.t = 'vendor'; Object.assign(p, X[p.id]) });
+    CANDIDATES.concat(CLIENTS, VENDORS).forEach(p => { if (p.st === 'onboarding') p.step = STEP[p.id] });
+    const ALL = CANDIDATES.concat(CLIENTS, VENDORS);
+    const SEED_INV = [
+      { id: 'i1', type: 'Candidate', name: 'Noah Patel', email: 'noah.patel@gmail.com', co: '', st: 'invited', sent: day(-2) },
+      { id: 'i2', type: 'Client', name: 'Claire Dubois', email: 'claire@northwindfoods.com', co: 'Northwind Foods', st: 'invited', sent: day(-5) },
+      { id: 'i5', type: 'Vendor', name: 'Hassan Ali', email: 'hassan@corecloudgroup.com', co: 'CoreCloud Group', st: 'invited', sent: day(-1) },
+      { id: 'i3', type: 'Candidate', name: 'Marcus Webb', email: 'marcus.webb@gmail.com', co: '', st: 'signed', sent: day(-36) },
+      { id: 'i4', type: 'Client', name: 'Rachel Kim', email: 'rachel.kim@brightpath.com', co: 'BrightPath Health', st: 'signed', sent: day(-32) },
+      { id: 'i6', type: 'Vendor', name: 'Priya Nair', email: 'priya@northstartp.com', co: 'Northstar Technology Partners', st: 'signed', sent: day(-28) }
+    ];
+    let invites = load(KEY, null) || SEED_INV; save(KEY, invites);
+    const STATUS = { active: 'Active', onboarding: 'Onboarding', invited: 'Invited', signed: 'Signed up', revoked: 'Revoked', suspended: 'Suspended' };
+    const lastS = p => p.searches.length ? p.searches.slice().sort((a, b) => b.d.localeCompare(a.d))[0] : null;
+    const ini = n => n.split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+    const ADMIN = Object.assign({ name: 'Alex Morgan', email: 'admin@cloudclub.com' }, load('cca_admin', {}));
+    const PREFS = Object.assign({ signup: 1, accept: 1, stalled: 1, digest: 0, invonly: 1, approve: 0, twofa: 1, expiry: '14' }, load('cca_prefs', {}));
+    const MSGS = load('cca_msgs', {}), NOTES = load('cca_notes', {});
+    const PORTAL = { candidate: 'consultant-portal.html', client: 'client-portal.html', vendor: 'vendor-portal.html' };
+    const KIND = { candidates: ['candidate', CANDIDATES, 'Candidates', 'Consultants who have signed up and what they’ve searched for.'], clients: ['client', CLIENTS, 'Clients', 'Hiring teams who have signed up and what they’ve searched for.'], vendors: ['vendor', VENDORS, 'Vendors', 'Companies supplying consultants, with their bench and the consultants they’ve invited.'] };
+
+    const S = { view: 'overview', q: '', f: 'all', drawer: null, modal: null, form: null, msg: null, err: {}, toast: '', enter: true, collapsed: (() => { try { return localStorage.getItem('cca_c') === '1' } catch (e) { return false } })(), theme: document.documentElement.dataset.theme || 'light' };
+    try { const t = localStorage.getItem('cc_theme'); if (t === 'dark' || t === 'light') { S.theme = t; document.documentElement.dataset.theme = t } } catch (e) { }
+    const NAV = [['overview', 'Overview', IC.grid], ['candidates', 'Candidates', IC.users], ['clients', 'Clients', IC.building], ['vendors', 'Vendors', IC.brief], ['invites', 'Invitations', IC.mail]];
+    const link = i => location.href.replace(/[^/]*$/, '') + 'index.html' + (i.type === 'Vendor' ? '?vendor_invite=1' : i.type === 'Client' ? '?client_invite=' + i.id : '?candidate_invite=' + i.id);
+
+    /* ---------- shared bits ---------- */
+    const pill = s => `<span class="pill ${s === 'signed' ? 'signed' : s}">${STATUS[s]}</span>`;
+    const person = (p, sub) => `<div class="cn"><span class="av">${esc(ini(p.name))}</span><span><b>${esc(p.name)}</b><small>${esc(sub || p.email)}</small></span></div>`;
+    const tags = L => `<div class="tg">${L.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>`;
+    const pending = () => invites.filter(i => i.st === 'invited');
+    const spark = (a, c) => { const m = Math.max(1, ...a), w = 74, h = 26, pts = a.map((v, i) => `${Math.round(i * w / (a.length - 1))},${Math.round(h - 3 - v / m * (h - 6))}`).join(' '); return `<svg class="sp2" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="${pts}"/></svg>` };
+    const wkIdx = s => Math.min(4, Math.max(0, Math.floor(dago(s) / 7)));
+    const weekly = (L, f) => { const a = [0, 1, 2, 3, 4].map(() => 0); L.forEach(p => f(p).forEach(d => a[wkIdx(d)]++)); return a.reverse() };
+    const WL = ['4w ago', '3w ago', '2w ago', 'Last wk', 'This wk'];
+
+    /* ---------- overview ---------- */
+    function overview() {
+      const hr = new Date().getHours(), greet = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+      const newWk = ALL.filter(p => dago(p.joined) < 7).length, searches = ALL.reduce((n, p) => n + p.searches.length, 0);
+      const sc = weekly(CANDIDATES, p => [p.joined]), sk = weekly(CLIENTS, p => [p.joined]), sv = weekly(VENDORS, p => [p.joined]), ss = weekly(ALL, p => p.searches.map(s => s.d));
+      const tot = sc.map((v, i) => v + sk[i] + sv[i]), mx = Math.max(...tot, 1), ms = Math.max(...ss, 1);
+      const feed = []; ALL.forEach(p => p.searches.forEach(s => feed.push({ p, s }))); feed.sort((a, b) => b.s.d.localeCompare(a.s.d));
+      const TOP = ['Salesforce', 'Snowflake', 'Workday', 'SAP', 'MuleSoft', 'AWS', 'Azure', 'GCP', 'Oracle', 'ServiceNow', 'NetSuite', 'Databricks', 'Python', 'Java', 'React', 'Kubernetes', 'Terraform', 'DevOps', 'Power BI', 'Tableau', 'Cybersecurity', 'ML', 'Data'], qs = feed.map(x => x.s.q);
+      const trend = TOP.map(k => [k, qs.filter(q => new RegExp('\\b' + k + '\\b', 'i').test(q)).length, feed.some(x => dago(x.s.d) < 7 && new RegExp('\\b' + k + '\\b', 'i').test(x.s.q))]).filter(x => x[1]).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])), tm = trend[0] ? trend[0][1] : 1;
+      const onb = ALL.filter(p => p.st === 'onboarding' && dago(p.joined) >= 3).sort((a, b) => a.joined.localeCompare(b.joined));
+      const stale = pending().filter(i => dago(i.sent) >= 2);
+      const nsr = CANDIDATES.concat(CLIENTS);
+      const pend = pending().length, inv = ALL.length + pend, fun = [['Invited', inv], ['Signed up', ALL.length], ['Finished onboarding', ALL.filter(p => p.st === 'active').length], ['Ran a search', nsr.filter(p => p.searches.length).length]];
+      const stat = (l, n, sub, ar, c) => `<div class="stat">${spark(ar, c)}<small>${l}</small><b>${n}</b><span class="d">${sub}</span></div>`;
+      return `<div class="hero"><h1>${greet}, ${esc(ADMIN.name.split(' ')[0])}</h1><p><b>${newWk} new sign-ups</b> this week and <b>${searches} searches</b> run so far. ${pending().length ? `<b>${pending().length} invitations</b> are still waiting to be accepted.` : ''}</p><div class="hb"><button class="btn" data-a="invite" data-v="Candidate">${IC.plus}Invite candidate</button><button class="btn" data-a="invite" data-v="Client">${IC.plus}Invite client</button><button class="btn" data-a="invite" data-v="Vendor">${IC.plus}Invite vendor</button></div></div>
+      <div class="stats">${stat('Candidates', CANDIDATES.length, '+' + sc[4] + ' this week', sc, 'var(--slate-d)')}${stat('Clients', CLIENTS.length, '+' + sk[4] + ' this week', sk, 'var(--ok)')}${stat('Vendors', VENDORS.length, '+' + sv[4] + ' this week', sv, 'var(--amber)')}${stat('Searches run', searches, '+' + ss[4] + ' this week', ss, 'var(--slate)')}</div>
+      <div class="two" style="margin-bottom:18px">
+        <div class="card cc"><h3>New sign-ups</h3><span class="sub2">Per week, by account type</span><div class="chart">${tot.map((t, i) => `<div class="col" tabindex="0" data-tip="${WL[i]}: ${t} sign-up${t === 1 ? '' : 's'}&#10;Candidates ${sc[i]}&#10;Clients ${sk[i]}&#10;Vendors ${sv[i]}"><b>${t || ''}</b><div class="stk" style="height:${Math.round(t / mx * 130)}px">${sc[i] ? `<i class="c" style="flex:${sc[i]}"></i>` : ''}${sk[i] ? `<i class="k" style="flex:${sk[i]}"></i>` : ''}${sv[i] ? `<i class="v" style="flex:${sv[i]}"></i>` : ''}</div><small>${WL[i]}</small></div>`).join('')}</div><div class="legend"><span style="--c:var(--slate-d)">Candidates</span><span style="--c:var(--ok)">Clients</span><span style="--c:var(--amber)">Vendors</span></div></div>
+        <div class="card cc"><h3>Search activity</h3><span class="sub2">Searches run per week</span><div class="chart">${ss.map((n, i) => `<div class="col" tabindex="0" data-tip="${WL[i]}: ${n} search${n === 1 ? '' : 'es'}${i ? '&#10;' + (n - ss[i - 1] >= 0 ? '+' : '') + (n - ss[i - 1]) + ' vs previous week' : ''}"><b>${n || ''}</b><div class="stk" style="height:${Math.round(n / ms * 130)}px"><i class="s" style="flex:1"></i></div><small>${WL[i]}</small></div>`).join('')}</div></div>
+      </div>
+      <div class="two" style="margin-bottom:18px">
+        <div class="card cc fill"><h3>Sign-up funnel</h3><span class="sub2">From sign-up to first search</span><ol class="stp">${fun.map(([l, n], i) => `<li><span class="sn">${i + 1}</span><div class="sb"><b>${l}</b><small>${i ? (fun[i - 1][1] - n) + ' dropped off' : 'Everyone you invited'}</small></div><div class="sv"><strong>${n}</strong><em>${Math.round(n / inv * 100)}%</em></div></li>`).join('')}<li class="pd"><span class="sn">!</span><div class="sb"><b>Pending invitations</b><small>Invited, not yet signed up</small></div><div class="sv"><strong>${pend}</strong></div></li></ol>
+          <h3 class="th" style="margin-top:24px">What people are searching for<span class="inf" tabindex="0" aria-label="Scroll to see more technologies"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><em role="tooltip">Scroll the list to see more technologies.</em></span></h3><span class="sub2">Technologies mentioned in search queries</span><div class="fn scroll fill" tabindex="0" aria-label="Search topics">${trend.map(([k, n]) => `<div class="r"><span>${k}</span><div class="tr2"><i style="width:${Math.round(n / tm * 100)}%"></i></div><b>${n}</b></div>`).join('')}</div></div>
+        <div class="rcol"><div class="card sc"><h3>Needs attention</h3><ul class="attn scr">${stale.map(i => `<li><i class="dot"></i><div><b>${esc(i.name)} hasn’t accepted</b><small>${i.type} invite sent ${ago(i.sent).toLowerCase()}</small></div><button class="btn sm" data-a="resend" data-v="${i.id}">Resend</button></li>`).join('')}${onb.map(p => `<li><i class="dot"></i><div><b>${esc(p.name)} has not completed onboarding</b><small>${p.t === 'client' || p.t === 'vendor' ? esc(p.company) : 'Candidate'} · Paused at ${stepTxt(p)} · signed up ${ago(p.joined).toLowerCase()}</small></div><button class="btn sm" data-a="msg" data-v="${p.id}">Email</button></li>`).join('')}${stale.length + onb.length ? '' : '<li><div><b>All clear</b><small>Nothing needs your attention.</small></div></li>'}</ul></div>
+          <div class="card sc"><h3>Latest searches</h3><ul class="feed scr">${feed.slice(0, 4).map(({ p, s }) => `<li data-a="open" data-v="${p.id}" style="cursor:pointer"><span class="av">${esc(ini(p.name))}</span><div><b>${esc(s.q)}</b><small>${esc(p.name)} · ${s.n} results</small></div><time>${ago(s.d)}</time></li>`).join('')}</ul></div></div>
+      </div>`;
+    }
+
+    /* ---------- people tables ---------- */
+    const COLS = {
+      candidate: [['Candidate', p => person(p)], ['Role', p => `${esc(p.role)}<span class="sub">${esc(p.loc)}</span>`], ['Signed up', p => fmtD(p.joined)], ['Status', p => pill(p.st)], ['Searches', p => `<span class="num ${p.searches.length ? '' : 'zero'}">${p.searches.length}</span>`], ['Last search', p => { const l = lastS(p); return l ? `${esc(l.q)}<span class="sub">${ago(l.d)}</span>` : '<span class="zero">—</span>' }]],
+      client: [['Contact', p => person(p)], ['Company', p => `${esc(p.company)}<span class="sub">${esc(p.role)}</span>`], ['Signed up', p => fmtD(p.joined)], ['Status', p => pill(p.st)], ['Searches', p => `<span class="num ${p.searches.length ? '' : 'zero'}">${p.searches.length}</span>`], ['Last search', p => { const l = lastS(p); return l ? `${esc(l.q)}<span class="sub">${ago(l.d)}</span>` : '<span class="zero">—</span>' }]],
+      vendor: [['Contact', p => person(p)], ['Company', p => `${esc(p.company)}<span class="sub">${esc(p.role)}</span>`], ['Signed up', p => fmtD(p.joined)], ['Status', p => pill(p.st)], ['Consultants', p => `<span class="num">${p.cons.length}</span><span class="sub">${p.cons.filter(c => c[1] === 'active').length} active</span>`], ['Bench', p => `<span class="num">${p.bench}</span>`], ['Technologies', p => tags(p.tech.slice(0, 2).concat(p.tech.length > 2 ? ['+' + (p.tech.length - 2)] : []))]]
+    };
+    function people(view) {
+      const [kind, L, title, sub] = KIND[view], q = S.q.trim().toLowerCase(), V = kind === 'vendor';
+      const F = V ? [['all', 'All', () => 1], ['active', 'Active', p => p.st === 'active'], ['onboarding', 'Onboarding', p => p.st === 'onboarding']] : [['all', 'All', () => 1], ['searched', 'Has searched', p => p.searches.length], ['none', 'No searches yet', p => !p.searches.length]];
+      const fn = (F.find(x => x[0] === S.f) || F[0])[2];
+      const rows = L.filter(p => fn(p) && (!q || [p.name, p.email, p.company, p.role].join(' ').toLowerCase().includes(q))).sort((a, b) => b.joined.localeCompare(a.joined));
+      const cols = COLS[kind], one = kind[0].toUpperCase() + kind.slice(1);
+      return `<div class="ph"><div><h1>${title}</h1><p>${sub}</p></div><button class="btn primary" data-a="invite" data-v="${one}">${IC.plus}Invite ${kind}</button></div>
+      <div class="card" style="padding:0"><div class="tools"><div class="chips">${F.map(([k, l, f]) => `<button class="chip ${S.f === k ? 'on' : ''}" data-a="filter" data-v="${k}">${l}<em>${L.filter(f).length}</em></button>`).join('')}</div><input class="search" data-search placeholder="Search by name, email${kind === 'candidate' ? '' : ', company'}" value="${esc(S.q)}" aria-label="Search"></div>
+      <div class="tw"><table><thead><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${rows.map(p => `<tr class="rw" tabindex="0" data-a="open" data-v="${p.id}">${cols.map(c => `<td>${c[1](p)}</td>`).join('')}</tr>`).join('')}</tbody></table>${rows.length ? '' : '<div class="empty"><b>No matches</b>Try a different filter or search.</div>'}</div></div>`;
+    }
+
+    function invitesView() {
+      return `<div class="ph"><div><h1>Invitations</h1><p>Invite candidates, clients and vendors to Cloud Club. Sign-ups are invite-only.</p></div><button class="btn primary" data-a="invite">${IC.plus}Send invite</button></div>
+      <div class="card" style="padding:0"><div class="tw"><table><thead><tr><th>Invitee</th><th>Type</th><th>Company</th><th>Sent</th><th>Status</th><th></th></tr></thead><tbody>
+      ${invites.map(i => `<tr><td>${person(i)}</td><td><span class="tag">${i.type}</span></td><td>${esc(i.co) || '<span class="zero">—</span>'}</td><td>${fmtD(i.sent)}</td><td>${pill(i.st)}</td><td><div class="acts">${i.st === 'invited' ? `<button class="btn sm" data-a="resend" data-v="${i.id}">Resend</button><button class="btn sm" data-a="copy" data-v="${i.id}">Copy link</button><button class="btn sm ghost" data-a="revoke" data-v="${i.id}">Revoke</button>` : ''}</div></td></tr>`).join('')}
+      </tbody></table>${invites.length ? '' : '<div class="empty"><b>No invitations yet</b>Send your first invite to get started.</div>'}</div></div>`;
+    }
+
+    /* ---------- settings ---------- */
+    function settings() {
+      const tg = (k, t, d) => `<div class="str"><div><b>${t}</b><small>${d}</small></div><button class="swt ${PREFS[k] ? 'on' : ''}" data-a="pref" data-v="${k}" role="switch" aria-checked="${!!PREFS[k]}" aria-label="${t}"><i></i></button></div>`;
+      const fld = (k, l, t) => `<div class="fld"><label for="s_${k}">${l}<span class="req">*</span></label><input class="in" id="s_${k}" data-s="${k}" type="${t || 'text'}" value="${esc(ADMIN[k])}"></div>`;
+      const th = (v, l, d) => `<button class="thc ${S.theme === v ? 'on' : ''}" data-a="theme" data-v="${v}"><div class="thp ${v}"><i></i><i></i><i></i><u></u></div><div class="tht"><b>${l}</b><small>${d}</small></div><span class="thk">${IC.check}</span></button>`;
+      return `<div class="ph"><div><h1>Settings</h1><p>You’re a super admin: these controls apply across the whole platform.</p></div></div><div class="stg">
+      <div class="card"><h3>Account details</h3><div class="avrow"><span class="av avbig">${esc(ini(ADMIN.name))}</span><div><b>${esc(ADMIN.name)}</b><small>Super admin · full access to all portals</small></div></div><div class="row2" style="margin-top:16px">${fld('name', 'Full name')}${fld('email', 'Email', 'email')}</div><div style="display:flex;justify-content:flex-end"><button class="btn primary" data-a="saveacct">Save changes</button></div></div>
+      <div class="card"><h3>Platform</h3><div class="stl">${tg('invonly', 'Invite-only sign-ups', 'Only people you invite can create an account.')}${tg('approve', 'Approve new clients manually', 'New client accounts wait for your approval before they can search.')}<div class="str"><div><b>Invitation link expiry</b><small>Unused invitation links stop working after this long.</small></div><select class="in" data-s="expiry" style="width:150px">${['7', '14', '30'].map(d => `<option value="${d}" ${PREFS.expiry === d ? 'selected' : ''}>${d} days</option>`).join('')}</select></div></div></div>
+      <div class="card"><h3>Email notifications</h3><div class="stl">${tg('signup', 'New sign-ups', 'When a candidate, client or vendor creates an account.')}${tg('accept', 'Invitation accepted', 'When someone you invited finishes joining.')}${tg('stalled', 'Stalled onboarding', 'When someone hasn’t finished onboarding after 3 days.')}${tg('digest', 'Weekly digest', 'A Monday summary of sign-ups and searches.')}</div></div>
+      <div class="card"><h3>Appearance</h3><div class="thm" style="margin-top:12px">${th('light', 'Light', 'Bright and clean')}${th('dark', 'Dark', 'Easy on the eyes')}</div></div>
+      <div class="card"><h3>Security</h3><div class="stl">${tg('twofa', 'Two-factor authentication', 'Require a code from your authenticator app when signing in.')}<div class="str"><div><b>Password</b><small>Send a reset link to ${esc(ADMIN.email)}.</small></div><button class="btn" data-a="pwreset">Reset password</button></div><div class="str"><div><b>Active sessions</b><small>This browser · signed in now</small></div><button class="btn" data-a="signout">Sign out</button></div></div></div></div>`;
+    }
+
+    /* ---------- drawer & modals ---------- */
+    function drawer() {
+      const p = ALL.find(x => x.id === S.drawer); if (!p) return '';
+      const ss = p.searches.slice().sort((a, b) => b.d.localeCompare(a.d)), msgs = MSGS[p.id] || [];
+      const kv = (a) => a.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+      const emv = p => `<span class="emv"><span>${esc(p.email)}</span><button class="btn primary sm" data-a="msg" data-v="${p.id}" aria-label="Email ${esc(p.name)}">${IC.mail16}Email</button></span>`;
+      const rows = p.t === 'candidate' ? [['Email', emv(p)], ['Role', esc(p.role)], ['Location', esc(p.loc)], ['Phone', esc(p.phone)], ['Skills', tags(p.skills)], ['Target rate', p.rate], ['Work authorization', p.auth], ['Availability', p.avail], ['Profile complete', `<span class="bar"><i style="width:${p.done}%"></i></span>${p.done}%`], ['Signed up', fmtD(p.joined) + ' · ' + ago(p.joined)], ['Last active', nd(p.last)]]
+        : p.t === 'client' ? [['Email', emv(p)], ['Company', esc(p.company)], ['Title', esc(p.role)], ['Industry', p.industry], ['Company size', p.size], ['Phone', esc(p.phone)], ['Job postings', p.posts], ['Hires made', p.hires], ['Signed up', fmtD(p.joined) + ' · ' + ago(p.joined)], ['Last active', nd(p.last)]]
+          : [['Email', emv(p)], ['Company', esc(p.company)], ['Title', esc(p.role)], ['Phone', esc(p.phone)], ['Delivery team', p.team + ' W2 employees'], ['Active bench', p.bench], ['Technologies', tags(p.tech)], ['Signed up', fmtD(p.joined) + ' · ' + ago(p.joined)], ['Last active', nd(p.last)]];
+      if (p.step) rows.splice(1, 0, ['Onboarding', 'Paused at ' + stepTxt(p)]);
+      const sub = p.t === 'candidate' ? p.role : p.company, sus = p.st === 'suspended';
+      return `<div class="dov${ENTER}" data-a="closeBg"><aside class="drawer" role="dialog" aria-label="${esc(p.name)}"><div class="dh"><span class="av">${esc(ini(p.name))}</span><div><h2>${esc(p.name)}</h2><p>${esc(sub)} · ${p.t[0].toUpperCase() + p.t.slice(1)}</p>${pill(p.st)}</div><button class="x" data-a="close" aria-label="Close">×</button></div>
+      <div class="db"><dl class="kv">${kv(rows)}</dl>
+      ${p.t === 'vendor' ? `<div class="sec">Consultants (${p.cons.length})</div>${p.cons.length ? `<ul class="sh">${p.cons.map(c => `<li><div class="row"><b>${esc(c[0])}</b>${pill(c[1])}</div></li>`).join('')}</ul>` : '<div class="hint">No consultants invited yet.</div>'}` : `<div class="sec">Search history (${ss.length})</div>${ss.length ? `<ul class="sh">${ss.map(s => `<li><b>${esc(s.q)}</b><small>${fmtD(s.d)} · ${s.n} results</small></li>`).join('')}</ul>` : '<div class="hint">No searches yet.</div>'}`}
+      <div class="sec">Contact history</div>${msgs.length ? `<ul class="sh">${msgs.map(m => `<li><b>${esc(m.s)}</b><small>${fmtD(m.d)} · emailed by you</small><div style="margin-top:4px;color:var(--body);white-space:pre-wrap">${esc(m.b)}</div>${(m.f || []).length ? `<div class="tg" style="margin-top:8px">${m.f.map(n => `<span class="tag">📎 ${esc(n)}</span>`).join('')}</div>` : ''}</li>`).join('')}</ul>` : '<div class="hint">You haven’t emailed them yet.</div>'}
+      <div class="sec">Admin notes</div><textarea class="in" data-n="${p.id}" placeholder="Private notes, only admins see these">${esc(NOTES[p.id] || '')}</textarea>
+      <div class="sec">Account</div><button class="btn ${sus ? '' : 'dng'} sm" data-a="suspend" data-v="${p.id}">${sus ? 'Reactivate account' : 'Suspend account'}</button></div></aside></div>`;
+    }
+
+    function modal() {
+      if (S.modal === 'msg') { const p = ALL.find(x => x.id === S.msg.id), m = S.msg, e = S.err;
+        return `<div class="mov${ENTER}" data-a="closeBg"><div class="modal" style="max-width:540px" role="dialog" aria-label="Send email"><div class="mh"><div><h2>Send email</h2><p>From ${esc(ADMIN.email)}</p></div><button class="x" data-a="close" aria-label="Close">×</button></div>
+        <div class="mb"><div class="fld"><label for="m_to">To</label><input class="in" id="m_to" value="${esc(p.name)} <${esc(p.email)}>" disabled></div>
+        <div class="fld ${e.s ? 'err' : ''}"><label for="m_s">Subject<span class="req">*</span></label><input class="in" id="m_s" data-m="s" value="${esc(m.s)}" placeholder="What’s this about?">${e.s ? `<div class="em">${e.s}</div>` : ''}</div>
+        <div class="fld ${e.b ? 'err' : ''}"><label for="m_b">Message<span class="req">*</span></label><textarea class="in" id="m_b" data-m="b" rows="6" placeholder="Write your message">${esc(m.b)}</textarea>${e.b ? `<div class="em">${e.b}</div>` : ''}</div>
+        <div class="fld"><label>Attachments</label>${m.files.length ? `<ul class="sh" style="margin-bottom:8px">${m.files.map((f, i) => `<li><div class="row"><span><b>${esc(f.name)}</b><small>${f.size}</small></span><button class="btn sm ghost" data-a="rmfile" data-v="${i}" aria-label="Remove ${esc(f.name)}">Remove</button></div></li>`).join('')}</ul>` : ''}<button class="btn sm" data-a="attach">${IC.clip}Attach file</button><input type="file" id="m_file" multiple hidden>${e.f ? `<div class="em">${e.f}</div>` : ''}</div></div>
+        <div class="mf"><button class="btn" data-a="close">Cancel</button><button class="btn primary" data-a="sendmsg">Send email</button></div></div></div>` }
+      const f = S.form, e = S.err, co = f.type !== 'Candidate';
+      if (S.modal === 'sent') return `<div class="mov${ENTER}" data-a="closeBg"><div class="modal" style="max-width:440px" role="dialog"><div class="mb"><div class="ok-hero"><div class="bdg">${IC.checkL}</div><h2>Invitation sent</h2><p style="color:var(--muted);margin:6px 0 0">${esc(f.name)} will get an email at <b>${esc(f.email)}</b> with a link to sign up.</p></div></div><div class="mf"><button class="btn" data-a="invite" data-v="${f.type}">Invite another</button><button class="btn primary" data-a="close">Done</button></div></div></div>`;
+      const fld = (k, l, o = {}) => `<div class="fld ${e[k] ? 'err' : ''}"><label for="f_${k}">${l}${o.req ? '<span class="req">*</span>' : ''}</label><input class="in" id="f_${k}" data-k="${k}" type="${o.type || 'text'}" value="${esc(f[k])}" placeholder="${o.ph || ''}">${e[k] ? `<div class="em">${e[k]}</div>` : ''}</div>`;
+      return `<div class="mov${ENTER}" data-a="closeBg"><div class="modal" style="max-width:460px" role="dialog" aria-label="Send invite"><div class="mh"><div><h2>Send invite</h2><p>They’ll get an email with a private sign-up link.</p></div><button class="x" data-a="close" aria-label="Close">×</button></div>
+      <div class="mb"><div class="fld"><label>Invite a</label><div class="seg2 three">${['Candidate', 'Client', 'Vendor'].map(t => `<button class="${f.type === t ? 'on' : ''}" data-a="itype" data-v="${t}">${t}</button>`).join('')}</div></div>
+      ${fld('name', 'Full name', { req: 1, ph: 'Jane Doe' })}${fld('email', 'Email', { req: 1, type: 'email', ph: 'jane@company.com' })}${co ? fld('co', 'Company', { req: 1, ph: 'Company name' }) : ''}</div>
+      <div class="mf"><button class="btn" data-a="close">Cancel</button><button class="btn primary" data-a="send">Send invitation</button></div></div></div>`;
+    }
+
+    let ENTER = '';
+    function render() {
+      ENTER = S.enter ? ' enter' : ''; const pe = ENTER; S.enter = false;
+      const T = { overview: 'Overview', candidates: 'Candidates', clients: 'Clients', vendors: 'Vendors', invites: 'Invitations', settings: 'Settings' };
+      const badge = { invites: pending().length };
+      const pg = KIND[S.view] ? people(S.view) : S.view === 'invites' ? invitesView() : S.view === 'settings' ? settings() : overview();
+      $('#app').innerHTML = `<aside class="side ${S.collapsed ? 'c' : ''}">
+        <div class="s-head"><div class="brandlogo"><img class="lg-l" src="assets/logo-light.png" alt="Cloud Club"><img class="lg-d" src="assets/logo-dark.png" alt="Cloud Club"></div><button class="tgl" data-a="collapse" aria-label="Toggle sidebar" aria-expanded="${!S.collapsed}">${IC.chev}</button></div>
+        <div class="lbl">Admin</div>
+        <nav class="nav">${NAV.map(([k, l, i]) => `<button class="ni ${S.view === k ? 'on' : ''}" data-go="${k}" data-tip="${l}" ${S.view === k ? 'aria-current="page"' : ''}>${i}<span>${l}</span>${badge[k] ? `<i class="bd" style="background:var(--slate-d)">${badge[k]}</i>` : ''}</button>`).join('')}</nav>
+        <div class="sp"></div>
+        <div class="seg"><button class="${S.theme === 'light' ? 'on' : ''}" data-a="theme" data-v="light" title="Light">${IC.sun}<span>Light</span></button><button class="${S.theme === 'dark' ? 'on' : ''}" data-a="theme" data-v="dark" title="Dark">${IC.moon}<span>Dark</span></button></div>
+        <button class="ni ${S.view === 'settings' ? 'on' : ''}" data-go="settings" data-tip="Settings">${IC.gear}<span>Settings</span></button>
+        <div class="profrow"><div class="prof" style="cursor:default"><span class="av">${esc(ini(ADMIN.name))}</span><span class="who"><b>${esc(ADMIN.name)}</b><i>Super admin</i></span></div><button class="so" data-a="signout" aria-label="Sign out" title="Sign out">${IC.out}</button></div>
+      </aside>
+      <main class="main"><div class="top">Admin&nbsp;/&nbsp;<b>${T[S.view]}</b></div><div class="page${pe}">${pg}</div></main>
+      ${S.drawer ? drawer() : ''}${S.modal ? modal() : ''}${S.toast ? `<div class="toast" role="status">${esc(S.toast)}</div>` : ''}`;
+      const si = $('[data-search]'); if (si && S._fs) { si.focus(); si.setSelectionRange(si.value.length, si.value.length); S._fs = false }
+    }
+    let tt; const toast = m => { S.toast = m; render(); clearTimeout(tt); tt = setTimeout(() => { S.toast = ''; render() }, 2400) };
+
+    function send() {
+      const f = S.form, e = {};
+      if (!f.name.trim()) e.name = 'Name is required';
+      if (!f.email.trim()) e.email = 'Email is required'; else if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) e.email = 'Enter a valid email address';
+      else if (invites.some(i => i.st !== 'revoked' && i.email.toLowerCase() === f.email.trim().toLowerCase())) e.email = 'This email has already been invited';
+      if (f.type !== 'Candidate' && !f.co.trim()) e.co = 'Company is required';
+      S.err = e; if (Object.keys(e).length) { render(); const el = document.querySelector('.fld.err .in'); if (el) el.focus(); return }
+      invites.unshift({ id: 'i' + Date.now().toString(36), type: f.type, name: f.name.trim(), email: f.email.trim(), co: f.type !== 'Candidate' ? f.co.trim() : '', st: 'invited', sent: day(0) });
+      save(KEY, invites); S.modal = 'sent'; S.enter = true; render();
+    }
+    function sendMsg() {
+      const m = S.msg, e = {}; if (!m.s.trim()) e.s = 'Subject is required'; if (!m.b.trim()) e.b = 'Message is required';
+      S.err = e; if (Object.keys(e).length) { render(); return }
+      (MSGS[m.id] = MSGS[m.id] || []).unshift({ s: m.s.trim(), b: m.b.trim(), d: day(0), f: m.files.map(f => f.name) }); save('cca_msgs', MSGS);
+      const p = ALL.find(x => x.id === m.id); S.modal = null; toast('Email sent to ' + p.name);
+    }
+    const closeAll = () => { S.modal = null; S.drawer = null; render() };
+    document.addEventListener('click', ev => {
+      const go = ev.target.closest('[data-go]'); if (go) { S.view = go.dataset.go; S.q = ''; S.f = 'all'; S.drawer = null; S.enter = true; render(); return }
+      const el = ev.target.closest('[data-a]'); if (!el) return;
+      const a = el.dataset.a, v = el.dataset.v;
+      if (a === 'closeBg') { if (ev.target !== el) return; if (S.modal) { S.modal = null; render() } else closeAll() }
+      else if (a === 'close') { if (S.modal) { S.modal = null; render() } else closeAll() }
+      else if (a === 'invite') { S.form = { type: v || (S.view === 'clients' ? 'Client' : S.view === 'vendors' ? 'Vendor' : 'Candidate'), name: '', email: '', co: '' }; S.err = {}; S.modal = 'form'; S.enter = true; render(); setTimeout(() => $('#f_name') && $('#f_name').focus(), 30) }
+      else if (a === 'itype') { S.form.type = v; S.err = {}; render() }
+      else if (a === 'send') send();
+      else if (a === 'msg') { S.msg = { id: v, s: '', b: '', files: [] }; S.err = {}; S.modal = 'msg'; S.enter = true; render(); setTimeout(() => $('#m_s') && $('#m_s').focus(), 30) }
+      else if (a === 'sendmsg') sendMsg();
+      else if (a === 'attach') $('#m_file').click();
+      else if (a === 'rmfile') { S.msg.files.splice(+v, 1); delete S.err.f; render() }
+      else if (a === 'filter') { S.f = v; render() }
+      else if (a === 'open') { S.drawer = v; S.enter = true; render() }
+      else if (a === 'suspend') { const p = ALL.find(x => x.id === v); if (p.st === 'suspended') p.st = p._st || 'active'; else { p._st = p.st; p.st = 'suspended' } toast(p.st === 'suspended' ? p.name + ' suspended' : p.name + ' reactivated') }
+      else if (a === 'resend') { invites.find(x => x.id === v).sent = day(0); save(KEY, invites); toast('Invitation resent') }
+      else if (a === 'copy') { const u = link(invites.find(x => x.id === v)); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => toast('Invitation link copied'), () => toast('Copy failed. Link: ' + u)) }
+      else if (a === 'revoke') { const i = invites.find(x => x.id === v); i.st = 'revoked'; save(KEY, invites); toast('Invitation revoked for ' + i.name) }
+      else if (a === 'pref') { PREFS[v] = PREFS[v] ? 0 : 1; save('cca_prefs', PREFS); render() }
+      else if (a === 'saveacct') { const n = $('#s_name').value.trim(), m = $('#s_email').value.trim(); if (!n || !/^\S+@\S+\.\S+$/.test(m)) { toast('Enter a name and a valid email'); return } ADMIN.name = n; ADMIN.email = m; save('cca_admin', ADMIN); toast('Account details saved') }
+      else if (a === 'pwreset') toast('Password reset link sent to ' + ADMIN.email)
+      else if (a === 'collapse') { S.collapsed = !S.collapsed; try { localStorage.setItem('cca_c', S.collapsed ? '1' : '0') } catch (e) { } render() }
+      else if (a === 'theme') { S.theme = v; document.documentElement.dataset.theme = v; try { localStorage.setItem('cc_theme', v) } catch (e) { } render() }
+      else if (a === 'signout') location.href = 'index.html';
+    });
+    document.addEventListener('change', ev => {
+      if (ev.target.id !== 'm_file' || !S.msg) return;
+      const sz = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+      let tot = S.msg.files.reduce((n, f) => n + f.bytes, 0); delete S.err.f;
+      [...ev.target.files].forEach(f => { if (S.msg.files.length >= 5) S.err.f = 'You can attach up to 5 files'; else if (tot + f.size > 10 * 1048576) S.err.f = 'Attachments can’t exceed 10 MB in total'; else { tot += f.size; S.msg.files.push({ name: f.name, bytes: f.size, size: sz(f.size) }) } });
+      render();
+    });
+    document.addEventListener('input', ev => {
+      const t = ev.target;
+      if (t.matches('[data-search]')) { S.q = t.value; S._fs = true; render(); return }
+      if (t.dataset.n) { NOTES[t.dataset.n] = t.value; save('cca_notes', NOTES); return }
+      if (t.dataset.s === 'expiry') { PREFS.expiry = t.value; save('cca_prefs', PREFS); toast('Invitation expiry set to ' + t.value + ' days'); return }
+      if (t.dataset.m) { S.msg[t.dataset.m] = t.value; const k = t.dataset.m; if (S.err[k]) { delete S.err[k]; const fl = t.closest('.fld'); fl.classList.remove('err'); const m = fl.querySelector('.em'); if (m) m.remove() } return }
+      if (t.dataset.k && S.modal === 'form') { S.form[t.dataset.k] = t.value; if (S.err[t.dataset.k]) { delete S.err[t.dataset.k]; const fl = t.closest('.fld'); fl.classList.remove('err'); const m = fl.querySelector('.em'); if (m) m.remove() } }
+    });
+    document.addEventListener('keydown', ev => {
+      if (ev.key === 'Escape' && (S.modal || S.drawer)) { if (S.modal) { S.modal = null; render() } else closeAll() }
+      if (ev.key === 'Enter' && S.modal === 'form' && ev.target.matches('input')) { ev.preventDefault(); send() }
+      if (ev.key === 'Enter' && ev.target.matches('tr.rw')) { S.drawer = ev.target.dataset.v; S.enter = true; render() }
+    });
+    render();
+  </script>
+</body>
+
+</html>
