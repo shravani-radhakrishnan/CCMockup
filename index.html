@@ -4618,7 +4618,7 @@
       if (bad) { (bad.startsWith('Enter a valid') ? document.getElementById('loginEmail') : document.getElementById('loginPassword')).focus(); return; }
       btn.disabled = true; btn.firstChild.textContent = 'Signing you in… ';
       const rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
-      const dest = /^vendor/i.test(em) ? 'vendor-portal.html' : 'client-portal.html';
+      const dest = /^admin/i.test(em) ? 'admin-portal.html' : /^vendor/i.test(em) ? 'vendor-portal.html' : 'client-portal.html';
       setTimeout(() => { window.location.href = dest; }, rm ? 80 : 700);
     }
     document.getElementById('loginSubmit').addEventListener('click', doLogin);
